@@ -2,7 +2,7 @@
  * @Description: In User Settings Edit
  * @Author: your name
  * @Date: 2019-08-25 11:48:12
- * @LastEditTime: 2019-08-27 15:34:13
+ * @LastEditTime: 2019-08-29 17:37:01
  * @LastEditors: Please set LastEditors
  -->
 <template>
@@ -12,26 +12,24 @@
         <mu-icon :size="iconSize" :value="`:iconfont ${leftIcon}`"></mu-icon>
       </mu-button>
       {{pageTitle}}
+      
+      <mu-button icon v-if="isDrawer" @click="opeDrawer = true">
+        <mu-icon :size="iconSize" :value="`:iconfont ${drawerIcon}`"></mu-icon>
+      </mu-button>
+
       <mu-menu slot="right" cover>
-        <mu-button icon v-if="isDrawer" @click="opeDrawer = true">
-          <mu-icon :size="iconSize" :value="`:iconfont ${drawerIcon}`"></mu-icon>
-        </mu-button>
         <mu-button icon @click="!isMenu ? goPage(rightLink) : ''">
           <mu-icon :size="iconSize" :value="`:iconfont ${rightIcon}`"></mu-icon>
         </mu-button>
-        <mu-list slot="content" v-if="isMenu">
-          <mu-list-item
-            button
-            v-for="(item, index) in menuList"
-            :key="index"
-            @click="goPage(item.link)"
-          >
+        <mu-list slot="content">
+          <mu-list-item button v-for="(item, index) in menuList" :key="index" @click="goPage(item.link)">
             <mu-list-item-content>
               <mu-list-item-title>{{item.title}}</mu-list-item-title>
             </mu-list-item-content>
           </mu-list-item>
         </mu-list>
       </mu-menu>
+
     </mu-appbar>
     <mu-drawer :open.sync="opeDrawer" right>
       <slot name="drawerContent"></slot>
@@ -90,7 +88,7 @@ export default {
   },
   data() {
     return {
-      opeDrawer:false
+      opeDrawer:false,
     };
   }
 };
@@ -102,11 +100,20 @@ export default {
   width: 100%;
   // height: 50px;
   position: fixed;
+  z-index: 99;
   // bottom: 0;
   .mu-appbar {
     height: 50px;
+    
     .mu-appbar-title {
       text-align: center;
+      position: relative;
+      
+      .mu-button{
+        position: absolute;
+        right: 0;
+        bottom: 5px;
+      }
     }
   }
   .mu-popover {

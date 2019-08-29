@@ -2,38 +2,37 @@
  * @Description: In User Settings Edit
  * @Author: your name
  * @Date: 2019-08-25 16:21:55
- * @LastEditTime: 2019-08-28 17:22:13
+ * @LastEditTime: 2019-08-29 17:37:24
  * @LastEditors: Please set LastEditors
  -->
 <template>
   <div class="home">
-    <div class="heder">
-      <AppBar
-        :leftLink="leftLink"
-        :leftIcon="leftIcon"
-        :iconSize="iconSize"
-        :pageTitle="pageTitle"
-        :isDrawer="isDrawer"
-        :drawerIcon="drawerIcon"
-        :isMenu="isMenu"
-        :menuList="menuList"
-        :rightIcon="rightIcon"
-        :rightLink="rightLink"
-      >
-        <!-- 抽屉 -->
-        <div slot="drawerContent">
-          <mu-button color="primary" @click="changeTheme('theme_one')">
-            theme_one
-          </mu-button>
-          <mu-button color="orange" @click="changeTheme('theme_two')">
-            theme_two
-          </mu-button>
-          <mu-button color="red" @click="changeTheme('theme_three')">
-            Btheme_three
-          </mu-button>
-        </div>
-      </AppBar>
-    </div>
+    <AppBar
+      :leftLink="leftLink"
+      :leftIcon="leftIcon"
+      :iconSize="iconSize"
+      :pageTitle="pageTitle"
+      :isDrawer="isDrawer"
+      :drawerIcon="drawerIcon"
+      :isMenu="isMenu"
+      :menuList="menuList"
+      :rightIcon="rightIcon"
+      :rightLink="rightLink"
+    >
+      <!-- 抽屉 -->
+      <div slot="drawerContent">
+        <mu-button color="primary" @click="changeTheme('theme_one')">
+          theme_one
+        </mu-button>
+        <mu-button color="orange" @click="changeTheme('theme_two')">
+          theme_two
+        </mu-button>
+        <mu-button color="red" @click="changeTheme('theme_three')">
+          Btheme_three
+        </mu-button>
+      </div>
+    </AppBar>
+    
     <div class="content">
       <mu-paper :z-depth="3" class="paper">
         <mu-carousel :cycle="false" :hide-controls="true">
@@ -99,7 +98,7 @@ export default {
       isDrawer: true,
       drawerIcon: "icon-shouye",
 
-      isMenu: false,
+      isMenu: true,
       menuList: [
         {
           title: "写日报",
@@ -153,18 +152,13 @@ export default {
     goPage() {
       this.$router.goPage();
     }
-  },
+  }
 };
 </script>
 <style scope lang="less">
 .home {
-  .heder {
-    z-index: 100;
-    position: fixed;
-  }
-
   .content {
-    padding: 54px 4px 4px;
+    padding: 54px 4px;
     .mu-carousel {
       height: 24vh;
       background-color: brown;
@@ -180,13 +174,33 @@ export default {
         }
       }
       .gridNav {
-        padding: 1px;
+        height: 21vh;
+        background-color: blueviolet;
+        display: flex;
+        flex-wrap: wrap;
+        flex-direction: column;
+        justify-content: space-between;
+        align-items: center;
+        
+        .row{
+          width: 100%;
+          height: 10vh;
+          background-color: cadetblue;
+        }
+        .row:last-child{
+          background-color: #13C2C2;
+        }
         .row {
+        //   width: 100%;
+          // background-color: aquamarine;
+          
           display: flex;
+          justify-content: space-around;
+          
           div {
-            width: 25%;
-            height: 10vh;
-            margin: 1px;
+            width: 20%;
+        //     height: 10vh;
+        //     // margin: 1px;
             background-color: burlywood;
             display: flex;
             flex-direction: column;
@@ -194,8 +208,8 @@ export default {
             align-items: center;
 
             i {
-              font-size: 28px;
-              height: 36px;
+              font-size: 24px;
+              height: 34px;
             }
           }
         }

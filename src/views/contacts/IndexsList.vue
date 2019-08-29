@@ -2,7 +2,7 @@
  * @Description: In User Settings Edit
  * @Author: your name
  * @Date: 2019-08-25 21:24:42
- * @LastEditTime: 2019-08-28 17:25:45
+ * @LastEditTime: 2019-08-29 11:16:26
  * @LastEditors: Please set LastEditors
  -->
 <template>
@@ -38,6 +38,8 @@
 </template>
 
 <script>
+import UserList from '../../../static/json/userList'
+import { mapState, mapMutations } from "vuex";
 export default {
   name: "HelloWorld",
   data() {
@@ -46,150 +48,17 @@ export default {
       sortList: [], //  侧栏排序列表
       currentSort: "A", //  当前排序的标签
       userTopTag: "A", //  歌手栏头部的标签名字
-      mylist:[
-        {
-          Findex: "A",
-          userList: [
-            {
-              Fsinger_mid: "002J4UUk29y8BY",
-              Fsinger_name: "薛之谦"
-            },
-            {
-              Fsinger_mid: "002J4UUk29y8BY",
-              Fsinger_name: "薛之谦"
-            },
-            {
-              Fsinger_mid: "002J4UUk29y8BY",
-              Fsinger_name: "薛之谦"
-            }
-          ]
-        },
-        {
-          Findex: "A",
-          userList: [
-            {
-              Fsinger_mid: "0025NhlN2yWrP4",
-              Fsinger_name: "周杰伦"
-            },
-            {
-              Fsinger_mid: "0025NhlN2yWrP4",
-              Fsinger_name: "周杰伦"
-            },
-            {
-              Fsinger_mid: "0025NhlN2yWrP4",
-              Fsinger_name: "周杰伦"
-            }
-          ]
-        },
-        {
-          Findex: "B",
-          userList: [
-            {
-              Fsinger_mid: "003Nz2So3XXYek",
-              Fsinger_name: "陈奕迅"
-            },
-            {
-              Fsinger_mid: "003Nz2So3XXYek",
-              Fsinger_name: "陈奕迅"
-            },
-            {
-              Fsinger_mid: "003Nz2So3XXYek",
-              Fsinger_name: "陈奕迅"
-            }
-          ]
-        },
-        {
-          Findex: "C",
-          userList: [
-            {
-              Fsinger_mid: "001BLpXF2DyJe2",
-              Fsinger_name: "林俊杰"
-            },
-            {
-              Fsinger_mid: "001BLpXF2DyJe2",
-              Fsinger_name: "林俊杰"
-            },
-            {
-              Fsinger_mid: "001BLpXF2DyJe2",
-              Fsinger_name: "林俊杰"
-            }
-          ]
-        },
-        {
-          Findex: "D",
-          userList: [
-            {
-              Fsinger_mid: "000aHmbL2aPXWH",
-              Fsinger_name: "李荣浩"
-            },
-            {
-              Fsinger_mid: "000aHmbL2aPXWH",
-              Fsinger_name: "李荣浩"
-            },
-            {
-              Fsinger_mid: "000aHmbL2aPXWH",
-              Fsinger_name: "李荣浩"
-            }
-          ]
-        },
-        {
-          Findex: "E",
-          userList: [
-            {
-              Fsinger_mid: "000aHmbL2aPXWH",
-              Fsinger_name: "李荣浩"
-            },
-            {
-              Fsinger_mid: "000aHmbL2aPXWH",
-              Fsinger_name: "李荣浩"
-            },
-            {
-              Fsinger_mid: "000aHmbL2aPXWH",
-              Fsinger_name: "李荣浩"
-            }
-          ]
-        },
-        {
-          Findex: "F",
-          userList: [
-            {
-              Fsinger_mid: "000aHmbL2aPXWH",
-              Fsinger_name: "李荣浩"
-            },
-            {
-              Fsinger_mid: "000aHmbL2aPXWH",
-              Fsinger_name: "李荣浩"
-            },
-            {
-              Fsinger_mid: "000aHmbL2aPXWH",
-              Fsinger_name: "李荣浩"
-            }
-          ]
-        },
-        {
-          Findex: "G",
-          userList: [
-            {
-              Fsinger_mid: "000aHmbL2aPXWH",
-              Fsinger_name: "李荣浩"
-            },
-            {
-              Fsinger_mid: "000aHmbL2aPXWH",
-              Fsinger_name: "李荣浩"
-            },
-            {
-              Fsinger_mid: "000aHmbL2aPXWH",
-              Fsinger_name: "李荣浩"
-            }
-          ]
-        }
-      ]
     };
   },
   created() {
     this.testData();
   },
+  computed:{
+    ...mapState(['userList']),
+  },
   methods: {
+    ...mapMutations(['setUserList']),
+
     handleScroll(e) {
       let offsetTop = 0;
       let scrollTop = e.target.scrollTop;
@@ -198,7 +67,7 @@ export default {
         //  获取每个排序标签的位置
         offsetTop = document.querySelectorAll(".singer-ul-li")[index].offsetTop - 70;
         //  当前滚动条的位置 和 当前的标签偏移顶部的距离进行对比
-        //  每一个歌手的li标签的高度必须要保持一致，我这里的高度是70，可以计算自己项目的内容的具体高度进行修改
+        //  每一个联系人的li标签的高度必须要保持一致，我这里的高度是70，可以计算自己项目的内容的具体高度进行修改
         if (
           scrollTop > offsetTop &&
           scrollTop < offsetTop + 70 * item.data.length
@@ -211,7 +80,8 @@ export default {
 
     //  请求数据
     testData() {
-      let res = this.mylist;
+      this.$store.commit('setUserList', UserList);
+      let res = UserList;
       res = res.sort((a, b) => a.Findex.localeCompare(b.Findex));
       res.forEach((item, index) => {
         //　添加侧栏排序
@@ -261,7 +131,7 @@ export default {
 
 .singer-top-tag {
   position: fixed;
-  top: 100px;
+  top: 150px;
   left: 0;
   width: 100%;
   height: 30px;
