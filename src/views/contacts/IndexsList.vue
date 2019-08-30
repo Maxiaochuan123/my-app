@@ -2,7 +2,7 @@
  * @Description: In User Settings Edit
  * @Author: your name
  * @Date: 2019-08-25 21:24:42
- * @LastEditTime: 2019-08-29 11:16:26
+ * @LastEditTime: 2019-08-30 18:53:17
  * @LastEditors: Please set LastEditors
  -->
 <template>
@@ -18,7 +18,11 @@
             <span v-for="(fitem, findex) in item.data" :key="findex">
               <li  v-for="(fitem2, findex2) in fitem.userList" :key="findex2">
                 <img :src="`https://y.gtimg.cn/music/photo_new/T001R300x300M000${fitem2.Fsinger_mid}.jpg?max_age=2592000`" />
-                <div>{{fitem2.Fsinger_name}}</div>
+                <div>
+                  <span>{{fitem2.Fsinger_name}}</span>
+                  <span>{{fitem2.describe}}</span>
+                  <i class="iconfont icon-dianhua"></i>
+                </div>
               </li>
             </span>
           </ul>
@@ -65,7 +69,7 @@ export default {
 
       this.list.forEach((item, index) => {
         //  获取每个排序标签的位置
-        offsetTop = document.querySelectorAll(".singer-ul-li")[index].offsetTop - 70;
+        offsetTop = document.querySelectorAll(".singer-ul-li")[index].offsetTop - 250;
         //  当前滚动条的位置 和 当前的标签偏移顶部的距离进行对比
         //  每一个联系人的li标签的高度必须要保持一致，我这里的高度是70，可以计算自己项目的内容的具体高度进行修改
         if (
@@ -113,7 +117,7 @@ export default {
 <style scoped lang="less">
 .hello {
   /* position: relative; */
-  background-color: #222;
+  background-color: #fff;
   // margin-top: 50px;
   // width: 90vw;
   height: 100%;
@@ -126,31 +130,32 @@ export default {
   width: 100%;
   height: 100%;
   // overflow: hidden;
-  background: #222;
+  background-color: #fff;
 }
 
 .singer-top-tag {
   position: fixed;
-  top: 150px;
+  top: 242px;
   left: 0;
   width: 100%;
   height: 30px;
   line-height: 30px;
   padding-left: 20px;
   font-size: 12px;
-  color: hsla(0, 0%, 100%, 0.5);
-  background: #333;
+  color: #9F9F9F;
+  background-color: #fff;
+  border-bottom: 1px solid #F8F8F8;
 }
 
 .singer-tag {
   width: 100%;
   height: 30px;
-  margin-bottom: 20px;
+  // margin-bottom: 20px;
   line-height: 30px;
   padding-left: 20px;
   font-size: 12px;
-  color: hsla(0, 0%, 100%, 0.5);
-  background: #333;
+  color: #9F9F9F;
+  background-color: #F8F8F8;
 }
 
 .singer-ul-li ul li {
@@ -158,18 +163,39 @@ export default {
   display: flex;
   justify-content: flex-start;
   align-items: center;
-  padding: 0 0 20px 20px;
-  color: rgba(255, 255, 255, 0.5);
+  color: #9F9F9F;
+  height: 66px;
+  padding: 0 14px;
 }
 
 .singer-ul-li ul li img {
   border-radius: 50%;
-  widows: 50px;
-  height: 50px;
+  width: 40px;
+  height: 40px;
 }
 
 .singer-ul-li ul li div {
-  padding-left: 20px;
+  width: 86%;
+  margin-left: 20px;
+  padding: 12px 0;
+  border-bottom: 1px solid #ededed;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  
+  span:first-child{
+    font-size: 16px;
+    font-weight: 400;
+    color: rgba(0,0,0,.87);
+  }
+  i{
+    font-size: 22px;
+    color: #3F58FD;
+    position: absolute;
+    top: 24px;
+    right: 20px;
+  }
+  
 }
 
 .sort {
@@ -182,7 +208,7 @@ export default {
   padding: 20px 0;
   border-radius: 10px;
   text-align: center;
-  background: rgba(0, 0, 0, 0.3);
+  background-color: #fff;
   font-family: Helvetica;
 }
 
@@ -192,17 +218,19 @@ ul {
 }
 
 .sort ul {
-  color: rgba(255, 255, 255, 0.6);
+  background-color: #fff;
 }
 
 .sort ul li {
   list-style-type: none;
   padding: 3px;
   line-height: 1;
-  font-size: 12px;
+  font-size: 14px;
+  font-weight:600;
+  color: #9F9F9F;
 }
 
 .current {
-  color: #ffcd32;
+  color: #ffcd32 !important;
 }
 </style>

@@ -2,7 +2,7 @@
  * @Description: In User Settings Edit
  * @Author: your name
  * @Date: 2019-08-25 15:40:36
- * @LastEditTime: 2019-08-29 17:38:13
+ * @LastEditTime: 2019-08-30 17:11:54
  * @LastEditors: Please set LastEditors
  -->
 <template>
@@ -15,6 +15,7 @@
 
 <script>
 import BottomNav from "./components/BottomNav";
+import VConsole from 'vConsole'
 export default {
   components: {
     BottomNav
@@ -23,6 +24,9 @@ export default {
     return {
       showBotNav: true
     };
+  },
+  mounted(){
+    new VConsole();
   },
   watch: {
     $route(to, from) {

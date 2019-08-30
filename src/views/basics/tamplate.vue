@@ -2,7 +2,7 @@
  * @Description: In User Settings Edit
  * @Author: your name
  * @Date: 2019-08-29 11:20:09
- * @LastEditTime: 2019-08-29 17:40:45
+ * @LastEditTime: 2019-08-30 09:20:22
  * @LastEditors: Please set LastEditors
  -->
 <template>
@@ -33,6 +33,8 @@ export default {
 
 <style scoped lang="less">
 .box {
-  
+  .content{
+    padding: 54px 0;
+  }
 }
 </style>

@@ -1,0 +1,63 @@
+
+// content 内容盒子
+.content{
+  background-color: #F8F8F8;
+}
+
+// AppBar
+.app-bar {
+  width: 100%;
+  position: fixed;
+  z-index: 99;
+  
+  .mu-appbar {
+    background-color: #FFF;
+    color: #272727;
+    height: 44px;
+    
+    .mu-appbar-title {
+      text-align: center;
+      position: relative;
+      
+      .mu-button{
+        position: absolute;
+        right: 0;
+        bottom: 5px;
+      }
+    }
+  }
+  .mu-popover {
+    top: 52px !important;
+    right: 2px !important;
+  }
+  .mu-appbar-title{
+    font-size: 16px;
+    
+  }
+}
+
+
+// 列表
+.mu-list{
+  padding: 0;
+
+  /deep/ .mu-item{
+    height: 60px;
+
+    .mu-item-action:first{
+      min-width: 44px;
+      margin-right: 12px;
+    }
+    
+  }
+}
+.shallow-inset{
+  background-color: #EDEDED;
+  margin-left: 72px !important;
+}
+
+
+// 列表 右箭头 iconColor
+.icon-rightArrow{
+  color: #9f9f9f;
+}

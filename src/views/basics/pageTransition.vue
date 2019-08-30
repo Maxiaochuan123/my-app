@@ -2,7 +2,7 @@
  * @Description: In User Settings Edit
  * @Author: your name
  * @Date: 2019-08-25 20:58:12
- * @LastEditTime: 2019-08-29 17:12:31
+ * @LastEditTime: 2019-08-30 10:23:47
  * @LastEditors: Please set LastEditors
  -->
 <template>
@@ -48,7 +48,6 @@ export default {
           this.transitionName = "slide-right";
         }
       }
-      console.log(this.isHome)
     }
   }
 };

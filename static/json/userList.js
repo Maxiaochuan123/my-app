@@ -2,7 +2,7 @@
  * @Description: In User Settings Edit
  * @Author: your name
  * @Date: 2019-08-29 09:35:43
- * @LastEditTime: 2019-08-29 09:39:02
+ * @LastEditTime: 2019-08-30 18:36:15
  * @LastEditors: Please set LastEditors
  */
 let userList = [
@@ -11,15 +11,18 @@ let userList = [
     userList: [
       {
         Fsinger_mid: "002J4UUk29y8BY",
-        Fsinger_name: "薛之谦"
+        Fsinger_name: "薛之谦",
+        describe: "四川好易车汽车贸易有限公司 总经理"
       },
       {
         Fsinger_mid: "002J4UUk29y8BY",
-        Fsinger_name: "薛之谦"
+        Fsinger_name: "薛之谦",
+        describe: "四川好易车汽车贸易有限公司 总经理"
       },
       {
         Fsinger_mid: "002J4UUk29y8BY",
-        Fsinger_name: "薛之谦"
+        Fsinger_name: "薛之谦",
+        describe: "四川好易车汽车贸易有限公司 总经理"
       }
     ]
   },
@@ -28,15 +31,18 @@ let userList = [
     userList: [
       {
         Fsinger_mid: "0025NhlN2yWrP4",
-        Fsinger_name: "周杰伦"
+        Fsinger_name: "周杰伦",
+        describe: "四川好易车汽车贸易有限公司 总经理"
       },
       {
         Fsinger_mid: "0025NhlN2yWrP4",
-        Fsinger_name: "周杰伦"
+        Fsinger_name: "周杰伦",
+        describe: "四川好易车汽车贸易有限公司 总经理"
       },
       {
         Fsinger_mid: "0025NhlN2yWrP4",
-        Fsinger_name: "周杰伦"
+        Fsinger_name: "周杰伦",
+        describe: "四川好易车汽车贸易有限公司 总经理"
       }
     ]
   },
@@ -45,15 +51,18 @@ let userList = [
     userList: [
       {
         Fsinger_mid: "003Nz2So3XXYek",
-        Fsinger_name: "陈奕迅"
+        Fsinger_name: "陈奕迅",
+        describe: "四川好易车汽车贸易有限公司 总经理"
       },
       {
         Fsinger_mid: "003Nz2So3XXYek",
-        Fsinger_name: "陈奕迅"
+        Fsinger_name: "陈奕迅",
+        describe: "四川好易车汽车贸易有限公司 总经理"
       },
       {
         Fsinger_mid: "003Nz2So3XXYek",
-        Fsinger_name: "陈奕迅"
+        Fsinger_name: "陈奕迅",
+        describe: "四川好易车汽车贸易有限公司 总经理"
       }
     ]
   },

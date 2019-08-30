@@ -2,7 +2,7 @@
  * @Description: In User Settings Edit
  * @Author: your name
  * @Date: 2019-08-25 20:38:24
- * @LastEditTime: 2019-08-29 17:33:08
+ * @LastEditTime: 2019-08-30 15:13:29
  * @LastEditors: Please set LastEditors
  */
 // 点击波纹组件
@@ -21,6 +21,9 @@ export default {
       this.$router.push({
         path:link
       })
+    },
+    dial(phoneNumber){
+      window.location.href = `tel:${phoneNumber}`;
     }
   }
 }

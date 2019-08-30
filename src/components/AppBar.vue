@@ -2,12 +2,12 @@
  * @Description: In User Settings Edit
  * @Author: your name
  * @Date: 2019-08-25 11:48:12
- * @LastEditTime: 2019-08-29 17:37:01
+ * @LastEditTime: 2019-08-30 17:21:37
  * @LastEditors: Please set LastEditors
  -->
 <template>
   <div class="app-bar">
-    <mu-appbar z-depth="3" color="primary">
+    <mu-appbar z-depth="0">
       <mu-button icon slot="left" @click="goPage(leftLink)">
         <mu-icon :size="iconSize" :value="`:iconfont ${leftIcon}`"></mu-icon>
       </mu-button>
@@ -47,11 +47,12 @@ export default {
   name: "app-bar",
   props: {
     leftIcon: {
-      type: String
+      type: String,
+      default:'icon-fanhui'
     },
     iconSize: {
       type: String,
-      default: "30"
+      default: "24"
     },
     leftLink: {
       type: String
@@ -97,25 +98,6 @@ export default {
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style lang="less">
 .app-bar {
-  width: 100%;
-  // height: 50px;
-  position: fixed;
-  z-index: 99;
-  // bottom: 0;
-  .mu-appbar {
-    height: 50px;
-    
-    .mu-appbar-title {
-      text-align: center;
-      position: relative;
-      
-      .mu-button{
-        position: absolute;
-        right: 0;
-        bottom: 5px;
-      }
-    }
-  }
   .mu-popover {
     top: 52px !important;
     right: 2px !important;
