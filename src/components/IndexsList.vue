@@ -2,13 +2,13 @@
  * @Description: In User Settings Edit
  * @Author: your name
  * @Date: 2019-08-25 21:24:42
- * @LastEditTime: 2019-08-30 18:53:17
+ * @LastEditTime: 2019-09-01 11:46:46
  * @LastEditors: Please set LastEditors
  -->
 <template>
-  <div class="hello" @scroll.passive="handleScroll($event)">
+  <div class="indexs-list" :style="`margin-top:${listSpacing}px;padding-bottom:${listSpacing}px;`" @scroll.passive="handleScroll($event)">
     <div class="singer" id="singer">
-      <div class="singer-top-tag">{{userTopTag}}</div>
+      <div class="singer-top-tag" :style="`top:${tagTop}`">{{userTopTag}}</div>
       <ul class="singer-ul" ref="singerUl">
 
         <li v-for="(item, index) in list" :key="index" class="singer-ul-li">
@@ -42,10 +42,24 @@
 </template>
 
 <script>
-import UserList from '../../../static/json/userList'
+import UserList from '../../static/json/userList'
 import { mapState, mapMutations } from "vuex";
 export default {
-  name: "HelloWorld",
+  name: "indexs-listWorld",
+  props:{
+    tagTop:{
+      type:Number,
+      default:60
+    },
+    listSpacing:{
+      type:Number,
+      default:60
+    },
+    tagTopoffsetTop:{
+      type:Number,
+      default:120
+    }
+  },
   data() {
     return {
       list: [], //  用户列表
@@ -69,7 +83,7 @@ export default {
 
       this.list.forEach((item, index) => {
         //  获取每个排序标签的位置
-        offsetTop = document.querySelectorAll(".singer-ul-li")[index].offsetTop - 250;
+        offsetTop = document.querySelectorAll(".singer-ul-li")[index].offsetTop - this.tagTopoffsetTop;
         //  当前滚动条的位置 和 当前的标签偏移顶部的距离进行对比
         //  每一个联系人的li标签的高度必须要保持一致，我这里的高度是70，可以计算自己项目的内容的具体高度进行修改
         if (
@@ -115,12 +129,14 @@ export default {
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped lang="less">
-.hello {
+.indexs-list {
   /* position: relative; */
   background-color: #fff;
   // margin-top: 50px;
   // width: 90vw;
   height: 100%;
+      margin-top: 60px;
+      padding-bottom: 60px;
   // padding-top: 50px;
   overflow-y: scroll;
 }
@@ -135,7 +151,8 @@ export default {
 
 .singer-top-tag {
   position: fixed;
-  top: 242px;
+  z-index: 99;
+  // top: 242px;
   left: 0;
   width: 100%;
   height: 30px;
@@ -173,12 +190,13 @@ export default {
   width: 40px;
   height: 40px;
 }
-
+.singer-ul-li ul li:not(:last-child) div{
+  border-bottom: 1px solid #ededed;
+}
 .singer-ul-li ul li div {
   width: 86%;
   margin-left: 20px;
   padding: 12px 0;
-  border-bottom: 1px solid #ededed;
   position: relative;
   display: flex;
   flex-direction: column;
@@ -203,6 +221,7 @@ export default {
   z-index: 30;
   right: 6px;
   top: 50%;
+  z-index: 100;
   transform: translateY(-50%);
   width: 20px;
   padding: 20px 0;

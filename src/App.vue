@@ -2,7 +2,7 @@
  * @Description: In User Settings Edit
  * @Author: your name
  * @Date: 2019-08-25 15:40:36
- * @LastEditTime: 2019-08-30 17:11:54
+ * @LastEditTime: 2019-09-01 15:18:36
  * @LastEditors: Please set LastEditors
  -->
 <template>
@@ -26,7 +26,7 @@ export default {
     };
   },
   mounted(){
-    new VConsole();
+    // new VConsole();
   },
   watch: {
     $route(to, from) {

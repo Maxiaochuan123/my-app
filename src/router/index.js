@@ -2,7 +2,7 @@
  * @Description: In User Settings Edit
  * @Author: your name
  * @Date: 2019-08-25 15:40:36
- * @LastEditTime: 2019-08-30 11:23:18
+ * @LastEditTime: 2019-09-01 13:55:50
  * @LastEditors: Please set LastEditors
  */
 import Vue from 'vue'
@@ -35,6 +35,14 @@ export default new Router({
         path: '/contacts',
         meta:{zIndex:1},
         component: () => import('../views/contacts/contacts.vue')
+      },{
+        path: '/addContacts',
+        meta:{zIndex:1},
+        component: () => import('../views/contacts/addContacts.vue')
+      },{
+        path: '/teamContacts',
+        meta:{zIndex:1},
+        component: () => import('../views/contacts/teamContacts.vue')
       },{
         path: '/organizationDrawer',
         meta:{zIndex:1},

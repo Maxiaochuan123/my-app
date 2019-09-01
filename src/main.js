@@ -2,7 +2,7 @@
  * @Description: In User Settings Edit
  * @Author: your name
  * @Date: 2019-08-25 15:40:36
- * @LastEditTime: 2019-08-29 16:57:42
+ * @LastEditTime: 2019-09-01 21:32:37
  * @LastEditors: Please set LastEditors
  */
 // The Vue build version to load with the `import` command
@@ -12,8 +12,8 @@ import App from './App'
 import router from './router'
 import store from './vuex/store';
 
-import FastClick from 'fastclick' 
-FastClick.attach(document.body)
+// import FastClick from 'fastclick' 
+// FastClick.attach(document.body)
 
 // import 'muse-ui/lib/styles/base.less';
 // import 'muse-ui/lib/styles/theme.less';
@@ -33,7 +33,6 @@ import MuseUI from 'muse-ui';
 import 'muse-ui/dist/muse-ui.css';
 
 Vue.use(MuseUI);
-
 
 import mixins from '../static/js/mixins'
 import storage from '../static/js/storage'

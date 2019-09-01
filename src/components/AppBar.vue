@@ -2,7 +2,7 @@
  * @Description: In User Settings Edit
  * @Author: your name
  * @Date: 2019-08-25 11:48:12
- * @LastEditTime: 2019-08-30 17:21:37
+ * @LastEditTime: 2019-09-01 15:22:59
  * @LastEditors: Please set LastEditors
  -->
 <template>
@@ -17,7 +17,8 @@
         <mu-icon :size="iconSize" :value="`:iconfont ${drawerIcon}`"></mu-icon>
       </mu-button>
 
-      <mu-menu slot="right" cover>
+      <!-- 右侧按钮 -->
+      <mu-menu slot="right" cover v-if="!custom">
         <mu-button icon @click="!isMenu ? goPage(rightLink) : ''">
           <mu-icon :size="iconSize" :value="`:iconfont ${rightIcon}`"></mu-icon>
         </mu-button>
@@ -29,6 +30,9 @@
           </mu-list-item>
         </mu-list>
       </mu-menu>
+
+      <!-- 自定义右侧按钮 -->
+      <mu-button class="customBtn" flat slot="right" @click="customFnc" v-if="custom">{{customTitle}}</mu-button>
 
     </mu-appbar>
     <mu-drawer :open.sync="opeDrawer" right>
@@ -78,18 +82,31 @@ export default {
       type: String
     },
 
-    isMenu: { //为 true 时 menuList 是必须的
+    //为 true 时 menuList 是必须的
+    isMenu: {
       type: Boolean,
       default: false
     },
     menuList: {
       type: Array,
       default: ()=>[]
+    },
+    //是否自定义 右侧按钮
+    custom:{
+      type: Boolean,
+      default: false
+    },
+    customTitle:{
+      type: String
+    },
+    customFnc:{
+      type:Function,
+      default: ()=>{}
     }
   },
   data() {
     return {
-      opeDrawer:false,
+      opeDrawer: false,
     };
   }
 };
@@ -101,6 +118,13 @@ export default {
   .mu-popover {
     top: 52px !important;
     right: 2px !important;
+  }
+  .customBtn{
+    color: #3F58FD;
+    font-size: 16px;
+    .mu-button-wrapper{
+      padding-left: 0px;
+    }
   }
 }
 </style>

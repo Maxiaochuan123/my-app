@@ -2,7 +2,7 @@
  * @Description: In User Settings Edit
  * @Author: your name
  * @Date: 2019-08-25 20:58:12
- * @LastEditTime: 2019-08-30 10:23:47
+ * @LastEditTime: 2019-09-01 11:09:59
  * @LastEditors: Please set LastEditors
  -->
 <template>
@@ -11,9 +11,9 @@
 
   <!-- 路由缓存 -->
   <!-- <div> -->
-    <keep-alive>
+    <!-- <keep-alive> -->
       <router-view/>
-    </keep-alive>
+    <!-- </keep-alive> -->
     
     <!-- <router-view v-if="!$route.meta.keepAlive"/>
   </div> -->
