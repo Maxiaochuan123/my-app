@@ -2,36 +2,38 @@
  * @Description: In User Settings Edit
  * @Author: your name
  * @Date: 2019-08-25 11:48:12
- * @LastEditTime: 2019-08-27 15:34:13
+ * @LastEditTime: 2019-09-01 15:22:59
  * @LastEditors: Please set LastEditors
  -->
 <template>
   <div class="app-bar">
-    <mu-appbar z-depth="3" color="primary">
+    <mu-appbar z-depth="0">
       <mu-button icon slot="left" @click="goPage(leftLink)">
         <mu-icon :size="iconSize" :value="`:iconfont ${leftIcon}`"></mu-icon>
       </mu-button>
       {{pageTitle}}
-      <mu-menu slot="right" cover>
-        <mu-button icon v-if="isDrawer" @click="opeDrawer = true">
-          <mu-icon :size="iconSize" :value="`:iconfont ${drawerIcon}`"></mu-icon>
-        </mu-button>
+      
+      <mu-button icon v-if="isDrawer" @click="opeDrawer = true">
+        <mu-icon :size="iconSize" :value="`:iconfont ${drawerIcon}`"></mu-icon>
+      </mu-button>
+
+      <!-- 右侧按钮 -->
+      <mu-menu slot="right" cover v-if="!custom">
         <mu-button icon @click="!isMenu ? goPage(rightLink) : ''">
           <mu-icon :size="iconSize" :value="`:iconfont ${rightIcon}`"></mu-icon>
         </mu-button>
-        <mu-list slot="content" v-if="isMenu">
-          <mu-list-item
-            button
-            v-for="(item, index) in menuList"
-            :key="index"
-            @click="goPage(item.link)"
-          >
+        <mu-list slot="content">
+          <mu-list-item button v-for="(item, index) in menuList" :key="index" @click="goPage(item.link)">
             <mu-list-item-content>
               <mu-list-item-title>{{item.title}}</mu-list-item-title>
             </mu-list-item-content>
           </mu-list-item>
         </mu-list>
       </mu-menu>
+
+      <!-- 自定义右侧按钮 -->
+      <mu-button class="customBtn" flat slot="right" @click="customFnc" v-if="custom">{{customTitle}}</mu-button>
+
     </mu-appbar>
     <mu-drawer :open.sync="opeDrawer" right>
       <slot name="drawerContent"></slot>
@@ -49,11 +51,12 @@ export default {
   name: "app-bar",
   props: {
     leftIcon: {
-      type: String
+      type: String,
+      default:'icon-fanhui'
     },
     iconSize: {
       type: String,
-      default: "30"
+      default: "24"
     },
     leftLink: {
       type: String
@@ -79,18 +82,31 @@ export default {
       type: String
     },
 
-    isMenu: { //为 true 时 menuList 是必须的
+    //为 true 时 menuList 是必须的
+    isMenu: {
       type: Boolean,
       default: false
     },
     menuList: {
       type: Array,
       default: ()=>[]
+    },
+    //是否自定义 右侧按钮
+    custom:{
+      type: Boolean,
+      default: false
+    },
+    customTitle:{
+      type: String
+    },
+    customFnc:{
+      type:Function,
+      default: ()=>{}
     }
   },
   data() {
     return {
-      opeDrawer:false
+      opeDrawer: false,
     };
   }
 };
@@ -99,19 +115,16 @@ export default {
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style lang="less">
 .app-bar {
-  width: 100%;
-  // height: 50px;
-  position: fixed;
-  // bottom: 0;
-  .mu-appbar {
-    height: 50px;
-    .mu-appbar-title {
-      text-align: center;
-    }
-  }
   .mu-popover {
     top: 52px !important;
     right: 2px !important;
+  }
+  .customBtn{
+    color: #3F58FD;
+    font-size: 16px;
+    .mu-button-wrapper{
+      padding-left: 0px;
+    }
   }
 }
 </style>

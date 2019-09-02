@@ -2,76 +2,92 @@
  * @Description: In User Settings Edit
  * @Author: your name
  * @Date: 2019-08-27 12:13:47
+<<<<<<< HEAD
  * @LastEditTime: 2019-08-28 17:56:23
+=======
+ * @LastEditTime: 2019-09-01 13:51:47
+>>>>>>> dev
  * @LastEditors: Please set LastEditors
  -->
 <template>
   <div class="contacts">
-    <div class="heder">
-      <AppBar :iconSize="iconSize" :leftIcon="leftIcon" :leftLink="leftLink" :pageTitle="title"></AppBar>
-    </div>
+    <AppBar leftLink="/home" pageTitle="联系人" rightIcon="icon-tianjia" rightLink="/addContacts"></AppBar>
+    
     <div class="content">
-      <div class="serch">
-        
+      <SearchBar :userList="userList"></SearchBar>
+      <div class="organization">
+        <mu-list>
+          <mu-list-item v-waves button @click="goPage('/organizationDrawer')">
+            <mu-list-item-action>
+              <mu-avatar>
+                <img src="../../../static/images/公司部门.png">
+              </mu-avatar>
+            </mu-list-item-action>
+            <mu-list-item-title>公司部门</mu-list-item-title>
+            <mu-list-item-action>
+              <mu-icon value=":iconfont icon-rightArrow"></mu-icon>
+            </mu-list-item-action>
+          </mu-list-item>
+          <mu-divider shallow-inset></mu-divider>
+          <mu-list-item v-waves button @click="goPage('/teamContacts')">
+            <mu-list-item-action>
+              <mu-avatar>
+                <img src="../../../static/images/团队联系人.png">
+              </mu-avatar>
+            </mu-list-item-action>
+            <mu-list-item-title>团队联系人</mu-list-item-title>
+            <mu-list-item-action>
+              <mu-icon value=":iconfont icon-rightArrow"></mu-icon>
+            </mu-list-item-action>
+          </mu-list-item>
+        </mu-list>
       </div>
-      <div class="indexList">
-        <IndexsList></IndexsList>
-      </div>
-      
+      <IndexsList :tagTop="242" :tagTopoffsetTop="250" :listSpacing="198"></IndexsList>
     </div>
   </div>
 </template>
 
 <script>
-import AppBar from '../../components/AppBar'
-import IndexsList from './IndexsList'
+import AppBar from "../../components/AppBar";
+import IndexsList from "../../components/IndexsList";
+import SearchBar from "../../components/SearchBar";
+
+import { mapState } from 'vuex'
 export default {
-  components:{
-    AppBar, IndexsList
+  components: {
+    AppBar,
+    IndexsList,
+    SearchBar
   },
-  data(){
-    return{
-      iconSize:'20',
-      leftIcon:'icon-fanhui',
-      leftLink:'/home',
-      title:'联系人'
-    }
+  data() {
+    return {
+      
+    };
+  },
+  computed:{
+    ...mapState(['userList'])
   }
 };
 </script>
 
 <style scoped lang="less">
 .contacts {
-  // overflow-y: scroll;
-  // height: 100vh;
-  background-color: #ff6600;
-  .heder{
-    background-color: cornflowerblue;
-    position: fixed;
-    z-index: 999;
-  }
-  .content{
-    overflow: hidden;
+  .content {
+    width: 100vw;
+    height: 100vh;
+    padding-top: 44px;
     position: fixed;
     bottom: 0;
-    width: 100vw;
-    height: calc(100vh - 50px);
-    // padding: 100px 0 0;
-    background-color: aquamarine;
-    .serch{
-      position: fixed;
-      top: 50px;
-      z-index: 999;
-      width: 100%;
-      height: 50px;
-      background-color: #ff6600;
-    }
 
-    .indexList{
-      // position: fiexd;
-      // top: 100px;
-      margin-top: 50px;
-      height: calc(100% - 50px);
+    .organization{
+      position: fixed;
+      top: 104px;
+      width: 100vw;
+      height: 120px;
+      background-color: #FFF;
+      .shallow-inset{
+        margin-left: 72px;
+      }
     }
   }
 }

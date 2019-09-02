@@ -2,24 +2,20 @@
  * @Description: In User Settings Edit
  * @Author: your name
  * @Date: 2019-08-25 15:40:36
- * @LastEditTime: 2019-08-28 16:45:19
+ * @LastEditTime: 2019-09-01 15:18:36
  * @LastEditors: Please set LastEditors
  -->
 <template>
   <div id="app">
-    <div class="appBox">
-      <div class="content">
-          <router-view/>
-      </div>
-      <div class="bottomnav" v-if="showBotNav">
-        <BottomNav/>
-      </div>
-    </div>
+    <router-view/>
+    
+    <BottomNav v-if="showBotNav"/>
   </div>
 </template>
 
 <script>
 import BottomNav from "./components/BottomNav";
+import VConsole from 'vConsole'
 export default {
   components: {
     BottomNav
@@ -28,6 +24,9 @@ export default {
     return {
       showBotNav: true
     };
+  },
+  mounted(){
+    // new VConsole();
   },
   watch: {
     $route(to, from) {
@@ -41,64 +40,12 @@ export default {
 };
 </script>
 
-<style scoped lang="less">
-* {
-  margin: 0px;
-  padding: 0px;
-}
-#app {
-  position: relative;
-  width: 100vw;
-  height: 100vh;
-  // overflow: hidden;
-
-  .appBox {
-    // width: 100vw;
-    // position: fixed;
-    .content {
-      height: calc(100vh - 50px);
-      background-color: cornflowerblue;
-      overflow-y: scroll;
-    }
-    .bottomnav {
-      height: 50px;
-      // background-color: darkcyan;
-    }
-    .child-view {
-      position: absolute;
-      width: 100%;
-      transition: all .2s cubic-bezier(0.55, 0, 0.1, 1);
-    }
-
-    .slide-left-enter,
-    .slide-right-leave-active {
-      opacity: 0;
-      -webkit-transform: translate(50px, 0);
-      transform: translate(50px, 0);
-    }
-
-    .slide-left-leave-active,
-    .slide-right-enter {
-      opacity: 0;
-      -webkit-transform: translate(-50px, 0);
-      transform: translate(-50px, 0);
-    }
+<style lang="less">
+  @import url('../static/css/public.less');
+  * {
+    margin: 0px;
+    padding: 0px;
   }
-
-  // .slide-left-enter,
-  // .slide-right-leave-active {
-  //   opacity: 0;
-  //   -webkit-transform: translate(100%, 0);
-  //   transform: translate(100%, 0);
-  // }
-
-  // .slide-left-leave-active,
-  // .slide-right-enter {
-  //   opacity: 0;
-  //   -webkit-transform: translate(-50%, 0);
-  //   transform: translate(-50% 0);
-  // }
-}
   #app::-webkit-scrollbar{
     width: 0;
     display:none;
