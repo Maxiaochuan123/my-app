@@ -2,7 +2,7 @@
  * @Description: In User Settings Edit
  * @Author: your name
  * @Date: 2019-08-25 21:24:42
- * @LastEditTime: 2019-09-03 15:44:19
+ * @LastEditTime: 2019-09-03 16:06:37
  * @LastEditors: Please set LastEditors
  -->
 <template>
@@ -17,7 +17,7 @@
           <ul>
             <span v-for="(fitem, findex) in item.data" :key="findex">
               <li  v-for="(fitem2, findex2) in fitem.userList" :key="findex2">
-                <img :src="`https://y.gtimg.cn/music/photo_new/T001R300x300M000${fitem2.Fsinger_mid}.jpg?max_age=2592000`" />
+                <img src="../../static/images/默认头像.png" />
                 <div>
                   <span>{{fitem2.Fsinger_name}}</span>
                   <span>{{fitem2.describe}}</span>

@@ -2,7 +2,7 @@
  * @Description: In User Settings Edit
  * @Author: your name
  * @Date: 2019-08-25 11:48:12
- * @LastEditTime: 2019-09-03 15:38:55
+ * @LastEditTime: 2019-09-03 16:47:17
  * @LastEditors: Please set LastEditors
  -->
 <template>
@@ -11,6 +11,7 @@
       <mu-button icon slot="left" @click="goPage(leftLink)">
         <mu-icon :size="iconSize" :value="`:iconfont ${leftIcon}`"></mu-icon>
       </mu-button>
+      
       {{pageTitle}}
       
       <mu-button icon v-if="isDrawer" @click="opeDrawer = true">
