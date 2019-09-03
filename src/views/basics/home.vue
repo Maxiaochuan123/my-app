@@ -2,7 +2,7 @@
  * @Description: In User Settings Edit
  * @Author: your name
  * @Date: 2019-08-25 16:21:55
- * @LastEditTime: 2019-09-03 15:14:42
+ * @LastEditTime: 2019-09-03 18:18:56
  * @LastEditors: Please set LastEditors
  -->
 <template>
@@ -34,43 +34,43 @@
     </AppBar>
     
     <div class="content">
-      <mu-paper :z-depth="3" class="paper">
+      <mu-paper :z-depth="1" class="blockNav">
         <mu-carousel :cycle="false" :hide-controls="true">
           <mu-carousel-item>
             <div class="gridNav">
               <div class="row">
-                <div><i class="iconfont icon-shouye"></i><span>线索</span></div>
-                <div><i class="iconfont icon-shouye"></i><span>客户</span></div>
-                <div><i class="iconfont icon-shouye"></i><span>公海</span></div>
-                <div><i class="iconfont icon-dengdai"></i><span>待办</span></div>
+                <div><img src="../../../static/images/线索.png"><span>线索</span></div>
+                <div><img src="../../../static/images/客户.png"><span>客户</span></div>
+                <div><img src="../../../static/images/公海.png"><span>公海</span></div>
+                <div><img src="../../../static/images/待办.png"><span>待办</span></div>
               </div>
               <div class="row">
-                <div><i class="iconfont icon-dengdai"></i><span>日报</span></div>
-                <div><i class="iconfont icon-dengdai"></i><span>拜访</span></div>
-                <div><i class="iconfont icon-dengdai"></i><span>任务</span></div>
-                <div><i class="iconfont icon-dengdai"></i><span>订单</span></div>
+                <div><img src="../../../static/images/日报.png"><span>日报</span></div>
+                <div><img src="../../../static/images/拜访.png"><span>拜访</span></div>
+                <div><img src="../../../static/images/任务.png"><span>任务</span></div>
+                <div><img src="../../../static/images/订单.png"><span>订单</span></div>
               </div>
             </div>
           </mu-carousel-item>
           <mu-carousel-item>
             <div class="gridNav">
               <div class="row">
-                <div><i class="iconfont icon-dengdai"></i><span>考勤</span></div>
-                <div><i class="iconfont icon-dengdai"></i><span>统计报表</span></div>
-                <div><i class="iconfont icon-dengdai"></i><span>知识库</span></div>
-                <div><i class="iconfont icon-dengdai"></i><span>查征信</span></div>
+                <div><img src="../../../static/images/线索.png"><span>考勤</span></div>
+                <div><img src="../../../static/images/线索.png"><span>统计报表</span></div>
+                <div><img src="../../../static/images/线索.png"><span>知识库</span></div>
+                <div><img src="../../../static/images/线索.png"><span>查征信</span></div>
               </div>
               <div class="row">
-                <div><i class="iconfont icon-dengdai"></i><span>产品</span></div>
-                <div><i class="iconfont icon-dengdai"></i><span>回款</span></div>
-                <div><i class="iconfont icon-dengdai"></i><span>合同</span></div>
-                <div><i class="iconfont icon-dengdai"></i><span>商机</span></div>
+                <div><img src="../../../static/images/线索.png"><span>产品</span></div>
+                <div><img src="../../../static/images/线索.png"><span>回款</span></div>
+                <div><img src="../../../static/images/线索.png"><span>合同</span></div>
+                <div><img src="../../../static/images/线索.png"><span>商机</span></div>
               </div>
             </div>
           </mu-carousel-item>
         </mu-carousel>
       </mu-paper>
-      <p v-for="i in 100" :key="i">{{i}}</p>
+      <!-- <p v-for="i in 100" :key="i">{{i}}</p> -->
     </div>
   </div>
 </template>
@@ -86,17 +86,17 @@ export default {
   },
   data() {
     return {
-      leftIcon: "icon-shouye",
+      leftIcon: "icon-lianxiren",
       leftLink: "/contacts",
-      iconSize: "30",
+      iconSize: "24",
 
-      pageTitle: "我是title",
+      pageTitle: "众汇CRM",
 
-      rightIcon: "icon-shouye",
+      rightIcon: "icon-tianjia",
       rightLink: "/homeChild",
 
       isDrawer: true,
-      drawerIcon: "icon-shouye",
+      drawerIcon: "icon-shouye2",
 
       isMenu: true,
       menuList: [
@@ -158,58 +158,65 @@ export default {
 <style scope lang="less">
 .home {
   .content {
-    padding: 54px 4px;
-    .mu-carousel {
-      height: 24vh;
-      background-color: brown;
-      .mu-carousel-indicators {
-        height: 22px;
-        .mu-icon-button {
-          width: 40px;
-          height: 40px;
-        }
-        .mu-carousel-indicator-icon {
-          width: 8px;
-          height: 8px;
-        }
-      }
-      .gridNav {
-        height: 21vh;
-        background-color: blueviolet;
-        display: flex;
-        flex-wrap: wrap;
-        flex-direction: column;
-        justify-content: space-between;
-        align-items: center;
-        
-        .row{
-          width: 100%;
-          height: 10vh;
-          background-color: cadetblue;
-        }
-        .row:last-child{
-          background-color: #13C2C2;
-        }
-        .row {
-        //   width: 100%;
-          // background-color: aquamarine;
-          
-          display: flex;
-          justify-content: space-around;
-          
-          div {
-            width: 20%;
-        //     height: 10vh;
-        //     // margin: 1px;
-            background-color: burlywood;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
+    padding: 54px 15px;
 
-            i {
-              font-size: 24px;
-              height: 34px;
+    .blockNav{
+      border-radius: 10px;
+      .mu-carousel {
+        height: 210px;
+        border-radius: 10px;
+        .mu-carousel-indicators {
+          height: 20px;
+          .mu-icon-button {
+            width: 10px;
+            height: 10px;
+          }
+          .mu-carousel-indicator-button{
+            margin: 0 5px;
+          }
+          .mu-carousel-indicator-icon {
+            width: 6px;
+            height: 6px;
+            background-color: #9F9F9F;
+          }
+        }
+        .gridNav {
+          height: 190px;
+          display: flex;
+          flex-wrap: wrap;
+          flex-direction: column;
+          justify-content: space-between;
+          align-items: center;
+          
+          .row {
+            width: 100%;
+            height: 95px;
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+            
+            div {
+              height: 66px;
+              display: flex;
+              flex-direction: column;
+              justify-content: center;
+              align-items: center;
+
+              img{
+                width: 40px;
+                height: 40px;
+              }
+              span{
+                font-size: 14px;
+                font-weight: 500;
+                color: @primary-text;
+                padding-top: 3px;
+              }
+
+              i {
+                font-size: 24px;
+                height: 34px;
+              }
             }
           }
         }

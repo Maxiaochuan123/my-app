@@ -2,14 +2,14 @@
  * @Description: In User Settings Edit
  * @Author: your name
  * @Date: 2019-08-25 11:48:12
- * @LastEditTime: 2019-08-29 15:48:55
+ * @LastEditTime: 2019-09-03 18:12:17
  * @LastEditors: Please set LastEditors
  -->
 <template>
   <div class="bottom-nav">
     <mu-bottom-nav :value.sync="shift" color="primary">
-      <mu-bottom-nav-item value="movies" title="Home" icon="ondemand_video" to="/home"></mu-bottom-nav-item>
-      <mu-bottom-nav-item value="music" title="MyInfo" icon="music_note" to="/myInfo"></mu-bottom-nav-item>
+      <mu-bottom-nav-item value="movies" title="Home" icon=":iconfont icon-shouye" to="/home"></mu-bottom-nav-item>
+      <mu-bottom-nav-item value="music" title="MyInfo" icon=":iconfont icon-wode" to="/myInfo"></mu-bottom-nav-item>
     </mu-bottom-nav>
   </div>
 </template>

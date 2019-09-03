@@ -2,7 +2,7 @@
  * @Description: In User Settings Edit
  * @Author: your name
  * @Date: 2019-08-29 11:20:09
- * @LastEditTime: 2019-09-01 12:51:24
+ * @LastEditTime: 2019-09-03 16:20:17
  * @LastEditors: Please set LastEditors
  -->
 <template>
@@ -10,6 +10,7 @@
     <AppBar leftLink="/contacts" pageTitle="公司部门"/>
 
     <div class="content">
+      <SearchBar :userList="userList" :isGoPage="true" pageLink="/personalInfo"></SearchBar>
       <!-- 公司列表 -->
       <mu-paper :z-depth="0">
         <div class="listTitle">成都众汇车服集团有限公司</div>
@@ -51,7 +52,7 @@
       <mu-drawer class="contacts" right :open.sync="drawerContacts">
         <div class="listTitle">四川公司</div>
         <mu-list textline="two-line">
-          <div v-for="(item ,index) in userList" :key="index">
+          <div v-for="(item ,index) in userList2" :key="index">
             <mu-list-item button v-waves @click="drawerContacts = false;drawerDepartment = false; goPage('/personalInfo')">
               <mu-avatar>
                 <img src="../../../static/images/默认头像.png">
@@ -73,9 +74,11 @@
 
 <script>
 import AppBar from '../../components/AppBar'
+import SearchBar from '../../components/SearchBar'
+import { mapState } from 'vuex'
 export default {
   name:'organizationDrawer',
-  components:{ AppBar },
+  components:{ AppBar,SearchBar },
   data(){
     return{
       drawerDepartment: false, //部门抽屉
@@ -95,7 +98,7 @@ export default {
       },{
         title:'广西公司'
       }],
-      userList:[{
+      userList2:[{
         name:'张三'
       },{
         name:'李四'
@@ -115,6 +118,9 @@ export default {
     contacts(){
       this.drawerContacts = true;
     }
+  },
+  computed:{
+    ...mapState(['userList'])
   }
 }
 </script>
@@ -125,7 +131,7 @@ export default {
     // background-color: cornflowerblue;
     
     .content{
-      padding: 44px 0;
+      padding: 104px 0;
 
       .listTitle{
         color: @primary-text;

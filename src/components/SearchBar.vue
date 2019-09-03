@@ -2,7 +2,7 @@
  * @Description: In User Settings Edit
  * @Author: your name
  * @Date: 2019-08-25 11:48:12
- * @LastEditTime: 2019-09-01 11:37:00
+ * @LastEditTime: 2019-09-03 16:17:41
  * @LastEditors: Please set LastEditors
  -->
 <template>
@@ -15,7 +15,7 @@
           :key="index"
           :label="item.userName"
           :value="item.userName"
-          @click.native="goTag(item.tag)"
+          @click.native="isGoPage ? goPage(pageLink) : goTag(item.tag)"
         ></mu-option>
       </mu-select>
     </div>
@@ -29,6 +29,14 @@ export default {
     userList: {
       type: Array,
       default: () => []
+    },
+    isGoPage: {
+      type: Boolean,
+      default: false
+    },
+    pageLink: {
+      type: String,
+      default: ''
     }
   },
   data() {
