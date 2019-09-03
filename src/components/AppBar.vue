@@ -2,7 +2,7 @@
  * @Description: In User Settings Edit
  * @Author: your name
  * @Date: 2019-08-25 11:48:12
- * @LastEditTime: 2019-09-01 15:22:59
+ * @LastEditTime: 2019-09-03 15:38:55
  * @LastEditors: Please set LastEditors
  -->
 <template>
@@ -120,11 +120,11 @@ export default {
     right: 2px !important;
   }
   .customBtn{
-    color: #3F58FD;
+    color: @primary;
     font-size: 16px;
-    .mu-button-wrapper{
-      padding-left: 0px;
-    }
+    // .mu-button-wrapper{
+    //   padding-left: 0px;
+    // }
   }
 }
 </style>

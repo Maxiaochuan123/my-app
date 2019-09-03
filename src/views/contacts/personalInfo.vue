@@ -2,7 +2,7 @@
  * @Description: In User Settings Edit
  * @Author: your name
  * @Date: 2019-08-29 11:20:09
- * @LastEditTime: 2019-09-01 13:47:05
+ * @LastEditTime: 2019-09-03 15:39:36
  * @LastEditors: Please set LastEditors
  -->
 <template>
@@ -86,7 +86,7 @@ export default {
         flex-direction: column;
         justify-content: center;
         .name{
-          color: #272727;
+          color: @primary-text;
           font-size: 16px;
           font-weight: 600;
           display: flex;
@@ -100,7 +100,7 @@ export default {
         }
         .level{
           font-size: 14px;
-          color: #9f9f9f;
+          color: @regular-text;
         }
       }
 
@@ -142,10 +142,10 @@ export default {
       .mu-item-content{
         .mu-item-title{
           font-size: 14px;
-          color: #9f9f9f;
+          color: @regular-text;
         }
         .mu-item-sub-title{
-          color: #272727;
+          color: @primary-text;
           font-size: 16px;
         }
       }
@@ -154,7 +154,7 @@ export default {
       }
       i{
         font-size: 22px;
-        color: #3F58FD;
+        color: @primary;
         position: absolute;
         top: 24px;
         right: 18px;

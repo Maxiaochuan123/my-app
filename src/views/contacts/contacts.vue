@@ -2,7 +2,7 @@
  * @Description: In User Settings Edit
  * @Author: your name
  * @Date: 2019-08-27 12:13:47
- * @LastEditTime: 2019-09-01 13:51:47
+ * @LastEditTime: 2019-09-02 10:41:33
  * @LastEditors: Please set LastEditors
  -->
 <template>
@@ -38,7 +38,9 @@
           </mu-list-item>
         </mu-list>
       </div>
-      <IndexsList :tagTop="242" :tagTopoffsetTop="250" :listSpacing="198"></IndexsList>
+      <!-- <div class="index-List"> -->
+        <IndexsList :tagTop="242" :tagTopoffsetTop="250" :listSpacing="198"></IndexsList>
+      <!-- </div> -->
     </div>
   </div>
 </template>
@@ -85,6 +87,12 @@ export default {
         margin-left: 72px;
       }
     }
+    // .index-List{
+    //   margin-top: 250;
+    //   padding-bottom: 250;
+    //   overflow-y: scroll;
+    //   height: 100%;
+    // }
   }
 }
 </style>

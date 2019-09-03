@@ -1,7 +1,6 @@
-
 // content 内容盒子
 .content{
-  background-color: #F8F8F8;
+  background-color: @auxiliary;
 }
 
 // AppBar
@@ -12,7 +11,7 @@
   
   .mu-appbar {
     background-color: #FFF;
-    color: #272727;
+    color: @primary-text;
     height: 44px;
     padding: 0;
     
@@ -54,10 +53,26 @@
   }
 }
 .shallow-inset{
-  background-color: #EDEDED;
+  background-color: @primary-border;
 }
 
 // 列表 右箭头 iconColor
 .icon-rightArrow{
-  color: #9f9f9f;
+  color: @regular-text;
+}
+
+// picker
+.zm-picker .picker{
+  height: 250px !important;
+}
+
+// picker 包裹器 防止 input 聚焦时 拉起输入法
+.surround{
+  width: 100%;
+}
+.zm-picker .picker-title span{
+  font-size: 16px !important;
+  &.pt-submit{
+    color: @primary !important;
+  }
 }

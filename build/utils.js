@@ -1,3 +1,10 @@
+/*
+ * @Description: In User Settings Edit
+ * @Author: your name
+ * @Date: 2019-08-25 15:40:36
+ * @LastEditTime: 2019-09-03 15:38:00
+ * @LastEditors: Please set LastEditors
+ */
 'use strict'
 const path = require('path')
 const config = require('../config')
@@ -54,11 +61,34 @@ exports.cssLoaders = function (options) {
     }
   }
 
+  function lessResourceLoader() {
+      var loaders = [
+        cssLoader,
+        'less-loader',
+        {
+          loader: 'sass-resources-loader',
+          options: {
+            resources: [
+              path.resolve(__dirname, '../static/css/globalVariable.less'),
+            ]
+          }
+        }
+      ];
+      if (options.extract) {
+        return ExtractTextPlugin.extract({
+          use: loaders,
+          fallback: 'vue-style-loader'
+        })
+      } else {
+        return ['vue-style-loader'].concat(loaders)
+      }
+  }
+
   // https://vue-loader.vuejs.org/en/configurations/extract-css.html
   return {
     css: generateLoaders(),
     postcss: generateLoaders(),
-    less: generateLoaders('less'),
+    less: lessResourceLoader(),
     sass: generateLoaders('sass', { indentedSyntax: true }),
     scss: generateLoaders('sass'),
     stylus: generateLoaders('stylus'),
