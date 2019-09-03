@@ -128,7 +128,7 @@ export default {
       padding: 44px 0;
 
       .listTitle{
-        color: #272727;
+        color: @primary-text;
         font-size: 16px;
         font-weight: 600;
         line-height: 60px;

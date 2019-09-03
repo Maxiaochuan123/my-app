@@ -3,10 +3,14 @@
  * @Author: your name
  * @Date: 2019-08-27 12:13:47
 <<<<<<< HEAD
+<<<<<<< HEAD
  * @LastEditTime: 2019-08-28 17:56:23
 =======
  * @LastEditTime: 2019-09-01 13:51:47
 >>>>>>> dev
+=======
+ * @LastEditTime: 2019-09-02 10:41:33
+>>>>>>> mxc_dev
  * @LastEditors: Please set LastEditors
  -->
 <template>
@@ -42,7 +46,9 @@
           </mu-list-item>
         </mu-list>
       </div>
-      <IndexsList :tagTop="242" :tagTopoffsetTop="250" :listSpacing="198"></IndexsList>
+      <!-- <div class="index-List"> -->
+        <IndexsList :tagTop="242" :tagTopoffsetTop="250" :listSpacing="198"></IndexsList>
+      <!-- </div> -->
     </div>
   </div>
 </template>
@@ -89,6 +95,12 @@ export default {
         margin-left: 72px;
       }
     }
+    // .index-List{
+    //   margin-top: 250;
+    //   padding-bottom: 250;
+    //   overflow-y: scroll;
+    //   height: 100%;
+    // }
   }
 }
 </style>

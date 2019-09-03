@@ -2,7 +2,7 @@
  * @Description: In User Settings Edit
  * @Author: your name
  * @Date: 2019-08-25 15:40:36
- * @LastEditTime: 2019-09-01 21:32:37
+ * @LastEditTime: 2019-09-03 11:29:50
  * @LastEditors: Please set LastEditors
  */
 // The Vue build version to load with the `import` command
@@ -31,15 +31,28 @@ import store from './vuex/store';
 // Vue.use(Select);
 import MuseUI from 'muse-ui';
 import 'muse-ui/dist/muse-ui.css';
+import Toast from 'muse-ui-toast';
+import options from '../static/js/options'
+import Message from 'muse-ui-message';
+import 'muse-ui-loading/dist/muse-ui-loading.css'; // load css
+import Loading from 'muse-ui-loading';
 
 Vue.use(MuseUI);
+Vue.use(Toast);
+Toast.config(options.toast)
+Vue.use(Message);
+Message.config(options.message)
+Vue.use(Loading);
 
 import mixins from '../static/js/mixins'
 import storage from '../static/js/storage'
+import apiMethod from './api/apiMethod';
 Vue.mixin(mixins)
 
 Vue.config.productionTip = false;
 Vue.prototype.storage = storage;
+Vue.prototype.apiMethod = apiMethod;
+
 
 /* eslint-disable no-new */
 new Vue({

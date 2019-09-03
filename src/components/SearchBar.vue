@@ -71,8 +71,8 @@ export default {
     border-radius: 10px;
     padding: 7px 10px;
     display: flex;
-    color: #9f9f9f;
-    background-color: #ededed;
+    color: @regular-text;
+    background-color: @primary-border;
 
     /deep/ .mu-input {
       min-height: 32px;

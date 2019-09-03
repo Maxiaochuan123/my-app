@@ -2,14 +2,14 @@
  * @Description: In User Settings Edit
  * @Author: your name
  * @Date: 2019-08-25 21:24:42
- * @LastEditTime: 2019-09-01 11:46:46
+ * @LastEditTime: 2019-09-03 15:44:19
  * @LastEditors: Please set LastEditors
  -->
 <template>
-  <div class="indexs-list" :style="`margin-top:${listSpacing}px;padding-bottom:${listSpacing}px;`" @scroll.passive="handleScroll($event)">
+  <div class="indexs-list" :style="`margin-top:${listSpacing}px;`" @scroll.passive="handleScroll($event)">
     <div class="singer" id="singer">
       <div class="singer-top-tag" :style="`top:${tagTop}`">{{userTopTag}}</div>
-      <ul class="singer-ul" ref="singerUl">
+      <ul class="singer-ul" :style="`padding-bottom:${listSpacing}px;`" ref="singerUl">
 
         <li v-for="(item, index) in list" :key="index" class="singer-ul-li">
           <div class="singer-tag" :id="item.tag">{{item.tag}}</div>
@@ -135,8 +135,8 @@ export default {
   // margin-top: 50px;
   // width: 90vw;
   height: 100%;
-      margin-top: 60px;
-      padding-bottom: 60px;
+  //     margin-top: 60px;
+  //     padding-bottom: 60px;
   // padding-top: 50px;
   overflow-y: scroll;
 }
@@ -159,9 +159,9 @@ export default {
   line-height: 30px;
   padding-left: 20px;
   font-size: 12px;
-  color: #9F9F9F;
+  color: @regular-text;
   background-color: #fff;
-  border-bottom: 1px solid #F8F8F8;
+  border-bottom: 1px solid @auxiliary;
 }
 
 .singer-tag {
@@ -171,8 +171,8 @@ export default {
   line-height: 30px;
   padding-left: 20px;
   font-size: 12px;
-  color: #9F9F9F;
-  background-color: #F8F8F8;
+  color: @regular-text;
+  background-color: @auxiliary;
 }
 
 .singer-ul-li ul li {
@@ -180,7 +180,7 @@ export default {
   display: flex;
   justify-content: flex-start;
   align-items: center;
-  color: #9F9F9F;
+  color: @regular-text;
   height: 66px;
   padding: 0 14px;
 }
@@ -191,7 +191,7 @@ export default {
   height: 40px;
 }
 .singer-ul-li ul li:not(:last-child) div{
-  border-bottom: 1px solid #ededed;
+  border-bottom: 1px solid @primary-border;
 }
 .singer-ul-li ul li div {
   width: 86%;
@@ -201,14 +201,20 @@ export default {
   display: flex;
   flex-direction: column;
   
-  span:first-child{
+  span:nth-child(1){
     font-size: 16px;
     font-weight: 400;
-    color: rgba(0,0,0,.87);
+    color: @primary-text;
+  }
+  span:nth-child(2){
+    width: 80%;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
   }
   i{
     font-size: 22px;
-    color: #3F58FD;
+    color: @primary;
     position: absolute;
     top: 24px;
     right: 20px;
@@ -246,7 +252,7 @@ ul {
   line-height: 1;
   font-size: 14px;
   font-weight:600;
-  color: #9F9F9F;
+  color: @regular-text;
 }
 
 .current {
