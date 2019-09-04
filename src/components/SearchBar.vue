@@ -8,8 +8,8 @@
 <template>
   <div class="search-bar">
     <div class="serchInput">
-      <mu-icon size="14" value=":iconfont icon-sousuo"></mu-icon>
-      <mu-select filterable full-width v-model="search.value" placeholder="搜索联系人">
+      <mu-icon size="16" value=":iconfont icon-sousuo"></mu-icon>
+      <mu-select filterable full-width v-model="search.value" :placeholder="placeholderText">
         <mu-option
           v-for="(item,index) in searchList"
           :key="index"
@@ -36,7 +36,7 @@ export default {
     },
     pageLink: {
       type: String,
-      default: ''
+      default: ""
     }
   },
   data() {

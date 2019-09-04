@@ -65,11 +65,24 @@ export default new Router({
           component: () => import("../views/clue/clue.vue")
         },
         // 客户
+        // 添加客户
+        {
+          path: "/addOrEditCustomer",
+          meta: { zIndex: 1 },
+          component: () => import("../views/customer/addOrEditCustomer.vue")
+        },
+        // 客户管理
         {
           path: "/customerManage",
           meta: { zIndex: 1 },
           component: () => import("../views/customer/customerManage.vue")
         },
+        // 客户详情
+        {
+          path: "/customerDetails",
+          meta: { zIndex: 1 },
+          component: () => import("../views/customer/customerDetails.vue")
+        }
       ]
     }
   ]

@@ -41,6 +41,7 @@ export default {
 </script>
 
 <style lang="less">
+  @import url('../static/css/resetMuseUI.less');
   @import url('../static/css/public.less');
   * {
     margin: 0px;

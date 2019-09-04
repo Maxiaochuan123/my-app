@@ -11,20 +11,22 @@
       <mu-button icon slot="left" @click="goPage(leftLink)">
         <mu-icon :size="iconSize" :value="`:iconfont ${leftIcon}`"></mu-icon>
       </mu-button>
-      
       {{pageTitle}}
-      
       <mu-button icon v-if="isDrawer" @click="opeDrawer = true">
         <mu-icon :size="iconSize" :value="`:iconfont ${drawerIcon}`"></mu-icon>
       </mu-button>
-
       <!-- 右侧按钮 -->
-      <mu-menu slot="right" cover v-if="!custom">
-        <mu-button icon @click="!isMenu ? goPage(rightLink) : ''">
+      <mu-menu slot="right" cover v-if="!custom" :open.sync="menuFlag">
+        <mu-button icon @click="rightBtn()">
           <mu-icon :size="iconSize" :value="`:iconfont ${rightIcon}`"></mu-icon>
         </mu-button>
         <mu-list slot="content">
-          <mu-list-item button v-for="(item, index) in menuList" :key="index" @click="goPage(item.link)">
+          <mu-list-item
+            button
+            v-for="(item, index) in menuList"
+            :key="index"
+            @click="menuItem(item)"
+          >
             <mu-list-item-content>
               <mu-list-item-title>{{item.title}}</mu-list-item-title>
             </mu-list-item-content>
@@ -33,13 +35,18 @@
       </mu-menu>
 
       <!-- 自定义右侧按钮 -->
-      <mu-button class="customBtn" flat slot="right" @click="customFnc" v-if="custom">{{customTitle}}</mu-button>
-
+      <mu-button
+        class="customBtn"
+        flat
+        slot="right"
+        @click="customFnc"
+        v-if="custom"
+      >{{customTitle}}</mu-button>
     </mu-appbar>
     <mu-drawer :open.sync="opeDrawer" right>
       <slot name="drawerContent"></slot>
       <mu-list>
-        <mu-list-item  @click="opeDrawer = false" button>
+        <mu-list-item @click="opeDrawer = false" button>
           <mu-list-item-title>Close</mu-list-item-title>
         </mu-list-item>
       </mu-list>
@@ -53,7 +60,7 @@ export default {
   props: {
     leftIcon: {
       type: String,
-      default:'icon-fanhui'
+      default: "icon-fanhui"
     },
     iconSize: {
       type: String,
@@ -90,25 +97,42 @@ export default {
     },
     menuList: {
       type: Array,
-      default: ()=>[]
+      default: () => []
     },
     //是否自定义 右侧按钮
-    custom:{
+    custom: {
       type: Boolean,
       default: false
     },
-    customTitle:{
+    customTitle: {
       type: String
     },
-    customFnc:{
-      type:Function,
-      default: ()=>{}
+    customFnc: {
+      type: Function,
+      default: () => {}
     }
   },
   data() {
     return {
       opeDrawer: false,
+      menuFlag: false
     };
+  },
+  methods: {
+    rightBtn() {
+      if (!this.isMenu) {
+        this.goPage(this.rightLink);
+      }
+    },
+    menuItem(item) {
+      const { isLink, title, link } = item;
+      if (isLink) {
+        this.goPage(link);
+      } else {
+        this.$emit("menuChange", item);
+        this.menuFlag = false;
+      }
+    }
   }
 };
 </script>
@@ -120,7 +144,7 @@ export default {
     top: 52px !important;
     right: 2px !important;
   }
-  .customBtn{
+  .customBtn {
     color: @primary;
     font-size: 16px;
     // .mu-button-wrapper{
