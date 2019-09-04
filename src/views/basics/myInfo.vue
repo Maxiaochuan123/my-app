@@ -57,7 +57,9 @@ export default {
   data() {
     return {};
   },
-  methods: {}
+  methods: {
+    
+  }
 };
 </script>
 <style scope lang="less">
