@@ -2,7 +2,7 @@
  * @Description: In User Settings Edit
  * @Author: your name
  * @Date: 2019-09-04 15:09:11
- * @LastEditTime: 2019-09-04 17:40:29
+ * @LastEditTime: 2019-09-04 19:16:58
  * @LastEditors: Please set LastEditors
  -->
 <template>
@@ -43,5 +43,12 @@ export default {
       top: 44px;
       z-index: 9;
     }
+    .mu-tabs-center{
+        justify-content: space-around;
+        padding-top: 5px;
+        /deep/ .mu-tab-wrapper{
+          padding: 15px 0 9px;
+        }
+      }
   }
 </style>
