@@ -23,16 +23,44 @@
             <div class="sub-title">四川省成都市高新区天府街道224号</div>
           </div>
         </div>
+        <div class="header-info">
+          <div class="header-info-item">
+            <div class="header-info-item-left">创建人</div>
+            <div class="header-info-item-right">张三</div>
+          </div>
+          <div class="header-info-item">
+            <div class="header-info-item-left">客户级别</div>
+            <div class="header-info-item-right">H级(战略合作商)</div>
+          </div>
+          <div class="header-info-item">
+            <div class="header-info-item-left">电话号码</div>
+            <div class="header-info-item-right">18980521111</div>
+          </div>
+        </div>
       </div>
+      <mu-tabs
+        :value.sync="active"
+        inverse
+        color="primary"
+        indicator-color="primary"
+        center
+        class="tabs"
+      >
+        <mu-tab value="record">跟进记录</mu-tab>
+        <mu-tab value="basic">基本信息</mu-tab>
+      </mu-tabs>
+      <div></div>
     </div>
+    <FootNav :list="bottomList" @footNavChange="footNavChange"></FootNav>
   </div>
 </template>
 
 <script>
 import AppBar from "@components/AppBar.vue";
+import FootNav from "@components/FootNav.vue";
 export default {
   name: "customerDetails",
-  components: { AppBar },
+  components: { AppBar, FootNav },
   computed: {
     // 当前客户的id
     id() {
@@ -41,6 +69,7 @@ export default {
   },
   data() {
     return {
+      active: "basic", // 当前激活的(record=> 跟进记录,basic=> 基本信息)
       rightIcon: "icon-gengduo1",
       rightLink: "/addOrEditCustomer",
       menuList: [
@@ -65,6 +94,20 @@ export default {
           title: "删除",
           isLink: false,
           type: "del"
+        }
+      ],
+      bottomList: [
+        {
+          img: "/static/images/buttom-write-follow.png",
+          label: "写跟进",
+          link: "/addOrEditCustomer",
+          isLink: true
+        },
+        {
+          img: "/static/images/buttom-call.png",
+          label: "打电话",
+          link: "/myInfoChild",
+          isLink: false
         }
       ]
     };
@@ -98,6 +141,9 @@ export default {
           }
         });
       }
+    },
+    footNavChange(item) {
+      console.log(item);
     }
   }
 };
@@ -137,6 +183,28 @@ export default {
           }
         }
       }
+      .header-info {
+        width: 100%;
+        padding: 5px 15px 15px 0;
+        .header-info-item {
+          margin-top: 8px;
+          display: flex;
+          justify-content: space-between;
+          .header-info-item-left {
+            font-size: @regular-size;
+            color: @regular-text;
+            font-weight: @regular-weight;
+          }
+          .header-info-item-right {
+            font-size: @regular-size;
+            color: @primary-text;
+            font-weight: @primary-weight;
+          }
+        }
+      }
+    }
+    .tabs {
+      margin-top: 12px;
     }
   }
 }
