@@ -6,18 +6,10 @@
   <div class="customer-manage">
     <AppBar pageTitle="客户管理" :rightIcon="rightIcon" :rightLink="rightLink"></AppBar>
     <div class="content">
-      <SearchBar :placeholderText="'搜索客户'"></SearchBar>
-      <mu-tabs
-        :value.sync="active"
-        full-width
-        inverse
-        color="#EC191F"
-        indicator-color="#EC191F"
-        center
-        class="tabs"
-      >
-        <mu-tab value="my" :ripple="false">我的客户</mu-tab>
-        <mu-tab value="team" :ripple="false">团队客户</mu-tab>
+      <SearchBar placeholderText="搜索客户"></SearchBar>
+      <mu-tabs :value.sync="active" inverse color="primary" indicator-color="primary" center>
+        <mu-tab value="my">我的客户</mu-tab>
+        <mu-tab value="team">团队客户</mu-tab>
       </mu-tabs>
       <IndexsList :tagTop="242" :tagTopoffsetTop="250" :listSpacing="198"></IndexsList>
     </div>
@@ -50,11 +42,6 @@ export default {
   height: 100%;
   .content {
     padding-top: 104px;
-    .tabs {
-      background-color: #fff;
-      font-size: 16px;
-      font-weight: 400;
-    }
   }
 }
 </style>
