@@ -46,12 +46,14 @@
         center
         class="tabs"
       >
-        <mu-tab value="record">跟进记录</mu-tab>
-        <mu-tab value="basic">基本信息</mu-tab>
+        <mu-tab value="record" to="/customerDetails/customerRecord/1">跟进记录</mu-tab>
+        <mu-tab value="basic" to="/customerDetails/customerBasic/1">基本信息</mu-tab>
       </mu-tabs>
-      <div></div>
+      <div class="user-info">
+        <router-view></router-view>
+      </div>
     </div>
-    <FootNav :list="bottomList" @footNavChange="footNavChange"></FootNav>
+    <FootNav :list="bottomList" @footNavChange="footNavChange" class="foot"></FootNav>
   </div>
 </template>
 
@@ -155,8 +157,10 @@ export default {
   width: 100%;
   height: 100%;
   .content {
-    padding-top: 56px;
+    height: 100%;
+    padding: 56px 0 120px 0;
     border: 1px solid transparent;
+    overflow-y: auto;
     .header {
       width: 100%;
       background-color: #fff;
@@ -208,6 +212,16 @@ export default {
     .tabs {
       margin-top: 12px;
     }
+    .user-info {
+      margin-top: 12px;
+    }
+  }
+  .foot {
+    margin-top:20px;
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+    height: 100px;
   }
 }
 </style>

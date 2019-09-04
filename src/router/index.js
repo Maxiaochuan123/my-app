@@ -63,16 +63,18 @@ export default new Router({
           path: "/clue",
           meta: { zIndex: 1 },
           component: () => import("../views/clue/clue.vue"),
-          children:[{
-            path: "/myClue",
-            meta: { zIndex: 1 },
-            component: () => import("../views/clue/myClue.vue")
-          },
-          {
-            path: "/teamClue",
-            meta: { zIndex: 1 },
-            component: () => import("../views/clue/teamClue.vue")
-          }]
+          children: [
+            {
+              path: "/myClue",
+              meta: { zIndex: 1 },
+              component: () => import("../views/clue/myClue.vue")
+            },
+            {
+              path: "/teamClue",
+              meta: { zIndex: 1 },
+              component: () => import("../views/clue/teamClue.vue")
+            }
+          ]
         },
         // 客户
         // 添加客户
@@ -91,7 +93,21 @@ export default new Router({
         {
           path: "/customerDetails",
           meta: { zIndex: 1 },
-          component: () => import("../views/customer/customerDetails.vue")
+          component: () => import("../views/customer/customerDetails.vue"),
+          children: [
+            // 客户详情记录
+            {
+              path: "customerRecord/:id",
+              meta: { zIndex: 1 },
+              component: () => import("../views/customer/customerRecord.vue")
+            },
+            // 客户详情基本信息
+            {
+              path: "customerBasic/:id",
+              meta: { zIndex: 1 },
+              component: () => import("../views/customer/customerBasic.vue")
+            }
+          ]
         }
       ]
     }
