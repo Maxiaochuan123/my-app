@@ -2,7 +2,7 @@
  * @Description: In User Settings Edit
  * @Author: your name
  * @Date: 2019-08-25 21:24:42
- * @LastEditTime: 2019-09-03 16:06:37
+ * @LastEditTime: 2019-09-04 11:13:57
  * @LastEditors: Please set LastEditors
  -->
 <template>
@@ -11,7 +11,7 @@
       <div class="singer-top-tag" :style="`top:${tagTop}`">{{userTopTag}}</div>
       <ul class="singer-ul" :style="`padding-bottom:${listSpacing}px;`" ref="singerUl">
 
-        <li v-for="(item, index) in list" :key="index" class="singer-ul-li">
+        <li v-for="(item, index) in listTemp" :key="index" class="singer-ul-li">
           <div class="singer-tag" :id="item.tag">{{item.tag}}</div>
 
           <ul>
@@ -42,8 +42,6 @@
 </template>
 
 <script>
-import UserList from '../../static/json/userList'
-import { mapState, mapMutations } from "vuex";
 export default {
   name: "indexs-listWorld",
   props:{
@@ -58,30 +56,29 @@ export default {
     tagTopoffsetTop:{
       type:Number,
       default:120
+    },
+    list:{
+      type:Array,
+      default: ()=>[]
     }
   },
   data() {
     return {
-      list: [], //  用户列表
+      listTemp: [], //  用户列表
       sortList: [], //  侧栏排序列表
       currentSort: "A", //  当前排序的标签
-      userTopTag: "A", //  歌手栏头部的标签名字
+      userTopTag: "A", //  联系人栏头部的标签名字
     };
   },
   created() {
     this.testData();
   },
-  computed:{
-    ...mapState(['userList']),
-  },
   methods: {
-    ...mapMutations(['setUserList']),
-
     handleScroll(e) {
       let offsetTop = 0;
       let scrollTop = e.target.scrollTop;
 
-      this.list.forEach((item, index) => {
+      this.listTemp.forEach((item, index) => {
         //  获取每个排序标签的位置
         offsetTop = document.querySelectorAll(".singer-ul-li")[index].offsetTop - this.tagTopoffsetTop;
         //  当前滚动条的位置 和 当前的标签偏移顶部的距离进行对比
@@ -98,8 +95,7 @@ export default {
 
     //  请求数据
     testData() {
-      this.$store.commit('setUserList', UserList);
-      let res = UserList;
+      let res = this.list;
       res = res.sort((a, b) => a.Findex.localeCompare(b.Findex));
       res.forEach((item, index) => {
         //　添加侧栏排序
@@ -111,7 +107,7 @@ export default {
       this.sortList = [...this.sortList];
       //  添加排序标签和联系人列表
       this.sortList.forEach(e => {
-        this.list.push({
+        this.listTemp.push({
           tag: e,
           data: res.filter(i => i.Findex == e)
         });

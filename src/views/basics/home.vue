@@ -2,7 +2,7 @@
  * @Description: In User Settings Edit
  * @Author: your name
  * @Date: 2019-08-25 16:21:55
- * @LastEditTime: 2019-09-03 18:18:56
+ * @LastEditTime: 2019-09-04 10:19:30
  * @LastEditors: Please set LastEditors
  -->
 <template>
@@ -39,7 +39,7 @@
           <mu-carousel-item>
             <div class="gridNav">
               <div class="row">
-                <div><img src="../../../static/images/线索.png"><span>线索</span></div>
+                <div @click="goPage('/clue')"><img src="../../../static/images/线索.png"><span>线索</span></div>
                 <div><img src="../../../static/images/客户.png"><span>客户</span></div>
                 <div><img src="../../../static/images/公海.png"><span>公海</span></div>
                 <div><img src="../../../static/images/待办.png"><span>待办</span></div>
@@ -148,9 +148,6 @@ export default {
       Theme.use(themeName)
       this.storage.localSet('theme',theme)
 
-    },
-    goPage() {
-      this.$router.goPage();
     }
   }
 };

@@ -2,7 +2,7 @@
  * @Description: In User Settings Edit
  * @Author: your name
  * @Date: 2019-08-29 11:20:09
- * @LastEditTime: 2019-09-03 16:20:17
+ * @LastEditTime: 2019-09-04 11:17:05
  * @LastEditors: Please set LastEditors
  -->
 <template>
@@ -10,7 +10,7 @@
     <AppBar leftLink="/contacts" pageTitle="公司部门"/>
 
     <div class="content">
-      <SearchBar :userList="userList" :isGoPage="true" pageLink="/personalInfo"></SearchBar>
+      <SearchBar :list="userList" :isGoPage="true" pageLink="/personalInfo"></SearchBar>
       <!-- 公司列表 -->
       <mu-paper :z-depth="0">
         <div class="listTitle">成都众汇车服集团有限公司</div>

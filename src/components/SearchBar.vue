@@ -2,13 +2,13 @@
  * @Description: In User Settings Edit
  * @Author: your name
  * @Date: 2019-08-25 11:48:12
- * @LastEditTime: 2019-09-03 16:17:41
+ * @LastEditTime: 2019-09-04 11:14:41
  * @LastEditors: Please set LastEditors
  -->
 <template>
   <div class="search-bar">
     <div class="serchInput">
-      <mu-icon size="16" value=":iconfont icon-sousuo"></mu-icon>
+      <mu-icon size="14" value=":iconfont icon-sousuo"></mu-icon>
       <mu-select filterable full-width v-model="search.value" placeholder="搜索联系人">
         <mu-option
           v-for="(item,index) in searchList"
@@ -26,7 +26,7 @@
 export default {
   name: "search-bar",
   props: {
-    userList: {
+    list: {
       type: Array,
       default: () => []
     },
@@ -48,7 +48,7 @@ export default {
     };
   },
   mounted() {
-    this.userList.forEach( item => {
+    this.list.forEach( item => {
       item.userList.forEach( itemUser => {
         this.searchList.push({userName:itemUser.Fsinger_name,tag:item.Findex})
       })

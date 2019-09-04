@@ -2,7 +2,7 @@
  * @Description: In User Settings Edit
  * @Author: your name
  * @Date: 2019-08-27 12:13:47
- * @LastEditTime: 2019-09-01 11:44:51
+ * @LastEditTime: 2019-09-04 11:16:18
  * @LastEditors: Please set LastEditors
  -->
 <template>
@@ -10,8 +10,8 @@
     <AppBar :leftLink="leftLink" :pageTitle="title"></AppBar>
     
     <div class="content">
-      <SearchBar :userList="userList"></SearchBar>
-        <IndexsList></IndexsList>
+      <SearchBar :list="userList"></SearchBar>
+        <IndexsList :list="userList"></IndexsList>
     </div>
   </div>
 </template>

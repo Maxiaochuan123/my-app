@@ -2,23 +2,16 @@
  * @Description: In User Settings Edit
  * @Author: your name
  * @Date: 2019-08-27 12:13:47
-<<<<<<< HEAD
-<<<<<<< HEAD
- * @LastEditTime: 2019-08-28 17:56:23
-=======
- * @LastEditTime: 2019-09-01 13:51:47
->>>>>>> dev
-=======
- * @LastEditTime: 2019-09-02 10:41:33
->>>>>>> mxc_dev
+ * @LastEditTime: 2019-09-04 11:20:37
  * @LastEditors: Please set LastEditors
  -->
+
 <template>
   <div class="contacts">
     <AppBar leftLink="/home" pageTitle="联系人" rightIcon="icon-tianjia" rightLink="/addContacts"></AppBar>
     
     <div class="content">
-      <SearchBar :userList="userList"></SearchBar>
+      <SearchBar :list="userList"></SearchBar>
       <div class="organization">
         <mu-list>
           <mu-list-item v-waves button @click="goPage('/organizationDrawer')">
@@ -47,7 +40,7 @@
         </mu-list>
       </div>
       <!-- <div class="index-List"> -->
-        <IndexsList :tagTop="242" :tagTopoffsetTop="250" :listSpacing="198"></IndexsList>
+        <IndexsList :tagTop="242" :tagTopoffsetTop="250" :listSpacing="198" :list="userList"></IndexsList>
       <!-- </div> -->
     </div>
   </div>
@@ -58,7 +51,7 @@ import AppBar from "../../components/AppBar";
 import IndexsList from "../../components/IndexsList";
 import SearchBar from "../../components/SearchBar";
 
-import { mapState } from 'vuex'
+import userList from '../../../static/json/userList'
 export default {
   components: {
     AppBar,
@@ -67,12 +60,12 @@ export default {
   },
   data() {
     return {
-      
+      userList:userList
     };
   },
-  computed:{
-    ...mapState(['userList'])
-  }
+  created(){
+    this.$store.commit('setUserList',userList)
+  },
 };
 </script>
 
