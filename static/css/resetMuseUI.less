@@ -1,9 +1,77 @@
-/**tabs根据ui设计修改**/
-.mu-tabs {
-  .mu-tab {
-    .mu-tab-wrapper {
-      font-size: 16px !important;
-      font-weight: bold !important;
+// AppBar
+.app-bar {
+  width: 100%;
+  position: fixed;
+  z-index: 99;
+  
+  .mu-appbar {
+    background-color: #FFF;
+    color: @primary-text;
+    height: 44px;
+    padding: 0;
+
+    .mu-appbar-left{
+      img{
+        width: 24px;
+        height: 24px;
+      }
+    }
+    .mu-appbar-title {
+      text-align: center;
+      position: relative;
+      font-weight: 600;
+      
+      .mu-button{
+        position: absolute;
+        right: 0;
+        bottom: 5px;
+      }
+    }
+    .mu-appbar-right{
+      .mu-icon-button{
+        padding: 0;
+        padding-bottom: 5px;
+      }
     }
   }
+  .mu-popover {
+    top: 52px !important;
+    right: 2px !important;
+  }
+  .mu-appbar-title{
+    font-size: 16px;
+    
+  }
 }
+
+// tabs
+.mu-tabs-center{
+  justify-content: space-around;
+  background-color: #fff;
+  padding-top: 6px;
+  .mu-tab-wrapper{
+    padding: 12px 0 0;
+  }
+}
+
+
+// 列表
+.mu-list{
+  padding: 0;
+
+  /deep/ .mu-item{
+    height: 60px;
+
+    .mu-item-action:first{
+      min-width: 44px;
+      margin-right: 12px;
+    }
+    
+  }
+}
+
+// 分割线
+.shallow-inset{
+  background-color: @primary-border;
+}
+

@@ -2,11 +2,11 @@
  * @Description: In User Settings Edit
  * @Author: your name
  * @Date: 2019-08-29 11:20:09
- * @LastEditTime: 2019-09-04 11:17:05
+ * @LastEditTime: 2019-09-04 12:37:25
  * @LastEditors: Please set LastEditors
  -->
 <template>
-  <div class="organizationDrawer">
+  <div class="organization">
     <AppBar leftLink="/contacts" pageTitle="公司部门"/>
 
     <div class="content">
@@ -77,7 +77,7 @@ import AppBar from '../../components/AppBar'
 import SearchBar from '../../components/SearchBar'
 import { mapState } from 'vuex'
 export default {
-  name:'organizationDrawer',
+  name:'organization',
   components:{ AppBar,SearchBar },
   data(){
     return{
@@ -126,7 +126,7 @@ export default {
 </script>
 
 <style scoped lang="less">
-  .organizationDrawer{
+  .organization{
     height: 100vh;
     // background-color: cornflowerblue;
     

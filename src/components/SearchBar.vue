@@ -2,7 +2,7 @@
  * @Description: In User Settings Edit
  * @Author: your name
  * @Date: 2019-08-25 11:48:12
- * @LastEditTime: 2019-09-04 11:14:41
+ * @LastEditTime: 2019-09-04 14:23:48
  * @LastEditors: Please set LastEditors
  -->
 <template>
@@ -35,6 +35,10 @@ export default {
       default: false
     },
     pageLink: {
+      type: String,
+      default: ""
+    },
+    placeholderText: {
       type: String,
       default: ""
     }

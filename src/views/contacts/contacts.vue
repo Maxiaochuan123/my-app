@@ -2,7 +2,7 @@
  * @Description: In User Settings Edit
  * @Author: your name
  * @Date: 2019-08-27 12:13:47
- * @LastEditTime: 2019-09-04 11:20:37
+ * @LastEditTime: 2019-09-04 14:24:22
  * @LastEditors: Please set LastEditors
  -->
 
@@ -11,10 +11,10 @@
     <AppBar leftLink="/home" pageTitle="联系人" rightIcon="icon-tianjia" rightLink="/addContacts"></AppBar>
     
     <div class="content">
-      <SearchBar :list="userList"></SearchBar>
+      <SearchBar :list="userList" placeholderText="搜索联系人"></SearchBar>
       <div class="organization">
         <mu-list>
-          <mu-list-item v-waves button @click="goPage('/organizationDrawer')">
+          <mu-list-item v-waves button @click="goPage('/organization')">
             <mu-list-item-action>
               <mu-avatar>
                 <img src="../../../static/images/公司部门.png">

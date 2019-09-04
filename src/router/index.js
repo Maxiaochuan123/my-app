@@ -2,7 +2,7 @@
  * @Description: In User Settings Edit
  * @Author: your name
  * @Date: 2019-08-25 15:40:36
- * @LastEditTime: 2019-09-04 10:18:43
+ * @LastEditTime: 2019-09-04 12:48:24
  * @LastEditors: Please set LastEditors
  */
 import Vue from "vue";
@@ -49,9 +49,9 @@ export default new Router({
           component: () => import("../views/contacts/teamContacts.vue")
         },
         {
-          path: "/organizationDrawer",
+          path: "/organization",
           meta: { zIndex: 1 },
-          component: () => import("../views/contacts/organizationDrawer.vue")
+          component: () => import("../views/contacts/organization.vue")
         },
         {
           path: "/personalInfo",
@@ -62,7 +62,17 @@ export default new Router({
         {
           path: "/clue",
           meta: { zIndex: 1 },
-          component: () => import("../views/clue/clue.vue")
+          component: () => import("../views/clue/clue.vue"),
+          children:[{
+            path: "/myClue",
+            meta: { zIndex: 1 },
+            component: () => import("../views/clue/myClue.vue")
+          },
+          {
+            path: "/teamClue",
+            meta: { zIndex: 1 },
+            component: () => import("../views/clue/teamClue.vue")
+          }]
         },
         // 客户
         // 添加客户
