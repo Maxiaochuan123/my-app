@@ -6,7 +6,7 @@
   <div class="customer-manage">
     <AppBar pageTitle="客户管理" :rightIcon="rightIcon" :rightLink="rightLink"></AppBar>
     <div class="content">
-      <SearchBar :placeholderText="'搜索客户'"></SearchBar>
+      <SearchBar placeholderText="搜索客户"></SearchBar>
       <mu-tabs
         :value.sync="active"
         full-width

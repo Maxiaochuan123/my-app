@@ -26,6 +26,10 @@
 export default {
   name: "search-bar",
   props: {
+    placeholderText:{
+      type: String,
+      default: "搜索"
+    },
     list: {
       type: Array,
       default: () => []
@@ -52,6 +56,7 @@ export default {
     };
   },
   mounted() {
+    console.log(this.placeholderText)
     this.list.forEach( item => {
       item.userList.forEach( itemUser => {
         this.searchList.push({userName:itemUser.Fsinger_name,tag:item.Findex})
