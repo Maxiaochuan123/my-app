@@ -2,7 +2,7 @@
  * @Description: In User Settings Edit
  * @Author: your name
  * @Date: 2019-08-29 15:04:24
- * @LastEditTime: 2019-08-29 15:11:18
+ * @LastEditTime: 2019-09-04 18:47:56
  * @LastEditors: Please set LastEditors
  */
 import './waves.css'
@@ -15,7 +15,7 @@ function handleClick(el, binding) {
     const opts = Object.assign({
       ele: el, // 波纹作用元素
       type: 'hit', // hit 点击位置扩散 center中心点扩展
-      color: 'rgba(255, 255, 255, 0.18)' // 波纹颜色
+      color: 'rgba(236,25,31,.1)' // 波纹颜色
     },
     customOpts
     )

@@ -2,7 +2,7 @@
  * @Description: In User Settings Edit
  * @Author: your name
  * @Date: 2019-08-25 11:48:12
- * @LastEditTime: 2019-09-03 16:47:17
+ * @LastEditTime: 2019-09-04 17:38:26
  * @LastEditors: Please set LastEditors
  -->
 <template>
@@ -16,7 +16,7 @@
         <mu-icon :size="iconSize" :value="`:iconfont ${drawerIcon}`"></mu-icon>
       </mu-button>
       <!-- 右侧按钮 -->
-      <mu-menu slot="right" cover v-if="!custom" :open.sync="menuFlag">
+      <mu-menu slot="right" cover placement="bottom-end" v-if="!custom" :open.sync="menuFlag">
         <mu-button icon @click="rightBtn()">
           <mu-icon :size="iconSize" :value="`:iconfont ${rightIcon}`"></mu-icon>
         </mu-button>

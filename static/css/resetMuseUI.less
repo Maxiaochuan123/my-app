@@ -1,4 +1,13 @@
 // AppBar
+  body{
+    /deep/ .mu-popover{
+      .mu-list{
+        .mu-item{
+          height: 48px;
+        }
+      }
+    }
+  }
 .app-bar {
   width: 100%;
   position: fixed;
@@ -50,7 +59,10 @@
   background-color: #fff;
   padding-top: 6px;
   .mu-tab-wrapper{
-    padding: 12px 0 0;
+    font-size: 16px;
+    padding: 10px 0;
+    font-weight: 500;
+    letter-spacing: 1px;
   }
 }
 

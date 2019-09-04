@@ -2,15 +2,38 @@
  * @Description: In User Settings Edit
  * @Author: your name
  * @Date: 2019-09-04 10:13:29
- * @LastEditTime: 2019-09-04 10:46:13
+ * @LastEditTime: 2019-09-04 18:53:43
  * @LastEditors: Please set LastEditors
  -->
 <template>
   <div class="myClue">
     <div class="content">
-      <div class="demo-text">
-        <p>“……是的 1，我承认从很早以前我都害怕死亡，在医院里被人研究的时候，以前做出布局的时候，其实我很怕死的，因为除了死以外，我没有值得珍惜的东西，很奇怪是吧？恰好是这样我真的很怕死，因为我想要有值得珍惜的东西之后，死亡之后才会不寂寞，我才能够安然的面对死亡……”</p>
-      </div>
+      <mu-list textline="two-line">
+        <div v-for="(listItem ,index) in userList" :key="index">
+          <mu-list-item v-waves>
+            <mu-list-item-content @click="listFnc($event)">
+              <mu-list-item-title>{{listItem.title}}
+                <span :class="listItem.state === '0' ? 'nofollowUp' : ''">未跟进</span>
+              </mu-list-item-title>
+              <mu-list-item-sub-title>创建人: {{listItem.createPeople}}</mu-list-item-sub-title>
+              <mu-list-item-sub-title>{{listItem.createDate}}更新
+              </mu-list-item-sub-title>
+            </mu-list-item-content>
+            <mu-menu placement="left-start" :open.sync="listItem.openMenu">
+              <mu-button icon>
+                <mu-icon value=":iconfont icon-gengduovertical"></mu-icon>
+              </mu-button>
+              <mu-list slot="content">
+                <mu-list-item button v-for="(menuItem,index) in menuList" :key="index" @click="operation(listItem, menuItem,$event)">
+                  <mu-list-item-title>{{menuItem.title}}</mu-list-item-title>
+                </mu-list-item>
+              </mu-list>
+            </mu-menu>
+          </mu-list-item>
+          <mu-divider shallow-inset v-show="index + 1 !== userList.length"></mu-divider>
+        </div>
+      </mu-list>
+      
     </div>
   </div>
 </template>
@@ -19,7 +42,78 @@
 export default {
   data(){
     return{
-
+      menuList:[{
+        title:'分享',
+        isLink:false
+      },{
+        title:'转换为联系人',
+        isLink:false
+      },{
+        title:'转换为客户',
+        isLink:false
+      },{
+        title:'放入公海',
+      },{
+        title:'写跟进',
+        link:'/home'
+      },{
+        title:'关闭',
+        isLink:false
+      },{
+        title:'编辑',
+        isLink:false
+      },{
+        title:'删除',
+        isLink:false
+      }],
+      
+      userList:[{
+          title:'张三',
+          createPeople: '张三',
+          createDate:'2019/07/22 11:41',
+          state:'0',
+          openMenu: false
+        },{
+          title:'张三',
+          createPeople: '张三',
+          createDate:'2019/07/22 11:41',
+          state:'1',
+        },{
+          title:'张三',
+          createPeople: '张三',
+          createDate:'2019/07/22 11:41',
+          state:'1'
+        },{
+          title:'张三',
+          createPeople: '张三',
+          createDate:'2019/07/22 11:41',
+          state:'1'
+        },{
+          title:'张三',
+          createPeople: '张三',
+          createDate:'2019/07/22 11:41',
+          state:'1'
+        },{
+          title:'张三',
+          createPeople: '张三',
+          createDate:'2019/07/22 11:41',
+          state:'1'
+      }],
+    }
+  },
+  methods:{
+    listFnc(event){
+      // goPage('/home')
+      event.preventDefault();
+      console.log(1)
+    },
+    operation(listItem, menuItem){
+      if(menuItem.link){
+        this.goPage(menuItem.link)
+      }else{
+        console.log('啦啦啦')
+        listItem.openMenu = false
+      }
     }
   }
 }
@@ -27,8 +121,41 @@ export default {
 
 <style scoped lang="less">
   .myClue{
-    // .content{
-    //   padding-top: 44px;
-    // }
+    .content{
+      margin-top: 12px;
+      background-color: #fff;
+      
+      .mu-list /deep/ .mu-item{
+        position: relative;
+        height: 106px;
+        .mu-item-title{
+          span{
+            float: right;
+            font-size: 14px;
+            color: @regular-text;
+          }
+          .nofollowUp{
+            color: @primary;
+          }
+        }
+          .mu-menu{
+            position: absolute;
+            right: 14px;
+            bottom: 2px;
+            width: 20px;
+            height: 50%;
+            .mu-button{
+              position: absolute;
+              bottom: 3px;
+              right: -18px;
+              padding: 0;
+              i{
+                font-size: 20px;
+                color: @primary-text;
+              }
+            }
+        }
+      }
+    }
   }
 </style>
