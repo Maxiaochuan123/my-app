@@ -101,13 +101,15 @@ export default {
           img: "/static/images/buttom-write-follow.png",
           label: "写跟进",
           link: "/addOrEditCustomer",
-          isLink: true
+          isLink: true,
+          type: "writeFollow"
         },
         {
           img: "/static/images/buttom-call.png",
           label: "打电话",
           link: "/myInfoChild",
-          isLink: false
+          isLink: false,
+          type: "call"
         }
       ]
     };

@@ -25,6 +25,7 @@ export default {
       // label => 显示的名字
       // link=> 跳转的链接
       // isLink => 是否跳转链接
+      // type => 代表的是点击的哪个
       type: Array,
       default: () => []
     }
