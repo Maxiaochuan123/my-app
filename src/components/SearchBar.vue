@@ -9,7 +9,7 @@
   <div class="search-bar">
     <div class="serchInput">
       <mu-icon size="16" value=":iconfont icon-sousuo"></mu-icon>
-      <mu-select filterable full-width v-model="search.value" placeholder="搜索联系人">
+      <mu-select filterable full-width v-model="search.value" :placeholder="placeholderText">
         <mu-option
           v-for="(item,index) in searchList"
           :key="index"
@@ -26,6 +26,10 @@
 export default {
   name: "search-bar",
   props: {
+    placeholderText: {
+      type: String,
+      default: "搜索"
+    },
     userList: {
       type: Array,
       default: () => []
@@ -36,7 +40,7 @@ export default {
     },
     pageLink: {
       type: String,
-      default: ''
+      default: ""
     }
   },
   data() {
@@ -48,11 +52,14 @@ export default {
     };
   },
   mounted() {
-    this.userList.forEach( item => {
-      item.userList.forEach( itemUser => {
-        this.searchList.push({userName:itemUser.Fsinger_name,tag:item.Findex})
-      })
-    })
+    this.userList.forEach(item => {
+      item.userList.forEach(itemUser => {
+        this.searchList.push({
+          userName: itemUser.Fsinger_name,
+          tag: item.Findex
+        });
+      });
+    });
   },
   methods: {
     goTag(tag) {

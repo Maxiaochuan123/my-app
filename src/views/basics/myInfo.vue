@@ -67,7 +67,7 @@ export default {
   position: relative;
   width: 100%;
   height: 100%;
-  background-color: #f8f8f8;
+  background-color: @auxiliary;
   .header-bc {
     height: 130px;
     background: url("/static/images/my-user-bc.png") no-repeat;
@@ -106,7 +106,7 @@ export default {
             .name {
               font-size: 20px;
               font-weight: 600;
-              color: #272727;
+              color: @primary-text;
             }
             img {
               width: 20px;
@@ -121,7 +121,7 @@ export default {
             .name {
               font-size: 16px;
               font-weight: 400;
-              color: #9f9f9f;
+              color: @regular-text;
             }
             img {
               width: 14px;
@@ -155,7 +155,7 @@ export default {
             margin-top: 6px;
             font-size: 14px;
             font-weight: 400;
-            color: #272727;
+            color: @primary-text;
           }
         }
       }
