@@ -2,7 +2,7 @@
  * @Description: In User Settings Edit
  * @Author: your name
  * @Date: 2019-08-25 20:38:24
- * @LastEditTime: 2019-09-05 15:53:22
+ * @LastEditTime: 2019-09-05 16:00:14
  * @LastEditors: Please set LastEditors
  */
 // 点击波纹组件
@@ -30,41 +30,16 @@ export default {
 
       // 验证
       myRules: {
-        // 当只有一个必填验证的时候
-        must: (mes, type) => {
-          let error = `必须填写${mes}`;
-          if (type === "select") {
-            error = `必须选择${mes}`;
-          } else if (type === "image") {
-            error = `必须上传${mes}`;
-          }
-          return [
-            {
-              validate: val => !!val,
-              message: error
-            }
-          ];
-        },
+        must: this.must(mes, type), // 当只有一个必填验证的时候
         userName: [
           { validate: val => !!val, message: "必须填写用户名" },
-          {
-            validate: val => Rules.name.test(val),
-            message: "必须是 2 ~ 10 位汉字姓名"
-          }
+          { validate: val => Rules.name.test(val), message: "必须是 2 ~ 10 位汉字姓名" }
         ],
         phone: [
           { validate: val => !!val, message: "必须填写手机号" },
-          {
-            validate: val => Rules.phone.test(val),
-            message: "手机号格式不正确"
-          }
+          { validate: val => Rules.phone.test(val), message: "手机号格式不正确" }
         ],
-        email: [
-          {
-            validate: val =>
-              this.noRequired(val, this.myRules.email[0], "邮箱格式不正确")
-          }
-        ]
+        email: [{ validate: val => this.noRequired(val, this.myRules.email[0], "邮箱格式不正确") }]
       }
     };
   },
@@ -97,6 +72,19 @@ export default {
         item.message = "";
         return true;
       }
+    },
+    // 只有一个必填
+    must(mes, type){
+      let error = `必须填写${mes}`;
+      if (type === "select") {
+        error = `必须选择${mes}`;
+      } else if (type === "image") {
+        error = `必须上传${mes}`;
+      }
+      return [{
+        validate: val => !!val,
+        message: error
+      }];
     },
 
     // Dialog
