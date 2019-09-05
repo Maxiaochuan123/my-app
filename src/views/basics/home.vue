@@ -17,6 +17,7 @@
       :menuList="menuList"
       :rightIcon="rightIcon"
       :rightLinkName="rightLinkName"
+      :leftLinkName="leftLinkName"
     >
       <!-- 抽屉 -->
       <div slot="drawerContent">
@@ -38,8 +39,8 @@
           <mu-carousel-item>
             <div class="gridNav">
               <div class="row">
-                <div @click="goPage('clue')"><img src="../../../static/images/线索.png"><span>线索</span></div>
-                <div><img src="../../../static/images/客户.png"><span>客户</span></div>
+                <div @click="goPage('myClue')"><img src="../../../static/images/线索.png"><span>线索</span></div>
+                <div @click="goPage('customerManage')"><img src="../../../static/images/客户.png"><span>客户</span></div>
                 <div><img src="../../../static/images/公海.png"><span>公海</span></div>
                 <div><img src="../../../static/images/待办.png"><span>待办</span></div>
               </div>
@@ -85,6 +86,7 @@ export default {
   },
   data() {
     return {
+      leftLinkName: "contacts",
       leftIcon: "icon-lianxiren",
       iconSize: "24",
 

@@ -29,10 +29,10 @@ export default {
       active:0
     }
   },
-  mounted(){
-    let linkName = this.tabsList[0].linkName
-    this.goPage(linkName)
-  }
+  // mounted(){
+  //   let linkName = this.tabsList[0].linkName
+  //   this.goPage(linkName)
+  // }
 }
 </script>
 

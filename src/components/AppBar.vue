@@ -8,7 +8,7 @@
 <template>
   <div class="app-bar">
     <mu-appbar z-depth="0">
-      <mu-button icon slot="left" @click="$router.go(-1)">
+      <mu-button icon slot="left" @click="leftClick(leftLinkName)">
         <mu-icon :size="iconSize" :value="`:iconfont ${leftIcon}`"></mu-icon>
       </mu-button>
       {{pageTitle}}
@@ -58,6 +58,9 @@
 export default {
   name: "app-bar",
   props: {
+    leftLinkName: {
+      type: String
+    },
     leftIcon: {
       type: String,
       default: "icon-fanhui"
@@ -116,6 +119,13 @@ export default {
     };
   },
   methods: {
+    leftClick(leftLinkName) {
+      if(leftLinkName) {
+        this.goPage(leftLinkName);
+      }else{
+        this.$router.go(-1);
+      }
+    },
     rightBtn() {
       if (!this.isMenu) {
         this.goPage(this.rightLinkName);
