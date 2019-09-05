@@ -2,7 +2,7 @@
  * @Description: In User Settings Edit
  * @Author: your name
  * @Date: 2019-09-04 12:35:37
- * @LastEditTime: 2019-09-05 11:07:59
+ * @LastEditTime: 2019-09-05 14:44:05
  * @LastEditors: Please set LastEditors
  -->
 <!--
@@ -60,7 +60,7 @@
         <router-view></router-view>
       </div>
     </div>
-    <FootNav :list="bottomList" @footNavChange="footNavChange" class="foot"></FootNav>
+    <FootNav :list="bottomList" @footNavChange="footNavChange"></FootNav>
   </div>
 </template>
 
@@ -225,13 +225,6 @@ export default {
     .user-info {
       margin-top: 12px;
     }
-  }
-  .foot {
-    margin-top:20px;
-    position: fixed;
-    bottom: 0;
-    width: 100%;
-    height: 100px;
   }
 }
 </style>

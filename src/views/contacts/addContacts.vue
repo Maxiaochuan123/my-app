@@ -201,7 +201,7 @@ export default {
 
       /deep/.mu-form-item-label {
         // min-width: 118px;
-        font-size: 16px;
+        font-size: @primary-size;
         color: @primary-text;
         font-weight: 400;
       }
@@ -211,13 +211,13 @@ export default {
       }
 
       /deep/.mu-form-item-help{
-        // bottom: 16px;
+        // bottom: @primary-size;
         // left: 260px !important;
         bottom: -8px;
       }
     }
     // .mu-item-action {
-    //   font-size: 16px;
+    //   font-size: @primary-size;
     //   color: @primary-text;
     //   font-weight: 400;
     //   min-width: 110px;

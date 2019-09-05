@@ -146,7 +146,7 @@ export default {
   }
   .customBtn {
     color: @primary;
-    font-size: 16px;
+    font-size: @primary-size;
     // .mu-button-wrapper{
     //   padding-left: 0px;
     // }

@@ -69,7 +69,7 @@ export default {
     padding: 44px 4px;
     .topInfo{
       display: flex;
-      padding: 20px 16px;
+      padding: 20px @primary-size;
       margin: 12px 0;
       .headImg{
         width: 60px;
@@ -87,7 +87,7 @@ export default {
         justify-content: center;
         .name{
           color: @primary-text;
-          font-size: 16px;
+          font-size: @primary-size;
           font-weight: 600;
           display: flex;
           align-items: center;
@@ -146,7 +146,7 @@ export default {
         }
         .mu-item-sub-title{
           color: @primary-text;
-          font-size: 16px;
+          font-size: @primary-size;
         }
       }
       .mu-list /deep/ .mu-item{

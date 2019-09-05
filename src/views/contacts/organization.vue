@@ -135,10 +135,10 @@ export default {
 
       .listTitle{
         color: @primary-text;
-        font-size: 16px;
+        font-size: @primary-size;
         font-weight: 600;
         line-height: 60px;
-        padding-left: 16px;
+        padding-left: @primary-size;
         margin-bottom: 12px;
       }
       .contacts{

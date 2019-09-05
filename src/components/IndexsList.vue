@@ -198,7 +198,7 @@ export default {
   flex-direction: column;
   
   span:nth-child(1){
-    font-size: 16px;
+    font-size: @primary-size;
     font-weight: 400;
     color: @primary-text;
   }

@@ -77,7 +77,7 @@ export default {
       text-align: center;
       height: 74px;
       line-height: 74px;
-      font-size: 16px;
+      font-size: @primary-size;
       font-weight: 600;
       color: #fff;
     }
@@ -119,7 +119,7 @@ export default {
             align-items: center;
             margin-top: 4px;
             .name {
-              font-size: 16px;
+              font-size: @primary-size;
               font-weight: 400;
               color: @regular-text;
             }
@@ -133,7 +133,7 @@ export default {
       }
       .menu-list {
         margin-top: 12px;
-        padding: 0 30px 16px 30px;
+        padding: 0 30px @primary-size 30px;
         display: flex;
         background-color: #fff;
         border-radius: 6px;
@@ -143,7 +143,7 @@ export default {
           display: flex;
           flex-direction: column;
           align-items: center;
-          margin: 16px 6px 0 0;
+          margin: @primary-size 6px 0 0;
           &:last-child {
             margin-right: 0;
           }

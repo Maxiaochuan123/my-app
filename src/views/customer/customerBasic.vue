@@ -124,7 +124,7 @@ export default {
       }
       .text {
         margin-top: 4px;
-        font-size: 16px;
+        font-size: @primary-size;
         color: @primary-text;
         font-weight: @primary-weight;
       }

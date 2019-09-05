@@ -2,7 +2,7 @@
  * @Description: In User Settings Edit
  * @Author: your name
  * @Date: 2019-08-25 15:40:36
- * @LastEditTime: 2019-09-04 18:30:24
+ * @LastEditTime: 2019-09-05 11:57:23
  * @LastEditors: Please set LastEditors
  */
 // The Vue build version to load with the `import` command
@@ -48,6 +48,9 @@ import mixins from '../static/js/mixins'
 import storage from '../static/js/storage'
 import apiMethod from './api/apiMethod';
 Vue.mixin(mixins)
+
+import dayjs from 'dayjs';
+Vue.prototype.dayjs = dayjs;
 
 Vue.config.productionTip = false;
 Vue.prototype.storage = storage;

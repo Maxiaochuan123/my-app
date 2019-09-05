@@ -2,7 +2,7 @@
  * @Description: In User Settings Edit
  * @Author: your name
  * @Date: 2019-09-04 10:13:29
- * @LastEditTime: 2019-09-05 11:18:21
+ * @LastEditTime: 2019-09-05 12:19:45
  * @LastEditors: Please set LastEditors
  -->
 <template>
@@ -16,7 +16,7 @@
                 <span :class="listItem.state === '0' ? 'nofollowUp' : ''">未跟进</span>
               </mu-list-item-title>
               <mu-list-item-sub-title>创建人: {{listItem.createPeople}}</mu-list-item-sub-title>
-              <mu-list-item-sub-title>{{listItem.createDate}}更新
+              <mu-list-item-sub-title>{{listItem.createDate | formatDate}}更新
               </mu-list-item-sub-title>
             </mu-list-item-content>
             <mu-menu placement="left-start" :open.sync="listItem.openMenu">
@@ -70,33 +70,33 @@ export default {
       userList:[{
           title:'张三',
           createPeople: '张三',
-          createDate:'2019/07/22 11:41',
+          createDate:Date.now(),
           state:'0',
           openMenu: false
         },{
           title:'张三',
           createPeople: '张三',
-          createDate:'2019/07/22 11:41',
+          createDate:Date.now(),
           state:'1',
         },{
           title:'张三',
           createPeople: '张三',
-          createDate:'2019/07/22 11:41',
+          createDate:Date.now(),
           state:'1'
         },{
           title:'张三',
           createPeople: '张三',
-          createDate:'2019/07/22 11:41',
+          createDate:Date.now(),
           state:'1'
         },{
           title:'张三',
           createPeople: '张三',
-          createDate:'2019/07/22 11:41',
+          createDate:Date.now(),
           state:'1'
         },{
           title:'张三',
           createPeople: '张三',
-          createDate:'2019/07/22 11:41',
+          createDate:Date.now(),
           state:'1'
       }],
     }

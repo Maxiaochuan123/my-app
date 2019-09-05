@@ -2,14 +2,16 @@
  * @Description: In User Settings Edit
  * @Author: your name
  * @Date: 2019-08-25 20:38:24
- * @LastEditTime: 2019-09-05 11:15:32
+ * @LastEditTime: 2019-09-05 12:21:40
  * @LastEditors: Please set LastEditors
  */
 // 点击波纹组件
 import waves from '../waves'
-
 // 验证
 import Rules from './rules'
+// 日期处理
+import dayjs from 'dayjs';
+
 export default {
   directives: {
     waves
@@ -35,7 +37,6 @@ export default {
     };
   },
   methods: {
-    
     // 跳转页面
     goPage(linkName,params={},query={}){
       this.$router.push({
@@ -82,6 +83,10 @@ export default {
       }
       this.dialogState = false;
     },
-    
+  },
+  filters: {
+    formatDate(timeStamp){
+      return dayjs(timeStamp).format('YYYY/MM/DD HH:mm:ss');
+    }
   }
 }
