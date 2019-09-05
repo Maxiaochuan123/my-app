@@ -2,7 +2,7 @@
  * @Description: In User Settings Edit
  * @Author: your name
  * @Date: 2019-09-01 13:52:04
- * @LastEditTime: 2019-09-05 14:57:00
+ * @LastEditTime: 2019-09-05 15:48:51
  * @LastEditors: Please set LastEditors
  -->
 <template>
@@ -16,9 +16,9 @@
                 <mu-text-field v-model="form.value1" placeholder="请输入姓名(必填)"></mu-text-field>
               </mu-form-item>
               <mu-divider></mu-divider>
-              <mu-form-item prop="input" label="性别">
+              <mu-form-item prop="value2" label="性别" :rules="myRules.sex">
                 <div class="surround" @click="showPicker('性别')">
-                  <mu-text-field v-model="form.value2.text" placeholder="请选择性别" disabled ></mu-text-field>
+                  <mu-text-field v-model="form.value2.text" placeholder="请选择性别(必填)" disabled ></mu-text-field>
                   <i class="iconfont icon-rightArrow"></i>
                 </div>
               </mu-form-item>
@@ -61,7 +61,7 @@
           </mu-paper>
         </mu-form>
 
-      <!-- 弹出选择器 -->
+      <!-- 弹出选择器 取消事件 @cancel -->
       <Picker
         ref="picker"
         :textTitle="pickerTitle"
@@ -69,7 +69,7 @@
         name="name"
         picker-class="pickerClass"
         :anchor="[0]"
-        @confirm="handlePickerConfirm">
+        @confirm="confirmPicker">
       </Picker>
 
       <!-- dialog对话框 -->
@@ -161,7 +161,7 @@ export default {
       }
       this.$refs.picker.show()
     },
-    handlePickerConfirm(value,column,text) {
+    confirmPicker(value,column,text) {
       // console.log(value)//选中的条目的value
       // console.log(column)//选中的列的索引
       // console.log(text)//选中的条目的text
