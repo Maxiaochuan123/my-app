@@ -2,7 +2,7 @@
  * @Description: In User Settings Edit
  * @Author: your name
  * @Date: 2019-08-25 20:38:24
- * @LastEditTime: 2019-09-05 16:00:14
+ * @LastEditTime: 2019-09-05 16:32:11
  * @LastEditors: Please set LastEditors
  */
 // 点击波纹组件
@@ -30,7 +30,7 @@ export default {
 
       // 验证
       myRules: {
-        must: this.must(mes, type), // 当只有一个必填验证的时候
+        must: (mes, type) => this.must(mes, type),
         userName: [
           { validate: val => !!val, message: "必须填写用户名" },
           { validate: val => Rules.name.test(val), message: "必须是 2 ~ 10 位汉字姓名" }
