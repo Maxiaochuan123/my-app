@@ -17,12 +17,14 @@
           <ul>
             <span v-for="(fitem, findex) in item.data" :key="findex">
               <li  v-for="(fitem2, findex2) in fitem.userList" :key="findex2">
-                <img src="../../static/images/默认头像.png" />
-                <div>
-                  <span>{{fitem2.Fsinger_name}}</span>
-                  <span>{{fitem2.describe}}</span>
-                  <i class="iconfont icon-dianhua"></i>
-                </div>
+                 <slot name="row" :row="fitem2">
+                  <img src="../../static/images/默认头像.png" />
+                  <div>
+                    <span>{{fitem2.Fsinger_name}}</span>
+                    <span>{{fitem2.describe}}</span>
+                    <i class="iconfont icon-dianhua"></i>
+                  </div>
+                </slot>
               </li>
             </span>
           </ul>
