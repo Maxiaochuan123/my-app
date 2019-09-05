@@ -43,7 +43,7 @@
           <div class="title">新增联系人</div>
         </div>
         <div class="basic-item-right">
-          <img src="/static/images/add.png" />
+          <img src="/static/images/add.png" @click="goPage('/addContacts')"/>
         </div>
       </div>
       <div v-for="(item,index) in contacts" :key="index">
@@ -53,7 +53,7 @@
             <div class="sub-title">{{item.phone}}</div>
           </div>
           <div class="basic-item-right">
-            <img src="/static/images/call.png" />
+            <img src="/static/images/call.png" @click="dial(item.phone)"/>
           </div>
         </div>
       </div>
@@ -88,7 +88,9 @@ export default {
     };
   },
   props: {},
-  mounted() {},
+  mounted() {
+    
+  },
   methods: {}
 };
 </script>

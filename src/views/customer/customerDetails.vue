@@ -78,7 +78,7 @@ export default {
   },
   data() {
     return {
-      active: "basic", // 当前激活的(record=> 跟进记录,basic=> 基本信息)
+      active: "record", // 当前激活的(record=> 跟进记录,basic=> 基本信息)
       rightIcon: "icon-gengduo1",
       rightLinkName: "addOrEditCustomer",
       menuList: [
@@ -154,7 +154,10 @@ export default {
       }
     },
     footNavChange(item) {
-      console.log(item);
+      let {type,phone} = item;
+      if(type === 'call') {
+        this.dial(phone);
+      }
     }
   }
 };

@@ -1,15 +1,15 @@
-<!-- 跟进记录 -->
+<!--
+ * @Description: 客户写跟进
+ * @Author: shenah
+ -->
 <template>
-  <div class>
-    <Record></Record>
-  </div>
+  <div class='write-followup'></div>
 </template>
 
 <script>
-import Record from "@components/Record.vue";
 export default {
-  name: "customerRecord",
-  components: { Record },
+  name: "writeFollowup",
+  components: {},
   data() {
     return {};
   },

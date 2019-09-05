@@ -101,6 +101,13 @@ export default new Router({
           meta: { zIndex: 1 },
           component: () => import("../views/customer/addOrEditCustomer.vue")
         },
+        // 写跟进
+        // 添加客户
+        {
+          path: "/writeFollowup",
+          meta: { zIndex: 1 },
+          component: () => import("../views/customer/writeFollowup.vue")
+        },
         // 客户管理
         {
           path: "/customerManage",
