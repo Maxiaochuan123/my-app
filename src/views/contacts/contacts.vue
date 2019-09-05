@@ -2,19 +2,19 @@
  * @Description: In User Settings Edit
  * @Author: your name
  * @Date: 2019-08-27 12:13:47
- * @LastEditTime: 2019-09-04 17:27:03
+ * @LastEditTime: 2019-09-05 11:04:26
  * @LastEditors: Please set LastEditors
  -->
 
 <template>
   <div class="contacts">
-    <AppBar leftLink="/home" pageTitle="联系人" rightIcon="icon-tianjia" rightLink="/addContacts"></AppBar>
+    <AppBar leftLinkName="home" pageTitle="联系人" rightIcon="icon-tianjia" rightLinkName="addContacts"></AppBar>
     
     <div class="content">
       <SearchBar :list="userList" placeholderText="搜索联系人"></SearchBar>
       <div class="organization">
         <mu-list>
-          <mu-list-item v-waves button @click="goPage('/organization')">
+          <mu-list-item v-waves button @click="goPage('organization')">
             <mu-list-item-action>
               <mu-avatar>
                 <img src="../../../static/images/公司部门.png">
@@ -26,7 +26,7 @@
             </mu-list-item-action>
           </mu-list-item>
           <mu-divider shallow-inset></mu-divider>
-          <mu-list-item v-waves button @click="goPage('/teamContacts')">
+          <mu-list-item v-waves button @click="goPage('teamContacts')">
             <mu-list-item-action>
               <mu-avatar>
                 <img src="../../../static/images/团队联系人.png">

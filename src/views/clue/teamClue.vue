@@ -2,7 +2,7 @@
  * @Description: In User Settings Edit
  * @Author: your name
  * @Date: 2019-09-04 10:13:29
- * @LastEditTime: 2019-09-04 12:48:38
+ * @LastEditTime: 2019-09-05 09:49:09
  * @LastEditors: Please set LastEditors
  -->
 <template>
@@ -27,8 +27,9 @@ export default {
 
 <style scoped lang="less">
   .myClue{
-    // .content{
-    //   padding-top: 44px;
-    // }
+    .content{
+      // height: 100%;
+      // overflow-y: scroll;
+    }
   }
 </style>

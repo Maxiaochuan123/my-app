@@ -1,13 +1,22 @@
-// AppBar
-  body{
-    /deep/ .mu-popover{
-      .mu-list{
-        .mu-item{
-          height: 48px;
+// 
+body{
+  /deep/ .mu-popover{
+    .mu-list{
+      overflow-y: hidden;
+      .mu-item{
+        height: 34px;
+        .mu-item-title{
+          height: 100%;
+          line-height: 34px;
+          text-align: center;
+          border-bottom: 1px solid @primary-border;
         }
       }
     }
   }
+}
+
+// AppBar
 .app-bar {
   width: 100%;
   position: fixed;

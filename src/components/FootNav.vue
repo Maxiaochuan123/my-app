@@ -1,4 +1,11 @@
 <!--
+ * @Description: In User Settings Edit
+ * @Author: your name
+ * @Date: 2019-09-04 18:57:37
+ * @LastEditTime: 2019-09-05 11:03:09
+ * @LastEditors: Please set LastEditors
+ -->
+<!--
  * @Description: 底部导航,不同于主页的底部
  * @Author:shenah
  -->
@@ -23,7 +30,7 @@ export default {
       // 数组对象
       // img => 图片的地址
       // label => 显示的名字
-      // link=> 跳转的链接
+      // linkName=> 跳转的链接
       // isLink => 是否跳转链接
       // type => 代表的是点击的哪个
       type: Array,
@@ -33,9 +40,9 @@ export default {
   mounted() {},
   methods: {
     navItem(item) {
-      let { link, isLink } = item;
+      let { linkName, isLink } = item;
       if (isLink) {
-        this.goPage(link);
+        this.goPage(linkName);
       } else {
         this.$emit("footNavChange", item);
       }

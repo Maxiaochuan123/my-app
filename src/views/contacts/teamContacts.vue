@@ -2,12 +2,12 @@
  * @Description: In User Settings Edit
  * @Author: your name
  * @Date: 2019-08-27 12:13:47
- * @LastEditTime: 2019-09-04 11:16:18
+ * @LastEditTime: 2019-09-05 11:00:12
  * @LastEditors: Please set LastEditors
  -->
 <template>
   <div class="teamContacts">
-    <AppBar :leftLink="leftLink" :pageTitle="title"></AppBar>
+    <AppBar :leftLinkName="leftLinkName" :pageTitle="title"></AppBar>
     
     <div class="content">
       <SearchBar :list="userList"></SearchBar>
@@ -30,7 +30,7 @@ export default {
   },
   data() {
     return {
-      leftLink: "/contacts",
+      leftLinkName: "contacts",
       title: "联系人"
     };
   },

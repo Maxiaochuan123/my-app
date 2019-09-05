@@ -2,13 +2,13 @@
  * @Description: In User Settings Edit
  * @Author: your name
  * @Date: 2019-08-25 16:21:55
- * @LastEditTime: 2019-09-04 10:19:30
+ * @LastEditTime: 2019-09-05 11:06:02
  * @LastEditors: Please set LastEditors
  -->
 <template>
   <div class="home">
     <AppBar
-      :leftLink="leftLink"
+      :leftLinkName="leftLinkName"
       :leftIcon="leftIcon"
       :iconSize="iconSize"
       :pageTitle="pageTitle"
@@ -17,7 +17,7 @@
       :isMenu="isMenu"
       :menuList="menuList"
       :rightIcon="rightIcon"
-      :rightLink="rightLink"
+      :rightLinkName="rightLinkName"
     >
       <!-- 抽屉 -->
       <div slot="drawerContent">
@@ -39,7 +39,7 @@
           <mu-carousel-item>
             <div class="gridNav">
               <div class="row">
-                <div @click="goPage('/clue')"><img src="../../../static/images/线索.png"><span>线索</span></div>
+                <div @click="goPage('clue')"><img src="../../../static/images/线索.png"><span>线索</span></div>
                 <div><img src="../../../static/images/客户.png"><span>客户</span></div>
                 <div><img src="../../../static/images/公海.png"><span>公海</span></div>
                 <div><img src="../../../static/images/待办.png"><span>待办</span></div>
@@ -87,13 +87,13 @@ export default {
   data() {
     return {
       leftIcon: "icon-lianxiren",
-      leftLink: "/contacts",
+      leftLinkName: "contacts",
       iconSize: "24",
 
       pageTitle: "众汇CRM",
 
       rightIcon: "icon-tianjia",
-      rightLink: "/homeChild",
+      rightLinkName: "homeChild",
 
       isDrawer: true,
       drawerIcon: "icon-shouye2",
@@ -102,19 +102,19 @@ export default {
       menuList: [
         {
           title: "写日报",
-          link: "/homeChild"
+          linkName: "homeChild"
         },
         {
           title: "写拜访",
-          link: "/myInfoChild"
+          linkName: "myInfoChild"
         },
         {
           title: "新增客户",
-          link: "/link3"
+          linkName: "link3"
         },
         {
           title: "新增任务",
-          link: "/link4"
+          linkName: "link4"
         }
       ]
     };

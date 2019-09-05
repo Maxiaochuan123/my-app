@@ -1,10 +1,17 @@
 <!--
+ * @Description: In User Settings Edit
+ * @Author: your name
+ * @Date: 2019-09-04 09:43:52
+ * @LastEditTime: 2019-09-05 11:01:14
+ * @LastEditors: Please set LastEditors
+ -->
+<!--
  * @Description: 客户管理
  * @Author: shenah
  -->
 <template>
   <div class="customer-manage">
-    <AppBar pageTitle="客户管理" :rightIcon="rightIcon" :rightLink="rightLink"></AppBar>
+    <AppBar pageTitle="客户管理" :rightIcon="rightIcon" :rightLinkName="rightLinkName"></AppBar>
     <div class="content">
       <SearchBar placeholderText="搜索客户"></SearchBar>
       <mu-tabs :value.sync="active" inverse color="primary" indicator-color="primary" center>
@@ -27,7 +34,7 @@ export default {
   data() {
     return {
       rightIcon: "icon-tianjia",
-      rightLink: "/addOrEditCustomer",
+      rightLinkName: "addOrEditCustomer",
       active: "my" // 当前激活(my=>我的,team=>团队)
     };
   },

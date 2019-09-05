@@ -2,7 +2,7 @@
  * @Description: In User Settings Edit
  * @Author: your name
  * @Date: 2019-09-04 10:13:29
- * @LastEditTime: 2019-09-04 18:53:43
+ * @LastEditTime: 2019-09-05 11:18:21
  * @LastEditors: Please set LastEditors
  -->
 <template>
@@ -11,7 +11,7 @@
       <mu-list textline="two-line">
         <div v-for="(listItem ,index) in userList" :key="index">
           <mu-list-item v-waves>
-            <mu-list-item-content @click="listFnc($event)">
+            <mu-list-item-content @click="goPage('clueDetails',listItem)">
               <mu-list-item-title>{{listItem.title}}
                 <span :class="listItem.state === '0' ? 'nofollowUp' : ''">未跟进</span>
               </mu-list-item-title>
@@ -55,7 +55,7 @@ export default {
         title:'放入公海',
       },{
         title:'写跟进',
-        link:'/home'
+        linkName:'home'
       },{
         title:'关闭',
         isLink:false
@@ -102,14 +102,9 @@ export default {
     }
   },
   methods:{
-    listFnc(event){
-      // goPage('/home')
-      event.preventDefault();
-      console.log(1)
-    },
     operation(listItem, menuItem){
-      if(menuItem.link){
-        this.goPage(menuItem.link)
+      if(menuItem.linkName){
+        this.goPage(menuItem.linkName)
       }else{
         console.log('啦啦啦')
         listItem.openMenu = false
@@ -124,6 +119,10 @@ export default {
     .content{
       margin-top: 12px;
       background-color: #fff;
+      position: fixed;
+      width: 100%;
+      height: calc(100% - 98px);
+      overflow-y: scroll;
       
       .mu-list /deep/ .mu-item{
         position: relative;

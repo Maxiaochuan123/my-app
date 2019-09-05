@@ -2,12 +2,12 @@
  * @Description: In User Settings Edit
  * @Author: your name
  * @Date: 2019-09-01 13:52:04
- * @LastEditTime: 2019-09-03 11:31:57
+ * @LastEditTime: 2019-09-05 10:59:37
  * @LastEditors: Please set LastEditors
  -->
 <template>
   <div class="addContacts">
-    <AppBar leftLink="/contacts" pageTitle="新增联系人" custom :customFnc="openDialog" customTitle="保存"></AppBar>
+    <AppBar leftLinkName="contacts" pageTitle="新增联系人" custom :customFnc="openDialog" customTitle="保存"></AppBar>
 
     <div class="content">
         <mu-form ref="form" :model="form" class="mu-demo-form" label-position="left" label-width="118">

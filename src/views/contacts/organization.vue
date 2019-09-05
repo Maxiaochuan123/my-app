@@ -2,15 +2,15 @@
  * @Description: In User Settings Edit
  * @Author: your name
  * @Date: 2019-08-29 11:20:09
- * @LastEditTime: 2019-09-04 12:37:25
+ * @LastEditTime: 2019-09-05 11:05:11
  * @LastEditors: Please set LastEditors
  -->
 <template>
   <div class="organization">
-    <AppBar leftLink="/contacts" pageTitle="公司部门"/>
+    <AppBar leftLinkName="contacts" pageTitle="公司部门"/>
 
     <div class="content">
-      <SearchBar :list="userList" :isGoPage="true" pageLink="/personalInfo"></SearchBar>
+      <SearchBar :list="userList" :isGoPage="true" pageLinkName="personalInfo"></SearchBar>
       <!-- 公司列表 -->
       <mu-paper :z-depth="0">
         <div class="listTitle">成都众汇车服集团有限公司</div>
@@ -53,7 +53,7 @@
         <div class="listTitle">四川公司</div>
         <mu-list textline="two-line">
           <div v-for="(item ,index) in userList2" :key="index">
-            <mu-list-item button v-waves @click="drawerContacts = false;drawerDepartment = false; goPage('/personalInfo')">
+            <mu-list-item button v-waves @click="drawerContacts = false;drawerDepartment = false; goPage('personalInfo')">
               <mu-avatar>
                 <img src="../../../static/images/默认头像.png">
               </mu-avatar>

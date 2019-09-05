@@ -2,7 +2,7 @@
  * @Description: In User Settings Edit
  * @Author: your name
  * @Date: 2019-08-25 20:38:24
- * @LastEditTime: 2019-09-03 11:18:19
+ * @LastEditTime: 2019-09-05 11:15:32
  * @LastEditors: Please set LastEditors
  */
 // 点击波纹组件
@@ -37,9 +37,11 @@ export default {
   methods: {
     
     // 跳转页面
-    goPage(link){
+    goPage(linkName,params={},query={}){
       this.$router.push({
-        path:link
+        name:linkName,
+        params,
+        query,
       })
     },
 

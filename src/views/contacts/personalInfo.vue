@@ -2,12 +2,12 @@
  * @Description: In User Settings Edit
  * @Author: your name
  * @Date: 2019-08-29 11:20:09
- * @LastEditTime: 2019-09-03 15:39:36
+ * @LastEditTime: 2019-09-05 10:59:53
  * @LastEditors: Please set LastEditors
  -->
 <template>
   <div class="personalInfo">
-    <AppBar leftLink="/organization" pageTitle="个人信息" />
+    <AppBar leftLinkName="organization" pageTitle="个人信息" />
 
     <div class="content">
       <mu-paper class="topInfo" :z-depth="0">

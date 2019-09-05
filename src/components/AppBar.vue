@@ -2,13 +2,13 @@
  * @Description: In User Settings Edit
  * @Author: your name
  * @Date: 2019-08-25 11:48:12
- * @LastEditTime: 2019-09-04 17:38:26
+ * @LastEditTime: 2019-09-05 11:02:41
  * @LastEditors: Please set LastEditors
  -->
 <template>
   <div class="app-bar">
     <mu-appbar z-depth="0">
-      <mu-button icon slot="left" @click="goPage(leftLink)">
+      <mu-button icon slot="left" @click="goPage(leftLinkName)">
         <mu-icon :size="iconSize" :value="`:iconfont ${leftIcon}`"></mu-icon>
       </mu-button>
       {{pageTitle}}
@@ -66,7 +66,7 @@ export default {
       type: String,
       default: "24"
     },
-    leftLink: {
+    leftLinkName: {
       type: String
     },
 
@@ -78,7 +78,7 @@ export default {
     rightIcon: {
       type: String
     },
-    rightLink: {
+    rightLinkName: {
       type: String
     },
 
@@ -121,13 +121,13 @@ export default {
   methods: {
     rightBtn() {
       if (!this.isMenu) {
-        this.goPage(this.rightLink);
+        this.goPage(this.rightLinkName);
       }
     },
     menuItem(item) {
-      const { isLink, title, link } = item;
+      const { isLink, title, linkName } = item;
       if (isLink) {
-        this.goPage(link);
+        this.goPage(linkName);
       } else {
         this.$emit("menuChange", item);
         this.menuFlag = false;

@@ -1,4 +1,11 @@
 <!--
+ * @Description: In User Settings Edit
+ * @Author: your name
+ * @Date: 2019-09-04 12:35:37
+ * @LastEditTime: 2019-09-05 11:07:59
+ * @LastEditors: Please set LastEditors
+ -->
+<!--
  * @Description: 客户详情
  * @Author: shenah
  -->
@@ -7,7 +14,7 @@
     <AppBar
       pageTitle="客户详情"
       :rightIcon="rightIcon"
-      :rightLink="rightLink"
+      :rightLinkName="rightLinkName"
       isMenu
       :menuList="menuList"
       @menuChange="menuChange"
@@ -73,11 +80,11 @@ export default {
     return {
       active: "basic", // 当前激活的(record=> 跟进记录,basic=> 基本信息)
       rightIcon: "icon-gengduo1",
-      rightLink: "/addOrEditCustomer",
+      rightLinkName: "addOrEditCustomer",
       menuList: [
         {
           title: "分享",
-          link: "/homeChild",
+          linkName: "homeChild",
           isLink: false,
           type: "share"
         },
@@ -88,7 +95,7 @@ export default {
         },
         {
           title: "编辑",
-          link: "/addOrEditCustomer",
+          linkName: "addOrEditCustomer",
           isLink: true,
           type: "edit"
         },
@@ -102,14 +109,14 @@ export default {
         {
           img: "/static/images/buttom-write-follow.png",
           label: "写跟进",
-          link: "/addOrEditCustomer",
+          linkName: "addOrEditCustomer",
           isLink: true,
           type: "writeFollow"
         },
         {
           img: "/static/images/buttom-call.png",
           label: "打电话",
-          link: "/myInfoChild",
+          linkName: "myInfoChild",
           isLink: false,
           type: "call"
         }
@@ -120,7 +127,7 @@ export default {
   mounted() {},
   methods: {
     menuChange(item) {
-      let { type, link } = item;
+      let { type, linkName } = item;
       //todo
       if (type === "share") {
         this.$confirm("是否分享此客户?", "提示").then(({ result, value }) => {
@@ -137,7 +144,7 @@ export default {
           }
         );
       } else if (type === "edit") {
-        this.$router.push(`${link}/${this.id}`);
+        this.$router.push(`${linkName}/${this.id}`);
       } else if (type === "del") {
         this.$confirm("是否删除此客户?", "提示").then(({ result, value }) => {
           if (result) {
