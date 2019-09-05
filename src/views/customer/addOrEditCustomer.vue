@@ -4,7 +4,7 @@
  -->
 <template>
   <div class="addOrEditCustomer">
-    <AppBar leftLinkName pageTitle="新增客户" custom :customFnc="openDialog" customTitle="保存"></AppBar>
+    <AppBar  pageTitle="新增客户" custom :customFnc="openDialog" customTitle="保存"></AppBar>
     <div class="content">
       <mu-form
         ref="form"

@@ -8,7 +8,6 @@
 <template>
   <div class="home">
     <AppBar
-      :leftLinkName="leftLinkName"
       :leftIcon="leftIcon"
       :iconSize="iconSize"
       :pageTitle="pageTitle"
@@ -87,7 +86,6 @@ export default {
   data() {
     return {
       leftIcon: "icon-lianxiren",
-      leftLinkName: "contacts",
       iconSize: "24",
 
       pageTitle: "众汇CRM",

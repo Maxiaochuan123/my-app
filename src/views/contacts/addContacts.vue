@@ -7,7 +7,7 @@
  -->
 <template>
   <div class="addContacts">
-    <AppBar leftLinkName="contacts" pageTitle="新增联系人" custom :customFnc="openDialog" customTitle="保存"></AppBar>
+    <AppBar  pageTitle="新增联系人" custom :customFnc="openDialog" customTitle="保存"></AppBar>
 
     <div class="content">
         <mu-form ref="form" :model="form" class="mu-demo-form" label-position="left" label-width="118">

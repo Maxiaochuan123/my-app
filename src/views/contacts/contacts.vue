@@ -8,7 +8,7 @@
 
 <template>
   <div class="contacts">
-    <AppBar leftLinkName="home" pageTitle="联系人" rightIcon="icon-tianjia" rightLinkName="addContacts"></AppBar>
+    <AppBar  pageTitle="联系人" rightIcon="icon-tianjia" rightLinkName="addContacts"></AppBar>
     
     <div class="content">
       <SearchBar :list="userList" placeholderText="搜索联系人"></SearchBar>

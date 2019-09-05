@@ -7,7 +7,7 @@
  -->
 <template>
   <div class="personalInfo">
-    <AppBar leftLinkName="organization" pageTitle="个人信息" />
+    <AppBar  pageTitle="个人信息" />
 
     <div class="content">
       <mu-paper class="topInfo" :z-depth="0">

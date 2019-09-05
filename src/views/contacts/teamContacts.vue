@@ -7,7 +7,7 @@
  -->
 <template>
   <div class="teamContacts">
-    <AppBar :leftLinkName="leftLinkName" :pageTitle="title"></AppBar>
+    <AppBar  :pageTitle="title"></AppBar>
     
     <div class="content">
       <SearchBar :list="userList"></SearchBar>
@@ -30,7 +30,6 @@ export default {
   },
   data() {
     return {
-      leftLinkName: "contacts",
       title: "联系人"
     };
   },

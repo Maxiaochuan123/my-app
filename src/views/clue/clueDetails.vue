@@ -7,7 +7,7 @@
  -->
 <template>
   <div class="clueDetails">
-    <AppBar leftLinkName="clue" pageTitle="线索详情" isDrawer drawerIcon="icon-guolv" rightIcon="icon-tianjia" isMenu :menuList="menuList"></AppBar>
+    <AppBar  pageTitle="线索详情" isDrawer drawerIcon="icon-guolv" rightIcon="icon-tianjia" isMenu :menuList="menuList"></AppBar>
     <div class="content">
       <!-- <Tabs :tabsList="tabsList"></Tabs> -->
       <h1>{{data}}</h1>

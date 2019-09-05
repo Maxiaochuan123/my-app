@@ -4,7 +4,7 @@
  -->
 <template>
   <div class="write-followup">
-    <AppBar leftLinkName pageTitle="写跟进" custom :customFnc="openDialog" customTitle="保存"></AppBar>
+    <AppBar pageTitle="写跟进" custom :customFnc="openDialog" customTitle="保存"></AppBar>
     <div class="content">
       <mu-form
         ref="form"

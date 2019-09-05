@@ -7,7 +7,7 @@
  -->
 <template>
   <div class="organization">
-    <AppBar leftLinkName="contacts" pageTitle="公司部门"/>
+    <AppBar  pageTitle="公司部门"/>
 
     <div class="content">
       <SearchBar :list="userList" :isGoPage="true" pageLinkName="personalInfo"></SearchBar>

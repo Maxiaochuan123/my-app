@@ -8,7 +8,7 @@
 <template>
   <div class="app-bar">
     <mu-appbar z-depth="0">
-      <mu-button icon slot="left" @click="goPage(leftLinkName)">
+      <mu-button icon slot="left" @click="$router.go(-1)">
         <mu-icon :size="iconSize" :value="`:iconfont ${leftIcon}`"></mu-icon>
       </mu-button>
       {{pageTitle}}
@@ -65,9 +65,6 @@ export default {
     iconSize: {
       type: String,
       default: "24"
-    },
-    leftLinkName: {
-      type: String
     },
 
     pageTitle: {
