@@ -68,7 +68,7 @@
 import AppBar from "@components/AppBar.vue";
 import FootNav from "@components/FootNav.vue";
 export default {
-  name: "customerDetails",
+  name: "basic",
   components: { AppBar, FootNav },
   computed: {
     // 当前客户的id
@@ -109,7 +109,7 @@ export default {
         {
           img: "/static/images/buttom-write-follow.png",
           label: "写跟进",
-          linkName: "addOrEditCustomer",
+          linkName: "writeFollowup",
           isLink: true,
           type: "writeFollow"
         },

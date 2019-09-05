@@ -1,11 +1,4 @@
 <!--
- * @Description: In User Settings Edit
- * @Author: your name
- * @Date: 2019-09-04 09:43:52
- * @LastEditTime: 2019-09-05 11:01:14
- * @LastEditors: Please set LastEditors
- -->
-<!--
  * @Description: 客户管理
  * @Author: shenah
  -->
@@ -26,7 +19,7 @@
 <script>
 import AppBar from "@components/AppBar.vue";
 import SearchBar from "@components/SearchBar.vue";
-import IndexsList from "@components/SearchBar.vue";
+import IndexsList from "@components/IndexsList.vue";
 
 export default {
   name: "customerManage",
