@@ -2,7 +2,7 @@
  * @Description: In User Settings Edit
  * @Author: your name
  * @Date: 2019-08-25 20:38:24
- * @LastEditTime: 2019-09-05 12:21:40
+ * @LastEditTime: 2019-09-05 15:49:14
  * @LastEditors: Please set LastEditors
  */
 // 点击波纹组件
@@ -33,6 +33,7 @@ export default {
         userName:[{ validate: (val) => !!val, message: '必须填写用户名'},{ validate: (val) => Rules.name.test(val), message: '必须是 2 ~ 10 位汉字姓名'}],
         phone:[{ validate: (val) => !!val, message: '必须填写手机号'},{ validate: (val) => Rules.phone.test(val), message: '手机号格式不正确'}],
         email:[{ validate: (val) => this.noRequired(val,this.myRules.email[0],'邮箱格式不正确')}],
+        sex:[{ validate: (val) => !!val, message: '必须填写性别'}],
       }
     };
   },

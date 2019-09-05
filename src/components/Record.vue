@@ -1,4 +1,11 @@
 <!--
+ * @Description: In User Settings Edit
+ * @Author: your name
+ * @Date: 2019-09-05 11:25:33
+ * @LastEditTime: 2019-09-05 15:10:42
+ * @LastEditors: Please set LastEditors
+ -->
+<!--
  * @Description: 跟进记录通用
  * @Author: shenah
  -->
@@ -95,7 +102,7 @@ export default {
         width: 1px;
         top: 0;
         bottom: 0;
-        left: 11px;
+        left: 10px;
       }
       .circular {
         position: relative;
@@ -107,7 +114,7 @@ export default {
       }
     }
     .item-right {
-      padding: 0 10px 30px 10px;
+      padding: 0 10px 30px;
       .time {
         font-size: @regular-size;
         color: @regular-text;

@@ -2,7 +2,7 @@
  * @Description: In User Settings Edit
  * @Author: your name
  * @Date: 2019-09-04 18:57:37
- * @LastEditTime: 2019-09-05 14:43:33
+ * @LastEditTime: 2019-09-05 15:15:14
  * @LastEditors: Please set LastEditors
  -->
 <!--
@@ -62,6 +62,7 @@ export default {
   position: fixed;
   bottom: 0;
   height: 87px;
+  box-shadow:0px 16px 23px 0px rgba(159,159,159,1);
   .nav-item {
     display: flex;
     margin: 6px 10px 6px 0;
@@ -72,6 +73,7 @@ export default {
       height: 40px;
     }
     .text {
+      padding-top: 4px;
       font-size: 14px;
       color: @primary-text;
     }
