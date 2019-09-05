@@ -2,7 +2,7 @@
  * @Description: In User Settings Edit
  * @Author: your name
  * @Date: 2019-08-25 15:40:36
- * @LastEditTime: 2019-09-05 11:17:56
+ * @LastEditTime: 2019-09-05 18:35:21
  * @LastEditors: Please set LastEditors
  */
 import Vue from "vue";
@@ -84,6 +84,18 @@ export default new Router({
               name: "teamClue",
               meta: { zIndex: 1 },
               component: () => import("../views/clue/teamClue.vue")
+            },
+            {
+              path: "/trackingRecords",
+              name: "trackingRecords",
+              meta: { zIndex: 1 },
+              component: () => import("../views/clue/trackingRecords.vue")
+            },
+            {
+              path: "/essentialInfo",
+              name: "essentialInfo",
+              meta: { zIndex: 1 },
+              component: () => import("../views/clue/essentialInfo.vue")
             }
           ]
         },

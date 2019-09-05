@@ -2,12 +2,12 @@
  * @Description: In User Settings Edit
  * @Author: your name
  * @Date: 2019-09-04 10:13:29
- * @LastEditTime: 2019-09-05 11:06:13
+ * @LastEditTime: 2019-09-05 18:06:38
  * @LastEditors: Please set LastEditors
  -->
 <template>
   <div class="clue">
-    <AppBar  pageTitle="线索" isDrawer drawerIcon="icon-guolv" rightIcon="icon-tianjia" isMenu :menuList="menuList"></AppBar>
+    <AppBar pageTitle="线索" isDrawer drawerIcon="icon-guolv" rightIcon="icon-tianjia" isMenu :menuList="menuList"></AppBar>
     <div class="content">
       <Tabs :tabsList="tabsList"></Tabs>
     </div>
@@ -53,6 +53,11 @@ export default {
   .clue{
     .content{
       padding-top: 98px;
+      /deep/ .mu-tabs{
+        position: fixed;
+        top: 44px;
+        z-index: 9;
+      }
     }
   }
 </style>

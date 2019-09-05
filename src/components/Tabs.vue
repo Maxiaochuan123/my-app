@@ -2,7 +2,7 @@
  * @Description: In User Settings Edit
  * @Author: your name
  * @Date: 2019-09-04 15:09:11
- * @LastEditTime: 2019-09-05 11:03:44
+ * @LastEditTime: 2019-09-05 17:42:14
  * @LastEditors: Please set LastEditors
  -->
 <template>
@@ -28,30 +28,18 @@ export default {
     return{
       active:0
     }
-  },
-  // mounted(){
-  //   let linkName = this.tabsList[0].linkName
-  //   this.goPage(linkName)
-  // }
+  }
 }
 </script>
 
 <style scoped lang="less">
   .tabs{
-    .mu-tabs{
-      position: fixed;
-      top: 44px;
-      z-index: 9;
-    }
     .mu-tabs-center{
       justify-content: space-around;
       padding-top: 5px;
       /deep/ .mu-tab-wrapper{
         padding: 15px 0 9px;
       }
-    }
-    .content{
-      background-color: #ff6600;
     }
   }
 </style>
