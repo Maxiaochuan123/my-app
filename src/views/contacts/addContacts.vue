@@ -181,47 +181,5 @@ export default {
 <style scoped lang="less">
 .content {
   padding-top: 44px;
-  .block {
-    margin-top: 12px;
-    padding-left: 12px;
-    .mu-form-item {
-      display: flex;
-      align-items: center;
-      margin: 0;
-      padding: 0;
-
-      /deep/.mu-input {
-        width: 90%;
-        font-weight: 400;
-
-        // ::placeholder{
-        //     color: #D2D6E4;
-        // }
-      }
-
-      /deep/.mu-form-item-label {
-        // min-width: 118px;
-        font-size: 16px;
-        color: @primary-text;
-        font-weight: 400;
-      }
-
-      /deep/.mu-input-line {
-        display: none;
-      }
-
-      /deep/.mu-form-item-help{
-        // bottom: 16px;
-        // left: 260px !important;
-        bottom: -8px;
-      }
-    }
-    // .mu-item-action {
-    //   font-size: 16px;
-    //   color: @primary-text;
-    //   font-weight: 400;
-    //   min-width: 110px;
-    // }
-  }
 }
 </style>
