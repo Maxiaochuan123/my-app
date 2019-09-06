@@ -15,6 +15,7 @@
       pageTitle="客户详情"
       :rightIcon="rightIcon"
       :rightLinkName="rightLinkName"
+      :rightLinkParams="{id}"
       isMenu
       :menuList="menuList"
       @menuChange="menuChange"
@@ -23,7 +24,7 @@
       <div class="header">
         <div class="header-wrap">
           <mu-avatar size="60" class="header-left">
-            <img src="/static/images/header.jpg" />
+            <img src="/static/images/default-header.png" />
           </mu-avatar>
           <div class="header-right">
             <div class="title">四川好易车汽车贸易有限公司</div>
@@ -53,8 +54,8 @@
         center
         class="tabs"
       >
-        <mu-tab value="record" to="/customerDetails/customerRecord/1">跟进记录</mu-tab>
-        <mu-tab value="basic" to="/customerDetails/customerBasic/1">基本信息</mu-tab>
+        <mu-tab replace value="record" to="customerRecord">跟进记录</mu-tab>
+        <mu-tab replace value="basic" to="customerBasic">基本信息</mu-tab>
       </mu-tabs>
       <div class="user-info">
         <router-view></router-view>
@@ -68,7 +69,7 @@
 import AppBar from "@components/AppBar.vue";
 import FootNav from "@components/FootNav.vue";
 export default {
-  name: "basic",
+  name: "customerDetails",
   components: { AppBar, FootNav },
   computed: {
     // 当前客户的id
@@ -78,33 +79,10 @@ export default {
   },
   data() {
     return {
-      active: "record", // 当前激活的(record=> 跟进记录,basic=> 基本信息)
+      active: "basic", // 当前激活的(record=> 跟进记录,basic=> 基本信息)
       rightIcon: "icon-gengduo1",
       rightLinkName: "addOrEditCustomer",
-      menuList: [
-        {
-          title: "分享",
-          linkName: "homeChild",
-          isLink: false,
-          type: "share"
-        },
-        {
-          title: "放入公海",
-          isLink: false,
-          type: "putInWaters"
-        },
-        {
-          title: "编辑",
-          linkName: "addOrEditCustomer",
-          isLink: true,
-          type: "edit"
-        },
-        {
-          title: "删除",
-          isLink: false,
-          type: "del"
-        }
-      ],
+      menuList: [],
       bottomList: [
         {
           img: "/static/images/buttom-write-follow.png",
@@ -124,15 +102,44 @@ export default {
     };
   },
   props: {},
-  mounted() {},
+  mounted() {
+    this.addMenu();
+  },
   methods: {
+    addMenu() {
+      this.menuList = [
+        {
+          title: "分享",
+          linkName: "selectUsers",
+          isLink: false,
+          type: "share"
+        },
+        {
+          title: "放入公海",
+          isLink: false,
+          type: "putInWaters"
+        },
+        {
+          title: "编辑",
+          linkName: "addOrEditCustomer",
+          isLink: true,
+          type: "edit",
+          linkParams: {id:this.id}
+        },
+        {
+          title: "删除",
+          isLink: false,
+          type: "del"
+        }
+      ];
+    },
     menuChange(item) {
       let { type, linkName } = item;
       //todo
       if (type === "share") {
         this.$confirm("是否分享此客户?", "提示").then(({ result, value }) => {
           if (result) {
-            console.log("分享");
+            this.goPage(linkName,{id:this.id});
           }
         });
       } else if (type === "putInWaters") {
@@ -143,8 +150,6 @@ export default {
             }
           }
         );
-      } else if (type === "edit") {
-        this.$router.push(`${linkName}/${this.id}`);
       } else if (type === "del") {
         this.$confirm("是否删除此客户?", "提示").then(({ result, value }) => {
           if (result) {
@@ -154,8 +159,8 @@ export default {
       }
     },
     footNavChange(item) {
-      let {type,phone} = item;
-      if(type === 'call') {
+      let { type, phone } = item;
+      if (type === "call") {
         this.dial(phone);
       }
     }

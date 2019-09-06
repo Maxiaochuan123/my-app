@@ -21,7 +21,7 @@
           <div class="time">{{item.follow}}</div>
           <div class="node">
             <mu-avatar size="36" class="none-left">
-              <img src="/static/images/header.jpg" />
+              <img src="/static/images/default-header.png" />
             </mu-avatar>
             <div class="node-right">
               <div class="name">{{item.name}}</div>

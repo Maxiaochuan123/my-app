@@ -12,17 +12,20 @@ let userList = [
       {
         Fsinger_mid: "002J4UUk29y8BY",
         Fsinger_name: "薛之谦",
-        describe: "四川好易车汽车贸易有限公司 总经理"
+        describe: "四川好易车汽车贸易有限公司 总经理",
+        flag:false,
       },
       {
         Fsinger_mid: "002J4UUk29y8BY",
         Fsinger_name: "薛之谦",
-        describe: "四川好易车汽车贸易有限公司 总经理"
+        describe: "四川好易车汽车贸易有限公司 总经理",
+        flag:false,
       },
       {
         Fsinger_mid: "002J4UUk29y8BY",
         Fsinger_name: "薛之谦",
-        describe: "四川好易车汽车贸易有限公司 总经理"
+        describe: "四川好易车汽车贸易有限公司 总经理",
+        flag:false,
       }
     ]
   },
@@ -32,17 +35,20 @@ let userList = [
       {
         Fsinger_mid: "0025NhlN2yWrP4",
         Fsinger_name: "周杰伦",
-        describe: "四川好易车汽车贸易有限公司 总经理"
+        describe: "四川好易车汽车贸易有限公司 总经理",
+        flag:false,
       },
       {
         Fsinger_mid: "0025NhlN2yWrP4",
         Fsinger_name: "周杰伦",
-        describe: "四川好易车汽车贸易有限公司 总经理"
+        describe: "四川好易车汽车贸易有限公司 总经理",
+        flag:false,
       },
       {
         Fsinger_mid: "0025NhlN2yWrP4",
         Fsinger_name: "周杰伦",
-        describe: "四川好易车汽车贸易有限公司 总经理"
+        describe: "四川好易车汽车贸易有限公司 总经理",
+        flag:false,
       }
     ]
   },

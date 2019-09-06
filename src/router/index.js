@@ -35,6 +35,14 @@ export default new Router({
           meta: { zIndex: 1 },
           component: () => import("../views/basics/myInfoChild.vue")
         },
+        // 共用页面
+        // 选择用户
+        {
+          path: "/selectUsers/:id",
+          name: "selectUsers",
+          meta: { zIndex: 1 },
+          component: () => import("../views/commonPage/selectUsers.vue")
+        },
         // 联系人
         {
           path: "/contacts",
@@ -96,7 +104,7 @@ export default new Router({
         // 客户
         // 添加客户
         {
-          path: "/addOrEditCustomer",
+          path: "/addOrEditCustomer/:id?",
           name: "addOrEditCustomer",
           meta: { zIndex: 1 },
           component: () => import("../views/customer/addOrEditCustomer.vue")
@@ -117,21 +125,21 @@ export default new Router({
         },
         // 客户详情
         {
-          path: "/customerDetails",
+          path: "/customerDetails/:id",
           name: "customerDetails",
           meta: { zIndex: 1 },
           component: () => import("../views/customer/customerDetails.vue"),
           children: [
             // 客户详情记录
             {
-              path: "customerRecord/:id",
+              path: "customerRecord",
               name: "customerRecord",
               meta: { zIndex: 1 },
               component: () => import("../views/customer/customerRecord.vue")
             },
             // 客户详情基本信息
             {
-              path: "customerBasic/:id",
+              path: "customerBasic",
               name: "customerBasic",
               meta: { zIndex: 1 },
               component: () => import("../views/customer/customerBasic.vue")

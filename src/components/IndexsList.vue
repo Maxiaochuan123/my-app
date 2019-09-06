@@ -16,7 +16,7 @@
 
           <ul>
             <span v-for="(fitem, findex) in item.data" :key="findex">
-              <li  v-for="(fitem2, findex2) in fitem.userList" :key="findex2">
+              <li  v-for="(fitem2, findex2) in fitem.userList" :key="findex2" :class="{'no-border-bottom':findex2 === fitem.userList.length-1}">
                  <slot name="row" :row="fitem2">
                   <img src="../../static/images/默认头像.png" />
                   <div>
@@ -179,46 +179,47 @@ export default {
   justify-content: flex-start;
   align-items: center;
   color: @regular-text;
-  height: 66px;
-  padding: 0 14px;
-}
-
-.singer-ul-li ul li img {
-  border-radius: 50%;
-  width: 40px;
-  height: 40px;
-}
-.singer-ul-li ul li:not(:last-child) div{
+  // height: 66px;
+  padding: 12px 20px;
   border-bottom: 1px solid @primary-border;
 }
-.singer-ul-li ul li div {
-  width: 86%;
-  margin-left: 20px;
-  padding: 12px 0;
-  position: relative;
-  display: flex;
-  flex-direction: column;
+
+// .singer-ul-li ul li img {
+//   border-radius: 50%;
+//   width: 40px;
+//   height: 40px;
+// }
+// .singer-ul-li ul li:not(:last-child) div{
+//   border-bottom: 1px solid @primary-border;
+// }
+// .singer-ul-li ul li div {
+//   width: 86%;
+//   margin-left: 20px;
+//   padding: 12px 0;
+//   position: relative;
+//   display: flex;
+//   flex-direction: column;
   
-  span:nth-child(1){
-    font-size: @primary-size;
-    font-weight: 400;
-    color: @primary-text;
-  }
-  span:nth-child(2){
-    width: 80%;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    white-space: nowrap;
-  }
-  i{
-    font-size: 22px;
-    color: @primary;
-    position: absolute;
-    top: 24px;
-    right: 20px;
-  }
+//   span:nth-child(1){
+//     font-size: @primary-size;
+//     font-weight: 400;
+//     color: @primary-text;
+//   }
+//   span:nth-child(2){
+//     width: 80%;
+//     overflow: hidden;
+//     text-overflow: ellipsis;
+//     white-space: nowrap;
+//   }
+//   i{
+//     font-size: 22px;
+//     color: @primary;
+//     position: absolute;
+//     top: 24px;
+//     right: 20px;
+//   }
   
-}
+// }
 
 .sort {
   position: fixed;

@@ -44,6 +44,10 @@ export default {
     };
   },
   methods: {
+    // 返回第几页
+    goBack(index = -1) {
+      this.$router.go(index);
+    },
     // 跳转页面
     goPage(linkName, params = {}, query = {}) {
       this.$router.push({
@@ -52,7 +56,14 @@ export default {
         query
       });
     },
-
+    // 覆盖前面的跳转
+    goReplacePage(linkName, params = {}, query = {}) {
+      this.$router.replace({
+        name: linkName,
+        params,
+        query
+      });
+    },
     // 打电话
     dial(phoneNumber) {
       window.location.href = `tel:${phoneNumber}`;
@@ -74,7 +85,7 @@ export default {
       }
     },
     // 只有一个必填
-    must(mes, type){
+    must(mes, type) {
       let error = `必须填写${mes}`;
       if (type === "select") {
         error = `必须选择${mes}`;
@@ -105,7 +116,7 @@ export default {
     },
   },
   filters: {
-    formatDate(timeStamp){
+    formatDate(timeStamp) {
       return dayjs(timeStamp).format('YYYY/MM/DD HH:mm:ss');
     }
   }

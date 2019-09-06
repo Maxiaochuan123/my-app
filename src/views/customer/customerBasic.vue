@@ -43,7 +43,7 @@
           <div class="title">新增联系人</div>
         </div>
         <div class="basic-item-right">
-          <img src="/static/images/add.png" @click="goPage('/addContacts')"/>
+          <img src="/static/images/add.png" @click="goPage('addContacts',{id:$parent.id})"/>
         </div>
       </div>
       <div v-for="(item,index) in contacts" :key="index">

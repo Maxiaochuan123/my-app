@@ -12,7 +12,7 @@
 <template>
   <div class="foot-nav">
     <div class="nav-item" v-for="(item,index) in list" :key="index" @click="navItem(item)">
-      <img :src="item.img" />
+      <img :src="item.img"/>
       <div class="text">{{item.label}}</div>
     </div>
   </div>
@@ -55,7 +55,7 @@ export default {
   display: flex;
   width: 100%;
   background-color: #fff;
-  padding: 10px;
+  padding: 0 10px;
   flex-wrap: wrap;
   justify-content: space-around;
   margin-top:20px;
@@ -69,6 +69,7 @@ export default {
     flex-direction: column;
     justify-content: center;
     img {
+      position: relative;
       width: 40px;
       height: 40px;
     }

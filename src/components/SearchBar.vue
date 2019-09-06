@@ -56,7 +56,6 @@ export default {
     };
   },
   mounted() {
-    console.log(this.placeholderText)
     this.list.forEach( item => {
       item.userList.forEach( itemUser => {
         this.searchList.push({userName:itemUser.Fsinger_name,tag:item.Findex})
