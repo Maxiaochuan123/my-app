@@ -38,12 +38,12 @@
       </div>
     </div>
     <div class="basic-two">
-      <div class="basic-item">
+      <div class="basic-item" v-if="type !== 'commonWatersCustomer'">
         <div class="basic-item-left">
           <div class="title">新增联系人</div>
         </div>
         <div class="basic-item-right">
-          <img src="/static/images/add.png" @click="goPage('addContacts',{id:$parent.id})"/>
+          <img src="/static/images/add.png" @click="goPage('addContacts',{id:$parent.id})" />
         </div>
       </div>
       <div v-for="(item,index) in contacts" :key="index">
@@ -53,7 +53,7 @@
             <div class="sub-title">{{item.phone}}</div>
           </div>
           <div class="basic-item-right">
-            <img src="/static/images/call.png" @click="dial(item.phone)"/>
+            <img src="/static/images/call.png" @click="dial(item.phone)" />
           </div>
         </div>
       </div>
@@ -72,6 +72,17 @@
 <script>
 export default {
   name: "customerBasic",
+  computed: {
+    // 当前客户的id
+    id() {
+      return this.$route.params.id;
+    },
+    // 从何处进来
+    // commonWatersCustomer => 从公海客户中进来
+    type() {
+      return this.$route.params.type;
+    }
+  },
   components: {},
   data() {
     return {
@@ -88,9 +99,7 @@ export default {
     };
   },
   props: {},
-  mounted() {
-    
-  },
+  mounted() {},
   methods: {}
 };
 </script>

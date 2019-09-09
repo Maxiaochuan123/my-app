@@ -20,7 +20,7 @@
       :menuList="menuList"
       @menuChange="menuChange"
     ></AppBar>
-    <div class="content">
+    <div class="content" :class="{'common-waters-customer-content':type ==='commonWatersCustomer'}">
       <div class="header">
         <div class="header-wrap">
           <mu-avatar size="60" class="header-left">
@@ -61,7 +61,11 @@
         <router-view></router-view>
       </div>
     </div>
-    <FootNav :list="bottomList" @footNavChange="footNavChange"></FootNav>
+    <FootNav
+      :list="bottomList"
+      @footNavChange="footNavChange"
+      v-if="type !== 'commonWatersCustomer'"
+    ></FootNav>
   </div>
 </template>
 
@@ -75,6 +79,11 @@ export default {
     // 当前客户的id
     id() {
       return this.$route.params.id;
+    },
+    // 从何处进来
+    // commonWatersCustomer => 从公海客户中进来
+    type() {
+      return this.$route.params.type;
     }
   },
   data() {
@@ -107,31 +116,50 @@ export default {
   },
   methods: {
     addMenu() {
-      this.menuList = [
-        {
-          title: "分享",
-          linkName: "selectUsers",
-          isLink: false,
-          type: "share"
-        },
-        {
-          title: "放入公海",
-          isLink: false,
-          type: "putInWaters"
-        },
-        {
-          title: "编辑",
-          linkName: "addOrEditCustomer",
-          isLink: true,
-          type: "edit",
-          linkParams: {id:this.id}
-        },
-        {
-          title: "删除",
-          isLink: false,
-          type: "del"
-        }
-      ];
+      if (this.type === "commonWatersCustomer") {
+        this.menuList = [
+          {
+            title: "分配",
+            linkName: "selectUsers",
+            isLink: true,
+            linkParams: {
+              id: this.id,
+              type: "commonWatersCustomer"
+            }
+          },
+          {
+            title: "领取",
+            isLink: false,
+            type: "receive"
+          }
+        ];
+      } else {
+        this.menuList = [
+          {
+            title: "分享",
+            linkName: "selectUsers",
+            isLink: false,
+            type: "share"
+          },
+          {
+            title: "放入公海",
+            isLink: false,
+            type: "putInWaters"
+          },
+          {
+            title: "编辑",
+            linkName: "addOrEditCustomer",
+            isLink: true,
+            type: "edit",
+            linkParams: { id: this.id }
+          },
+          {
+            title: "删除",
+            isLink: false,
+            type: "del"
+          }
+        ];
+      }
     },
     menuChange(item) {
       let { type, linkName } = item;
@@ -139,7 +167,10 @@ export default {
       if (type === "share") {
         this.$confirm("是否分享此客户?", "提示").then(({ result, value }) => {
           if (result) {
-            this.goPage(linkName,{id:this.id});
+            this.goPage(linkName, {
+              id: this.id,
+              type: "customerDetailsShare"
+            });
           }
         });
       } else if (type === "putInWaters") {
@@ -154,6 +185,12 @@ export default {
         this.$confirm("是否删除此客户?", "提示").then(({ result, value }) => {
           if (result) {
             console.log("删除");
+          }
+        });
+      } else if (type === "receive") {
+        this.$confirm("是否领取此客户?", "提示").then(({ result, value }) => {
+          if (result) {
+            console.log("领取");
           }
         });
       }
@@ -171,6 +208,9 @@ export default {
 .customerDetails {
   width: 100%;
   height: 100%;
+  .common-waters-customer-content {
+    padding: 56px 0 12px 0 !important;
+  }
   .content {
     height: 100%;
     padding: 56px 0 120px 0;

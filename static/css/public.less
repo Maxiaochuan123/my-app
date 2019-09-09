@@ -27,9 +27,9 @@ body,
 .zm-picker .picker {
   height: 250px !important;
 }
-.zm-picker .picker-title span{
+.zm-picker .picker-title span {
   font-size: @primary-size !important;
-  &.pt-submit{
+  &.pt-submit {
     color: @primary !important;
   }
 }
@@ -60,15 +60,29 @@ body,
         bottom: -8px;
       }
     }
-    .flex-top{
+    .flex-top {
       align-items: flex-start;
-      .mu-form-item-content{
-        width:100%;
+      .mu-form-item-content {
+        width: 100%;
       }
     }
   }
 }
 /** 没有下边框 */
-.no-border-bottom{
+.no-border-bottom {
   border-bottom: none !important;
+}
+
+/** 主要文字包括字体,胖瘦,颜色 */
+.primary-words {
+  font-size: @primary-size;
+  font-weight: @primary-weight;
+  color: @primary-text;
+}
+
+/** 常规文字包括字体,胖瘦,颜色 */
+.regular-words {
+  font-size: @regular-size;
+  font-weight: @regular-weight;
+  color: @regular-text;
 }
