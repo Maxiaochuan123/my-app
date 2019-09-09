@@ -17,7 +17,7 @@
       </mu-button>
       <!-- 右侧按钮 -->
       <mu-menu slot="right" cover placement="bottom-end" v-if="!custom" :open.sync="menuFlag">
-        <mu-button icon @click="rightBtn()">
+        <mu-button icon @click="rightBtn()" :disabled="!isShowRightBtn">
           <mu-icon :size="iconSize" :value="`:iconfont ${rightIcon}`"></mu-icon>
         </mu-button>
         <mu-list slot="content">
@@ -74,7 +74,11 @@ export default {
       type: String,
       default: "pageTitle"
     },
-
+    isShowRightBtn: {
+      // 是否禁用右边的按钮
+      type: Boolean,
+      default: true
+    },
     rightIcon: {
       type: String
     },
@@ -120,9 +124,9 @@ export default {
   },
   methods: {
     leftClick(leftLinkName) {
-      if(leftLinkName) {
+      if (leftLinkName) {
         this.goPage(leftLinkName);
-      }else{
+      } else {
         this.$router.go(-1);
       }
     },
@@ -132,9 +136,9 @@ export default {
       }
     },
     menuItem(item) {
-      const { isLink, title, linkName,linkParams={} } = item;
+      const { isLink, title, linkName, linkParams = {} } = item;
       if (isLink) {
-        this.goPage(linkName,linkParams);
+        this.goPage(linkName, linkParams);
       } else {
         this.$emit("menuChange", item);
         this.menuFlag = false;

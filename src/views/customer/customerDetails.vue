@@ -124,7 +124,7 @@ export default {
           linkName: "addOrEditCustomer",
           isLink: true,
           type: "edit",
-          linkParams: {id:this.id}
+          linkParams: { id: this.id }
         },
         {
           title: "删除",
@@ -139,7 +139,10 @@ export default {
       if (type === "share") {
         this.$confirm("是否分享此客户?", "提示").then(({ result, value }) => {
           if (result) {
-            this.goPage(linkName,{id:this.id});
+            this.goPage(linkName, {
+              id: this.id,
+              type: "customerDetailsShare"
+            });
           }
         });
       } else if (type === "putInWaters") {

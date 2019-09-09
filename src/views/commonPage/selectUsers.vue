@@ -37,6 +37,13 @@ export default {
     // 当前客户的id
     id() {
       return this.$route.params.id;
+    },
+    // 从那个入口进来的
+    // customerDetailsShare => 从客户详情的分享
+    // commonWatersClueFp => 从公海线索里面的分配进来的
+    // commonWatersCustomer => 从公海客户里面的分配进来的
+    type() {
+      return this.$route.params.type;
     }
   },
   data() {
