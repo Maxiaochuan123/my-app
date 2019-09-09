@@ -10,7 +10,7 @@
     <AppBar  pageTitle="公司部门"/>
 
     <div class="content">
-      <SearchBar :list="userList" :isGoPage="true" pageLinkName="personalInfo"></SearchBar>
+      <SearchBar :list="userList" placeholderText="搜索联系人" :isGoPage="true" pageLinkName="personalInfo"></SearchBar>
       <!-- 公司列表 -->
       <mu-paper :z-depth="0">
         <div class="listTitle">成都众汇车服集团有限公司</div>

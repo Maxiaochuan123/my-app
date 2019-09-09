@@ -2,7 +2,7 @@
  * @Description: In User Settings Edit
  * @Author: your name
  * @Date: 2019-08-25 21:24:42
- * @LastEditTime: 2019-09-04 11:13:57
+ * @LastEditTime: 2019-09-09 18:25:09
  * @LastEditors: Please set LastEditors
  -->
 <template>
@@ -17,14 +17,7 @@
           <ul>
             <span v-for="(fitem, findex) in item.data" :key="findex">
               <li  v-for="(fitem2, findex2) in fitem.userList" :key="findex2" :class="{'no-border-bottom':findex2 === fitem.userList.length-1}">
-                 <slot name="row" :row="fitem2">
-                  <img src="../../static/images/默认头像.png" />
-                  <div>
-                    <span>{{fitem2.Fsinger_name}}</span>
-                    <span>{{fitem2.describe}}</span>
-                    <i class="iconfont icon-dianhua"></i>
-                  </div>
-                </slot>
+                <slot name="row" :row="fitem2"></slot>
               </li>
             </span>
           </ul>
@@ -165,7 +158,6 @@ export default {
 .singer-tag {
   width: 100%;
   height: 30px;
-  // margin-bottom: 20px;
   line-height: 30px;
   padding-left: 20px;
   font-size: 12px;
@@ -173,54 +165,11 @@ export default {
   background-color: @auxiliary;
 }
 
-.singer-ul-li ul li {
-  list-style-type: none;
-  display: flex;
-  justify-content: flex-start;
-  align-items: center;
-  color: @regular-text;
-  // height: 66px;
-  padding: 12px 20px;
-  border-bottom: 1px solid @primary-border;
+.singer-ul-li ul li:last-child{
+  div div{
+    border: none !important;
+  }
 }
-
-// .singer-ul-li ul li img {
-//   border-radius: 50%;
-//   width: 40px;
-//   height: 40px;
-// }
-// .singer-ul-li ul li:not(:last-child) div{
-//   border-bottom: 1px solid @primary-border;
-// }
-// .singer-ul-li ul li div {
-//   width: 86%;
-//   margin-left: 20px;
-//   padding: 12px 0;
-//   position: relative;
-//   display: flex;
-//   flex-direction: column;
-  
-//   span:nth-child(1){
-//     font-size: @primary-size;
-//     font-weight: 400;
-//     color: @primary-text;
-//   }
-//   span:nth-child(2){
-//     width: 80%;
-//     overflow: hidden;
-//     text-overflow: ellipsis;
-//     white-space: nowrap;
-//   }
-//   i{
-//     font-size: 22px;
-//     color: @primary;
-//     position: absolute;
-//     top: 24px;
-//     right: 20px;
-//   }
-  
-// }
-
 .sort {
   position: fixed;
   z-index: 30;

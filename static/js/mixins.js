@@ -1,16 +1,11 @@
-/*
- * @Description: In User Settings Edit
- * @Author: your name
- * @Date: 2019-08-25 20:38:24
- * @LastEditTime: 2019-09-05 16:32:11
- * @LastEditors: Please set LastEditors
- */
 // 点击波纹组件
 import waves from '../waves'
 // 验证
 import Rules from './rules'
 // 日期处理
 import dayjs from 'dayjs';
+// 工具函数
+import tool from './tool';
 
 export default {
   directives: {
@@ -101,7 +96,11 @@ export default {
     // Dialog
     openDialog() {
       this.$refs.form.validate().then(result => {
-        this.dialogState = true;
+        if(result){
+          this.dialogState = true;
+        }else{
+          this.$toast.warning('请将 必填 信息补充完整')
+        }
       });
     },
 
@@ -118,6 +117,9 @@ export default {
   filters: {
     formatDate(timeStamp) {
       return dayjs(timeStamp).format('YYYY/MM/DD HH:mm:ss');
-    }
+    },
+    formatCurrency(money) {
+      return tool.formatCurrency(money);
+    },
   }
 };

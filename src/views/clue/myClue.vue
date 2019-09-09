@@ -2,7 +2,7 @@
  * @Description: In User Settings Edit
  * @Author: your name
  * @Date: 2019-09-04 10:13:29
- * @LastEditTime: 2019-09-05 12:19:45
+ * @LastEditTime: 2019-09-09 18:33:01
  * @LastEditors: Please set LastEditors
  -->
 <template>
@@ -68,38 +68,32 @@ export default {
       }],
       
       userList:[{
-          id:1,
           title:'张三',
           createPeople: '张三',
           createDate:Date.now(),
           state:'0',
           openMenu: false
         },{
-          id:1,
           title:'张三',
           createPeople: '张三',
           createDate:Date.now(),
           state:'1',
         },{
-          id:1,
           title:'张三',
           createPeople: '张三',
           createDate:Date.now(),
           state:'1'
         },{
-          id:1,
           title:'张三',
           createPeople: '张三',
           createDate:Date.now(),
           state:'1'
         },{
-          id:1,
           title:'张三',
           createPeople: '张三',
           createDate:Date.now(),
           state:'1'
         },{
-          id:1,
           title:'张三',
           createPeople: '张三',
           createDate:Date.now(),

@@ -2,7 +2,7 @@
  * @Description: In User Settings Edit
  * @Author: your name
  * @Date: 2019-09-01 13:52:04
- * @LastEditTime: 2019-09-05 15:48:51
+ * @LastEditTime: 2019-09-09 18:33:59
  * @LastEditors: Please set LastEditors
  -->
 <template>
@@ -143,10 +143,6 @@ export default {
   },
   methods: {
     submitDialog(){
-      // this.$toast.success('Hello World')
-      // setTimeout(()=>{
-      //   this.dialogState = false;
-      // },1000)
       this.apiMethod.getCreditReporting(this)
     },
     showPicker(pickerTitle) {
