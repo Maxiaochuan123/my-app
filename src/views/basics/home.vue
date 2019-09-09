@@ -41,7 +41,7 @@
               <div class="row">
                 <div @click="goPage('myClue')"><img src="../../../static/images/线索.png"><span>线索</span></div>
                 <div @click="goPage('customerManage')"><img src="../../../static/images/客户.png"><span>客户</span></div>
-                <div @click="goPage('commonWatersPeople')"><img src="../../../static/images/公海.png"><span>公海</span></div>
+                <div @click="goPage('commonWatersClue')"><img src="../../../static/images/公海.png"><span>公海</span></div>
                 <div><img src="../../../static/images/待办.png"><span>待办</span></div>
               </div>
               <div class="row">

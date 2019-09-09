@@ -6,7 +6,7 @@
   <div class="commonWatersPeople">
     <div class="clue-item" v-for="(item,index) in clueList" :key="index">
       <div class="clue-item-wrap">
-        <div class="clue-left">
+        <div class="clue-left" @click="toDetails(item)">
           <span class="primary-words">{{item.name}}</span>
           <div class="sub-title regular-words">{{item.createName}}</div>
         </div>
@@ -81,13 +81,20 @@ export default {
     }, 500);
   },
   methods: {
+    toDetails(row) {
+      // 去客户公海详情
+      this.goPage('customerBasic',{id:row.id,type:'commonWatersCustomer'})
+    },
     btnChange(row, type) {
       if (type === "distribute") {
         // 分配
-        this.goPage("selectUsers", { id: row.id, type: "commonWatersCustomer" });
+        this.goPage("selectUsers", {
+          id: row.id,
+          type: "commonWatersCustomer"
+        });
       } else if (type === "receive") {
         // 领取
-        this.$confirm("是否领取此线索?", "提示").then(({ result, value }) => {
+        this.$confirm("是否领取此客户?", "提示").then(({ result, value }) => {
           if (result) {
             console.log("领取");
           }

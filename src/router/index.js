@@ -96,7 +96,7 @@ export default new Router({
           ]
         },
         {
-          path: "/clueDetails",
+          path: "/clueDetails/:id/:type?",
           name: "clueDetails",
           meta: { zIndex: 1 },
           component: () => import("../views/clue/clueDetails.vue")
@@ -125,7 +125,7 @@ export default new Router({
         },
         // 客户详情
         {
-          path: "/customerDetails/:id",
+          path: "/customerDetails/:id/:type?",
           name: "customerDetails",
           meta: { zIndex: 1 },
           component: () => import("../views/customer/customerDetails.vue"),

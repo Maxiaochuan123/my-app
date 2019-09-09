@@ -40,8 +40,8 @@ export default {
     },
     // 从那个入口进来的
     // customerDetailsShare => 从客户详情的分享
-    // commonWatersClueFp => 从公海线索里面的分配进来的
-    // commonWatersCustomer => 从公海客户里面的分配进来的
+    // commonWatersClue => 从公海线索里面点进来
+    // commonWatersCustomer => 从公海客户里面点进来
     type() {
       return this.$route.params.type;
     }

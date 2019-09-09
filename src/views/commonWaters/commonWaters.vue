@@ -32,7 +32,7 @@ export default {
   components: { AppBar, SearchBar },
   data() {
     return {
-      active: "customer",
+      active: "clue",
     };
   },
   props: {},

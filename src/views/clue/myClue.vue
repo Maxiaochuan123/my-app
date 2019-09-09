@@ -68,32 +68,38 @@ export default {
       }],
       
       userList:[{
+          id:1,
           title:'张三',
           createPeople: '张三',
           createDate:Date.now(),
           state:'0',
           openMenu: false
         },{
+          id:1,
           title:'张三',
           createPeople: '张三',
           createDate:Date.now(),
           state:'1',
         },{
+          id:1,
           title:'张三',
           createPeople: '张三',
           createDate:Date.now(),
           state:'1'
         },{
+          id:1,
           title:'张三',
           createPeople: '张三',
           createDate:Date.now(),
           state:'1'
         },{
+          id:1,
           title:'张三',
           createPeople: '张三',
           createDate:Date.now(),
           state:'1'
         },{
+          id:1,
           title:'张三',
           createPeople: '张三',
           createDate:Date.now(),
