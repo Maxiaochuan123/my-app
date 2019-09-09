@@ -2,7 +2,7 @@
  * @Description: In User Settings Edit
  * @Author: your name
  * @Date: 2019-08-27 12:13:47
- * @LastEditTime: 2019-09-05 11:04:26
+ * @LastEditTime: 2019-09-09 18:33:37
  * @LastEditors: Please set LastEditors
  -->
 
@@ -39,9 +39,16 @@
           </mu-list-item>
         </mu-list>
       </div>
-      <!-- <div class="index-List"> -->
-        <IndexsList :tagTop="242" :tagTopoffsetTop="250" :listSpacing="198" :list="userList"></IndexsList>
-      <!-- </div> -->
+      <IndexsList :tagTop="242" :tagTopoffsetTop="250" :listSpacing="198" :list="userList">
+        <div slot="row" slot-scope="{row}" class="user-index">
+          <img src="../../../static/images/默认头像.png" />
+          <div>
+            <span>{{row.Fsinger_name}}</span>
+            <span>{{row.describe}}</span>
+            <i class="iconfont icon-dianhua"></i>
+          </div>
+        </div>
+      </IndexsList>
     </div>
   </div>
 </template>
@@ -88,12 +95,51 @@ export default {
         margin-left: 72px;
       }
     }
-    // .index-List{
-    //   margin-top: 250;
-    //   padding-bottom: 250;
-    //   overflow-y: scroll;
-    //   height: 100%;
-    // }
+
+    .user-index{
+      list-style-type: none;
+      display: flex;
+      justify-content: flex-start;
+      align-items: center;
+      color: @regular-text;
+      height: 66px;
+      padding: 0 20px;
+      
+      img {
+        border-radius: 50%;
+        width: 40px;
+        height: 40px;
+      }
+      div {
+        width: 86%;
+        margin-left: 20px;
+        padding: 12px 0;
+        position: relative;
+        display: flex;
+        flex-direction: column;
+        border-bottom: 1px solid @primary-border;
+        
+        span:nth-child(1){
+          font-size: @primary-size;
+          font-weight: 400;
+          color: @primary-text;
+        }
+        span:nth-child(2){
+          width: 80%;
+          overflow: hidden;
+          text-overflow: ellipsis;
+          white-space: nowrap;
+        }
+        i{
+          font-size: 22px;
+          color: @primary;
+          position: absolute;
+          top: 24px;
+          right: 20px;
+        }
+        
+      }
+    }
   }
 }
 </style>

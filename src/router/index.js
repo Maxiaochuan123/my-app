@@ -2,7 +2,11 @@
  * @Description: In User Settings Edit
  * @Author: your name
  * @Date: 2019-08-25 15:40:36
+<<<<<<< HEAD
  * @LastEditTime: 2019-09-05 18:35:21
+=======
+ * @LastEditTime: 2019-09-09 18:23:35
+>>>>>>> master
  * @LastEditors: Please set LastEditors
  */
 import Vue from "vue";
@@ -38,7 +42,7 @@ export default new Router({
         // 共用页面
         // 选择用户
         {
-          path: "/selectUsers/:id/:type",
+          path: "/selectUsers/:id",
           name: "selectUsers",
           meta: { zIndex: 1 },
           component: () => import("../views/commonPage/selectUsers.vue")
@@ -79,41 +83,27 @@ export default new Router({
           path: "/clue",
           name: "clue",
           meta: { zIndex: 1 },
-          component: () => import("../views/clue/clue.vue"),
-          children: [
-            {
-              path: "/myClue",
-              name: "myClue",
-              meta: { zIndex: 1 },
-              component: () => import("../views/clue/myClue.vue")
-            },
-            {
-              path: "/teamClue",
-              name: "teamClue",
-              meta: { zIndex: 1 },
-              component: () => import("../views/clue/teamClue.vue")
-            },
-            {
-              path: "/trackingRecords",
-              name: "trackingRecords",
-              meta: { zIndex: 1 },
-              component: () => import("../views/clue/trackingRecords.vue")
-            },
-            {
-              path: "/essentialInfo",
-              name: "essentialInfo",
-              meta: { zIndex: 1 },
-              component: () => import("../views/clue/essentialInfo.vue")
-            }
-          ]
+          component: () => import("../views/clue/clue.vue")
         },
         {
-          path: "/clueDetails/:id/:type?",
+          path: "/myClue",
+          name: "myClue",
+          meta: { zIndex: 1 },
+          component: () => import("../views/clue/myClue.vue")
+        },
+        {
+          path: "/clueDetails",
           name: "clueDetails",
           meta: { zIndex: 1 },
           component: () => import("../views/clue/clueDetails.vue")
         },
-        // 客户模块
+        {
+          path: "/editBasicsInfo",
+          name: "editBasicsInfo",
+          meta: { zIndex: 1 },
+          component: () => import("../views/clue/editBasicsInfo.vue")
+        },
+        // 客户
         // 添加客户
         {
           path: "/addOrEditCustomer/:id?",
@@ -137,7 +127,7 @@ export default new Router({
         },
         // 客户详情
         {
-          path: "/customerDetails/:id/:type?",
+          path: "/customerDetails/:id",
           name: "customerDetails",
           meta: { zIndex: 1 },
           component: () => import("../views/customer/customerDetails.vue"),
@@ -155,30 +145,6 @@ export default new Router({
               name: "customerBasic",
               meta: { zIndex: 1 },
               component: () => import("../views/customer/customerBasic.vue")
-            }
-          ]
-        },
-        // 公海模块
-        // 公海
-        {
-          path: "/commonWaters",
-          name: "commonWaters",
-          meta: { zIndex: 1 },
-          component: () => import("../views/commonWaters/commonWaters.vue"),
-          children: [
-            // 公海线索
-            {
-              path: "commonWatersClue",
-              name: "commonWatersClue",
-              meta: { zIndex: 1 },
-              component: () => import("../views/commonWaters/commonWatersClue.vue")
-            },
-            // 公海客户
-            {
-              path: "commonWatersPeople",
-              name: "commonWatersPeople",
-              meta: { zIndex: 1 },
-              component: () => import("../views/commonWaters/commonWatersPeople.vue")
             }
           ]
         }

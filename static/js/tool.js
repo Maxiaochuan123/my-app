@@ -2,27 +2,28 @@
  * @Description: In User Settings Edit
  * @Author: your name
  * @Date: 2019-09-03 09:55:54
- * @LastEditTime: 2019-09-03 10:00:45
+ * @LastEditTime: 2019-09-09 18:29:09
  * @LastEditors: Please set LastEditors
  */
 // node 加密模块
 var crypto = require('crypto');
 export default {
-  formatDate(date) {
-    var date = new Date(date);
-    var y = date.getFullYear();
-    var m = date.getMonth() + 1;
-    m = m < 10 ? ('0' + m) : m;
-    var d = date.getDate();
-    d = d < 10 ? ('0' + d) : d;
-    var h = date.getHours();
-    h = h < 10 ? ('0' + h) : h;
-    var minute = date.getMinutes();
-    var second = date.getSeconds();
-    minute = minute < 10 ? ('0' + minute) : minute;
-    second = second < 10 ? ('0' + second) : second;
-    // return y + '-' + m + '-' + d + ' ' + h + ':' + minute + ':' + second; 带时分秒
-    return y + '-' + m + '-' + d;
+  // 添加金额千分号
+  formatCurrency: function(num){
+      num = num ?  num : '0';
+      num = num.toString().replace(/\$|\,/g, '');
+      if (isNaN(num))
+      num = "0";
+      let sign = (num == (num = Math.abs(num)));
+      num = Math.floor(num * 100 + 0.50000000001);
+      let cents = num % 100;
+      num = Math.floor(num / 100).toString();
+    if (cents < 10)
+        cents = "0" + cents;
+    for (var i = 0; i < Math.floor((num.length - (1 + i)) / 3); i++)
+        num = num.substring(0, num.length - (4 * i + 3)) + ',' +
+        num.substring(num.length - (4 * i + 3));
+        return  '￥' + (((sign) ? '' : '-') + num + '.' + cents) + '(元)';
   },
 
   /**

@@ -2,27 +2,64 @@
  * @Description: In User Settings Edit
  * @Author: your name
  * @Date: 2019-09-04 10:13:29
+<<<<<<< HEAD
  * @LastEditTime: 2019-09-05 18:06:38
+=======
+ * @LastEditTime: 2019-09-09 18:31:40
+>>>>>>> master
  * @LastEditors: Please set LastEditors
  -->
 <template>
   <div class="clue">
     <AppBar pageTitle="线索" isDrawer drawerIcon="icon-guolv" rightIcon="icon-tianjia" isMenu :menuList="menuList"></AppBar>
     <div class="content">
-      <Tabs :tabsList="tabsList"></Tabs>
+    <mu-tabs :value.sync="active" inverse color="primary" indicator-color="primary" center>
+      <mu-tab>我的线索</mu-tab>
+      <mu-tab>团队线索</mu-tab>
+    </mu-tabs>
+    <div class="myClue" v-if="active === 0">
+      <mu-list textline="two-line">
+        <div v-for="(listItem,index) in myClueUserList" :key="index">
+          <mu-list-item v-waves>
+            <mu-list-item-content @click="goPage('clueDetails',listItem)">
+              <mu-list-item-title>{{listItem.title}}
+                <span :class="listItem.state === 0 ? nofollowUp : ''">未跟进</span>
+              </mu-list-item-title>
+              <mu-list-item-sub-title>创建人: {{listItem.createPeople}}</mu-list-item-sub-title>
+              <mu-list-item-sub-title>{{listItem.createDate | formatDate}}更新
+              </mu-list-item-sub-title>
+            </mu-list-item-content>
+            <mu-menu placement="left-start" :open.sync="listItem.openMenu">
+              <mu-button icon>
+                <mu-icon value=":iconfont icon-gengduovertical"></mu-icon>
+              </mu-button>
+              <mu-list slot="content">
+                <mu-list-item button v-for="(menuItem,index) in myClueMenuList" :key="index" @click="operation(listItem, menuItem)">
+                  <mu-list-item-title>{{menuItem.title}}</mu-list-item-title>
+                </mu-list-item>
+              </mu-list>
+            </mu-menu>
+          </mu-list-item>
+          <mu-divider shallow-inset v-show="index + 1 !== myClueUserList.length"></mu-divider>
+        </div>
+      </mu-list>
+    </div>
+    <div class="teamClue" v-if="active === 1">
+      <p>“……是的，我承认从很早以前我都害怕死亡，在医院里被人研究的时候，以前做出布局的时候，其实我很怕死的，因为除了死以外，我没有值得珍惜的东西，很奇怪是吧？恰好是这样我真的很怕死，因为我想要有值得珍惜的东西之后，死亡之后才会不寂寞，我才能够安然的面对死亡……”</p>
+    </div>
     </div>
   </div>
 </template>
 
 <script>
 import AppBar from '../../components/AppBar'
-import Tabs from '../../components/Tabs'
 export default {
   components:{
-    AppBar,Tabs
+    AppBar
   },
   data(){
     return{
+      active:0,
       menuList:[{
         title: "新建买车线索",
         linkName: "",
@@ -36,13 +73,63 @@ export default {
         linkName: "",
         isLink: true
       }],
-      
-      tabsList:[{
-        title:'我的线索',
-        linkName:'myClue'
+
+      myClueMenuList:[{
+        title:'分享',
+        isLink:false
       },{
-        title:'团队线索',
-        linkName:'teamClue'
+        title:'转换为联系人',
+        isLink:false
+      },{
+        title:'转换为客户',
+        isLink:false
+      },{
+        title:'放入公海',
+      },{
+        title:'写跟进',
+        linkName:'home'
+      },{
+        title:'关闭',
+        isLink:false
+      },{
+        title:'编辑',
+        isLink:false
+      },{
+        title:'删除',
+        isLink:false
+      }],
+      
+      myClueUserList:[{
+        title:'张三',
+        createPeople: '张三',
+        createDate:Date.now(),
+        state:'0',
+        openMenu: false
+      },{
+        title:'张三',
+        createPeople: '张三',
+        createDate:Date.now(),
+        state:'1',
+      },{
+        title:'张三',
+        createPeople: '张三',
+        createDate:Date.now(),
+        state:'1'
+      },{
+        title:'张三',
+        createPeople: '张三',
+        createDate:Date.now(),
+        state:'1'
+      },{
+        title:'张三',
+        createPeople: '张三',
+        createDate:Date.now(),
+        state:'1'
+      },{
+        title:'张三',
+        createPeople: '张三',
+        createDate:Date.now(),
+        state:'1'
       }]
     }
   }
@@ -53,10 +140,53 @@ export default {
   .clue{
     .content{
       padding-top: 98px;
+      position: fixed;
+      width: 100%;
+      height: 100%;
+      overflow-y: scroll;
+
+      .myClue{
+        background-color: #fff;
+        margin-top: 12px;
+      }
+
       /deep/ .mu-tabs{
         position: fixed;
         top: 44px;
         z-index: 9;
+        box-shadow: 0px 2px 6px 0px #ededed;
+      }
+      
+      .mu-list /deep/ .mu-item{
+        position: relative;
+        height: 106px;
+        .mu-item-title{
+          span{
+            float: right;
+            font-size: 14px;
+            color: @regular-text;
+          }
+          .nofollowUp{
+            color: @primary;
+          }
+        }
+          .mu-menu{
+            position: absolute;
+            right: 14px;
+            bottom: 2px;
+            width: 20px;
+            height: 50%;
+            .mu-button{
+              position: absolute;
+              bottom: 3px;
+              right: -18px;
+              padding: 0;
+              i{
+                font-size: 20px;
+                color: @primary-text;
+              }
+            }
+        }
       }
     }
   }

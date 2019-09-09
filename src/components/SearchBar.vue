@@ -41,10 +41,6 @@ export default {
     pageLinkName: {
       type: String,
       default: ""
-    },
-    placeholderText: {
-      type: String,
-      default: ""
     }
   },
   data() {
