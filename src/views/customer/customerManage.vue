@@ -13,13 +13,20 @@
       indicator-color="primary"
       center
       class="tabs"
+      @change="tabChange"
     >
       <mu-tab value="my">我的客户</mu-tab>
       <mu-tab value="team">团队客户</mu-tab>
     </mu-tabs>
     <div class="content">
       <IndexsList :tagTop="242" :tagTopoffsetTop="250" :listSpacing="0" :list="userList">
-        <div slot="row" slot-scope="parentName">{{parentName}}</div>
+        <div slot="row" slot-scope="{row}" class="index-customer" @click="toDetails(row)">
+          <div class="title">
+            <span>{{row.Fsinger_name}}</span>
+            <span class="rank">H级</span>
+          </div>
+          <div class="sub-title">{{row.describe}}</div>
+        </div>
       </IndexsList>
     </div>
   </div>
@@ -46,8 +53,20 @@ export default {
   created() {
     this.$store.commit("setUserList", userList);
   },
-  mounted() {},
-  methods: {}
+  mounted() {
+  },
+  methods: {
+    tabChange(val) {
+      if(val === 'my') {
+        console.log('我的客户');
+      }else{
+        console.log('团队客户');
+      }
+    },
+    toDetails(row){
+      this.goPage("customerBasic",{id:row.Fsinger_mid})
+    }
+  }
 };
 </script>
 <style lang='less' scoped>
@@ -61,6 +80,27 @@ export default {
   .content {
     height: 100%;
     padding-top: 184px;
+  }
+}
+.index-customer {
+  width: 100%;
+  padding-right: 6px;
+  .title {
+    display: flex;
+    font-size: @primary-size;
+    font-weight: @primary-weight;
+    color: @primary-text;
+    justify-content: space-between;
+    align-items: center;
+    .rank {
+      font-size: @regular-size;
+      color: #ec191f;
+    }
+  }
+  .sub-title {
+    margin-top: 4px;
+    font-size: @regular-size;
+    color: @regular-text;
   }
 }
 </style>

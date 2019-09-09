@@ -25,7 +25,7 @@
           </div>
           <div class="user-right">
             <mu-avatar size="60">
-              <img src="/static/images/header.jpg" />
+              <img src="/static/images/default-header.png" />
             </mu-avatar>
           </div>
         </div>

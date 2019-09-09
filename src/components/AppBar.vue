@@ -132,9 +132,9 @@ export default {
       }
     },
     menuItem(item) {
-      const { isLink, title, linkName } = item;
+      const { isLink, title, linkName,linkParams={} } = item;
       if (isLink) {
-        this.goPage(linkName);
+        this.goPage(linkName,linkParams);
       } else {
         this.$emit("menuChange", item);
         this.menuFlag = false;

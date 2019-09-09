@@ -4,7 +4,7 @@
  -->
 <template>
   <div class="addOrEditCustomer">
-    <AppBar  pageTitle="新增客户" custom :customFnc="openDialog" customTitle="保存"></AppBar>
+    <AppBar :pageTitle="id?'编辑客户':'新增客户'" custom :customFnc="openDialog" customTitle="保存"></AppBar>
     <div class="content">
       <mu-form
         ref="form"
@@ -106,6 +106,12 @@ export default {
     AppBar,
     Picker
   },
+  computed: {
+    // 当前客户的id
+    id() {
+      return this.$route.params.id;
+    }
+  },
   data() {
     return {
       pickerList1: [
@@ -156,6 +162,8 @@ export default {
         value9: ""
       }
     };
+  },
+  mounted(){
   },
   methods: {
     submitDialog() {
