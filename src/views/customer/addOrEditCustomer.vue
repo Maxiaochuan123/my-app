@@ -4,93 +4,176 @@
  -->
 <template>
   <div class="addOrEditCustomer">
-    <AppBar :pageTitle="id?'编辑客户':'新增客户'" custom :customFnc="openDialog" customTitle="保存"></AppBar>
+    <AppBar
+      :customFnc="openDialog"
+      :pageTitle="id?'编辑客户':'新增客户'"
+      custom
+      customTitle="保存"
+    ></AppBar>
     <div class="content">
       <mu-form
-        ref="form"
         :model="form"
         class="mu-demo-form"
         label-position="left"
         label-width="118"
+        ref="form"
       >
-        <mu-paper :z-depth="0" class="block">
-          <mu-form-item prop="value1" label="客户名称" :rules="myRules.userName">
-            <mu-text-field v-model="form.value1" placeholder="请输入客户名称(必填)"></mu-text-field>
+        <mu-paper
+          :z-depth="0"
+          class="block"
+        >
+          <mu-form-item
+            :rules="myRules.userName"
+            label="客户名称"
+            prop="value1"
+          >
+            <mu-text-field
+              placeholder="请输入客户名称(必填)"
+              v-model="form.value1"
+            ></mu-text-field>
           </mu-form-item>
           <mu-divider></mu-divider>
-          <mu-form-item prop="input" label="客户行业">
-            <div class="surround" @click="showPicker('客户行业')">
-              <mu-text-field v-model="form.value2.text" placeholder="客户行业" disabled></mu-text-field>
+          <mu-form-item
+            label="客户行业"
+            prop="input"
+          >
+            <div
+              @click="showPicker('客户行业')"
+              class="surround"
+            >
+              <mu-text-field
+                disabled
+                placeholder="客户行业"
+                v-model="form.value2.text"
+              ></mu-text-field>
               <i class="iconfont icon-rightArrow"></i>
             </div>
           </mu-form-item>
           <mu-divider></mu-divider>
-          <mu-form-item prop="value3" label="客户类型" :rules="myRules.phone">
-            <div class="surround" @click="showPicker('客户类型')">
-              <mu-text-field v-model="form.value3.text" placeholder="客户类型" disabled></mu-text-field>
+          <mu-form-item
+            :rules="myRules.phone"
+            label="客户类型"
+            prop="value3"
+          >
+            <div
+              @click="showPicker('客户类型')"
+              class="surround"
+            >
+              <mu-text-field
+                disabled
+                placeholder="客户类型"
+                v-model="form.value3.text"
+              ></mu-text-field>
               <i class="iconfont icon-rightArrow"></i>
             </div>
           </mu-form-item>
           <mu-divider></mu-divider>
-          <mu-form-item prop="input" label="客户级别">
-            <div class="surround" @click="showPicker('客户级别')">
-              <mu-text-field v-model="form.value3.text" placeholder="客户级别" disabled></mu-text-field>
+          <mu-form-item
+            label="客户级别"
+            prop="input"
+          >
+            <div
+              @click="showPicker('客户级别')"
+              class="surround"
+            >
+              <mu-text-field
+                disabled
+                placeholder="客户级别"
+                v-model="form.value3.text"
+              ></mu-text-field>
               <i class="iconfont icon-rightArrow"></i>
             </div>
           </mu-form-item>
           <mu-divider></mu-divider>
-          <mu-form-item prop="input" label="客户来源">
-            <div class="surround" @click="showPicker('客户来源')">
-              <mu-text-field v-model="form.value3.text" placeholder="客户来源" disabled></mu-text-field>
+          <mu-form-item
+            label="客户来源"
+            prop="input"
+          >
+            <div
+              @click="showPicker('客户来源')"
+              class="surround"
+            >
+              <mu-text-field
+                disabled
+                placeholder="客户来源"
+                v-model="form.value3.text"
+              ></mu-text-field>
               <i class="iconfont icon-rightArrow"></i>
             </div>
           </mu-form-item>
           <mu-divider></mu-divider>
-          <mu-form-item prop="value3" label="电话" :rules="myRules.phone">
-            <mu-text-field v-model="form.value3" placeholder="请输入电话号码(必填)"></mu-text-field>
+          <mu-form-item
+            :rules="myRules.phone"
+            label="电话"
+            prop="value3"
+          >
+            <mu-text-field
+              placeholder="请输入电话号码(必填)"
+              v-model="form.value3"
+            ></mu-text-field>
           </mu-form-item>
           <mu-divider></mu-divider>
-          <mu-form-item prop="value3" label="地址" :rules="myRules.phone">
-            <mu-text-field v-model="form.value3" placeholder="地址"></mu-text-field>
+          <mu-form-item
+            :rules="myRules.phone"
+            label="地址"
+            prop="address"
+          >
+            <SelectAddress
+              :defaultValue="form.address"
+              @addressChange="addressChange"
+            ></SelectAddress>
           </mu-form-item>
         </mu-paper>
 
-        <mu-paper :z-depth="0" class="block">
-          <mu-form-item prop="value3" label="备注">
-            <mu-text-field v-model="form.value3" placeholder="请输入备注"></mu-text-field>
+        <mu-paper
+          :z-depth="0"
+          class="block"
+        >
+          <mu-form-item
+            label="备注"
+            prop="value3"
+          >
+            <mu-text-field
+              placeholder="请输入备注"
+              v-model="form.value3"
+            ></mu-text-field>
           </mu-form-item>
         </mu-paper>
       </mu-form>
 
       <!-- 弹出选择器 -->
       <Picker
-        ref="picker"
-        :textTitle="pickerTitle"
+        :anchor="[0]"
         :data="pickerList"
+        :textTitle="pickerTitle"
+        @confirm="handlePickerConfirm"
         name="name"
         picker-class="pickerClass"
-        :anchor="[0]"
-        @confirm="handlePickerConfirm"
+        ref="picker"
       ></Picker>
 
       <!-- dialog对话框 -->
       <mu-dialog
+        :esc-press-close="false"
+        :open.sync="dialogState"
+        :overlay-close="false"
+        max-width="80%"
         title="新增客户"
         width="600"
-        max-width="80%"
-        :esc-press-close="false"
-        :overlay-close="false"
-        :open.sync="dialogState"
       >
         确认信息无误, 点击确定按钮新增客户
-        <mu-button slot="actions" flat @click="closeDialog">取消</mu-button>
         <mu-button
-          slot="actions"
+          @click="closeDialog"
           flat
-          color="primary"
-          v-loading="btnLoading"
-          data-mu-loading-size="24"
+          slot="actions"
+        >取消</mu-button>
+        <mu-button
           @click="submitDialog"
+          color="primary"
+          data-mu-loading-size="24"
+          flat
+          slot="actions"
+          v-loading="btnLoading"
         >确定</mu-button>
       </mu-dialog>
     </div>
@@ -101,10 +184,12 @@
 import AppBar from "../../components/AppBar";
 import Picker from "dm-vue-picker-h5";
 import Rules from "../../../static/js/rules";
+import SelectAddress from "@components/SelectAddress.vue";
 export default {
   components: {
     AppBar,
-    Picker
+    Picker,
+    SelectAddress
   },
   computed: {
     // 当前客户的id
@@ -159,13 +244,16 @@ export default {
         value6: "",
         value7: "",
         value8: "",
-        value9: ""
+        value9: "",
+        address: ""
       }
     };
   },
-  mounted(){
-  },
+  mounted() {},
   methods: {
+    addressChange(val) {
+      this.form.address = val;
+    },
     submitDialog() {
       // this.$toast.success('Hello World')
       // setTimeout(()=>{

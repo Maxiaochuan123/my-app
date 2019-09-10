@@ -8,7 +8,7 @@
 <template>
   <div class="app-bar">
     <mu-appbar z-depth="0">
-      <mu-button icon slot="left" @click="leftClick(leftLinkName)">
+      <mu-button icon slot="left" @click="leftClick()">
         <mu-icon :size="iconSize" :value="`:iconfont ${leftIcon}`"></mu-icon>
       </mu-button>
       {{pageTitle}}
@@ -123,9 +123,9 @@ export default {
     };
   },
   methods: {
-    leftClick(leftLinkName) {
-      if (leftLinkName) {
-        this.goPage(leftLinkName);
+    leftClick() {
+      if (this.leftLinkName) {
+        this.goPage(this.leftLinkName);
       } else {
         this.$router.go(-1);
       }
