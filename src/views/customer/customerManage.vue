@@ -20,12 +20,13 @@
     </mu-tabs>
     <div class="content">
       <IndexsList :tagTop="242" :tagTopoffsetTop="250" :listSpacing="0" :list="userList">
-        <div slot="row" slot-scope="{row}" class="index-customer" @click="toDetails(row)">
+        <div slot="row" slot-scope="{row,index,total}" class="index-customer" @click="toDetails(row)">
           <div class="title">
             <span>{{row.Fsinger_name}}</span>
             <span class="rank">H级</span>
           </div>
-          <div class="sub-title">{{row.describe}}</div>
+          <div class="sub-title" >{{row.describe}}</div>
+         <mu-divider v-if="total-1 !== index"></mu-divider>
         </div>
       </IndexsList>
     </div>
@@ -84,7 +85,8 @@ export default {
 }
 .index-customer {
   width: 100%;
-  padding-right: 6px;
+  list-style-type: none;
+  padding: 10px 24px 0 20px;
   .title {
     display: flex;
     font-size: @primary-size;
@@ -98,7 +100,8 @@ export default {
     }
   }
   .sub-title {
-    margin-top: 4px;
+    // margin-top: 4px;
+    margin-bottom:10px;
     font-size: @regular-size;
     color: @regular-text;
   }

@@ -2,11 +2,6 @@
  * @Description: In User Settings Edit
  * @Author: your name
  * @Date: 2019-08-25 15:40:36
-<<<<<<< HEAD
- * @LastEditTime: 2019-09-05 18:35:21
-=======
- * @LastEditTime: 2019-09-09 18:23:35
->>>>>>> master
  * @LastEditors: Please set LastEditors
  */
 import Vue from "vue";
@@ -42,7 +37,7 @@ export default new Router({
         // 共用页面
         // 选择用户
         {
-          path: "/selectUsers/:id",
+          path: "/selectUsers/:id/:type",
           name: "selectUsers",
           meta: { zIndex: 1 },
           component: () => import("../views/commonPage/selectUsers.vue")
@@ -127,7 +122,7 @@ export default new Router({
         },
         // 客户详情
         {
-          path: "/customerDetails/:id",
+          path: "/customerDetails/:id/:type?",
           name: "customerDetails",
           meta: { zIndex: 1 },
           component: () => import("../views/customer/customerDetails.vue"),
@@ -145,6 +140,30 @@ export default new Router({
               name: "customerBasic",
               meta: { zIndex: 1 },
               component: () => import("../views/customer/customerBasic.vue")
+            }
+          ]
+        },
+         // 公海模块
+        // 公海
+        {
+          path: "/commonWaters",
+          name: "commonWaters",
+          meta: { zIndex: 1 },
+          component: () => import("../views/commonWaters/commonWaters.vue"),
+          children: [
+            // 公海线索
+            {
+              path: "commonWatersClue",
+              name: "commonWatersClue",
+              meta: { zIndex: 1 },
+              component: () => import("../views/commonWaters/commonWatersClue.vue")
+            },
+            // 公海客户
+            {
+              path: "commonWatersPeople",
+              name: "commonWatersPeople",
+              meta: { zIndex: 1 },
+              component: () => import("../views/commonWaters/commonWatersPeople.vue")
             }
           ]
         }

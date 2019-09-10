@@ -5,19 +5,50 @@
  -->
 <template>
   <div class="select-users">
-    <AppBar pageTitle="选择用户" custom :customFnc="customFnc" customTitle="确定"></AppBar>
-    <SearchBar placeholderText="搜索客户" :list="userList"></SearchBar>
+    <AppBar
+      :customFnc="customFnc"
+      custom
+      customTitle="确定"
+      pageTitle="选择用户"
+    ></AppBar>
+    <SearchBar
+      :list="userList"
+      placeholderText="搜索客户"
+    ></SearchBar>
     <div class="content">
-      <IndexsList :tagTop="242" :tagTopoffsetTop="250" :listSpacing="0" :list="userList">
-        <div slot="row" slot-scope="{row}" class="index-users" @click="select(row)">
-          <img src="/static/images/selected.png" v-show="row.flag" class="select" />
-          <img src="/static/images/no-selected.png" v-show="!row.flag" class="select" />
-          <mu-avatar size="40" class="user-header">
-            <img src="/static/images/default-header.png" />
-          </mu-avatar>
-          <div class="user-info">
-            <div class="name">{{row.Fsinger_name}}</div>
-            <div class="job">总经理</div>
+      <IndexsList
+        :list="userList"
+        :listSpacing="0"
+        :tagTop="242"
+        :tagTopoffsetTop="250"
+      >
+        <div
+          @click="select(row)"
+          class="index-users"
+          slot="row"
+          slot-scope="{row}"
+        >
+          <div class="index-users-wrap">
+            <img
+              class="select"
+              src="/static/images/selected.png"
+              v-show="row.flag"
+            />
+            <img
+              class="select"
+              src="/static/images/no-selected.png"
+              v-show="!row.flag"
+            />
+            <mu-avatar
+              class="user-header"
+              size="40"
+            >
+              <img src="/static/images/default-header.png" />
+            </mu-avatar>
+            <div class="user-info">
+              <div class="name">{{row.Fsinger_name}}</div>
+              <div class="job">总经理</div>
+            </div>
           </div>
         </div>
       </IndexsList>
@@ -76,28 +107,34 @@ export default {
     height: 100%;
     padding-top: 100px;
     .index-users {
-      width: 100%;
-      height: 100%;
-      display: flex;
-      align-items: center;
-      .select {
-        width: 18px;
-        height: 18px;
-      }
-      .user-header {
-        margin-left: 15px;
-      }
-      .user-info {
-        margin-left: 12px;
-        .name {
-          font-size: @primary-size;
-          color: @primary-text;
-          font-weight: @primary-weight;
+      padding: 0 20px;
+      .index-users-wrap {
+        list-style-type: none;
+        display: flex;
+        justify-content: flex-start;
+        align-items: center;
+        color: @regular-text;
+        height: 66px;
+        border-bottom: 1px solid @primary-border; 
+        .select {
+          width: 18px;
+          height: 18px;
         }
-        .job {
-          font-size: @regular-size;
-          color: @regular-text;
-          font-weight: @regular-weight;
+        .user-header {
+          margin-left: 15px;
+        }
+        .user-info {
+          margin-left: 12px;
+          .name {
+            font-size: @primary-size;
+            color: @primary-text;
+            font-weight: @primary-weight;
+          }
+          .job {
+            font-size: @regular-size;
+            color: @regular-text;
+            font-weight: @regular-weight;
+          }
         }
       }
     }

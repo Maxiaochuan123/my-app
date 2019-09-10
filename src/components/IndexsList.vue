@@ -17,7 +17,7 @@
           <ul>
             <span v-for="(fitem, findex) in item.data" :key="findex">
               <li  v-for="(fitem2, findex2) in fitem.userList" :key="findex2" :class="{'no-border-bottom':findex2 === fitem.userList.length-1}">
-                <slot name="row" :row="fitem2"></slot>
+                <slot name="row" :row="fitem2" :index="findex2" :total="fitem.userList.length"></slot>
               </li>
             </span>
           </ul>
