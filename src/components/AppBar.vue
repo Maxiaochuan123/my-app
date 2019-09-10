@@ -124,7 +124,7 @@ export default {
   },
   methods: {
     leftClick() {
-      if (leftLinkName) {
+      if (this.leftLinkName) {
         this.goPage(this.leftLinkName);
       } else {
         this.$router.go(-1);

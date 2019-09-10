@@ -43,13 +43,6 @@ export default new Router({
           meta: { zIndex: 1 },
           component: () => import("../views/commonPage/selectUsers.vue")
         },
-        // 地址的选择
-        {
-          path: "/addressSelecte",
-          name: "addressSelecte",
-          meta: { zIndex: 1 },
-          component: () => import("../views/commonPage/addressSelecte.vue")
-        },
         // 联系人
         {
           path: "/contacts",
