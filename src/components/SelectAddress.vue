@@ -191,9 +191,10 @@ export default {
       //注册监听，当选中某条记录时会触发
       AMap.event.addListener(auto, "select", e => {
         //构造地点查询类
-        const { location: selectLocation } = e.poi;
+        console.log(e)
+        const { location: selectLocation,name } = e.poi;
         const placeSearch = new AMap.PlaceSearch();
-        placeSearch.search(this.inputValue, (status, result) => {
+        placeSearch.search(name, (status, result) => {
           let list = result.poiList.pois;
           // 第一步通过关键字获取到的信息点位
           // 第二步,如果第一步没有获取到点位再以PlaceSearch来获取到定位,只要第一个
