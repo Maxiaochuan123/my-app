@@ -8,7 +8,10 @@
       <div class="title">我的</div>
     </div>
     <div class="user-info">
-      <div class="user-info-wrap">
+      <div
+        @click="toGoTo('personalDetails')"
+        class="user-info-wrap"
+      >
         <div class="user">
           <div class="user-left">
             <div class="main-name">
@@ -55,7 +58,9 @@ export default {
     return {};
   },
   methods: {
-    
+    toGoTo(type) {
+      this.goPage(type)
+    }
   }
 };
 </script>
