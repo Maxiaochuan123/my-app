@@ -4,25 +4,47 @@
  -->
 <template>
   <div class="common-waters-clue">
-    <div class="clue-item" v-for="(item,index) in clueList" :key="index">
-      <div class="clue-item-wrap">
-        <div class="clue-left" @click="toDetails(item)">
-          <span class="primary-words">{{item.name}}</span>
-          <div class="sub-title regular-words">{{item.createName}}</div>
-        </div>
-        <div class="clue-right">
-          <mu-button color="primary" class="btn" @click="btnChange(item,'distribute')">分配</mu-button>
-          <mu-button color="info" class="btn" @click="btnChange(item,'receive')">领取</mu-button>
+    <div v-if="clueList.length>0">
+      <div
+        :key="index"
+        class="clue-item"
+        v-for="(item,index) in clueList"
+      >
+        <div class="clue-item-wrap">
+          <div
+            @click="toDetails(item)"
+            class="clue-left"
+          >
+            <span class="primary-words">{{item.name}}</span>
+            <div class="sub-title regular-words">{{item.createName}}</div>
+          </div>
+          <div class="clue-right">
+            <mu-button
+              @click="btnChange(item,'distribute')"
+              class="btn"
+              color="primary"
+            >分配</mu-button>
+            <mu-button
+              @click="btnChange(item,'receive')"
+              class="btn"
+              color="info"
+            >领取</mu-button>
+          </div>
         </div>
       </div>
     </div>
+    <Nothing
+      v-else
+      words="暂无公海线索"
+    ></Nothing>
   </div>
 </template>
 
 <script>
+import Nothing from "@components/Nothing.vue";
 export default {
   name: "commonWatersClue",
-  components: {},
+  components: { Nothing },
   data() {
     return {
       clueList: []
@@ -83,7 +105,7 @@ export default {
   methods: {
     toDetails(row) {
       // 进入线索的详情
-      this.goPage('clueDetails',{id:row.id,type:'commonWatersClue'})
+      this.goPage("clueDetails", { id: row.id, type: "commonWatersClue" });
     },
     btnChange(row, type) {
       if (type === "distribute") {
@@ -114,7 +136,6 @@ export default {
 .common-waters-clue {
   width: 100%;
   height: 100%;
-  margin-top: 12px;
   background-color: #fff;
   .clue-item {
     width: 100%;

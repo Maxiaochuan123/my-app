@@ -26,7 +26,7 @@
           slot="row"
           slot-scope="{row}"
         >
-          <div class="index-users-wrap">
+          <div class="index-users-left">
             <img
               class="select"
               src="/static/images/selected.png"
@@ -37,6 +37,8 @@
               src="/static/images/no-selected.png"
               v-show="!row.flag"
             />
+          </div>
+          <div class="index-users-right">
             <mu-avatar
               class="user-header"
               size="40"
@@ -126,22 +128,22 @@ export default {
     padding-top: 100px;
     padding-bottom: 80px;
     .index-users {
-      padding: 0 20px;
-      .index-users-wrap {
-        list-style-type: none;
-        display: flex;
-        justify-content: flex-start;
-        align-items: center;
-        color: @regular-text;
-        height: 66px;
-        border-bottom: 1px solid @primary-border;
+      display: flex;
+      padding: 0 0 0 15px;
+      align-items: center;
+      .index-users-left {
         .select {
           width: 18px;
           height: 18px;
         }
-        .user-header {
-          margin-left: 15px;
-        }
+      }
+      .index-users-right {
+        flex: 1;
+        margin-left: 15px;
+        display: flex;
+        align-items: center;
+        padding: 8px 0;
+        border-bottom: 1px solid @primary-border;
         .user-info {
           margin-left: 12px;
           .name {
@@ -180,13 +182,13 @@ export default {
         }
       }
     }
-    .sure{
-      font-size:14px;
-      width:58px;
-      height:28px;
-      color:#fff;
-      background-color:@primary;
-      border-radius:6px;
+    .sure {
+      font-size: 14px;
+      width: 58px;
+      height: 28px;
+      color: #fff;
+      background-color: @primary;
+      border-radius: 6px;
       min-width: 0;
     }
   }
