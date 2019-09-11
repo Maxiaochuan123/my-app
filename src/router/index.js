@@ -22,11 +22,19 @@ export default new Router({
           meta: { zIndex: 0 },
           component: () => import("../views/basics/home.vue")
         },
+        // 我的
         {
           path: "/myInfo",
           name: "myInfo",
           meta: { zIndex: 0 },
           component: () => import("../views/basics/myInfo.vue")
+        },
+        // 个人资料详情
+        {
+          path: "/personalDetails",
+          name: "personalDetails",
+          meta: { zIndex: 1 },
+          component: () => import("../views/basics/personalDetails.vue")
         },
         {
           path: "/myInfoChild",
@@ -108,7 +116,7 @@ export default new Router({
         },
         // 写跟进
         {
-          path: "/writeFollowup",
+          path: "/writeFollowup/:id",
           name: "writeFollowup",
           meta: { zIndex: 1 },
           component: () => import("../views/customer/writeFollowup.vue")

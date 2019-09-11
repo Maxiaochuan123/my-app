@@ -6,9 +6,7 @@
 <template>
   <div class="select-users">
     <AppBar
-      :customFnc="customFnc"
-      custom
-      customTitle="确定"
+      :isShowRightBtn="false"
       pageTitle="选择用户"
     ></AppBar>
     <SearchBar
@@ -53,6 +51,25 @@
         </div>
       </IndexsList>
     </div>
+    <!-- 已经选择 -->
+    <div class="now-select">
+      <div class="selected">
+        <img
+          height="18"
+          src="/static/images/selected.png"
+          width="18"
+        />
+        <div class="selected-text">
+          <span class="one">已经选择:</span>
+          <span>{{selectedList.length}}</span>
+        </div>
+      </div>
+      <mu-button
+        @click="submit"
+        class="sure"
+        small
+      >确认</mu-button>
+    </div>
   </div>
 </template>
 
@@ -79,7 +96,8 @@ export default {
   },
   data() {
     return {
-      userList: userList
+      userList: userList,
+      selectedList: [] // 已经选择的人数
     };
   },
   methods: {
@@ -87,7 +105,7 @@ export default {
       let one = row;
       one.flag = !one.flag;
     },
-    customFnc() {
+    submit() {
       this.$confirm("当前客户是否分享给您选择的人?", "提示").then(
         ({ result, value }) => {
           if (result) {
@@ -106,6 +124,7 @@ export default {
   .content {
     height: 100%;
     padding-top: 100px;
+    padding-bottom: 80px;
     .index-users {
       padding: 0 20px;
       .index-users-wrap {
@@ -115,7 +134,7 @@ export default {
         align-items: center;
         color: @regular-text;
         height: 66px;
-        border-bottom: 1px solid @primary-border; 
+        border-bottom: 1px solid @primary-border;
         .select {
           width: 18px;
           height: 18px;
@@ -137,6 +156,38 @@ export default {
           }
         }
       }
+    }
+  }
+  .now-select {
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+    height: 60px;
+    padding: 0 15px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: #fff;
+    .selected {
+      display: flex;
+      align-items: center;
+      .selected-text {
+        font-size: @primary-size;
+        color: @primary-text;
+        margin-left: 10px;
+        .one {
+          margin-right: 4px;
+        }
+      }
+    }
+    .sure{
+      font-size:14px;
+      width:58px;
+      height:28px;
+      color:#fff;
+      background-color:@primary;
+      border-radius:6px;
+      min-width: 0;
     }
   }
 }

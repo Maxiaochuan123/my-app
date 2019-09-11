@@ -1,4 +1,7 @@
-<!-- 地址选择的组件 -->
+<!--
+ * @Description: 地址选择的组件
+ * @Author: shenah
+ -->
 <template>
   <div class="select-address">
     <div
@@ -31,7 +34,10 @@
           >确定</div>
         </div>
         <div class="map-address">
-          <div id="amap"></div>
+          <div
+            id="amap"
+            v-show="mapFlag"
+          ></div>
           <div class="search-bar">
             <div class="serch-input">
               <mu-icon
@@ -69,7 +75,8 @@ export default {
       nowMarker: null, // 当前点位
       inputValue: "", // 输入的值
       showInputValue: "", // 地址显示的值
-      openFullscreen: false
+      openFullscreen: false,
+      mapFlag: false
     };
   },
   props: {
@@ -91,6 +98,10 @@ export default {
       this.$nextTick(() => {
         this.loadMap(); // 地图的加载
         this.addPlugin(); // 向地图增加插件
+        setTimeout(() => {
+          // 这样做是让地图先渲染,渲染完成后再显示这样点击地址就不会那么卡
+          this.mapFlag = true;
+        },500);
       });
     },
     submit() {
@@ -191,8 +202,8 @@ export default {
       //注册监听，当选中某条记录时会触发
       AMap.event.addListener(auto, "select", e => {
         //构造地点查询类
-        console.log(e)
-        const { location: selectLocation,name } = e.poi;
+        console.log(e);
+        const { location: selectLocation, name } = e.poi;
         const placeSearch = new AMap.PlaceSearch();
         placeSearch.search(name, (status, result) => {
           let list = result.poiList.pois;

@@ -1,9 +1,6 @@
 <!--
  * @Description: 主页菜单的我的
  * @Author: shenah
- * @Date: 2019-08-25 16:21:55
- * @LastEditTime: 2019-08-29 17:37:37
- * @LastEditors: Please set LastEditors
  -->
 <template>
   <div class="my-user">
