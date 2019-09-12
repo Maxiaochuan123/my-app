@@ -8,7 +8,6 @@
 <template>
   <div id="app">
     <router-view/>
-    
     <BottomNav v-if="showBotNav"/>
   </div>
 </template>

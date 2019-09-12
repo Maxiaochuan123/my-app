@@ -2,11 +2,7 @@
  * @Description: In User Settings Edit
  * @Author: your name
  * @Date: 2019-08-25 15:40:36
-<<<<<<< HEAD
- * @LastEditTime: 2019-09-05 18:35:21
-=======
  * @LastEditTime: 2019-09-09 18:23:35
->>>>>>> master
  * @LastEditors: Please set LastEditors
  */
 import Vue from "vue";
@@ -102,6 +98,17 @@ export default new Router({
           name: "editBasicsInfo",
           meta: { zIndex: 1 },
           component: () => import("../views/clue/editBasicsInfo.vue")
+        },
+        {
+          path: "/upLoad",
+          name: "upLoad",
+          meta: { zIndex: 1 },
+          component: () => import("../components/upLoad/uploadList.vue")
+        },{
+          path: "/upLoad2",
+          name: "upLoad2",
+          meta: { zIndex: 1 },
+          component: () => import("../components/upLoad/upLoadBasics.vue")
         },
         // 客户
         // 添加客户

@@ -57,6 +57,17 @@ Vue.prototype.storage = storage;
 Vue.prototype.apiMethod = apiMethod;
 
 
+import preview from 'vue-photo-preview'
+import 'vue-photo-preview/dist/skin.css'
+Vue.use(preview);
+
+import AlloyFinger from 'alloyfinger'
+import AlloyFingerPlugin from 'alloyfinger/vue/alloy_finger_vue'
+
+Vue.use(AlloyFingerPlugin,{
+  AlloyFinger
+})
+
 /* eslint-disable no-new */
 new Vue({
   el: '#app',
