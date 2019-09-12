@@ -1,6 +1,6 @@
 <!--
  * @Description: 新建或者编辑客户
- * @Author: your name
+ * @Author: shenah
  -->
 <template>
   <div class="addOrEditCustomer">
@@ -29,7 +29,7 @@
           >
             <mu-text-field
               placeholder="请输入客户名称(必填)"
-              v-model="form.value1"
+              v-model="form.customerName"
             ></mu-text-field>
           </mu-form-item>
           <mu-divider></mu-divider>
@@ -44,7 +44,7 @@
               <mu-text-field
                 disabled
                 placeholder="客户行业"
-                v-model="form.value2.text"
+                v-model="form.customerName"
               ></mu-text-field>
               <i class="iconfont icon-rightArrow"></i>
             </div>
@@ -62,7 +62,7 @@
               <mu-text-field
                 disabled
                 placeholder="客户类型"
-                v-model="form.value3.text"
+                v-model="form.customerName"
               ></mu-text-field>
               <i class="iconfont icon-rightArrow"></i>
             </div>
@@ -79,7 +79,7 @@
               <mu-text-field
                 disabled
                 placeholder="客户级别"
-                v-model="form.value3.text"
+                v-model="form.customerName"
               ></mu-text-field>
               <i class="iconfont icon-rightArrow"></i>
             </div>
@@ -96,7 +96,7 @@
               <mu-text-field
                 disabled
                 placeholder="客户来源"
-                v-model="form.value3.text"
+                v-model="form.customerName"
               ></mu-text-field>
               <i class="iconfont icon-rightArrow"></i>
             </div>
@@ -104,11 +104,22 @@
           <mu-divider></mu-divider>
           <mu-form-item
             :rules="myRules.phone"
-            label="电话"
+            label="手机号码"
             prop="value3"
           >
             <mu-text-field
-              placeholder="请输入电话号码(必填)"
+              placeholder="请输入手机号码(必填)"
+              v-model="form.value3"
+            ></mu-text-field>
+          </mu-form-item>
+          <mu-divider></mu-divider>
+          <mu-form-item
+            :rules="myRules.phone"
+            label="座机号码"
+            prop="value3"
+          >
+            <mu-text-field
+              placeholder="请输入座机号码"
               v-model="form.value3"
             ></mu-text-field>
           </mu-form-item>
@@ -236,10 +247,10 @@ export default {
         }
       ],
       form: {
-        value1: "",
-        value2: "",
-        value3: "",
-        value4: "",
+        customerName: "", // 客户名称
+        mobile: "", // 手机号码
+        telephone: "", // 座机号码
+        value4: "", // 
         value5: "",
         value6: "",
         value7: "",
@@ -255,11 +266,7 @@ export default {
       this.form.address = val;
     },
     submitDialog() {
-      // this.$toast.success('Hello World')
-      // setTimeout(()=>{
-      //   this.dialogState = false;
-      // },1000)
-      this.apiMethod.getCreditReporting(this);
+      
     },
     showPicker(pickerTitle) {
       this.pickerTitle = pickerTitle;
