@@ -13,17 +13,12 @@
 
         <li v-for="(item, index) in listTemp" :key="index" class="singer-ul-li">
           <div class="singer-tag" :id="item.tag">{{item.tag}}</div>
-
           <ul>
-            <span v-for="(fitem, findex) in item.data" :key="findex">
-              <li  v-for="(fitem2, findex2) in fitem.userList" :key="findex2" :class="{'no-border-bottom':findex2 === fitem.userList.length-1}">
-                <slot name="row" :row="fitem2" :index="findex2" :total="fitem.userList.length"></slot>
-              </li>
-            </span>
+            <li  v-for="(fitem, findex) in item.data" :key="findex">
+                <slot name="row" :row="fitem" :index="findex" :total="item.data.length"></slot>
+            </li>
           </ul>
-          
         </li>
-
       </ul>
     </div>
     <div class="sort">
@@ -53,8 +48,8 @@ export default {
       default:120
     },
     list:{
-      type:Array,
-      default: ()=>[]
+      type:Object,
+      default: ()=>{}
     }
   },
   data() {
@@ -91,22 +86,11 @@ export default {
     //  请求数据
     testData() {
       let res = this.list;
-      res = res.sort((a, b) => a.Findex.localeCompare(b.Findex));
-      res.forEach((item, index) => {
-        //　添加侧栏排序
-        item.Findex = item.Findex;
-        this.sortList.push(item.Findex);
-      });
-      //  去除重复
-      this.sortList = [...new Set(this.sortList)];
-      this.sortList = [...this.sortList];
-      //  添加排序标签和联系人列表
-      this.sortList.forEach(e => {
-        this.listTemp.push({
-          tag: e,
-          data: res.filter(i => i.Findex == e)
-        });
-      });
+      this.sortList = Object.keys(res);
+      this.listTemp = this.sortList.map(item => ({
+        tag:item,
+        data:res[item]
+      }))
     },
     //  跳转标签
     jumpTag(i) {
@@ -121,29 +105,20 @@ export default {
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped lang="less">
 .indexs-list {
-  /* position: relative; */
   background-color: #fff;
-  // margin-top: 50px;
-  // width: 90vw;
   height: 100%;
-  //     margin-top: 60px;
-  //     padding-bottom: 60px;
-  // padding-top: 50px;
   overflow-y: scroll;
 }
 
 .singer {
-  // position: relative;
   width: 100%;
   height: 100%;
-  // overflow: hidden;
   background-color: #fff;
 }
 
 .singer-top-tag {
   position: fixed;
   z-index: 99;
-  // top: 242px;
   left: 0;
   width: 100%;
   height: 30px;

@@ -28,7 +28,6 @@ fastclick.attach(document.body);
 
 import mixins from "../static/js/mixins";
 import storage from "../static/js/storage";
-import apiMethod from "./api/apiMethod";
 Vue.mixin(mixins);
 
 import dayjs from "dayjs";
@@ -36,7 +35,6 @@ Vue.prototype.dayjs = dayjs;
 
 Vue.config.productionTip = false;
 Vue.prototype.storage = storage;
-Vue.prototype.apiMethod = apiMethod;
 
 /* eslint-disable no-new */
 new Vue({
@@ -46,3 +44,8 @@ new Vue({
   components: { App },
   template: "<App/>"
 });
+// const prefix = `${window.location.protocol}//${window.location.host}`; //动态
+const prefix = "https://5f27526c-c706-4c1e-9081-957e619633c6.mock.pstmn.io"; // 本地测试库
+window.config = {
+  service: prefix
+};

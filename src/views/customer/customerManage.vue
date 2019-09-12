@@ -10,7 +10,7 @@
       pageTitle="客户管理"
     ></AppBar>
     <SearchBar
-      :list="userList"
+      :list="[]"
       placeholderText="搜索客户"
     ></SearchBar>
     <mu-tabs
@@ -31,7 +31,7 @@
         :listSpacing="0"
         :tagTop="242"
         :tagTopoffsetTop="250"
-        v-if="userList.length>0"
+        v-if="Object.keys(userList).length>0"
       >
         <div
           @click="toDetails(row)"
@@ -41,10 +41,10 @@
         >
           <div class="index-customer-wrap">
             <div class="title">
-              <span>{{row.Fsinger_name}}</span>
+              <span>{{row.customerName}}</span>
               <span class="rank">H级</span>
             </div>
-            <div class="sub-title">{{row.describe}}</div>
+            <div class="sub-title">{{row.detailAddress}}</div>
           </div>
           <mu-divider v-if="total-1 !== index"></mu-divider>
         </div>
@@ -62,6 +62,7 @@ import SearchBar from "@components/SearchBar.vue";
 import IndexsList from "@components/IndexsList.vue";
 import userList from "../../../static/json/userList";
 import Nothing from "@components/Nothing.vue";
+import Api from "@api";
 
 export default {
   name: "customerManage",
@@ -71,23 +72,39 @@ export default {
       rightIcon: "icon-tianjia",
       rightLinkName: "addOrEditCustomer",
       active: "my", // 当前激活(my=>我的,team=>团队)
-      userList: userList,
-      words: "暂无我的客户"
+      userList:[],
+      words: "暂无我的客户",
+      requestParams: {
+        // 列表请求的参数
+        search: "",
+        type: 2 // 1代表团队客户,2代表我的客户
+      }
     };
   },
   props: {},
   created() {
     this.$store.commit("setUserList", userList);
   },
-  mounted() {},
+  mounted() {
+    this.queryList();
+  },
   methods: {
+    // 列表中缺等级?
+    queryList() {
+      Api.queryCustomerList(this.requestParams).then(res => {
+        this.userList = res.data;
+        console.log(111, res);
+      });
+    },
     tabChange(val) {
       if (val === "my") {
-        console.log("我的客户");
+        this.requestParams.type = 2;
         this.words = "暂无我的客户";
+        this.queryList();
       } else {
-        console.log("团队客户");
-        this.words = "暂无团队客户";
+        this.requestParams.type = 1;
+        this.words = "暂无我的客户";
+        this.queryList();
       }
     },
     toDetails(row) {
