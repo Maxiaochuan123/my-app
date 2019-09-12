@@ -1,90 +1,148 @@
-/*
- * @Description: In User Settings Edit
- * @Author: your name
- * @Date: 2019-09-03 09:53:21
- * @LastEditTime: 2019-09-03 10:05:41
- * @LastEditors: Please set LastEditors
+/**
+ * 封装axios请求
  */
-import axios from 'axios'
-import Qs from 'qs';
-import { Toast } from 'muse-ui-toast';
-import storage from '../../static/js/storage';
-import tool from '../../static/js/tool'
 
-export default {
-  // 登录
-  // login(params) {
-  //   return axios.post('/user/login', params).then(res => {
-  //     if (res.data.code == '200') {
-  //       let token = tool.encAse192(res.data.data.token, 'token');
-  //       storage.sessionSet('token', token);
-  //       storage.sessionSet('userInfo', res.data.data);
-  //     }
-  //     return res.data;
-  //   })
-  // },
-
-  // 退出登陆
-  loginOut(params){ return axios.post('/user/logout', params).then(res => res.data)},
-  
-  // 征信报单转化率
-  getCreditReporting(params) { return axios.get('bi/creditConverRate/findCreditConverRate', {params: params}).then(res => res.data) },
-  
-
-  // 导出
-  accountflowBillExport(params) { return axios.post('bi/accountflow/bill/export', params, {responseType: 'blob'} ).then(res => res.data) },
-
-
-  // 上传
-  // upLoaod(params) {
-  //   return axios.post('/param/web/appra/carDealerDoc/uploadFile', params, {
-  //     headers: {
-  //       "Content-Type": "multipart/form-data"
-  //     }
-  //   }).then(res => res.data)
-  // },
-
-}
-
-
-
-
-
-
-
-
-// 超时时间
-axios.defaults.timeout = 5000;
-
-/*----------------------请求拦截----------------------*/
-axios.interceptors.request.use(config => {
-
-  // 参数序列化
-  // if (config.method === 'post' || config.method === 'put' || config.method === 'delete') {
-  //   config.data = Qs.stringify(config.data);
-  // };
-
-  // 携带 token
-  let token = storage.sessionGet('token');
-  if (token && config.url !== '/login') {
-    token = tool.decAse192(token,'token');
-    config.headers.token = token;
-    
+import axios from "axios";
+import Toast from 'muse-ui-toast';
+import utils from "./../../static/js/tool";
+import Loading from 'muse-ui-loading';
+const CODE_SUCCESS = 0;
+const CODE_FAIL_LOGIN = 302; // 登录失效或者token过期
+const NO_VIEW_RECORD_PERMISSION = 403;
+const METHODS = {
+  GET: "get",
+  POST: "post",
+  PUT: "put",
+  DELETE: "delete"
+};
+let loading = null;
+const checkRespStatus = resp => {
+  loading.close();
+  if (resp.status !== 200) {
+    console.log("Server error occurred");
+    return window.Promise.reject("Server error occurred");
   }
-  return config;
-}, error => {
-  Message.error({
-    message: '加载超时'
+  const data = resp.data;
+  return new Promise((resolve, reject) => {
+    if (resp && data.code + "" === CODE_SUCCESS + "") {
+      resolve(data);
+    } else {
+      if (data.code === CODE_FAIL_LOGIN) {
+        Toast.error({
+          message:'token过期,或者没有登录',
+          position:'top'
+        })
+        utils.signOut();
+      } else if (data.code === NO_VIEW_RECORD_PERMISSION) {
+        Toast.error({
+          message:'您没有权限访问',
+          position:'top'
+        })
+        window.history.go(-1);
+      } else if (data.msg) {
+        Toast.error({
+          message:data.msg,
+          position:'top'
+        })
+      } else {
+        Toast.error({
+          message:`code:${data.code}`,
+          position:'top'
+        })
+      }
+      reject(data);
+    }
+  });
+};
+const request = ({
+  url,
+  params,
+  headers = {},
+  method = METHODS.GET,
+  jsonType = true,
+  server = "service"
+}) => {
+  let httpUrl = window.config[server] + url;
+  const userObj = utils.decUserInfo();
+  let header = {
+    "Content-Type": jsonType
+      ? "application/json;charset=UTF-8"
+      : "application/x-www-form-urlencoded",
+    "Access-Control-Allow-Origin": "*",
+    token: userObj.token,
+    responseType: "json"
+  };
+  if (headers === "file") {
+    delete header["Content-Type"];
+    header["Content-Type"] = "multipart/form-data";
+  } else {
+    header = Object.assign(header, headers);
+  }
+  loading = Loading({
+    text:'正在加载中'
+  });
+  return axios({
+    params: method === METHODS.GET ? params : null,
+    data: method === METHODS.POST ? params : null,
+    method,
+    url: httpUrl,
+    headers: header
   })
-  return Promise.reject(error);
-})
-
-/*----------------------响应拦截----------------------*/
-axios.interceptors.response.use(response => {
-  return response
-}, error => {
-  Message.error({
-    message: error.response.data.message
-  })
-  return Promise.reject(error)
-})
+    .then(checkRespStatus)
+    .catch(error => {
+      loading.close();
+      if (!error.code && !navigator.onLine) {
+        Toast.error({
+          message:"网络出错，请重试",
+          position:'top'
+        })
+      }
+      if (error.message && error.message.indexOf("timeout") > -1) {
+        Toast.error({
+          message:"请求超时，请重试",
+          position:'top'
+        })
+      }
+      if (error.response && error.response.status === CODE_FAIL_LOGIN) {
+        Toast.error({
+          message:"token过期或者登录失败跳转到登录页面",
+          position:'top'
+        })
+        utils.signOut();
+      }
+      if (
+        error.response &&
+        error.response.status === NO_VIEW_RECORD_PERMISSION
+      ) {
+        // 没有权限
+        window.history.go(-1);
+        Toast.error({
+          message:"您没有权限访问",
+          position:'top'
+        })
+      }
+      return new Promise((resolve, reject) => {
+        // 返回错误回调
+        reject(error);
+      });
+    });
+};
+const post = ({ url, params, headers, server }) =>
+  request({
+    url,
+    params,
+    headers,
+    server,
+    method: METHODS.POST,
+    jsonType: true
+  });
+export const get = ({ url, params, headers, server }) =>
+  request({
+    url,
+    params,
+    headers,
+    server,
+    method: METHODS.GET,
+    jsonType: true
+  });
+export default post;

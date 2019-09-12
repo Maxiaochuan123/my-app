@@ -12,7 +12,11 @@
 <template>
   <div class="progress-column">
     <div v-if="list.length > 0">
-      <div class="item" v-for="(item,index) in list" :key="index">
+      <div
+        :key="index"
+        class="item"
+        v-for="(item,index) in list"
+      >
         <div class="item-left">
           <div class="line"></div>
           <div class="circular"></div>
@@ -20,7 +24,10 @@
         <div class="item-right">
           <div class="time">{{item.follow}}</div>
           <div class="node">
-            <mu-avatar size="36" class="none-left">
+            <mu-avatar
+              class="none-left"
+              size="36"
+            >
               <img src="/static/images/default-header.png" />
             </mu-avatar>
             <div class="node-right">
@@ -44,15 +51,16 @@
       </div>
     </div>
     <div v-else>
-      <div class="no-recode">暂无跟进记录</div>
+      <Nothing words="暂无跟进记录"></Nothing>
     </div>
   </div>
 </template>
 
 <script>
+import Nothing from "@components/Nothing.vue";
 export default {
   name: "Record",
-  components: {},
+  components: { Nothing },
   data() {
     return {
       list: [

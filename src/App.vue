@@ -7,16 +7,17 @@
  -->
 <template>
   <div id="app">
-    <router-view/>
-    <BottomNav v-if="showBotNav"/>
+    <router-view />
+
+    <BottomNav v-if="showBotNav" />
   </div>
 </template>
 
 <script>
 import BottomNav from "./components/BottomNav";
-import Theme from 'muse-ui/lib/theme';
-import myTheme from '../static/json/myTheme.json'
-import VConsole from 'vConsole'
+import Theme from "muse-ui/lib/theme";
+import myTheme from "../static/json/myTheme.json";
+import VConsole from "vConsole";
 export default {
   components: {
     BottomNav
@@ -26,14 +27,14 @@ export default {
       showBotNav: true
     };
   },
-  created(){
+  created() {
     // new VConsole();
-    let activTheme = this.storage.localGet('theme');
-    if(activTheme){
-      Theme.add('theme_one',activTheme,'light')
-      Theme.use('theme_one')
-    }else{
-      this.storage.localSet('theme',myTheme[0])
+    let activTheme = this.storage.localGet("theme");
+    if (activTheme) {
+      Theme.add("theme_one", activTheme, "light");
+      Theme.use("theme_one");
+    } else {
+      this.storage.localSet("theme", myTheme[0]);
     }
   },
   watch: {
@@ -49,14 +50,15 @@ export default {
 </script>
 
 <style lang="less">
-  @import url('../static/css/resetMuseUI.less');
-  @import url('../static/css/public.less');
-  * {
-    margin: 0px;
-    padding: 0px;
-  }
-  #app::-webkit-scrollbar{
-    width: 0;
-    display:none;
-  }
+@import url("../static/css/resetAmap.less");
+@import url("../static/css/resetMuseUI.less");
+@import url("../static/css/public.less");
+* {
+  margin: 0px;
+  padding: 0px;
+}
+#app::-webkit-scrollbar {
+  width: 0;
+  display: none;
+}
 </style>

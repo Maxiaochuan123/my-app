@@ -12,18 +12,24 @@
 <template>
   <div class="customerDetails">
     <AppBar
-      pageTitle="客户详情"
+      :menuList="menuList"
       :rightIcon="rightIcon"
       :rightLinkName="rightLinkName"
       :rightLinkParams="{id}"
-      isMenu
-      :menuList="menuList"
       @menuChange="menuChange"
+      isMenu
+      pageTitle="客户详情"
     ></AppBar>
-    <div class="content" :class="{'common-waters-customer-content':type ==='commonWatersCustomer'}">
+    <div
+      :class="{'common-waters-customer-content':type ==='commonWatersCustomer'}"
+      class="content"
+    >
       <div class="header">
         <div class="header-wrap">
-          <mu-avatar size="60" class="header-left">
+          <mu-avatar
+            class="header-left"
+            size="60"
+          >
             <img src="/static/images/default-header.png" />
           </mu-avatar>
           <div class="header-right">
@@ -48,14 +54,22 @@
       </div>
       <mu-tabs
         :value.sync="active"
-        inverse
-        color="primary"
-        indicator-color="primary"
         center
         class="tabs"
+        color="primary"
+        indicator-color="primary"
+        inverse
       >
-        <mu-tab replace value="record" to="customerRecord">跟进记录</mu-tab>
-        <mu-tab replace value="basic" to="customerBasic">基本信息</mu-tab>
+        <mu-tab
+          replace
+          to="customerRecord"
+          value="record"
+        >跟进记录</mu-tab>
+        <mu-tab
+          replace
+          to="customerBasic"
+          value="basic"
+        >基本信息</mu-tab>
       </mu-tabs>
       <div class="user-info">
         <router-view></router-view>
@@ -92,13 +106,23 @@ export default {
       rightIcon: "icon-gengduo1",
       rightLinkName: "addOrEditCustomer",
       menuList: [],
-      bottomList: [
+      bottomList: [], // 底部的按钮
+    };
+  },
+  props: {},
+  mounted() {
+    this.addBtnList();
+  },
+  methods: {
+    addBtnList() {
+      this.bottomList = [
         {
           img: "/static/images/buttom-write-follow.png",
           label: "写跟进",
           linkName: "writeFollowup",
           isLink: true,
-          type: "writeFollow"
+          type: "writeFollow",
+          linkParams: {id:this.id}
         },
         {
           img: "/static/images/buttom-call.png",
@@ -107,15 +131,7 @@ export default {
           isLink: false,
           type: "call"
         }
-      ]
-    };
-  },
-  props: {},
-  mounted() {
-    this.addMenu();
-  },
-  methods: {
-    addMenu() {
+      ];
       if (this.type === "commonWatersCustomer") {
         this.menuList = [
           {

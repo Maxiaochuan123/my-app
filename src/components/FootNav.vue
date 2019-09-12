@@ -40,9 +40,9 @@ export default {
   mounted() {},
   methods: {
     navItem(item) {
-      let { linkName, isLink } = item;
+      let { linkName, isLink,linkParams } = item;
       if (isLink) {
-        this.goPage(linkName);
+        this.goPage(linkName,linkParams);
       } else {
         this.$emit("footNavChange", item);
       }

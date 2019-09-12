@@ -35,6 +35,7 @@ module.exports = {
       'vue$': 'vue/dist/vue.esm.js',
       '@': resolve('src'),
       '@components': resolve('src/components'),
+      '@api': resolve('src/api/index.js'),
     }
   },
   module: {
@@ -73,6 +74,10 @@ module.exports = {
         }
       }
     ]
+  },
+  externals: {
+    // 引入高德地图
+    'AMap': 'AMap',
   },
   node: {
     // prevent webpack from injecting useless setImmediate polyfill because Vue

@@ -5,22 +5,72 @@
  -->
 <template>
   <div class="select-users">
-    <AppBar pageTitle="选择用户" custom :customFnc="customFnc" customTitle="确定"></AppBar>
-    <SearchBar placeholderText="搜索客户" :list="userList"></SearchBar>
+    <AppBar
+      :isShowRightBtn="false"
+      pageTitle="选择用户"
+    ></AppBar>
+    <SearchBar
+      :list="userList"
+      placeholderText="搜索客户"
+    ></SearchBar>
     <div class="content">
-      <IndexsList :tagTop="242" :tagTopoffsetTop="250" :listSpacing="0" :list="userList">
-        <div slot="row" slot-scope="{row}" class="index-users" @click="select(row)">
-          <img src="/static/images/selected.png" v-show="row.flag" class="select" />
-          <img src="/static/images/no-selected.png" v-show="!row.flag" class="select" />
-          <mu-avatar size="40" class="user-header">
-            <img src="/static/images/default-header.png" />
-          </mu-avatar>
-          <div class="user-info">
-            <div class="name">{{row.Fsinger_name}}</div>
-            <div class="job">总经理</div>
+      <IndexsList
+        :list="userList"
+        :listSpacing="0"
+        :tagTop="242"
+        :tagTopoffsetTop="250"
+      >
+        <div
+          @click="select(row)"
+          class="index-users"
+          slot="row"
+          slot-scope="{row}"
+        >
+          <div class="index-users-left">
+            <img
+              class="select"
+              src="/static/images/selected.png"
+              v-show="row.flag"
+            />
+            <img
+              class="select"
+              src="/static/images/no-selected.png"
+              v-show="!row.flag"
+            />
+          </div>
+          <div class="index-users-right">
+            <mu-avatar
+              class="user-header"
+              size="40"
+            >
+              <img src="/static/images/default-header.png" />
+            </mu-avatar>
+            <div class="user-info">
+              <div class="name">{{row.Fsinger_name}}</div>
+              <div class="job">总经理</div>
+            </div>
           </div>
         </div>
       </IndexsList>
+    </div>
+    <!-- 已经选择 -->
+    <div class="now-select">
+      <div class="selected">
+        <img
+          height="18"
+          src="/static/images/selected.png"
+          width="18"
+        />
+        <div class="selected-text">
+          <span class="one">已经选择:</span>
+          <span>{{selectedList.length}}</span>
+        </div>
+      </div>
+      <mu-button
+        @click="submit"
+        class="sure"
+        small
+      >确认</mu-button>
     </div>
   </div>
 </template>
@@ -48,7 +98,8 @@ export default {
   },
   data() {
     return {
-      userList: userList
+      userList: userList,
+      selectedList: [] // 已经选择的人数
     };
   },
   methods: {
@@ -56,7 +107,7 @@ export default {
       let one = row;
       one.flag = !one.flag;
     },
-    customFnc() {
+    submit() {
       this.$confirm("当前客户是否分享给您选择的人?", "提示").then(
         ({ result, value }) => {
           if (result) {
@@ -75,31 +126,70 @@ export default {
   .content {
     height: 100%;
     padding-top: 100px;
+    padding-bottom: 80px;
     .index-users {
-      width: 100%;
-      height: 100%;
+      display: flex;
+      padding: 0 0 0 15px;
+      align-items: center;
+      .index-users-left {
+        .select {
+          width: 18px;
+          height: 18px;
+        }
+      }
+      .index-users-right {
+        flex: 1;
+        margin-left: 15px;
+        display: flex;
+        align-items: center;
+        padding: 8px 0;
+        border-bottom: 1px solid @primary-border;
+        .user-info {
+          margin-left: 12px;
+          .name {
+            font-size: @primary-size;
+            color: @primary-text;
+            font-weight: @primary-weight;
+          }
+          .job {
+            font-size: @regular-size;
+            color: @regular-text;
+            font-weight: @regular-weight;
+          }
+        }
+      }
+    }
+  }
+  .now-select {
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+    height: 60px;
+    padding: 0 15px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: #fff;
+    .selected {
       display: flex;
       align-items: center;
-      .select {
-        width: 18px;
-        height: 18px;
-      }
-      .user-header {
-        margin-left: 15px;
-      }
-      .user-info {
-        margin-left: 12px;
-        .name {
-          font-size: @primary-size;
-          color: @primary-text;
-          font-weight: @primary-weight;
-        }
-        .job {
-          font-size: @regular-size;
-          color: @regular-text;
-          font-weight: @regular-weight;
+      .selected-text {
+        font-size: @primary-size;
+        color: @primary-text;
+        margin-left: 10px;
+        .one {
+          margin-right: 4px;
         }
       }
+    }
+    .sure {
+      font-size: 14px;
+      width: 58px;
+      height: 28px;
+      color: #fff;
+      background-color: @primary;
+      border-radius: 6px;
+      min-width: 0;
     }
   }
 }

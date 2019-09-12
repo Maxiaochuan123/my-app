@@ -4,18 +4,29 @@
  -->
 <template>
   <div class="common-waters">
-    <AppBar pageTitle="公海" :isShowRightBtn="false"></AppBar>
+    <AppBar
+      :isShowRightBtn="false"
+      pageTitle="公海"
+    ></AppBar>
     <SearchBar placeholderText="搜索客户"></SearchBar>
     <mu-tabs
       :value.sync="active"
-      inverse
-      color="primary"
-      indicator-color="primary"
       center
       class="tabs"
+      color="primary"
+      indicator-color="primary"
+      inverse
     >
-      <mu-tab replace value="clue" to="commonWatersClue">公海线索</mu-tab>
-      <mu-tab replace value="customer" to="commonWatersPeople">公海客户</mu-tab>
+      <mu-tab
+        replace
+        to="commonWatersClue"
+        value="clue"
+      >公海线索</mu-tab>
+      <mu-tab
+        replace
+        to="commonWatersPeople"
+        value="customer"
+      >公海客户</mu-tab>
     </mu-tabs>
     <div class="content">
       <router-view></router-view>
@@ -32,7 +43,7 @@ export default {
   components: { AppBar, SearchBar },
   data() {
     return {
-      active: "clue",
+      active: "clue"
     };
   },
   props: {},
@@ -49,7 +60,7 @@ export default {
   }
   .content {
     height: 100%;
-    padding-top: 160px;
+    padding-top: 172px;
   }
 }
 </style>
