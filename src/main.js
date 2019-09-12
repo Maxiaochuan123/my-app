@@ -9,7 +9,7 @@ import Vue from "vue";
 import App from "./App";
 import router from "./router";
 import store from "./vuex/store";
-import fastclick from "fastclick";
+// import fastclick from "fastclick";
 import MuseUI from "muse-ui";
 import "muse-ui/dist/muse-ui.css";
 import Toast from "muse-ui-toast";
@@ -24,7 +24,7 @@ Toast.config(options.toast);
 Vue.use(Message);
 Message.config(options.message);
 Vue.use(Loading);
-fastclick.attach(document.body);
+// fastclick.attach(document.body);
 
 import mixins from "../static/js/mixins";
 import storage from "../static/js/storage";
