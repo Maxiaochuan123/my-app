@@ -108,7 +108,7 @@ export default {
       }
     },
     toDetails(row) {
-      this.goPage("customerBasic", { id: row.Fsinger_mid });
+      this.goPage("customerBasic", { id: row.customerId });
     }
   }
 };

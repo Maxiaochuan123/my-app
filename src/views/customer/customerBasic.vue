@@ -9,51 +9,66 @@
       <div class="basic-details-item">
         <div class="basic-details-item-left">
           <div class="title">客户行业</div>
-          <div class="sub-title">汽车</div>
+          <div class="sub-title">{{$parent.details.customerTrade}}</div>
         </div>
       </div>
       <div class="basic-details-item">
         <div class="basic-details-item-left">
           <div class="title">客户类型</div>
-          <div class="sub-title">经销商</div>
-        </div>
-      </div>
-      <div class="basic-details-item">
-        <div class="basic-details-item-left">
-          <div class="title">客户级别</div>
-          <div class="sub-title">H级(战略经销商)</div>
+          <div class="sub-title">{{$parent.details.customerType}}</div>
         </div>
       </div>
       <div class="basic-details-item">
         <div class="basic-details-item-left">
           <div class="title">客户来源</div>
-          <div class="sub-title">到店</div>
+          <div class="sub-title">{{$parent.details.customerSource}}</div>
+        </div>
+      </div>
+      <div class="basic-details-item">
+        <div class="basic-details-item-left">
+          <div class="title">地址</div>
+          <div class="sub-title">{{$parent.details.address}}</div>
         </div>
       </div>
       <div class="basic-details-item no-border-bottom">
         <div class="basic-details-item-left">
-          <div class="title">地址</div>
-          <div class="sub-title">四川省成都市高新区天府街道224号</div>
+          <div class="title">详细地址</div>
+          <div class="sub-title">{{$parent.details.detailAddress}}</div>
         </div>
       </div>
     </div>
     <div class="basic-two">
-      <div class="basic-details-item" v-if="type !== 'commonWatersCustomer'">
+      <div
+        class="basic-details-item"
+        v-if="type !== 'commonWatersCustomer'"
+      >
         <div class="basic-details-item-left">
           <div class="title">新增联系人</div>
         </div>
         <div class="basic-details-item-right">
-          <img src="/static/images/add.png" @click="goPage('addContacts',{id:$parent.id})" />
+          <img
+            @click="goPage('addContacts',{id:$parent.id})"
+            src="/static/images/add.png"
+          />
         </div>
       </div>
-      <div v-for="(item,index) in contacts" :key="index">
-        <div class="basic-details-item" :class="{'no-border-bottom':index===contacts.length-1}">
+      <div
+        :key="index"
+        v-for="(item,index) in contacts"
+      >
+        <div
+          :class="{'no-border-bottom':index===contacts.length-1}"
+          class="basic-details-item"
+        >
           <div class="basic-details-item-left">
             <div class="title">{{item.name}}</div>
             <div class="sub-title">{{item.phone}}</div>
           </div>
           <div class="basic-details-item-right">
-            <img src="/static/images/call.png" @click="dial(item.phone)" />
+            <img
+              @click="dial(item.phone)"
+              src="/static/images/call.png"
+            />
           </div>
         </div>
       </div>
@@ -62,7 +77,7 @@
       <div class="basic-details-item no-border-bottom">
         <div class="basic-details-item-left">
           <div class="title">备注</div>
-          <div class="sub-title">发达凡达四方达大师法打放大萨芬达到撒范德萨</div>
+          <div class="sub-title">{{$parent.details.remark}}</div>
         </div>
       </div>
     </div>

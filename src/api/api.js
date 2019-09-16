@@ -3,9 +3,9 @@
  */
 
 import axios from "axios";
-import Toast from 'muse-ui-toast';
+import Toast from "muse-ui-toast";
 import utils from "./../../static/js/tool";
-import Loading from 'muse-ui-loading';
+import Loading from "muse-ui-loading";
 const CODE_SUCCESS = 0;
 const CODE_FAIL_LOGIN = 302; // 登录失效或者token过期
 const NO_VIEW_RECORD_PERMISSION = 403;
@@ -14,45 +14,6 @@ const METHODS = {
   POST: "post",
   PUT: "put",
   DELETE: "delete"
-};
-let loading = null;
-const checkRespStatus = resp => {
-  loading.close();
-  if (resp.status !== 200) {
-    console.log("Server error occurred");
-    return window.Promise.reject("Server error occurred");
-  }
-  const data = resp.data;
-  return new Promise((resolve, reject) => {
-    if (resp && data.code + "" === CODE_SUCCESS + "") {
-      resolve(data);
-    } else {
-      if (data.code === CODE_FAIL_LOGIN) {
-        Toast.error({
-          message:'token过期,或者没有登录',
-          position:'top'
-        })
-        utils.signOut();
-      } else if (data.code === NO_VIEW_RECORD_PERMISSION) {
-        Toast.error({
-          message:'您没有权限访问',
-          position:'top'
-        })
-        window.history.go(-1);
-      } else if (data.msg) {
-        Toast.error({
-          message:data.msg,
-          position:'top'
-        })
-      } else {
-        Toast.error({
-          message:`code:${data.code}`,
-          position:'top'
-        })
-      }
-      reject(data);
-    }
-  });
 };
 const request = ({
   url,
@@ -78,8 +39,8 @@ const request = ({
   } else {
     header = Object.assign(header, headers);
   }
-  loading = Loading({
-    text:'正在加载中'
+  const loading = Loading({
+    text: "正在加载中"
   });
   return axios({
     params: method === METHODS.GET ? params : null,
@@ -88,26 +49,63 @@ const request = ({
     url: httpUrl,
     headers: header
   })
-    .then(checkRespStatus)
+    .then(resp => {
+      loading && loading.close();
+      if (resp.status !== 200) {
+        console.log("Server error occurred");
+        return window.Promise.reject("Server error occurred");
+      }
+      const data = resp.data;
+      return new Promise((resolve, reject) => {
+        if (resp && data.code + "" === CODE_SUCCESS + "") {
+          resolve(data);
+        } else {
+          if (data.code === CODE_FAIL_LOGIN) {
+            Toast.error({
+              message: "token过期,或者没有登录",
+              position: "top"
+            });
+            utils.signOut();
+          } else if (data.code === NO_VIEW_RECORD_PERMISSION) {
+            Toast.error({
+              message: "您没有权限访问",
+              position: "top"
+            });
+            window.history.go(-1);
+          } else if (data.msg) {
+            Toast.error({
+              message: data.msg,
+              position: "top"
+            });
+          } else {
+            Toast.error({
+              message: `code:${data.code}`,
+              position: "top"
+            });
+          }
+          reject(data);
+        }
+      });
+    })
     .catch(error => {
-      loading.close();
+      loading && loading.close();
       if (!error.code && !navigator.onLine) {
         Toast.error({
-          message:"网络出错，请重试",
-          position:'top'
-        })
+          message: "网络出错，请重试",
+          position: "top"
+        });
       }
       if (error.message && error.message.indexOf("timeout") > -1) {
         Toast.error({
-          message:"请求超时，请重试",
-          position:'top'
-        })
+          message: "请求超时，请重试",
+          position: "top"
+        });
       }
       if (error.response && error.response.status === CODE_FAIL_LOGIN) {
         Toast.error({
-          message:"token过期或者登录失败跳转到登录页面",
-          position:'top'
-        })
+          message: "token过期或者登录失败跳转到登录页面",
+          position: "top"
+        });
         utils.signOut();
       }
       if (
@@ -117,9 +115,9 @@ const request = ({
         // 没有权限
         window.history.go(-1);
         Toast.error({
-          message:"您没有权限访问",
-          position:'top'
-        })
+          message: "您没有权限访问",
+          position: "top"
+        });
       }
       return new Promise((resolve, reject) => {
         // 返回错误回调

@@ -9,6 +9,7 @@
       class="surround"
     >
       <mu-text-field
+        :prop="fieldName"
         :rows-max="3"
         disabled
         multi-line
@@ -73,6 +74,7 @@ export default {
     return {
       map: null,
       nowMarker: null, // 当前点位
+      region: "", // 区域(省市区)
       inputValue: "", // 输入的值
       showInputValue: "", // 地址显示的值
       openFullscreen: false,
@@ -83,11 +85,17 @@ export default {
     defaultValue: {
       type: String,
       default: ""
+    },
+    fieldName: {
+      type: String,
+      default: ""
     }
   },
-  mounted() {
-    this.inputValue = this.defaultValue;
-    this.showInputValue = this.defaultValue;
+  watch: {
+    defaultValue(val) {
+      this.inputValue = this.defaultValue;
+      this.showInputValue = this.defaultValue;
+    }
   },
   methods: {
     selectAddress() {
@@ -101,12 +109,24 @@ export default {
         setTimeout(() => {
           // 这样做是让地图先渲染,渲染完成后再显示这样点击地址就不会那么卡
           this.mapFlag = true;
-        },500);
+        }, 500);
       });
     },
     submit() {
       // 点击确定
-      this.$emit("addressChange", this.inputValue);
+      let lng = "";
+      let lat = "";
+      if (this.nowMarker) {
+        lng = this.nowMarker.getPosition().lng;
+        lat = this.nowMarker.getPosition().lat;
+      }
+      this.$emit("addressChange", {
+        lng,
+        lat,
+        region: this.region,
+        value: this.inputValue,
+        fieldName: this.fieldName
+      });
       this.showInputValue = this.inputValue;
       this.clearAll();
       this.openFullscreen = false;
@@ -203,13 +223,14 @@ export default {
       AMap.event.addListener(auto, "select", e => {
         //构造地点查询类
         console.log(e);
-        const { location: selectLocation, name } = e.poi;
+        const { district, location: selectLocation, name } = e.poi;
         const placeSearch = new AMap.PlaceSearch();
         placeSearch.search(name, (status, result) => {
           let list = result.poiList.pois;
           // 第一步通过关键字获取到的信息点位
           // 第二步,如果第一步没有获取到点位再以PlaceSearch来获取到定位,只要第一个
           if (selectLocation) {
+            this.region = district; // 记住省市区
             this.addMarker(selectLocation); // 添加点位
             this.geocoderAnalysis(selectLocation);
           } else if (status === "complete" && list.length > 0) {
@@ -217,6 +238,7 @@ export default {
             const [first] = list;
             const { location } = first;
             const { lng, lat } = location;
+            this.region = district; // 记住省市区
             this.addMarker(location); // 添加点位
             this.setMapCenter(location); // 设置中心点的坐标
             this.geocoderAnalysis(location);
@@ -365,9 +387,5 @@ export default {
 .select-address {
   width: 100%;
   height: 100%;
-  .surround {
-    display: flex;
-    align-items: center;
-  }
 }
 </style>
