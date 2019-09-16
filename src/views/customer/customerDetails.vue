@@ -40,15 +40,15 @@
         <div class="header-info">
           <div class="header-info-item">
             <div class="header-info-item-left">创建人</div>
-            <div class="header-info-item-right">张三</div>
+            <div class="header-info-item-right">{{details.createUserName}}</div>
           </div>
           <div class="header-info-item">
             <div class="header-info-item-left">客户级别</div>
-            <div class="header-info-item-right">H级(战略合作商)</div>
+            <div class="header-info-item-right">{{details.customerLevel}}</div>
           </div>
           <div class="header-info-item">
             <div class="header-info-item-left">电话号码</div>
-            <div class="header-info-item-right">18980521111</div>
+            <div class="header-info-item-right">{{details.mobile}}</div>
           </div>
         </div>
       </div>
@@ -86,6 +86,7 @@
 <script>
 import AppBar from "@components/AppBar.vue";
 import FootNav from "@components/FootNav.vue";
+import Api from "@api";
 export default {
   name: "customerDetails",
   components: { AppBar, FootNav },
@@ -102,18 +103,30 @@ export default {
   },
   data() {
     return {
+      details: {}, // 详情
       active: "basic", // 当前激活的(record=> 跟进记录,basic=> 基本信息)
       rightIcon: "icon-gengduo1",
       rightLinkName: "addOrEditCustomer",
       menuList: [],
-      bottomList: [], // 底部的按钮
+      bottomList: [] // 底部的按钮
     };
   },
   props: {},
   mounted() {
     this.addBtnList();
+    // 查询客户详情
+    this.queryCustomerDetails();
   },
   methods: {
+    queryCustomerDetails() {
+      // 查询客户的详情
+      Api.queryCustomerDetailsById({
+        customerId: this.id
+      }).then(res => {
+        this.details = res.data;
+        console.log(111,  res.data);
+      });
+    },
     addBtnList() {
       this.bottomList = [
         {
@@ -122,7 +135,7 @@ export default {
           linkName: "writeFollowup",
           isLink: true,
           type: "writeFollow",
-          linkParams: {id:this.id}
+          linkParams: { id: this.id }
         },
         {
           img: "/static/images/buttom-call.png",

@@ -1,5 +1,5 @@
-import * as CUSTOMER from "./serviceUrl/customer.js";
-import post, { get } from "./api";
+import * as CUSTOMER from "../serviceUrl/customer";
+import post, { get } from "../api";
 /** 客户模块的 */
 export default {
   // 查询客户
@@ -14,10 +14,10 @@ export default {
       params,
       url: CUSTOMER.ADD_OR_EDIT_CUSTOMER
     }),
-  // 查询客户的字段  
-  queryCustomerField: params =>
-    post({
+  // 根据客户id查询详情
+  queryCustomerDetailsById: params =>
+    get({
       params,
-      url: CUSTOMER.CUSTOMER_FIELD
+      url: CUSTOMER.QUERY_CUSTOMER_DETAILS_BY_ID
     })
 };
