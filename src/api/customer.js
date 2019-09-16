@@ -13,5 +13,11 @@ export default {
     get({
       params,
       url: CUSTOMER.ADD_OR_EDIT_CUSTOMER
+    }),
+  // 查询客户的字段  
+  queryCustomerField: params =>
+    post({
+      params,
+      url: CUSTOMER.CUSTOMER_FIELD
     })
 };

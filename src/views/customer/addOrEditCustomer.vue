@@ -11,6 +11,8 @@
       customTitle="保存"
     ></AppBar>
     <div class="content">
+      <GeneralForm></GeneralForm>
+      
       <mu-form
         :model="form"
         class="mu-demo-form"
@@ -196,11 +198,13 @@ import AppBar from "../../components/AppBar";
 import Picker from "dm-vue-picker-h5";
 import Rules from "../../../static/js/rules";
 import SelectAddress from "@components/SelectAddress.vue";
+import GeneralForm from "@components/GeneralForm.vue";
 export default {
   components: {
     AppBar,
     Picker,
-    SelectAddress
+    SelectAddress,
+    GeneralForm
   },
   computed: {
     // 当前客户的id

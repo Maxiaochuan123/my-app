@@ -46,6 +46,10 @@ export default {
     return {};
   },
   props: {
+    fieldList: {
+      type: Array,
+      default: () => []
+    },
     fieldInfo: {
       type: Object,
       default: () => {}
