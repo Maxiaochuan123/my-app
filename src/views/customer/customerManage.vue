@@ -93,7 +93,6 @@ export default {
     queryList() {
       Api.queryCustomerList(this.requestParams).then(res => {
         this.userList = res.data;
-        console.log(111, res);
       });
     },
     tabChange(val) {

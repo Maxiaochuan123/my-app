@@ -33,8 +33,8 @@
             <img src="/static/images/default-header.png" />
           </mu-avatar>
           <div class="header-right">
-            <div class="title">四川好易车汽车贸易有限公司</div>
-            <div class="sub-title">四川省成都市高新区天府街道224号</div>
+            <div class="title">{{details.customerName}}</div>
+            <div class="sub-title">{{details.detailAddress}}</div>
           </div>
         </div>
         <div class="header-info">
@@ -113,18 +113,17 @@ export default {
   },
   props: {},
   mounted() {
-    this.addBtnList();
     // 查询客户详情
     this.queryCustomerDetails();
   },
   methods: {
     queryCustomerDetails() {
       // 查询客户的详情
-      Api.queryCustomerDetailsById({
+      return Api.queryCustomerDetailsById({
         customerId: this.id
       }).then(res => {
         this.details = res.data;
-        console.log(111,  res.data);
+        this.addBtnList();
       });
     },
     addBtnList() {
@@ -142,7 +141,8 @@ export default {
           label: "打电话",
           linkName: "myInfoChild",
           isLink: false,
-          type: "call"
+          type: "call",
+          phone: this.details.mobile
         }
       ];
       if (this.type === "commonWatersCustomer") {
@@ -213,7 +213,15 @@ export default {
       } else if (type === "del") {
         this.$confirm("是否删除此客户?", "提示").then(({ result, value }) => {
           if (result) {
-            console.log("删除");
+            Api.deleteCustomerById({
+              customerIds: this.id
+            }).then(res => {
+              this.$toast.success({
+                message: "删除成功",
+                position: "top"
+              });
+              this.goBack();
+            });
           }
         });
       } else if (type === "receive") {

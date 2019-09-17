@@ -10,3 +10,7 @@ export const QUERY_CUSTOMER_LIST = getApi("/queryClientListHtml");
 export const ADD_OR_EDIT_CUSTOMER = getApi("/ClientAddOrUpdate");
 // 根据客户id查询详情
 export const QUERY_CUSTOMER_DETAILS_BY_ID = getApi("/queryById");
+// 根据id删除客户
+export const DELETE_CUSTOMER_BY_ID = getApi("/deleteByIds");
+// 客户新增跟进记录
+export const ADD_CUSTOMER_FOLLOW_RECORD = getApi("/addFollowUpRecord");

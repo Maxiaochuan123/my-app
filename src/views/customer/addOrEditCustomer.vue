@@ -59,7 +59,6 @@ export default {
           customerId: this.id
         }).then(res => {
           this.details = res.data;
-          console.log(111, res.data);
         });
       }
     },

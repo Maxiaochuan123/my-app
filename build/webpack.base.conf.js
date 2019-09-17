@@ -36,6 +36,7 @@ module.exports = {
       '@': resolve('src'),
       '@components': resolve('src/components'),
       '@api': resolve('src/api/index.js'),
+      '@constants': resolve('src/constants'),
     }
   },
   module: {

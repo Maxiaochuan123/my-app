@@ -19,5 +19,17 @@ export default {
     get({
       params,
       url: CUSTOMER.QUERY_CUSTOMER_DETAILS_BY_ID
+    }),
+  // 根据id删除客户
+  deleteCustomerById: params =>
+    post({
+      params,
+      url: CUSTOMER.DELETE_CUSTOMER_BY_ID
+    }),
+  // 客户新增跟进记录
+  addCustomerFollowUpRecord: params =>
+    post({
+      params,
+      url: CUSTOMER.ADD_CUSTOMER_FOLLOW_RECORD
     })
 };
