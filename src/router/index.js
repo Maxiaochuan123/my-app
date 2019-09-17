@@ -15,6 +15,10 @@ export default new Router({
       path: "/",
       component: () => import("../views/basics/pageTransition.vue"),
       children: [
+        {
+          path: "/",
+          redirect: "/home"
+        },
         // basics 基础页面
         {
           path: "/home",
@@ -111,7 +115,8 @@ export default new Router({
           name: "upLoad",
           meta: { zIndex: 1 },
           component: () => import("../components/upLoad/uploadList.vue")
-        },{
+        },
+        {
           path: "/upLoad2",
           name: "upLoad2",
           meta: { zIndex: 1 },
@@ -162,7 +167,7 @@ export default new Router({
             }
           ]
         },
-         // 公海模块
+        // 公海模块
         // 公海
         {
           path: "/commonWaters",
@@ -175,14 +180,16 @@ export default new Router({
               path: "commonWatersClue",
               name: "commonWatersClue",
               meta: { zIndex: 1 },
-              component: () => import("../views/commonWaters/commonWatersClue.vue")
+              component: () =>
+                import("../views/commonWaters/commonWatersClue.vue")
             },
             // 公海客户
             {
               path: "commonWatersPeople",
               name: "commonWatersPeople",
               meta: { zIndex: 1 },
-              component: () => import("../views/commonWaters/commonWatersPeople.vue")
+              component: () =>
+                import("../views/commonWaters/commonWatersPeople.vue")
             }
           ]
         }
