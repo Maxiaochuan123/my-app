@@ -263,7 +263,11 @@ export default {
         this.setMapCenter(lnglatObj);
         return;
       }
-      let icon = new AMap.Icon();
+      let icon = new AMap.Icon({
+        size: new AMap.Size(40, 62),
+        image: "/static/images/location-marker.png",
+        imageSize: new AMap.Size(24, 46)
+      });
       // 添加点位
       this.nowMarker = new AMap.Marker({
         icon,

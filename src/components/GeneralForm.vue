@@ -105,6 +105,7 @@
               v-model="form[item.fieldName]"
             ></mu-date-input>
           </mu-form-item>
+          <mu-divider v-if="item.hidden!==1"></mu-divider>
         </div>
       </mu-paper>
     </mu-form>

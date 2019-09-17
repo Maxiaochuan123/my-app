@@ -21,6 +21,12 @@ export default new Router({
         },
         // basics 基础页面
         {
+          path: "/login",
+          name: "login",
+          meta: { zIndex: 0 },
+          component: () => import("../views/basics/login.vue")
+        },
+        {
           path: "/home",
           name: "home",
           meta: { zIndex: 0 },
