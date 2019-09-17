@@ -24,6 +24,7 @@
                 class="block"
               >
                 <mu-form-item
+                  :rules="myRules.must('用户名')"
                   icon="icon-shouji"
                   label="用户名"
                   prop="username"
@@ -36,6 +37,7 @@
                 </mu-form-item>
                 <mu-divider></mu-divider>
                 <mu-form-item
+                  :rules="myRules.must('密码')"
                   class="password"
                   icon="icon-mima"
                   label="密码"
@@ -88,6 +90,9 @@
 </template>
 
 <script>
+import tool from "../../../static/js/tool.js";
+import Rules from "../../../static/js/rules";
+import axios from "axios";
 export default {
   name: "login",
   components: {},
@@ -97,7 +102,7 @@ export default {
       form: {
         username: "", // 用户名
         password: "", // 密码
-        source: "" //  Web,Android,iOS
+        source: tool.judgeModel() //  Web,Android,iOS
       }
     };
   },
@@ -105,7 +110,14 @@ export default {
   mounted() {},
   methods: {
     login() {
-      console.log("登录");
+      this.$refs.form.validate().then(result => {
+        if (result) {
+          axios
+            .post(`${window.config.service}/login`, this.form)
+            .then(res => {})
+            .catch(error => {});
+        }
+      });
     },
     handlePassword(type) {
       if (type === "forget") {

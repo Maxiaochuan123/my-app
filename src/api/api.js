@@ -39,9 +39,10 @@ const request = ({
   } else {
     header = Object.assign(header, headers);
   }
-  const loading = Loading({
+  var loadingObj = Loading;
+  let example = loadingObj({
     text: "正在加载中"
-  });
+  })
   return axios({
     params: method === METHODS.GET ? params : null,
     data: method === METHODS.POST ? params : null,
@@ -50,7 +51,6 @@ const request = ({
     headers: header
   })
     .then(resp => {
-      loading && loading.close();
       if (resp.status !== 200) {
         console.log("Server error occurred");
         return window.Promise.reject("Server error occurred");
@@ -88,7 +88,6 @@ const request = ({
       });
     })
     .catch(error => {
-      loading && loading.close();
       if (!error.code && !navigator.onLine) {
         Toast.error({
           message: "网络出错，请重试",
@@ -123,6 +122,9 @@ const request = ({
         // 返回错误回调
         reject(error);
       });
+    })
+    .finally(() => {
+      example.close();
     });
 };
 const post = ({ url, params, headers, server }) =>

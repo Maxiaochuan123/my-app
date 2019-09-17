@@ -67,4 +67,19 @@ export default {
       return {};
     }
   },
+  judgeModel() {
+    // 检测是ios还是安卓
+    let equipmentType = "";
+    let agent = navigator.userAgent.toLowerCase();
+    let android = agent.indexOf("android");
+    let iphone = agent.indexOf("iphone");
+    let ipad = agent.indexOf("ipad");
+    if (android != -1) {
+      equipmentType = "Android";
+    }
+    if (iphone != -1 || ipad != -1) {
+      equipmentType = "iOS";
+    }
+    return equipmentType;
+  },
 };
