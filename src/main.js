@@ -55,8 +55,9 @@ new Vue({
   components: { App },
   template: "<App/>"
 });
-// const prefix = `${window.location.protocol}//${window.location.host}`; //动态
-const prefix = "https://5f27526c-c706-4c1e-9081-957e619633c6.mock.pstmn.io"; // 本地测试库
+const prefix = `${window.location.protocol}//${window.location.host}/api`; //测试本地
+// const prefix = "https://5f27526c-c706-4c1e-9081-957e619633c6.mock.pstmn.io"; // 本地测试库
+// const prefix = "http://192.168.0.92:6080/api"; // 接口测试库
 window.config = {
   service: prefix
 };

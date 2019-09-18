@@ -1,11 +1,11 @@
 // 点击波纹组件
-import waves from '../waves'
+import waves from "../waves";
 // 验证
-import Rules from './rules'
+import Rules from "./rules";
 // 日期处理
-import dayjs from 'dayjs';
+import dayjs from "dayjs";
 // 工具函数
-import tool from './tool';
+import tool from "./tool";
 
 export default {
   directives: {
@@ -28,13 +28,24 @@ export default {
         must: (mes, type) => this.must(mes, type),
         userName: [
           { validate: val => !!val, message: "必须填写用户名" },
-          { validate: val => Rules.name.test(val), message: "必须是 2 ~ 10 位汉字姓名" }
+          {
+            validate: val => Rules.name.test(val),
+            message: "必须是 2 ~ 10 位汉字姓名"
+          }
         ],
         phone: [
           { validate: val => !!val, message: "必须填写手机号" },
-          { validate: val => Rules.phone.test(val), message: "手机号格式不正确" }
+          {
+            validate: val => Rules.phone.test(val),
+            message: "手机号格式不正确"
+          }
         ],
-        email: [{ validate: val => this.noRequired(val, this.myRules.email[0], "邮箱格式不正确") }]
+        email: [
+          {
+            validate: val =>
+              this.noRequired(val, this.myRules.email[0], "邮箱格式不正确")
+          }
+        ]
       }
     };
   },
@@ -87,19 +98,21 @@ export default {
       } else if (type === "image") {
         error = `必须上传${mes}`;
       }
-      return [{
-        validate: val => !!val,
-        message: error
-      }];
+      return [
+        {
+          validate: val => !!val,
+          message: error
+        }
+      ];
     },
 
     // Dialog
     openDialog() {
       this.$refs.form.validate().then(result => {
-        if(result){
+        if (result) {
           this.dialogState = true;
-        }else{
-          this.$toast.warning('请将 必填 信息补充完整')
+        } else {
+          this.$toast.warning("请将 必填 信息补充完整");
         }
       });
     },
@@ -113,13 +126,21 @@ export default {
       }
       this.dialogState = false;
     },
+    toFormData(form = {}) {
+      // 变成formdata的形式
+      let formdata = new FormData();
+      Object.keys(form).forEach(item => {
+        formdata.append(item, form[item]);
+      });
+      return formdata;
+    }
   },
   filters: {
     formatDate(timeStamp) {
-      return dayjs(timeStamp).format('YYYY/MM/DD HH:mm:ss');
+      return dayjs(timeStamp).format("YYYY/MM/DD HH:mm:ss");
     },
     formatCurrency(money) {
       return tool.formatCurrency(money);
-    },
+    }
   }
 };

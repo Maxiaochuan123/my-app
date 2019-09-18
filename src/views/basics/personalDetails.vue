@@ -13,49 +13,37 @@
         <div class="header regular-words">
           <div>头像</div>
           <mu-avatar size="48">
-            <img src="/static/images/default-header.png" />
+            <img :src="loginUser.img" />
           </mu-avatar>
         </div>
         <div class="brief">
           <div class="regular-words">简介</div>
-          <div>我是客户代表谢谢你的关注我!!!!</div>
+          <div>{{loginUser.remark || '暂无简介'}}</div>
         </div>
       </div>
       <div class="basic">
         <div class="basic-details-item">
           <div class="basic-details-item-left">
             <div class="title">真实姓名</div>
-            <div class="sub-title">败吵吵</div>
+            <div class="sub-title">{{loginUser.realname}}</div>
           </div>
         </div>
         <div class="basic-details-item">
           <div class="basic-details-item-left">
             <div class="title">所在企业</div>
-            <div class="sub-title">众汇车服</div>
+            <div class="sub-title">{{loginUser.deptName}}</div>
           </div>
         </div>
         <div class="basic-details-item">
           <div class="basic-details-item-left">
             <div class="title">职位</div>
-            <div class="sub-title">架构师</div>
-          </div>
-        </div>
-        <div class="basic-details-item">
-          <div class="basic-details-item-left">
-            <div class="title">联系方式</div>
-            <div class="sub-title">18980521111</div>
-          </div>
-        </div>
-        <div class="basic-details-item">
-          <div class="basic-details-item-left">
-            <div class="title">企业所在地</div>
-            <div class="sub-title">四川省成都市</div>
+            <div class="sub-title">{{loginUser.post || '暂无职位'}}</div>
           </div>
         </div>
         <div class="basic-details-item no-border-bottom">
           <div class="basic-details-item-left">
-            <div class="title">详细地址</div>
-            <div class="sub-title">高新区航兴国际广场2号楼</div>
+            <div class="title">联系方式</div>
+            <div class="sub-title">{{loginUser.mobile}}</div>
           </div>
         </div>
       </div>
@@ -64,10 +52,14 @@
 </template>
 
 <script>
+import { mapState } from "vuex";
 import AppBar from "@components/AppBar.vue";
 export default {
   name: "personalDetails",
   components: { AppBar },
+  computed: {
+    ...mapState(["loginUser"])
+  },
   data() {
     return {
       date: ""

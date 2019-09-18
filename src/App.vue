@@ -18,6 +18,7 @@ import BottomNav from "./components/BottomNav";
 import Theme from "muse-ui/lib/theme";
 import myTheme from "../static/json/myTheme.json";
 import VConsole from "vConsole";
+import tool from "../static/js/tool.js";
 export default {
   components: {
     BottomNav
@@ -35,6 +36,12 @@ export default {
       Theme.use("theme_one");
     } else {
       this.storage.localSet("theme", myTheme[0]);
+    }
+  },
+  mounted() {
+    const userObj = tool.decUserInfo();
+    if (userObj.accessToken) {
+      this.$store.commit("setloginInfo", userObj);
     }
   },
   watch: {

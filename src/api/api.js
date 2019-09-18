@@ -1,10 +1,8 @@
-/**
- * 封装axios请求
- */
-
+import Qs from "qs";
+import storage from "../../static/js/storage";
+import tool from "../../static/js/tool";
 import axios from "axios";
 import Toast from "muse-ui-toast";
-import utils from "./../../static/js/tool";
 import Loading from "muse-ui-loading";
 const CODE_SUCCESS = 0;
 const CODE_FAIL_LOGIN = 302; // 登录失效或者token过期
@@ -15,117 +13,112 @@ const METHODS = {
   PUT: "put",
   DELETE: "delete"
 };
+let loading = null;
+// 超时时间
+axios.defaults.timeout = 5000;
+/*----------------------请求拦截----------------------*/
+axios.interceptors.request.use(
+  config => {
+    loading = Loading({
+      text: "正在加载中"
+    });
+    // 参数序列化
+    if (
+      config.method === "post" ||
+      config.method === "put" ||
+      config.method === "delete"
+    ) {
+      config.data = Qs.stringify(config.data);
+    }
+    // 携带 token
+    let loginObj = tool.decUserInfo("login");
+    let accessToken = loginObj.accessToken;
+
+    if (accessToken && config.url !== "/login") {
+      config.headers.accessToken = accessToken;
+    }
+    return config;
+  },
+  error => {
+    Toast.error({
+      message: "加载超时"
+    });
+    loading && loading.close();
+    return Promise.reject(error);
+  }
+);
+/*----------------------响应拦截----------------------*/
+axios.interceptors.response.use(
+  response => {
+    loading && loading.close();
+    return response;
+  },
+  error => {
+    loading && loading.close();
+    if (error && error.response) {
+      switch (error.response.status) {
+        case CODE_FAIL_LOGIN:
+          localStorage.clear();
+          window.location.href = `${window.location.protocol}//${window.location.host}/#/login`;
+          break;
+        case NO_VIEW_RECORD_PERMISSION:
+          Toast.warning({
+            message: "您无权访问该页面"
+          });
+          window.history.go(-1);
+          break;
+        default:
+      }
+    }
+    return Promise.reject(error);
+  }
+);
 const request = ({
   url,
   params,
   headers = {},
   method = METHODS.GET,
-  jsonType = true,
   server = "service"
 }) => {
   let httpUrl = window.config[server] + url;
-  const userObj = utils.decUserInfo();
-  let header = {
-    "Content-Type": jsonType
-      ? "application/json;charset=UTF-8"
-      : "application/x-www-form-urlencoded",
-    "Access-Control-Allow-Origin": "*",
-    token: userObj.token,
-    responseType: "json"
-  };
-  if (headers === "file") {
-    delete header["Content-Type"];
-    header["Content-Type"] = "multipart/form-data";
-  } else {
-    header = Object.assign(header, headers);
-  }
-  var loadingObj = Loading;
-  let example = loadingObj({
-    text: "正在加载中"
-  })
-  return axios({
-    params: method === METHODS.GET ? params : null,
-    data: method === METHODS.POST ? params : null,
-    method,
-    url: httpUrl,
-    headers: header
-  })
-    .then(resp => {
-      if (resp.status !== 200) {
-        console.log("Server error occurred");
-        return window.Promise.reject("Server error occurred");
-      }
-      const data = resp.data;
-      return new Promise((resolve, reject) => {
-        if (resp && data.code + "" === CODE_SUCCESS + "") {
-          resolve(data);
+  function checkCode(res) {
+    return new Promise((resolve, reject) => {
+      const data = res.data;
+      if (res.code === CODE_SUCCESS) {
+        resolve(data);
+      } else {
+        if (data.code === CODE_FAIL_LOGIN) {
+          Toast.error({
+            message: "token过期,或者没有登录",
+            position: "top"
+          });
+          utils.signOut();
+        } else if (data.code === NO_VIEW_RECORD_PERMISSION) {
+          Toast.error({
+            message: "您没有权限访问",
+            position: "top"
+          });
+          window.history.go(-1);
+        } else if (data.msg) {
+          Toast.error({
+            message: data.msg,
+            position: "top"
+          });
         } else {
-          if (data.code === CODE_FAIL_LOGIN) {
-            Toast.error({
-              message: "token过期,或者没有登录",
-              position: "top"
-            });
-            utils.signOut();
-          } else if (data.code === NO_VIEW_RECORD_PERMISSION) {
-            Toast.error({
-              message: "您没有权限访问",
-              position: "top"
-            });
-            window.history.go(-1);
-          } else if (data.msg) {
-            Toast.error({
-              message: data.msg,
-              position: "top"
-            });
-          } else {
-            Toast.error({
-              message: `code:${data.code}`,
-              position: "top"
-            });
-          }
-          reject(data);
+          Toast.error({
+            message: `code:${data.code}`,
+            position: "top"
+          });
         }
-      });
-    })
-    .catch(error => {
-      if (!error.code && !navigator.onLine) {
-        Toast.error({
-          message: "网络出错，请重试",
-          position: "top"
-        });
+        reject(data);
       }
-      if (error.message && error.message.indexOf("timeout") > -1) {
-        Toast.error({
-          message: "请求超时，请重试",
-          position: "top"
-        });
-      }
-      if (error.response && error.response.status === CODE_FAIL_LOGIN) {
-        Toast.error({
-          message: "token过期或者登录失败跳转到登录页面",
-          position: "top"
-        });
-        utils.signOut();
-      }
-      if (
-        error.response &&
-        error.response.status === NO_VIEW_RECORD_PERMISSION
-      ) {
-        // 没有权限
-        window.history.go(-1);
-        Toast.error({
-          message: "您没有权限访问",
-          position: "top"
-        });
-      }
-      return new Promise((resolve, reject) => {
-        // 返回错误回调
-        reject(error);
-      });
-    })
-    .finally(() => {
-      example.close();
     });
+  }
+  if (method === METHODS.GET) {
+    return axios.get(httpUrl, { params: params }).then(res => checkCode(res));
+  } else if (method === METHODS.POST) {
+    return axios.post(httpUrl, params).then(res => checkCode(res));
+  }
 };
 const post = ({ url, params, headers, server }) =>
   request({
@@ -133,8 +126,7 @@ const post = ({ url, params, headers, server }) =>
     params,
     headers,
     server,
-    method: METHODS.POST,
-    jsonType: true
+    method: METHODS.POST
   });
 export const get = ({ url, params, headers, server }) =>
   request({
@@ -142,7 +134,6 @@ export const get = ({ url, params, headers, server }) =>
     params,
     headers,
     server,
-    method: METHODS.GET,
-    jsonType: true
+    method: METHODS.GET
   });
 export default post;

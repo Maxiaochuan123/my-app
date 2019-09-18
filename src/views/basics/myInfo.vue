@@ -8,24 +8,32 @@
       <div class="title">我的</div>
     </div>
     <div class="user-info">
-      <div
-        @click="toGoTo('personalDetails')"
-        class="user-info-wrap"
-      >
-        <div class="user">
+      <div class="user-info-wrap">
+        <div
+          @click="toGoTo('personalDetails')"
+          class="user"
+        >
           <div class="user-left">
             <div class="main-name">
-              <span class="name">罗可</span>
-              <img src="/static/images/male.png" />
+              <span class="name">{{loginUser.realname}}</span>
+              <img
+                src="/static/images/male.png"
+                v-if="loginUser.sex === 1"
+              />
+              <img
+                src="/static/images/male.png"
+                v-if="loginUser.sex === 2"
+              />
             </div>
             <div class="sub-name">
-              <span class="name">众云车服/销售顾问</span>
+              <!-- 职务 -->
+              <span class="name">{{loginUser.post||'暂无职务'}}</span>
               <img src="/static/images/more.png" />
             </div>
           </div>
           <div class="user-right">
             <mu-avatar size="60">
-              <img src="/static/images/default-header.png" />
+              <img :src="loginUser.img" />
             </mu-avatar>
           </div>
         </div>
@@ -53,13 +61,19 @@
 </template>
 
 <script>
+import { mapState } from "vuex";
 export default {
   data() {
     return {};
   },
+  computed: {
+    ...mapState(["loginUser"])
+  },
+  mounted() {
+  },
   methods: {
     toGoTo(type) {
-      this.goPage(type)
+      this.goPage(type);
     }
   }
 };

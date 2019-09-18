@@ -5,16 +5,27 @@
  * @LastEditTime: 2019-08-29 09:40:31
  * @LastEditors: Please set LastEditors
  */
-import Vue from 'vue';
-import Vuex from 'vuex'
+import Vue from "vue";
+import Vuex from "vuex";
 Vue.use(Vuex);
 
 export default new Vuex.Store({
   state: {
-    userList:[]
+    accessToken: "", // token
+    authorities: {}, // 作者的权限
+    loginUser: {}, // 登录者的信息
+    userList: [],
+    loginInfo: {}
   },
   mutations: {
     // 基础方法
-    setUserList: (state, data) => state.userList = data
+    setUserList: (state, data) => (state.userList = data),
+    // 登录的基本信息
+    setloginInfo: (state, data) => {
+      const {accessToken,authorities,user} = data;
+      state.accessToken = accessToken;
+      state.authorities = authorities;
+      state.loginUser = user;
+    }
   }
-})
+});

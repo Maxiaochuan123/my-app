@@ -6,10 +6,10 @@
  */
 import Vue from "vue";
 import Router from "vue-router";
-
+import storage from "../../static/js/storage";
 Vue.use(Router);
 
-export default new Router({
+const router = new Router({
   routes: [
     {
       path: "/",
@@ -203,3 +203,16 @@ export default new Router({
     }
   ]
 });
+router.beforeEach((to, from, next) => {
+  if (localStorage.getItem("login")) {
+    next();
+  } else {
+    if (to.path == "/login") {
+      next();
+    } else {
+      storage.localRemove("login");
+      next("/login");
+    }
+  }
+});
+export default router;
