@@ -48,7 +48,9 @@ export default {
   },
   methods: {
     queryField() {
-      return Api.queryFieldList().then(res => {
+      return Api.queryFieldList({
+        label: "2"
+      }).then(res => {
         this.fieldList = res.data;
       });
     },
@@ -66,15 +68,15 @@ export default {
       const generalFormVue = this.$refs.generalForm;
       generalFormVue.$refs.form.validate().then(result => {
         if (result) {
-          Api.addOrEditCustomer({ ...generalFormVue.form, id: this.id }).then(
-            res => {
-              this.$toast.success({
-                message: res.msg,
-                position: "top"
-              });
-              this.goBack();
-            }
-          );
+          Api.addOrEditCustomer({
+            entity: { ...generalFormVue.form, id: this.id }
+          }).then(res => {
+            this.$toast.success({
+              message: res.msg,
+              position: "top"
+            });
+            this.goBack();
+          });
           return true;
         }
         this.$toast.info({
@@ -83,8 +85,7 @@ export default {
         });
         return false;
       });
-    },
-    submitDialog() {}
+    }
   }
 };
 </script>

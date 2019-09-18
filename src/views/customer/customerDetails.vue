@@ -114,6 +114,7 @@ export default {
   props: {},
   mounted() {
     // 查询客户详情
+    console.log(this.type)
     this.queryCustomerDetails();
   },
   methods: {

@@ -31,5 +31,11 @@ export default {
     post({
       params,
       url: CUSTOMER.ADD_CUSTOMER_FOLLOW_RECORD
+    }),
+  // 查询客户跟进记录
+  queryCustomerFollowUpRecord: params =>
+    post({
+      params,
+      url: CUSTOMER.QUERY_CUSTOMER_FOLLOW_RECORD
     })
 };

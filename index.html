@@ -8,18 +8,31 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width,initial-scale=1.0">
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1.0" />
     <!-- 加载太慢了先注释 -->
     <!-- <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700,400italic"> -->
-    <link rel="stylesheet" href="https://cdn.bootcss.com/material-design-icons/3.0.1/iconfont/material-icons.css">
-    <link rel="stylesheet" href="https://at.alicdn.com/t/font_1370349_mntes2hprkq.css">
+    <link
+      rel="stylesheet"
+      href="https://cdn.bootcss.com/material-design-icons/3.0.1/iconfont/material-icons.css"
+    />
+    <link
+      rel="stylesheet"
+      href="https://at.alicdn.com/t/font_1370349_mntes2hprkq.css"
+    />
     <!-- 引入高德地图 -->
     <script type="text/javascript" src="./static/libs/amap.js"></script>
     <title>myapp</title>
   </head>
   <body>
     <div id="app"></div>
+    <div class="ajax-loading" id="ajaxLoading" style="display: none;">
+      <div class="overlay"></div>
+      <div class="loading">
+        <img src="./static/images/loading.gif" alt="" />
+        <span>加载中，请稍后...</span>
+      </div>
+    </div>
     <!-- built files will be auto injected -->
   </body>
 </html>

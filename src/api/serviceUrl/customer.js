@@ -14,3 +14,5 @@ export const QUERY_CUSTOMER_DETAILS_BY_ID = getApi("/queryById");
 export const DELETE_CUSTOMER_BY_ID = getApi("/deleteByIds");
 // 客户新增跟进记录
 export const ADD_CUSTOMER_FOLLOW_RECORD = getApi("/addFollowUpRecord");
+// 客户查询跟进记录
+export const QUERY_CUSTOMER_FOLLOW_RECORD = getApi("/getFollowUpRecord");

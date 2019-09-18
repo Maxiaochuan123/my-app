@@ -47,6 +47,13 @@
           </div>
         </div>
       </div>
+      <div class="login-btn-wrap">
+        <mu-button
+          @click="loginOut"
+          class="login-out"
+          color="primary"
+        >退出登录</mu-button>
+      </div>
     </div>
   </div>
 </template>
@@ -54,6 +61,8 @@
 <script>
 import { mapState } from "vuex";
 import AppBar from "@components/AppBar.vue";
+import tool from "../../../static/js/tool";
+import Api from "@api";
 export default {
   name: "personalDetails",
   components: { AppBar },
@@ -67,7 +76,18 @@ export default {
   },
   props: {},
   mounted() {},
-  methods: {}
+  methods: {
+    loginOut() {
+      // 退出登录
+      Api.userLoginOut().then(res => {
+        this.$toast.success({
+          message: res.msg,
+          position: "top"
+        });
+        tool.signOut();
+      });
+    }
+  }
 };
 </script>
 <style lang='less' scoped>
@@ -100,6 +120,18 @@ export default {
       padding: 0 15px;
       margin-top: 12px;
       background-color: #fff;
+    }
+    .login-btn-wrap {
+      margin-top: 30px;
+      width: 100%;
+      display: flex;
+      justify-content: center;
+      .login-out {
+        width: 250px;
+        height: 44px;
+        border-radius: 6px;
+        font-size: @primary-size;
+      }
     }
   }
 }

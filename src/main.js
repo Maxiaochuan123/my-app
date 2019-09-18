@@ -36,16 +36,16 @@ Vue.prototype.dayjs = dayjs;
 Vue.config.productionTip = false;
 Vue.prototype.storage = storage;
 
-import preview from 'vue-photo-preview'
-import 'vue-photo-preview/dist/skin.css'
+import preview from "vue-photo-preview";
+import "vue-photo-preview/dist/skin.css";
 Vue.use(preview);
 
-import AlloyFinger from 'alloyfinger'
-import AlloyFingerPlugin from 'alloyfinger/vue/alloy_finger_vue'
+import AlloyFinger from "alloyfinger";
+import AlloyFingerPlugin from "alloyfinger/vue/alloy_finger_vue";
 
-Vue.use(AlloyFingerPlugin,{
+Vue.use(AlloyFingerPlugin, {
   AlloyFinger
-})
+});
 
 /* eslint-disable no-new */
 new Vue({
@@ -55,9 +55,9 @@ new Vue({
   components: { App },
   template: "<App/>"
 });
+// const prefix = `${window.location.protocol}//${window.location.host}`; //正式库地址
 const prefix = `${window.location.protocol}//${window.location.host}/api`; //测试本地
-// const prefix = "https://5f27526c-c706-4c1e-9081-957e619633c6.mock.pstmn.io"; // 本地测试库
-// const prefix = "http://192.168.0.92:6080/api"; // 接口测试库
+// const prefix = "http://192.168.0.92:6080"; //测试本地
 window.config = {
   service: prefix
 };

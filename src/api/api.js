@@ -1,9 +1,7 @@
 import Qs from "qs";
-import storage from "../../static/js/storage";
 import tool from "../../static/js/tool";
 import axios from "axios";
 import Toast from "muse-ui-toast";
-import Loading from "muse-ui-loading";
 const CODE_SUCCESS = 0;
 const CODE_FAIL_LOGIN = 302; // 登录失效或者token过期
 const NO_VIEW_RECORD_PERMISSION = 403;
@@ -13,15 +11,13 @@ const METHODS = {
   PUT: "put",
   DELETE: "delete"
 };
-let loading = null;
 // 超时时间
 axios.defaults.timeout = 5000;
 /*----------------------请求拦截----------------------*/
 axios.interceptors.request.use(
   config => {
-    loading = Loading({
-      text: "正在加载中"
-    });
+    let loading = document.getElementById("ajaxLoading");
+    loading.style.display = "block";
     // 参数序列化
     if (
       config.method === "post" ||
@@ -43,18 +39,21 @@ axios.interceptors.request.use(
     Toast.error({
       message: "加载超时"
     });
-    loading && loading.close();
+    let loading = document.getElementById("ajaxLoading");
+    loading.style.display = "none";
     return Promise.reject(error);
   }
 );
 /*----------------------响应拦截----------------------*/
 axios.interceptors.response.use(
   response => {
-    loading && loading.close();
+    let loading = document.getElementById("ajaxLoading");
+    loading.style.display = "none";
     return response;
   },
   error => {
-    loading && loading.close();
+    let loading = document.getElementById("ajaxLoading");
+    loading.style.display = "none";
     if (error && error.response) {
       switch (error.response.status) {
         case CODE_FAIL_LOGIN:
@@ -83,41 +82,42 @@ const request = ({
   let httpUrl = window.config[server] + url;
   function checkCode(res) {
     return new Promise((resolve, reject) => {
-      const data = res.data;
       if (res.code === CODE_SUCCESS) {
-        resolve(data);
+        resolve(res);
       } else {
-        if (data.code === CODE_FAIL_LOGIN) {
+        if (res.code === CODE_FAIL_LOGIN) {
           Toast.error({
             message: "token过期,或者没有登录",
             position: "top"
           });
-          utils.signOut();
-        } else if (data.code === NO_VIEW_RECORD_PERMISSION) {
+          tool.signOut();
+        } else if (res.code === NO_VIEW_RECORD_PERMISSION) {
           Toast.error({
             message: "您没有权限访问",
             position: "top"
           });
           window.history.go(-1);
-        } else if (data.msg) {
+        } else if (res.msg) {
           Toast.error({
-            message: data.msg,
+            message: res.msg,
             position: "top"
           });
         } else {
           Toast.error({
-            message: `code:${data.code}`,
+            message: `code:${res.code}`,
             position: "top"
           });
         }
-        reject(data);
+        reject(res);
       }
     });
   }
   if (method === METHODS.GET) {
-    return axios.get(httpUrl, { params: params }).then(res => checkCode(res));
+    return axios
+      .get(httpUrl, { params: params })
+      .then(res => checkCode(res.data));
   } else if (method === METHODS.POST) {
-    return axios.post(httpUrl, params).then(res => checkCode(res));
+    return axios.post(httpUrl, params).then(res => checkCode(res.data));
   }
 };
 const post = ({ url, params, headers, server }) =>

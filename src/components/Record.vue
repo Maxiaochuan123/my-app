@@ -11,39 +11,39 @@
  -->
 <template>
   <div class="progress-column">
-    <div v-if="list.length > 0">
+    <div v-if="record.length > 0">
       <div
         :key="index"
         class="item"
-        v-for="(item,index) in list"
+        v-for="(item,index) in record"
       >
         <div class="item-left">
           <div class="line"></div>
           <div class="circular"></div>
         </div>
         <div class="item-right">
-          <div class="time">{{item.follow}}</div>
+          <div class="time">{{item.createTime}}</div>
           <div class="node">
             <mu-avatar
               class="none-left"
               size="36"
             >
-              <img src="/static/images/default-header.png" />
+              <img :src="item.userImg" />
             </mu-avatar>
             <div class="node-right">
-              <div class="name">{{item.name}}</div>
-              <div class="talk">{{item.remark}}</div>
+              <div class="name">{{item.realname}}</div>
+              <div class="talk">{{item.content}}</div>
               <!-- 图片等等再写公用组件 -->
-              <div v-if="item.images.length>0">
+              <div v-if="item.img.length>0">
                 <div class="images"></div>
               </div>
               <div class="sub-info">
                 <label>跟进类型:</label>
-                <span>打电话</span>
+                <span>{{item.category}}</span>
               </div>
               <div class="sub-info">
                 <label>下次跟进时间:</label>
-                <span>2019/07/26 10:30</span>
+                <span>{{item.nextTime || '暂无跟进时间'}}</span>
               </div>
             </div>
           </div>
@@ -62,28 +62,14 @@ export default {
   name: "Record",
   components: { Nothing },
   data() {
-    return {
-      list: [
-        {
-          follow: "2019/07/25 10:30", // 跟进时间
-          name: "白超超", //
-          images: [], //
-          followType: "打电话", // 跟进类型
-          nextFollow: "2019/08/01 12:30",
-          remark: "发放打三分大赛"
-        },
-        {
-          follow: "2019/07/25 10:30", // 跟进时间
-          name: "白超超", //
-          images: [], //
-          followType: "打电话", // 跟进类型
-          nextFollow: "2019/08/01 12:30",
-          remark: "发放打三分大赛"
-        }
-      ]
-    };
+    return {};
   },
-  props: {},
+  props: {
+    record: {
+      type: Object,
+      default: () => []
+    }
+  },
   mounted() {},
   methods: {}
 };
