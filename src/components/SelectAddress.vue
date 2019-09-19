@@ -97,6 +97,10 @@ export default {
       this.showInputValue = this.defaultValue;
     }
   },
+  mounted() {
+    this.inputValue = this.defaultValue;
+    this.showInputValue = this.defaultValue;
+  },
   methods: {
     selectAddress() {
       // 点击地址选择
@@ -222,7 +226,6 @@ export default {
       //注册监听，当选中某条记录时会触发
       AMap.event.addListener(auto, "select", e => {
         //构造地点查询类
-        console.log(e);
         const { district, location: selectLocation, name } = e.poi;
         const placeSearch = new AMap.PlaceSearch();
         placeSearch.search(name, (status, result) => {
@@ -287,7 +290,13 @@ export default {
       const geocoder = new AMap.Geocoder();
       geocoder.getLocation(address, (status, result) => {
         if (status === "complete" && result.geocodes.length) {
+          const {
+            province,
+            city,
+            district
+          } = result.geocodes[0].addressComponent;
           const lnglat = result.geocodes[0].location;
+          this.region = `${province}${city}${district}`;
           this.addMarker(lnglat);
         } else {
           this.$toast.info({

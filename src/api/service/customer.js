@@ -10,9 +10,10 @@ export default {
     }),
   // 添加或者编辑客户
   addOrEditCustomer: params =>
-    get({
+    post({
       params,
-      url: CUSTOMER.ADD_OR_EDIT_CUSTOMER
+      url: CUSTOMER.ADD_OR_EDIT_CUSTOMER,
+      headers: { "Content-Type": "application/json;charset=UTF-8" }
     }),
   // 根据客户id查询详情
   queryCustomerDetailsById: params =>
@@ -37,5 +38,11 @@ export default {
     post({
       params,
       url: CUSTOMER.QUERY_CUSTOMER_FOLLOW_RECORD
+    }),
+  // 根据客户id查询联系人
+  queryContactsById: params =>
+    post({
+      params,
+      url: CUSTOMER.QUERY_CONTACTS_BY_ID
     })
 };

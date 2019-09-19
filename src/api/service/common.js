@@ -1,6 +1,6 @@
 import * as COMMON from "../serviceUrl/common";
 import post, { get } from "../api";
-/** 客户模块的 */
+/** 公共模块 */
 export default {
   // 登入
   userLoginIn: params =>

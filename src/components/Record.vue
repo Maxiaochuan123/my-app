@@ -66,7 +66,7 @@ export default {
   },
   props: {
     record: {
-      type: Object,
+      type: Array,
       default: () => []
     }
   },

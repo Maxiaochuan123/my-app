@@ -14,8 +14,7 @@ export default new Vuex.Store({
     accessToken: "", // token
     authorities: {}, // 作者的权限
     loginUser: {}, // 登录者的信息
-    userList: [],
-    loginInfo: {}
+    userList: []
   },
   mutations: {
     // 基础方法

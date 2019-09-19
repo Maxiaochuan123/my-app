@@ -54,19 +54,19 @@
       </div>
       <div
         :key="index"
-        v-for="(item,index) in contacts"
+        v-for="(item,index) in $parent.contactsList"
       >
         <div
-          :class="{'no-border-bottom':index===contacts.length-1}"
+          :class="{'no-border-bottom':index===contactsList.length-1}"
           class="basic-details-item"
         >
           <div class="basic-details-item-left">
             <div class="title">{{item.name}}</div>
-            <div class="sub-title">{{item.phone}}</div>
+            <div class="sub-title">{{item.mobile}}</div>
           </div>
           <div class="basic-details-item-right">
             <img
-              @click="dial(item.phone)"
+              @click="dial(item.mobile)"
               :src="loadingImg('call.png')"
             />
           </div>
@@ -101,16 +101,6 @@ export default {
   components: {},
   data() {
     return {
-      contacts: [
-        {
-          name: "白超超",
-          phone: "18980521111"
-        },
-        {
-          name: "法德萨法",
-          phone: "18980522111"
-        }
-      ] // 联系人列表
     };
   },
   props: {},

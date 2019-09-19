@@ -12,7 +12,6 @@
     ></AppBar>
     <div class="content">
       <GeneralForm
-        :defaultForm="details"
         :fieldList="fieldList"
         ref="generalForm"
       ></GeneralForm>
@@ -37,32 +36,20 @@ export default {
   },
   data() {
     return {
-      details: {},
       fieldList: []
     };
   },
   mounted() {
-    this.queryField().then(() => {
-      this.queryCustomerDetails();
-    });
+    this.queryField();
   },
   methods: {
     queryField() {
-      return Api.queryFieldList({
-        label: "2"
+      Api.queryFieldList({
+        label: "2",
+        id: this.id
       }).then(res => {
         this.fieldList = res.data;
       });
-    },
-    queryCustomerDetails() {
-      if (this.id) {
-        // 查询客户的详情
-        Api.queryCustomerDetailsById({
-          customerId: this.id
-        }).then(res => {
-          this.details = res.data;
-        });
-      }
     },
     customFnc() {
       const generalFormVue = this.$refs.generalForm;

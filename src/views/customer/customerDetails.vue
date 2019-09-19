@@ -108,6 +108,7 @@ export default {
       rightIcon: "icon-gengduo1",
       rightLinkName: "addOrEditCustomer",
       menuList: [],
+      contactsList: [], // 联系人列表
       bottomList: [] // 底部的按钮
     };
   },
@@ -115,8 +116,17 @@ export default {
   mounted() {
     // 查询客户详情
     this.queryCustomerDetails();
+    this.queryContacts();
   },
   methods: {
+    queryContacts() {
+      // 查询联系人
+      Api.queryContactsById({
+        customerId: this.id
+      }).then(res => {
+        this.contactsList = res.data.list || [];
+      });
+    },
     queryCustomerDetails() {
       // 查询客户的详情
       return Api.queryCustomerDetailsById({
@@ -129,7 +139,7 @@ export default {
     addBtnList() {
       this.bottomList = [
         {
-          img: loadingImg('buttom-write-follow.png'),
+          img: this.loadingImg("buttom-write-follow.png"),
           label: "写跟进",
           linkName: "writeFollowup",
           isLink: true,
@@ -137,7 +147,7 @@ export default {
           linkParams: { id: this.id }
         },
         {
-          img: loadingImg('buttom-call.png'),
+          img: this.loadingImg("buttom-call.png"),
           label: "打电话",
           linkName: "myInfoChild",
           isLink: false,

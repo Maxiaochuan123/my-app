@@ -24,7 +24,12 @@ axios.interceptors.request.use(
       config.method === "put" ||
       config.method === "delete"
     ) {
-      config.data = Qs.stringify(config.data);
+      const type = config.headers["Content-Type"];
+      if (type && type.indexOf("json") > -1) {
+        config.data = JSON.stringify(config.data);
+      } else {
+        config.data = Qs.stringify(config.data);
+      }
     }
     // 携带 token
     let loginObj = tool.decUserInfo("login");
@@ -117,7 +122,9 @@ const request = ({
       .get(httpUrl, { params: params })
       .then(res => checkCode(res.data));
   } else if (method === METHODS.POST) {
-    return axios.post(httpUrl, params).then(res => checkCode(res.data));
+    return axios
+      .post(httpUrl, params, { headers })
+      .then(res => checkCode(res.data));
   }
 };
 const post = ({ url, params, headers, server }) =>

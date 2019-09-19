@@ -2,6 +2,7 @@
  * @Description: 通用表单显示
    => fieldId 字段id
    => formType 表单类型(如text)
+   0 企业座机
    1 单行文本 text ; 
    2 多行文本 textarea; 
    3 单选 select;
@@ -54,7 +55,7 @@
             :label="item.name"
             :prop="item.fieldName"
             :rules="createRule(item)"
-            v-if="item.hidden!==1"
+            v-if="item.htmlHidden!==1"
           >
             <!-- 输入框类型 -->
             <mu-text-field
@@ -105,13 +106,13 @@
               v-model="form[item.fieldName]"
             ></mu-date-input>
           </mu-form-item>
-          <mu-divider v-if="item.hidden!==1"></mu-divider>
+          <mu-divider v-if="item.htmlHidden!==1"></mu-divider>
         </div>
       </mu-paper>
     </mu-form>
     <!-- 弹出选择器 -->
     <Picker
-      :anchor="[0]"
+      :anchor="pickerAnchor"
       :data="pickerList"
       :textTitle="pickerTitle"
       @confirm="handlePickerConfirm"
@@ -131,7 +132,7 @@ export default {
   data() {
     return {
       // 输入框
-      inputArr: [1, 5, 6, 7, 14, 17],
+      inputArr: [0, 1, 5, 6, 7, 14, 17],
       // 单选,
       singleArr: [3],
       // 地图,
@@ -142,17 +143,14 @@ export default {
       dateTimeArr: [13],
       form: {},
       pickerTitle: "", // 下拉选的title
-      pickerList: [] // 下拉选列表
+      pickerList: [], // 下拉选列表
+      pickerAnchor: [0] // 下拉选默认值
     };
   },
   props: {
     fieldList: {
       type: Array,
       default: () => []
-    },
-    defaultForm: {
-      type: Object,
-      default: () => {}
     }
   },
   mounted() {},
@@ -160,13 +158,10 @@ export default {
     fieldList(val) {
       let form = {};
       val.forEach(item => {
-        let { fieldName } = item;
-        form[fieldName] = "";
+        let { fieldName, value } = item;
+        form[fieldName] = value;
       });
       this.form = form;
-    },
-    defaultForm(val) {
-      this.form = val;
     }
   },
   methods: {
@@ -252,13 +247,19 @@ export default {
       return typeObj;
     },
     showPicker(row) {
-      const { fieldName, setting, name } = row;
+      const { fieldName, options, name } = row;
+      const nowValue = this.form[fieldName];
       this.pickerTitle = name;
-      this.pickerList = setting.map(item => ({
-        fieldName,
-        text: item,
-        value: item
-      }));
+      this.pickerList = options.split(",").map((item, index) => {
+        if (nowValue && nowValue === item) {
+          this.pickerAnchor = [index];
+        }
+        return {
+          fieldName,
+          text: item,
+          value: item
+        };
+      });
       this.$refs.picker.show();
     },
     handlePickerConfirm(value, column, text) {
@@ -274,6 +275,7 @@ export default {
       this.form.lng = lng;
       this.form.lat = lat;
       this.form.address = region;
+      this.form.location = value;
       // this.form[`${fieldName}_lng`] = lng;
       // this.form[`${fieldName}_lat`] = lat;
       // this.from[`${fieldName}_region`] = region;
