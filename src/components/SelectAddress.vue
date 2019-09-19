@@ -52,9 +52,9 @@
                 v-model="inputValue"
               />
               <img
+                :src="loadingImg('delete.png')"
                 @click.stop="clearAll()"
                 class="close"
-                src="/static/images/delete.png"
               />
             </div>
           </div>
@@ -265,7 +265,7 @@ export default {
       }
       let icon = new AMap.Icon({
         size: new AMap.Size(40, 62),
-        image: "/static/images/location-marker.png",
+        image: this.loadingImg("location-marker.png"),
         imageSize: new AMap.Size(24, 46)
       });
       // 添加点位

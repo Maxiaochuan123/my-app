@@ -11,7 +11,7 @@
   <div class="nothing">
     <div class="no">
       <img
-        :src="`static/images/${type}.png`"
+        :src="loadingImg(`${type}.png`)"
         class="bc-img"
       />
       <div class="text">{{words}}</div>

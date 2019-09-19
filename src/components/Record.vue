@@ -102,7 +102,7 @@ export default {
         position: relative;
         width: 20px;
         height: 20px;
-        background: url("/static/images/time-stamp.png") no-repeat;
+        background: url("../../static/images/time-stamp.png") no-repeat;
         background-size: 100% 100%;
         z-index: 100;
       }

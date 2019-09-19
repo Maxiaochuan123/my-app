@@ -8,7 +8,7 @@
       <div class="login-frame-wrap">
         <div class="login-info">
           <mu-avatar size="100">
-            <img src="/static/images/login-header.png" />
+            <img :src="loadingImg('login-header.png')" />
           </mu-avatar>
           <div class="text">欢迎回来!</div>
           <div class="user">
@@ -29,7 +29,7 @@
                   <div class="login-input">
                     <img
                       class="input-img"
-                      src="/static/images/login-user.png"
+                      :src="loadingImg('login-user.png')"
                     />
                     <mu-text-field
                       placeholder="请输入用户名"
@@ -47,7 +47,7 @@
                   <div class="login-input">
                     <img
                       class="input-img"
-                      src="/static/images/login-password.png"
+                      :src="loadingImg('login-password.png')"
                     />
                     <mu-text-field
                       placeholder="请输入密码"
@@ -67,12 +67,12 @@
               >
                 <img
                   class="select"
-                  src="/static/images/selected.png"
+                  :src="loadingImg('selected.png')"
                   v-show="flag"
                 />
                 <img
                   class="select"
-                  src="/static/images/no-selected.png"
+                  :src="loadingImg('no-selected.png')"
                   v-show="!flag"
                 />
                 <span>记住密码</span>
@@ -127,7 +127,7 @@ export default {
             this.$store.commit("setloginInfo", data);
             let unlockStr = tool.encAse192(JSON.stringify(data), "login");
             this.storage.localSet("login", unlockStr);
-            this.goPage('home');
+            this.goPage("home");
           });
         }
       });

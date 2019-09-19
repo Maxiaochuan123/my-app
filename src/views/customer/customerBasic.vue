@@ -48,7 +48,7 @@
         <div class="basic-details-item-right">
           <img
             @click="goPage('addContacts',{id:$parent.id})"
-            src="/static/images/add.png"
+            :src="loadingImg('add.png')"
           />
         </div>
       </div>
@@ -67,7 +67,7 @@
           <div class="basic-details-item-right">
             <img
               @click="dial(item.phone)"
-              src="/static/images/call.png"
+              :src="loadingImg('call.png')"
             />
           </div>
         </div>

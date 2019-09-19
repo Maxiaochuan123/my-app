@@ -13,7 +13,7 @@
       <SearchBar :list="userList" placeholderText="搜索联系人"></SearchBar>
         <IndexsList :list="userList">
           <div slot="row" slot-scope="{row}" class="user-index">
-            <img src="../../../static/images/默认头像.png" />
+            <img :src="loadingImg('默认头像.png')" />
             <div>
               <span>{{row.Fsinger_name}}</span>
               <span>{{row.describe}}</span>
@@ -29,7 +29,6 @@
 import AppBar from "../../components/AppBar";
 import IndexsList from "../../components/IndexsList";
 import SearchBar from "../../components/SearchBar";
-
 import { mapState } from 'vuex'
 export default {
   components: {

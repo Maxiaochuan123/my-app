@@ -39,32 +39,32 @@
           <mu-carousel-item>
             <div class="gridNav">
               <div class="row">
-                <div @click="goPage('clue')"><img src="../../../static/images/线索.png"><span>线索</span></div>
-                <div @click="goPage('customerManage')"><img src="../../../static/images/客户.png"><span>客户</span></div>
-                <div @click="goPage('commonWatersClue')"><img src="../../../static/images/公海.png"><span>公海</span></div>
-                <div><img src="../../../static/images/待办.png"><span>待办</span></div>
+                <div @click="goPage('clue')"><img :src="loadingImg('线索.png')"><span>线索</span></div>
+                <div @click="goPage('customerManage')"><img :src="loadingImg('客户.png')"><span>客户</span></div>
+                <div @click="goPage('commonWatersClue')"><img :src="loadingImg('公海.png')"><span>公海</span></div>
+                <div><img :src="loadingImg('待办.png')"><span>待办</span></div>
               </div>
               <div class="row">
-                <div><img src="../../../static/images/日报.png"><span>日报</span></div>
-                <div><img src="../../../static/images/拜访.png"><span>拜访</span></div>
-                <div><img src="../../../static/images/任务.png"><span>任务</span></div>
-                <div><img src="../../../static/images/订单.png"><span>订单</span></div>
+                <div><img :src="loadingImg('日报.png')"><span>日报</span></div>
+                <div><img :src="loadingImg('拜访.png')"><span>拜访</span></div>
+                <div><img :src="loadingImg('任务.png')"><span>任务</span></div>
+                <div><img :src="loadingImg('订单.png')"><span>订单</span></div>
               </div>
             </div>
           </mu-carousel-item>
           <mu-carousel-item>
             <div class="gridNav">
               <div class="row">
-                <div><img src="../../../static/images/线索.png"><span>考勤</span></div>
-                <div><img src="../../../static/images/线索.png"><span>统计报表</span></div>
-                <div><img src="../../../static/images/线索.png"><span>知识库</span></div>
-                <div><img src="../../../static/images/线索.png"><span>查征信</span></div>
+                <div><img :src="loadingImg('日报.png')"><span>考勤</span></div>
+                <div><img :src="loadingImg('日报.png')"><span>统计报表</span></div>
+                <div><img :src="loadingImg('日报.png')"><span>知识库</span></div>
+                <div><img :src="loadingImg('日报.png')"><span>查征信</span></div>
               </div>
               <div class="row">
-                <div><img src="../../../static/images/线索.png"><span>产品</span></div>
-                <div><img src="../../../static/images/线索.png"><span>回款</span></div>
-                <div><img src="../../../static/images/线索.png"><span>合同</span></div>
-                <div><img src="../../../static/images/线索.png"><span>商机</span></div>
+                <div><img :src="loadingImg('日报.png')"><span>产品</span></div>
+                <div><img :src="loadingImg('日报.png')"><span>回款</span></div>
+                <div><img :src="loadingImg('日报.png')"><span>合同</span></div>
+                <div><img :src="loadingImg('日报.png')"><span>商机</span></div>
               </div>
             </div>
           </mu-carousel-item>
@@ -79,7 +79,6 @@
 import AppBar from '../../components/AppBar'
 import Theme from 'muse-ui/lib/theme';
 import myTheme from '../../../static/json/myTheme.json'
-
 export default {
   components: {
     AppBar

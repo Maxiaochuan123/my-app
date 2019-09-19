@@ -55,7 +55,7 @@
           <div v-for="(item ,index) in userList2" :key="index">
             <mu-list-item button v-waves @click="drawerContacts = false;drawerDepartment = false; goPage('personalInfo')">
               <mu-avatar>
-                <img src="../../../static/images/默认头像.png">
+                <img :src="loadingImg('默认头像.png')">
               </mu-avatar>
               <mu-list-item-content>
                 <mu-list-item-title>{{item.name}}</mu-list-item-title>

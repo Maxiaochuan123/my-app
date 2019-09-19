@@ -19,12 +19,12 @@
       <mu-paper :z-depth="0" class="infoCard">
         <div class="topInfo">
           <div class="headImg">
-            <img src="../../../static/images/默认头像.png" />
+            <img :src="loadingImg('默认头像.png')" />
           </div>
           <div class="info">
             <div class="name">
               <span>张三</span>
-              <img src="../../../static/images/女.png" />
+              <img :src="loadingImg('女.png')" />
             </div>
             <div class="clueDate">{{ clueDate | formatDate}}</div>
           </div>
@@ -236,7 +236,6 @@
 import AppBar from "../../components/AppBar";
 import Record from "../../components/Record";
 import FootNav from "../../components/FootNav";
-
 export default {
   components: {
     AppBar,
@@ -291,14 +290,14 @@ export default {
 
       bottomList: [
         {
-          img: "/static/images/buttom-write-follow.png",
+          img: loadingImg('buttom-write-follow.png'),
           label: "写跟进",
           linkName: "writeFollowup",
           isLink: true,
           type: "writeFollow"
         },
         {
-          img: "/static/images/buttom-call.png",
+          img: loadingImg('buttom-call.png'),
           label: "打电话",
           linkName: "myInfoChild",
           isLink: false,

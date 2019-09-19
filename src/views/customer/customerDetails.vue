@@ -30,7 +30,7 @@
             class="header-left"
             size="60"
           >
-            <img src="/static/images/default-header.png" />
+            <img :src="loadingImg('default-header.png')" />
           </mu-avatar>
           <div class="header-right">
             <div class="title">{{details.customerName}}</div>
@@ -114,7 +114,6 @@ export default {
   props: {},
   mounted() {
     // 查询客户详情
-    console.log(this.type)
     this.queryCustomerDetails();
   },
   methods: {
@@ -123,14 +122,14 @@ export default {
       return Api.queryCustomerDetailsById({
         customerId: this.id
       }).then(res => {
-        this.details = res.data;
+        this.details = res.data || {};
         this.addBtnList();
       });
     },
     addBtnList() {
       this.bottomList = [
         {
-          img: "/static/images/buttom-write-follow.png",
+          img: loadingImg('buttom-write-follow.png'),
           label: "写跟进",
           linkName: "writeFollowup",
           isLink: true,
@@ -138,7 +137,7 @@ export default {
           linkParams: { id: this.id }
         },
         {
-          img: "/static/images/buttom-call.png",
+          img: loadingImg('buttom-call.png'),
           label: "打电话",
           linkName: "myInfoChild",
           isLink: false,

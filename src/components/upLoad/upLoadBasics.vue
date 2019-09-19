@@ -3,7 +3,7 @@
     <div class="imgPreview">
       <div class="imgList" :class="[isAlimatin?'animation-in':'']" v-for="(item,index) in imgPreviewList" :key="index">
         <img class="imgItem" :src="item.src" @click="openPreview(item, index)">
-        <img class="delete" src="../../../static/images/delete.png" v-show="item.progress.progressState == 1" @click="deleteImageItem(item)">
+        <img class="delete" :src="loadingImg('delete.png')" v-show="item.progress.progressState == 1" @click="deleteImageItem(item)">
         <div class="reUpload" v-show="item.progress.progressState == 2">
           <i class="iconfont icon-shangchuan" @click="$refs.imageRef.oneUpLoad(item)"></i>
         </div>

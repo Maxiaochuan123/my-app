@@ -17,7 +17,7 @@
           <mu-list-item v-waves button @click="goPage('organization')">
             <mu-list-item-action>
               <mu-avatar>
-                <img src="../../../static/images/公司部门.png">
+                <img :src="loadingImg('公司部门.png')">
               </mu-avatar>
             </mu-list-item-action>
             <mu-list-item-title>公司部门</mu-list-item-title>
@@ -29,7 +29,7 @@
           <mu-list-item v-waves button @click="goPage('teamContacts')">
             <mu-list-item-action>
               <mu-avatar>
-                <img src="../../../static/images/团队联系人.png">
+                <img :src="loadingImg('团队联系人.png')" >
               </mu-avatar>
             </mu-list-item-action>
             <mu-list-item-title>团队联系人</mu-list-item-title>
@@ -41,7 +41,7 @@
       </div>
       <IndexsList :tagTop="242" :tagTopoffsetTop="250" :listSpacing="198" :list="userList">
         <div slot="row" slot-scope="{row}" class="user-index">
-          <img src="../../../static/images/默认头像.png" />
+          <img :src="loadingImg('默认头像.png')" />
           <div>
             <span>{{row.Fsinger_name}}</span>
             <span>{{row.describe}}</span>

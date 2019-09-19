@@ -8,7 +8,7 @@
 <template>
   <div class="imgUpload">
     <div class="images" @click="()=> $refs.fileInput.click()">
-      <img src="../../../../static/images/upLoadImgs.png">
+      <img :src="loadingImg('upLoadImgs.png')">
       <input ref="fileInput" type="file" accept="image/*" multiple @change="onChange"/>
     </div>
   </div>

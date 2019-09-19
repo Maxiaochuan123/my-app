@@ -29,12 +29,12 @@
           <div class="index-users-left">
             <img
               class="select"
-              src="/static/images/selected.png"
+              :src="loadingImg('selected.png')"
               v-show="row.flag"
             />
             <img
               class="select"
-              src="/static/images/no-selected.png"
+              :src="loadingImg('no-selected.png')"
               v-show="!row.flag"
             />
           </div>
@@ -43,7 +43,7 @@
               class="user-header"
               size="40"
             >
-              <img src="/static/images/default-header.png" />
+              <img :src="loadingImg('default-header.png')" />
             </mu-avatar>
             <div class="user-info">
               <div class="name">{{row.Fsinger_name}}</div>
@@ -58,7 +58,7 @@
       <div class="selected">
         <img
           height="18"
-          src="/static/images/selected.png"
+          :src="loadingImg('selected.png')"
           width="18"
         />
         <div class="selected-text">

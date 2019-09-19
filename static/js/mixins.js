@@ -133,6 +133,10 @@ export default {
         formdata.append(item, form[item]);
       });
       return formdata;
+    },
+    // 加载加载图片防止打包后图片的路径不对
+    loadingImg(imgName) {
+      return require(`../images/${imgName}`);
     }
   },
   filters: {

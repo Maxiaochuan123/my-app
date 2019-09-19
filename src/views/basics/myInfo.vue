@@ -17,18 +17,18 @@
             <div class="main-name">
               <span class="name">{{loginUser.realname}}</span>
               <img
-                src="/static/images/male.png"
+                :src="loadingImg('male.png')"
                 v-if="loginUser.sex === 1"
               />
               <img
-                src="/static/images/male.png"
+                :src="loadingImg('female.png')"
                 v-if="loginUser.sex === 2"
               />
             </div>
             <div class="sub-name">
               <!-- 职务 -->
               <span class="name">{{loginUser.post||'暂无职务'}}</span>
-              <img src="/static/images/more.png" />
+              <img :src="loadingImg('more.png')" />
             </div>
           </div>
           <div class="user-right">
@@ -39,19 +39,19 @@
         </div>
         <div class="menu-list">
           <div class="menu-item">
-            <img src="/static/images/about-us.png" />
+            <img :src="loadingImg('about-us.png')" />
             <div class="text">关于我们</div>
           </div>
           <div class="menu-item">
-            <img src="/static/images/help-note.png" />
+            <img :src="loadingImg('help-note.png')" />
             <div class="text">帮助说明</div>
           </div>
           <div class="menu-item">
-            <img src="/static/images/feedback.png" />
+            <img :src="loadingImg('feedback.png')" />
             <div class="text">意见反馈</div>
           </div>
           <div class="menu-item">
-            <img src="/static/images/setting.png" />
+            <img :src="loadingImg('setting.png')" />
             <div class="text">我的设置</div>
           </div>
         </div>
@@ -64,13 +64,14 @@
 import { mapState } from "vuex";
 export default {
   data() {
-    return {};
+    return {
+      
+    };
   },
   computed: {
     ...mapState(["loginUser"])
   },
-  mounted() {
-  },
+  mounted() {},
   methods: {
     toGoTo(type) {
       this.goPage(type);
@@ -86,7 +87,7 @@ export default {
   background-color: @auxiliary;
   .header-bc {
     height: 130px;
-    background: url("/static/images/my-user-bc.png") no-repeat;
+    background: url("../../../static/images/my-user-bc.png") no-repeat;
     background-size: 100% 100%;
     .title {
       width: 100%;

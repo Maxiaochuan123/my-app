@@ -7,23 +7,29 @@
  -->
 <template>
   <div class="personalInfo">
-    <AppBar  pageTitle="个人信息" />
+    <AppBar pageTitle="个人信息" />
 
     <div class="content">
-      <mu-paper class="topInfo" :z-depth="0">
+      <mu-paper
+        :z-depth="0"
+        class="topInfo"
+      >
         <div class="headImg">
-          <img src="../../../static/images/默认头像.png">
+          <img :src="loadingImg('默认头像.png')" />
         </div>
         <div class="info">
           <div class="name">
             <span>张三</span>
-            <img src="../../../static/images/女.png">
+            <img :src="loadingImg('女.png')" />
           </div>
           <div class="level">总经理</div>
         </div>
       </mu-paper>
 
-      <mu-paper class="describeInfo" :z-depth="0">
+      <mu-paper
+        :z-depth="0"
+        class="describeInfo"
+      >
         <mu-list>
           <mu-list-item v-waves>
             <mu-list-item-content>
@@ -31,7 +37,10 @@
               <mu-list-item-sub-title>13111866951</mu-list-item-sub-title>
             </mu-list-item-content>
             <mu-list-item-action>
-              <mu-icon value=":iconfont icon-dianhua" @click="dial(13111866951)"></mu-icon>
+              <mu-icon
+                @click="dial(13111866951)"
+                value=":iconfont icon-dianhua"
+              ></mu-icon>
             </mu-list-item-action>
           </mu-list-item>
           <mu-divider></mu-divider>
@@ -54,105 +63,102 @@ export default {
   components: { AppBar },
   data() {
     return {
-      
+   
     };
   },
-  methods: {
-    
-  }
+  methods: {}
 };
 </script>
 
 <style scoped lang="less">
 .personalInfo {
-  .content{
+  .content {
     padding: 44px 4px;
-    .topInfo{
+    .topInfo {
       display: flex;
       padding: 20px @primary-size;
       margin: 12px 0;
-      .headImg{
+      .headImg {
         width: 60px;
         height: 60px;
-        img{
+        img {
           width: 60px;
           height: 60px;
         }
       }
-      .info{
+      .info {
         flex-grow: 1;
         padding-left: 12px;
         display: flex;
         flex-direction: column;
         justify-content: center;
-        .name{
+        .name {
           color: @primary-text;
           font-size: @primary-size;
           font-weight: 600;
           display: flex;
           align-items: center;
           padding-bottom: 2px;
-          img{
+          img {
             width: 20px;
             height: 20px;
             margin-left: 6px;
           }
         }
-        .level{
+        .level {
           font-size: 14px;
           color: @regular-text;
         }
       }
 
-      
-      .mu-item-content{
+      .mu-item-content {
         padding-left: 12px;
-        .mu-avatar{
+        .mu-avatar {
           width: 60px;
           height: 60px;
         }
-        .mu-item-title{
+        .mu-item-title {
           position: relative;
           font-weight: 600;
         }
       }
 
-      .sex{
+      .sex {
         position: absolute;
         top: 12px;
         left: 30px;
-        img{
+        img {
           width: 20px;
           height: 20px;
         }
       }
     }
 
-    .mu-icon{
+    .mu-icon {
       width: 40px;
       height: 40px;
       text-align: right;
     }
-    .mu-divider{
+    .mu-divider {
       margin-left: 4%;
       width: 92%;
     }
 
-    .describeInfo{
-      .mu-item-content{
-        .mu-item-title{
+    .describeInfo {
+      .mu-item-content {
+        .mu-item-title {
           font-size: 14px;
           color: @regular-text;
         }
-        .mu-item-sub-title{
+        .mu-item-sub-title {
           color: @primary-text;
           font-size: @primary-size;
         }
       }
-      .mu-list /deep/ .mu-item{
+      .mu-list /deep/ .mu-item {
         height: 72px;
       }
-      i{
+      i {
         font-size: 22px;
         color: @primary;
         position: absolute;
