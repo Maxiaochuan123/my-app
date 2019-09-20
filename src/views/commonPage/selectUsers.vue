@@ -10,32 +10,27 @@
       pageTitle="选择用户"
     ></AppBar>
     <SearchBar
-      :list="userList"
+      :list="[]"
       placeholderText="搜索客户"
     ></SearchBar>
     <div class="content">
-      <IndexsList
-        :list="userList"
-        :listSpacing="0"
-        :tagTop="242"
-        :tagTopoffsetTop="250"
-      >
+      <div class="content-users">
         <div
-          @click="select(row)"
+          :key="index"
+          @click="select(item)"
           class="index-users"
-          slot="row"
-          slot-scope="{row}"
+          v-for="(item,index) in userList"
         >
           <div class="index-users-left">
             <img
-              class="select"
               :src="loadingImg('selected.png')"
-              v-show="row.flag"
+              class="select"
+              v-show="item.flag"
             />
             <img
-              class="select"
               :src="loadingImg('no-selected.png')"
-              v-show="!row.flag"
+              class="select"
+              v-show="!item.flag"
             />
           </div>
           <div class="index-users-right">
@@ -43,22 +38,22 @@
               class="user-header"
               size="40"
             >
-              <img :src="loadingImg('default-header.png')" />
+              <img :src="item.img" />
             </mu-avatar>
             <div class="user-info">
-              <div class="name">{{row.Fsinger_name}}</div>
-              <div class="job">总经理</div>
+              <div class="name">{{item.realname}}</div>
+              <div class="job">{{item.post}}</div>
             </div>
           </div>
         </div>
-      </IndexsList>
+      </div>
     </div>
     <!-- 已经选择 -->
     <div class="now-select">
       <div class="selected">
         <img
-          height="18"
           :src="loadingImg('selected.png')"
+          height="18"
           width="18"
         />
         <div class="selected-text">
@@ -79,7 +74,7 @@
 import AppBar from "@components/AppBar.vue";
 import SearchBar from "@components/SearchBar.vue";
 import IndexsList from "@components/IndexsList.vue";
-import userList from "../../../static/json/userList";
+import Api from "@api";
 export default {
   name: "selectUser",
   components: { AppBar, SearchBar, IndexsList },
@@ -98,11 +93,22 @@ export default {
   },
   data() {
     return {
-      userList: userList,
+      userList: [],
       selectedList: [] // 已经选择的人数
     };
   },
+  mounted() {
+    this.queryUser();
+  },
   methods: {
+    queryUser() {
+      Api.querySysUserList().then(res => {
+        this.userList = res.data.list.map(item => ({
+          ...item,
+          flag: false
+        }));
+      });
+    },
     select(row) {
       let one = row;
       one.flag = !one.flag;
@@ -127,34 +133,40 @@ export default {
     height: 100%;
     padding-top: 100px;
     padding-bottom: 80px;
-    .index-users {
-      display: flex;
-      padding: 0 0 0 15px;
-      align-items: center;
-      .index-users-left {
-        .select {
-          width: 18px;
-          height: 18px;
-        }
-      }
-      .index-users-right {
-        flex: 1;
-        margin-left: 15px;
+    .content-users {
+      width: 100%;
+      height: 100%;
+      background-color: #fff;
+      margin-top: 20px;
+      .index-users {
         display: flex;
+        padding: 0 0 0 15px;
         align-items: center;
-        padding: 8px 0;
-        border-bottom: 1px solid @primary-border;
-        .user-info {
-          margin-left: 12px;
-          .name {
-            font-size: @primary-size;
-            color: @primary-text;
-            font-weight: @primary-weight;
+        .index-users-left {
+          .select {
+            width: 18px;
+            height: 18px;
           }
-          .job {
-            font-size: @regular-size;
-            color: @regular-text;
-            font-weight: @regular-weight;
+        }
+        .index-users-right {
+          flex: 1;
+          margin-left: 15px;
+          display: flex;
+          align-items: center;
+          padding: 8px 0;
+          border-bottom: 1px solid @primary-border;
+          .user-info {
+            margin-left: 12px;
+            .name {
+              font-size: @primary-size;
+              color: @primary-text;
+              font-weight: @primary-weight;
+            }
+            .job {
+              font-size: @regular-size;
+              color: @regular-text;
+              font-weight: @regular-weight;
+            }
           }
         }
       }
