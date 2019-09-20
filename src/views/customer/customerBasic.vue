@@ -47,7 +47,7 @@
         </div>
         <div class="basic-details-item-right">
           <img
-            @click="goPage('addContacts',{id:$parent.id})"
+            @click="goPage('addContacts',{id:$parent.id,type:'addCustomer'})"
             :src="loadingImg('add.png')"
           />
         </div>
@@ -57,7 +57,7 @@
         v-for="(item,index) in $parent.contactsList"
       >
         <div
-          :class="{'no-border-bottom':index===contactsList.length-1}"
+          :class="{'no-border-bottom':index===$parent.contactsList.length-1}"
           class="basic-details-item"
         >
           <div class="basic-details-item-left">

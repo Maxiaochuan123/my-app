@@ -20,6 +20,13 @@ export default {
       params,
       url: COMMON.QUERY_FIELD_LIST
     }),
+  // 新增或者编辑联系人
+  addOrEditContacts: params =>
+    post({
+      params,
+      url: COMMON.ADD_OR_EDIT_CONTACTS,
+      headers: { "Content-Type": "application/json;charset=UTF-8" }
+    }),
   /**部门相关的 */
   queryDeptTree: params =>
     get({
