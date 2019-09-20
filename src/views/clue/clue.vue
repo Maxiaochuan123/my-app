@@ -2,11 +2,7 @@
  * @Description: In User Settings Edit
  * @Author: your name
  * @Date: 2019-09-04 10:13:29
-<<<<<<< HEAD
- * @LastEditTime: 2019-09-05 18:06:38
-=======
  * @LastEditTime: 2019-09-09 18:31:40
->>>>>>> master
  * @LastEditors: Please set LastEditors
  -->
 <template>
