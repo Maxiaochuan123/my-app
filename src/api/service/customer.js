@@ -44,5 +44,5 @@ export default {
     post({
       params,
       url: CUSTOMER.QUERY_CONTACTS_BY_ID
-    })
+    }),
 };

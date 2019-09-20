@@ -53,7 +53,7 @@
         </div>
       </div>
       <mu-tabs
-        :value.sync="active"
+        :value="active"
         center
         class="tabs"
         color="primary"
@@ -114,11 +114,19 @@ export default {
   },
   props: {},
   mounted() {
+    this.judgeActiveTab();
     // 查询客户详情
     this.queryCustomerDetails();
     this.queryContacts();
   },
   methods: {
+    judgeActiveTab() {
+      if (this.$route.path.indexOf("customerRecord") > -1) {
+        this.active = "record";
+      } else {
+        this.active = "basic";
+      }
+    },
     queryContacts() {
       // 查询联系人
       Api.queryContactsById({

@@ -32,6 +32,7 @@
 * fieldType 是否是自定义字段 0. 自定义 1. 固定 int
 * fieldName 字段名称 string
 * setting 设置值 string
+* relation 是自己加入的,单选下拉选择可能从接口获取
  * @Author: shenah
  -->
 <template>
@@ -52,7 +53,9 @@
           v-for="(item,index) in fieldList"
         >
           <mu-form-item
+            :class="labelPosition(item).name"
             :label="item.name"
+            :label-position="labelPosition(item).position"
             :prop="item.fieldName"
             :rules="createRule(item)"
             v-if="item.htmlHidden!==1"
@@ -91,6 +94,7 @@
               :disabled="item.readonly === 1"
               :placeholder="placeholder(item,index)"
               :prop="item.fieldName"
+              :rows="3"
               :rows-max="5"
               multi-line
               v-else-if="textareaArr.indexOf(item.type) > -1"
@@ -104,6 +108,7 @@
               type="dateTime"
               v-else-if="dateTimeArr.indexOf(item.type) > -1"
               v-model="form[item.fieldName]"
+              value-format="YYYY-MM-DD HH:MM"
             ></mu-date-input>
           </mu-form-item>
           <mu-divider v-if="item.htmlHidden!==1"></mu-divider>
@@ -153,18 +158,37 @@ export default {
       default: () => []
     }
   },
-  mounted() {},
+  mounted() {
+    this.initForm(this.fieldList);
+  },
   watch: {
     fieldList(val) {
+      this.initForm(val);
+    }
+  },
+  methods: {
+    labelPosition(row) {
+      const { type } = row;
+      if (this.textareaArr.indexOf(type) > -1) {
+        return {
+          name: "line-feed",
+          position: "top"
+        };
+      }
+      return {
+        name: "",
+        position: "left"
+      };
+    },
+    initForm(arr) {
+      // 初始化form
       let form = {};
-      val.forEach(item => {
+      arr.forEach(item => {
         let { fieldName, value } = item;
         form[fieldName] = value;
       });
       this.form = form;
-    }
-  },
-  methods: {
+    },
     /**
      * 通用创建rules的方法(本方法根据Muse-UI的验证规则生成)
      * @param row 代表当前字段的信息
@@ -231,7 +255,10 @@ export default {
     },
     typeJudge({ name, type, isNull }) {
       let typeObj = {};
-      if (this.inputArr.indexOf(type) > -1) {
+      if (
+        this.inputArr.indexOf(type) > -1 ||
+        this.textareaArr.indexOf(type) > -1
+      ) {
         typeObj = {
           placeholderText: `输入${name}`,
           isNullText: isNull ? "(必填)" : "",
@@ -247,27 +274,52 @@ export default {
       return typeObj;
     },
     showPicker(row) {
-      const { fieldName, options, name } = row;
-      const nowValue = this.form[fieldName];
+      const { fieldName, options, name, relation } = row;
+      let nowValue = this.form[fieldName];
+      if (relation) {
+        nowValue = this.form[relation];
+      }
       this.pickerTitle = name;
-      this.pickerList = options.split(",").map((item, index) => {
-        if (nowValue && nowValue === item) {
-          this.pickerAnchor = [index];
-        }
-        return {
-          fieldName,
-          text: item,
-          value: item
-        };
-      });
+      if (typeof options === "string") {
+        this.pickerList = options.split(",").map((item, index) => {
+          const [value, text = value] = item.split("^_^");
+          if (nowValue && nowValue === value) {
+            this.pickerAnchor = [index];
+          }
+          return {
+            text,
+            value,
+            fieldName,
+            relation
+          };
+        });
+      } else {
+        this.pickerList = [
+          {
+            fieldName,
+            text: "暂无数据",
+            value: "暂无数据"
+          }
+        ];
+      }
       this.$refs.picker.show();
     },
     handlePickerConfirm(value, column, text) {
       // console.log(value); //选中的条目的value
       // console.log(column); //选中的列的索引
       // console.log(text); //选中的条目的text
-      const { fieldName, value: selectValue } = this.pickerList[column];
-      this.form[fieldName] = selectValue;
+      const {
+        relation,
+        fieldName,
+        value: selectValue,
+        text: selectText
+      } = this.pickerList[column];
+      if (relation) {
+        this.form[fieldName] = selectText;
+        this.form[relation] = selectValue;
+      } else {
+        this.form[fieldName] = selectText;
+      }
     },
     addressChange({ value, fieldName, lng, lat, region }) {
       this.form[fieldName] = value;
@@ -283,5 +335,15 @@ export default {
   }
 };
 </script>
+<style lang='less'>
+.general-form {
+  .line-feed {
+    align-items: flex-start !important;
+    .mu-form-item-content {
+      width: 100% !important;
+    }
+  }
+}
+</style>
 <style lang='less' scoped>
 </style>

@@ -3,7 +3,7 @@
  * @Author: shenah
  -->
 <template>
-  <div class="addOrEditCustomer">
+  <div class="add-or-edit-customer">
     <AppBar
       :customFnc="customFnc"
       :pageTitle="id?'编辑客户':'新增客户'"

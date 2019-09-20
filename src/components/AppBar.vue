@@ -85,7 +85,10 @@ export default {
     rightLinkName: {
       type: String
     },
-
+    rightLinkParams:{
+      type: Object,
+      default:()=> {}
+    },
     isDrawer: {
       type: Boolean,
       default: false
@@ -132,7 +135,7 @@ export default {
     },
     rightBtn() {
       if (!this.isMenu) {
-        this.goPage(this.rightLinkName);
+        this.goPage(this.rightLinkName,this.rightLinkParams);
       }
     },
     menuItem(item) {

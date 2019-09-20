@@ -11,7 +11,7 @@ export const USER_LOGIN_OUT = getApi("/logout");
 export const QUERY_FIELD_LIST = getApi("/fields/selectField");
 
 /**部门相关的接口*/
-const departPrefix = '/sysDept';
+const departPrefix = "/sysDept";
 
 // 查询部门列表
 export const QUERY_DEPT_TREE = getApi(`${departPrefix}/queryDeptTree`);

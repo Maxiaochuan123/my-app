@@ -8,7 +8,7 @@
 
 <template>
   <div class="contacts">
-    <AppBar  pageTitle="个人联系人" rightIcon="icon-tianjia" rightLinkName="addContacts"></AppBar>
+    <AppBar  pageTitle="个人联系人" rightIcon="icon-tianjia" rightLinkName="addContacts" :rightLinkParams="{type:'addPersonal'}"></AppBar>
     
     <div class="content">
       <SearchBar :list="userList" placeholderText="搜索联系人"></SearchBar>
