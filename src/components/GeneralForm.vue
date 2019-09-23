@@ -152,6 +152,7 @@ export default {
       textareaArr: [2],
       // 日期时间
       dateTimeArr: [13],
+      // 文件类型
       fileArr: [8],
       form: {},
       pickerTitle: "", // 下拉选的title
@@ -177,6 +178,12 @@ export default {
     labelPosition(row) {
       const { type } = row;
       if (this.textareaArr.indexOf(type) > -1) {
+        return {
+          name: "line-feed",
+          position: "top"
+        };
+      }
+      if (this.fileArr.indexOf(type) > -1) {
         return {
           name: "line-feed",
           position: "top"

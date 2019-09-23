@@ -57,10 +57,9 @@ export default {
           fieldName: "batchId",
           formType: "file",
           isNull: 0,
-          name: "附件",
+          name: "",
           options: null,
           type: 8,
-          labelWidth: 0,
           value: ""
         },
         {
@@ -101,6 +100,7 @@ export default {
 </script>
 <style lang='less' scoped>
 .write-followup {
+  overflow-x:hidden;
   .content {
     padding-top: 44px;
   }

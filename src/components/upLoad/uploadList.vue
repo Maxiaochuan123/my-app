@@ -1,7 +1,7 @@
 <template>
   <div class="upLoad">
     <div class="enclosure">
-      <!-- <div class="title">附件</div> -->
+      <div class="title">附件</div>
       <div class="content">
         <UpLoadImages ref="imageRef" @parentImgLoad="parentImgLoad"></UpLoadImages>
         <UpLoadEnclosure ref="enclosureRef" @parentEnclosureLoad="parentEnclosureLoad"></UpLoadEnclosure>
@@ -144,6 +144,7 @@ export default {
   .upLoad{
     background-color: #fff;
     // padding: 0 16px;
+    padding:0 16px 0 0;
     .bottomDivider{
       width: 104%;
     }
@@ -170,7 +171,7 @@ export default {
       align-items: center;
       .title{
         color: @primary-text;
-        font-size: @regular-size;
+        font-size: @primary-size;
         font-weight: @regular-weight;
       }
       .content{
