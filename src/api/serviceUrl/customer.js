@@ -18,3 +18,5 @@ export const ADD_CUSTOMER_FOLLOW_RECORD = getApi("/addFollowUpRecord");
 export const QUERY_CUSTOMER_FOLLOW_RECORD = getApi("/getFollowUpRecord");
  // 根据客户id查询联系人
 export const QUERY_CONTACTS_BY_ID = getApi("/queryClientToContacts");
+// 把客户分享给用户
+ export const CUSTOMER_SHARE_TO_USERS = getApi("/addClientToMembers"); 

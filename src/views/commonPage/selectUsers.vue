@@ -61,11 +61,27 @@
           <span>{{selectedList.length}}</span>
         </div>
       </div>
-      <mu-button
-        @click="submit"
-        class="sure"
-        small
-      >确认</mu-button>
+      <div class="now-select-item">
+        <mu-radio
+          class="read-write"
+          label="只读"
+          v-model="permission"
+          value="0"
+        ></mu-radio>
+        <mu-radio
+          class="read-write"
+          label="读写"
+          v-model="permission"
+          value="1"
+        ></mu-radio>
+        <mu-button
+          :disabled="selectedList.length === 0"
+          @click="submit"
+          class="sure"
+          color="primary"
+          small
+        >确认</mu-button>
+      </div>
     </div>
   </div>
 </template>
@@ -93,6 +109,7 @@ export default {
   },
   data() {
     return {
+      permission: "0", // 读写权限
       userList: [],
       selectedList: [] // 已经选择的人数
     };
@@ -103,30 +120,77 @@ export default {
   methods: {
     queryUser() {
       Api.querySysUserList().then(res => {
-        this.userList = res.data.list.map(item => ({
+        const list = res.data.list.map(item => ({
           ...item,
           flag: false
         }));
+        for (let i = 0; i < this.selectedList.length; i++) {
+          const one = this.selectedList[i];
+          for (let j = 0; j < list; j++) {
+            const two = list[i];
+            if (one.userId === two.userId) {
+              two.flag = true;
+              break;
+            }
+          }
+        }
+        this.userList = list;
       });
     },
     select(row) {
       let one = row;
       one.flag = !one.flag;
+      if (row.flag) {
+        // 选择上了
+        this.selectedList.push(row);
+      } else {
+        // 取消选择
+        this.selectedList = this.selectedList.filter(
+          item => item.userId !== row.userId
+        );
+      }
+    },
+    beforeSubmit() {
+      return {
+        memberIds: this.selectedList.map(item => item.userId).join(","),
+        ids: this.id,
+        permission: this.permission
+      };
     },
     submit() {
-      this.$confirm("当前客户是否分享给您选择的人?", "提示").then(
-        ({ result, value }) => {
-          if (result) {
-            console.log("分享");
-          }
-        }
-      );
+      let params = this.beforeSubmit();
+      Api.customerShareToUsers(params).then(() => {
+        this.$toast.success({
+          message: "分享成功",
+          position: "top"
+        });
+        this.goBack();
+      });
     }
   }
 };
 </script>
-
+<style lang="less">
+.read-write {
+  .mu-radio-label {
+    font-size: @primary-size;
+    color: @primary-text;
+  }
+  .mu-radio-icon {
+    width: 18px !important;
+    height: 18px !important;
+  }
+  .mu-radio-svg-icon {
+    width: 18px !important;
+    height: 18px !important;
+  }
+}
+</style>
 <style lang="less" scoped>
+.img-wh {
+  width: 18px;
+  height: 18px;
+}
 .select-users {
   width: 100%;
   .content {
@@ -194,12 +258,18 @@ export default {
         }
       }
     }
+    .now-select-item {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .read-write {
+      margin-right: 16px;
+    }
     .sure {
       font-size: 14px;
       width: 58px;
       height: 28px;
-      color: #fff;
-      background-color: @primary;
       border-radius: 6px;
       min-width: 0;
     }
