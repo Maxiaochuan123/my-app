@@ -54,6 +54,16 @@ export default {
           value: ""
         },
         {
+          fieldName: "batchId",
+          formType: "file",
+          isNull: 0,
+          name: "附件",
+          options: null,
+          type: 8,
+          labelWidth: 0,
+          value: ""
+        },
+        {
           fieldName: "category",
           formType: "textarea",
           isNull: 1,

@@ -14,7 +14,6 @@
       placeholderText="搜索客户"
     ></SearchBar>-->
     <SearchInputBar
-      :list="userList"
       @searchInputBarChange="searchInputBarChange"
       placeholderText="搜索客户"
     ></SearchInputBar>

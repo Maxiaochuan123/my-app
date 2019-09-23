@@ -41,7 +41,6 @@
       :model="form"
       class="mu-demo-form"
       label-position="left"
-      label-width="118"
       ref="form"
     >
       <mu-paper
@@ -56,6 +55,7 @@
             :class="labelPosition(item).name"
             :label="item.name"
             :label-position="labelPosition(item).position"
+            :label-width="labelPosition(item).labelWidth"
             :prop="item.fieldName"
             :rules="createRule(item)"
             v-if="item.htmlHidden!==1"
@@ -89,6 +89,11 @@
               @addressChange="addressChange"
               v-else-if="mapArr.indexOf(item.type) > -1"
             ></SelectAddress>
+            <!-- 上传文件  -->
+            <UploadList
+              class="upload-file"
+              v-else-if="fileArr.indexOf(item.type) > -1"
+            ></UploadList>
             <!-- 文本域类型 -->
             <mu-text-field
               :disabled="item.readonly === 1"
@@ -131,9 +136,10 @@
 <script>
 import Picker from "dm-vue-picker-h5";
 import SelectAddress from "@components/SelectAddress.vue";
+import UploadList from "@components/upLoad/uploadList.vue";
 export default {
   name: "GeneralForm",
-  components: { Picker, SelectAddress },
+  components: { Picker, SelectAddress, UploadList },
   data() {
     return {
       // 输入框
@@ -146,6 +152,7 @@ export default {
       textareaArr: [2],
       // 日期时间
       dateTimeArr: [13],
+      fileArr: [8],
       form: {},
       pickerTitle: "", // 下拉选的title
       pickerList: [], // 下拉选列表
@@ -176,6 +183,7 @@ export default {
         };
       }
       return {
+        labelWidth: "118px",
         name: "",
         position: "left"
       };
@@ -346,4 +354,7 @@ export default {
 }
 </style>
 <style lang='less' scoped>
+.upload-file {
+  width: 100%;
+}
 </style>

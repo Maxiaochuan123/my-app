@@ -34,10 +34,6 @@ export default {
     placeholderText: {
       type: String,
       default: "搜索"
-    },
-    list: {
-      type: Array,
-      default: () => []
     }
   },
   watch: {

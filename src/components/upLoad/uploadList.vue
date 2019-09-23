@@ -1,7 +1,7 @@
 <template>
   <div class="upLoad">
     <div class="enclosure">
-      <div class="title">附件</div>
+      <!-- <div class="title">附件</div> -->
       <div class="content">
         <UpLoadImages ref="imageRef" @parentImgLoad="parentImgLoad"></UpLoadImages>
         <UpLoadEnclosure ref="enclosureRef" @parentEnclosureLoad="parentEnclosureLoad"></UpLoadEnclosure>
@@ -54,7 +54,7 @@
         </div>
       </div>
     </div>
-    <mu-divider class="bottomDivider"></mu-divider>
+    <!-- <mu-divider class="bottomDivider"></mu-divider> -->
 
   </div>
 </template>
@@ -143,7 +143,7 @@ export default {
 <style scoped lang="less">
   .upLoad{
     background-color: #fff;
-    padding: 0 16px;
+    // padding: 0 16px;
     .bottomDivider{
       width: 104%;
     }
