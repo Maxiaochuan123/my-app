@@ -36,6 +36,9 @@ Vue.prototype.dayjs = dayjs;
 Vue.config.productionTip = false;
 Vue.prototype.storage = storage;
 
+import api from "./api/myApi/api";
+Vue.prototype.api = api
+
 import preview from "vue-photo-preview";
 import "vue-photo-preview/dist/skin.css";
 Vue.use(preview);

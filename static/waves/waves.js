@@ -15,7 +15,7 @@ function handleClick(el, binding) {
     const opts = Object.assign({
       ele: el, // 波纹作用元素
       type: 'hit', // hit 点击位置扩散 center中心点扩展
-      color: 'rgba(236,25,31,.1)' // 波纹颜色
+      color: 'rgba(159,159,159,.2)' // 波纹颜色
     },
     customOpts
     )
