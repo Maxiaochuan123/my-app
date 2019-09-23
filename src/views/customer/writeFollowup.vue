@@ -54,6 +54,15 @@ export default {
           value: ""
         },
         {
+          fieldName: "batchId",
+          formType: "file",
+          isNull: 0,
+          name: "",
+          options: null,
+          type: 8,
+          value: ""
+        },
+        {
           fieldName: "category",
           formType: "textarea",
           isNull: 1,
@@ -91,6 +100,7 @@ export default {
 </script>
 <style lang='less' scoped>
 .write-followup {
+  overflow-x:hidden;
   .content {
     padding-top: 44px;
   }

@@ -45,4 +45,10 @@ export default {
       params,
       url: CUSTOMER.QUERY_CONTACTS_BY_ID
     }),
+  // 把客户分享给用户
+  customerShareToUsers: params =>
+    post({
+      params,
+      url: CUSTOMER.CUSTOMER_SHARE_TO_USERS
+    })
 };

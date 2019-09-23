@@ -19,11 +19,5 @@ export default {
     post({
       params,
       url: COMMON.QUERY_FIELD_LIST
-    }),
-  /**部门相关的 */
-  queryDeptTree: params =>
-    get({
-      params,
-      url: COMMON.QUERY_DEPT_TREE
     })
 };

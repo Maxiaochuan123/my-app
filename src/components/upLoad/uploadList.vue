@@ -54,7 +54,7 @@
         </div>
       </div>
     </div>
-    <mu-divider class="bottomDivider"></mu-divider>
+    <!-- <mu-divider class="bottomDivider"></mu-divider> -->
 
   </div>
 </template>
@@ -143,7 +143,8 @@ export default {
 <style scoped lang="less">
   .upLoad{
     background-color: #fff;
-    padding: 0 16px;
+    // padding: 0 16px;
+    padding:0 16px 0 0;
     .bottomDivider{
       width: 104%;
     }
@@ -170,7 +171,7 @@ export default {
       align-items: center;
       .title{
         color: @primary-text;
-        font-size: @regular-size;
+        font-size: @primary-size;
         font-weight: @regular-weight;
       }
       .content{

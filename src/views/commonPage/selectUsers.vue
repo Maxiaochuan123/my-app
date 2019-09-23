@@ -9,33 +9,32 @@
       :isShowRightBtn="false"
       pageTitle="选择用户"
     ></AppBar>
-    <SearchBar
+    <!-- <SearchBar
       :list="userList"
       placeholderText="搜索客户"
-    ></SearchBar>
+    ></SearchBar>-->
+    <SearchInputBar
+      @searchInputBarChange="searchInputBarChange"
+      placeholderText="搜索客户"
+    ></SearchInputBar>
     <div class="content">
-      <IndexsList
-        :list="userList"
-        :listSpacing="0"
-        :tagTop="242"
-        :tagTopoffsetTop="250"
-      >
+      <div class="content-users">
         <div
-          @click="select(row)"
+          :key="index"
+          @click="select(item)"
           class="index-users"
-          slot="row"
-          slot-scope="{row}"
+          v-for="(item,index) in userList"
         >
           <div class="index-users-left">
             <img
-              class="select"
               :src="loadingImg('selected.png')"
-              v-show="row.flag"
+              class="select"
+              v-show="item.flag"
             />
             <img
-              class="select"
               :src="loadingImg('no-selected.png')"
-              v-show="!row.flag"
+              class="select"
+              v-show="!item.flag"
             />
           </div>
           <div class="index-users-right">
@@ -43,22 +42,22 @@
               class="user-header"
               size="40"
             >
-              <img :src="loadingImg('default-header.png')" />
+              <img :src="item.img" />
             </mu-avatar>
             <div class="user-info">
-              <div class="name">{{row.Fsinger_name}}</div>
-              <div class="job">总经理</div>
+              <div class="name">{{item.realname}}</div>
+              <div class="job">{{item.post}}</div>
             </div>
           </div>
         </div>
-      </IndexsList>
+      </div>
     </div>
     <!-- 已经选择 -->
     <div class="now-select">
       <div class="selected">
         <img
-          height="18"
           :src="loadingImg('selected.png')"
+          height="18"
           width="18"
         />
         <div class="selected-text">
@@ -66,23 +65,39 @@
           <span>{{selectedList.length}}</span>
         </div>
       </div>
-      <mu-button
-        @click="submit"
-        class="sure"
-        small
-      >确认</mu-button>
+      <div class="now-select-item">
+        <mu-radio
+          class="read-write"
+          label="只读"
+          v-model="permission"
+          value="0"
+        ></mu-radio>
+        <mu-radio
+          class="read-write"
+          label="读写"
+          v-model="permission"
+          value="1"
+        ></mu-radio>
+        <mu-button
+          :disabled="selectedList.length === 0"
+          @click="submit"
+          class="sure"
+          color="primary"
+          small
+        >确认</mu-button>
+      </div>
     </div>
   </div>
 </template>
 
 <script>
 import AppBar from "@components/AppBar.vue";
-import SearchBar from "@components/SearchBar.vue";
+import SearchInputBar from "@components/SearchInputBar.vue";
 import IndexsList from "@components/IndexsList.vue";
-import userList from "../../../static/json/userList";
+import Api from "@api";
 export default {
   name: "selectUser",
-  components: { AppBar, SearchBar, IndexsList },
+  components: { AppBar, SearchInputBar, IndexsList },
   computed: {
     // 当前客户的id
     id() {
@@ -98,63 +113,140 @@ export default {
   },
   data() {
     return {
-      userList: userList,
+      requestParams: {
+        deptId: "",
+        search: "",
+        needGroup: 0
+      },
+      permission: "0", // 读写权限
+      userList: [],
       selectedList: [] // 已经选择的人数
     };
   },
+  mounted() {
+    this.queryUser();
+  },
   methods: {
+    searchInputBarChange(obj) {
+      const { type, value } = obj;
+      if (type === "direct") {
+        this.requestParams.search = value;
+        this.queryUser();
+      }
+    },
+    queryUser() {
+      Api.querySimpleUserByDepId(this.requestParams).then(res => {
+        const list = res.data.map(item => ({
+          ...item,
+          flag: false
+        }));
+        for (let i = 0; i < this.selectedList.length; i++) {
+          const one = this.selectedList[i];
+          for (let j = 0; j < list.length; j++) {
+            const two = list[j];
+            if (one.userId === two.userId) {
+              two.flag = true;
+              break;
+            }
+          }
+        }
+        this.userList = list;
+      });
+    },
     select(row) {
       let one = row;
       one.flag = !one.flag;
+      if (row.flag) {
+        // 选择上了
+        this.selectedList.push(row);
+      } else {
+        // 取消选择
+        this.selectedList = this.selectedList.filter(
+          item => item.userId !== row.userId
+        );
+      }
+    },
+    beforeSubmit() {
+      return {
+        memberIds: this.selectedList.map(item => item.userId).join(","),
+        ids: this.id,
+        permission: this.permission
+      };
     },
     submit() {
-      this.$confirm("当前客户是否分享给您选择的人?", "提示").then(
-        ({ result, value }) => {
-          if (result) {
-            console.log("分享");
-          }
-        }
-      );
+      let params = this.beforeSubmit();
+      Api.customerShareToUsers(params).then(() => {
+        this.$toast.success({
+          message: "分享成功",
+          position: "top"
+        });
+        this.goBack();
+      });
     }
   }
 };
 </script>
-
+<style lang="less">
+.read-write {
+  .mu-radio-label {
+    font-size: @primary-size;
+    color: @primary-text;
+  }
+  .mu-radio-icon {
+    width: 18px !important;
+    height: 18px !important;
+  }
+  .mu-radio-svg-icon {
+    width: 18px !important;
+    height: 18px !important;
+  }
+}
+</style>
 <style lang="less" scoped>
+.img-wh {
+  width: 18px;
+  height: 18px;
+}
 .select-users {
   width: 100%;
   .content {
     height: 100%;
     padding-top: 100px;
     padding-bottom: 80px;
-    .index-users {
-      display: flex;
-      padding: 0 0 0 15px;
-      align-items: center;
-      .index-users-left {
-        .select {
-          width: 18px;
-          height: 18px;
-        }
-      }
-      .index-users-right {
-        flex: 1;
-        margin-left: 15px;
+    .content-users {
+      width: 100%;
+      height: 100%;
+      background-color: #fff;
+      margin-top: 20px;
+      .index-users {
         display: flex;
+        padding: 0 0 0 15px;
         align-items: center;
-        padding: 8px 0;
-        border-bottom: 1px solid @primary-border;
-        .user-info {
-          margin-left: 12px;
-          .name {
-            font-size: @primary-size;
-            color: @primary-text;
-            font-weight: @primary-weight;
+        .index-users-left {
+          .select {
+            width: 18px;
+            height: 18px;
           }
-          .job {
-            font-size: @regular-size;
-            color: @regular-text;
-            font-weight: @regular-weight;
+        }
+        .index-users-right {
+          flex: 1;
+          margin-left: 15px;
+          display: flex;
+          align-items: center;
+          padding: 8px 0;
+          border-bottom: 1px solid @primary-border;
+          .user-info {
+            margin-left: 12px;
+            .name {
+              font-size: @primary-size;
+              color: @primary-text;
+              font-weight: @primary-weight;
+            }
+            .job {
+              font-size: @regular-size;
+              color: @regular-text;
+              font-weight: @regular-weight;
+            }
           }
         }
       }
@@ -182,12 +274,18 @@ export default {
         }
       }
     }
+    .now-select-item {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .read-write {
+      margin-right: 16px;
+    }
     .sure {
       font-size: 14px;
       width: 58px;
       height: 28px;
-      color: #fff;
-      background-color: @primary;
       border-radius: 6px;
       min-width: 0;
     }
