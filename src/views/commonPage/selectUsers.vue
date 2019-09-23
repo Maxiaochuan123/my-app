@@ -119,8 +119,12 @@ export default {
   },
   methods: {
     queryUser() {
-      Api.querySysUserList().then(res => {
-        const list = res.data.list.map(item => ({
+      Api.querySimpleUserByDepId({
+        deptId: "",
+        search: "",
+        needGroup: 0
+      }).then(res => {
+        const list = res.data.map(item => ({
           ...item,
           flag: false
         }));
