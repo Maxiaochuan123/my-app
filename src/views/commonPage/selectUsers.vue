@@ -9,10 +9,15 @@
       :isShowRightBtn="false"
       pageTitle="选择用户"
     ></AppBar>
-    <SearchBar
-      :list="[]"
+    <!-- <SearchBar
+      :list="userList"
       placeholderText="搜索客户"
-    ></SearchBar>
+    ></SearchBar>-->
+    <SearchInputBar
+      :list="userList"
+      @searchInputBarChange="searchInputBarChange"
+      placeholderText="搜索客户"
+    ></SearchInputBar>
     <div class="content">
       <div class="content-users">
         <div
@@ -88,12 +93,12 @@
 
 <script>
 import AppBar from "@components/AppBar.vue";
-import SearchBar from "@components/SearchBar.vue";
+import SearchInputBar from "@components/SearchInputBar.vue";
 import IndexsList from "@components/IndexsList.vue";
 import Api from "@api";
 export default {
   name: "selectUser",
-  components: { AppBar, SearchBar, IndexsList },
+  components: { AppBar, SearchInputBar, IndexsList },
   computed: {
     // 当前客户的id
     id() {
@@ -109,6 +114,11 @@ export default {
   },
   data() {
     return {
+      requestParams: {
+        deptId: "",
+        search: "",
+        needGroup: 0
+      },
       permission: "0", // 读写权限
       userList: [],
       selectedList: [] // 已经选择的人数
@@ -118,20 +128,23 @@ export default {
     this.queryUser();
   },
   methods: {
+    searchInputBarChange(obj) {
+      const { type, value } = obj;
+      if (type === "direct") {
+        this.requestParams.search = value;
+        this.queryUser();
+      }
+    },
     queryUser() {
-      Api.querySimpleUserByDepId({
-        deptId: "",
-        search: "",
-        needGroup: 0
-      }).then(res => {
+      Api.querySimpleUserByDepId(this.requestParams).then(res => {
         const list = res.data.map(item => ({
           ...item,
           flag: false
         }));
         for (let i = 0; i < this.selectedList.length; i++) {
           const one = this.selectedList[i];
-          for (let j = 0; j < list; j++) {
-            const two = list[i];
+          for (let j = 0; j < list.length; j++) {
+            const two = list[j];
             if (one.userId === two.userId) {
               two.flag = true;
               break;
