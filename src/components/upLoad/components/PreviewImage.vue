@@ -22,13 +22,7 @@
 </template>
 
 <script>
-import { Swiper, Slide } from 'vue-swiper-component';
-
 export default {
-  components: {
-    Swiper,
-    Slide
-  },
   props:{
     previewView:{ //是否显示预览视窗
       type:Boolean,
@@ -40,7 +34,7 @@ export default {
     },
     imagesList:{ //图片列表
       type:Array,
-      default: ()=> ['../柴柴.jpg','../船.jpeg']
+      default: ()=> []
     },
     previewSrc:{ //预览图 src
       type:String,
@@ -75,8 +69,8 @@ export default {
     previewView(newVal,oldVal){
       if(newVal){
         this.$nextTick(()=>{
-          document.querySelector(`#tag-${this.previewIndex}`).scrollIntoView(true);
           this.resetPosition();
+          document.querySelector(`#tag-${this.previewIndex}`).scrollIntoView(true);
         })
       }
     },
@@ -88,13 +82,6 @@ export default {
     }
   },
   methods:{
-    // swipeHandler(e){
-    //   if(e.direction === 'Left'){
-    //     this.arrowRight();
-    //   }else if(e.direction === 'Right'){
-    //     this.arrowLeft();
-    //   }
-    // },
     pinchHandler(e){
       this.getZoom(e)
     },

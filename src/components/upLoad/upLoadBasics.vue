@@ -18,7 +18,7 @@
 </template>
 
 <script>
-import UpLoadImage from './components/upLoadBasicsTemplate'
+import UpLoadImage from './components/upLoadImages'
 import PreviewImage from './components/PreviewImage'
 export default {
   name:"upLoad",
