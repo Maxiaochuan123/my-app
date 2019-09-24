@@ -19,5 +19,13 @@ export default {
     post({
       params,
       url: COMMON.QUERY_FIELD_LIST
+    }),
+  // 查询客户的字段
+  uploadFilesOrImgs: (params,extraFileParams) =>
+    post({
+      params,
+      extraFileParams,
+      url: COMMON.UPLOAD_FILES,
+      headers: { "Content-Type": "multipart/form-data" }
     })
 };

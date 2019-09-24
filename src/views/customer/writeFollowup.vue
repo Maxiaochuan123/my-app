@@ -100,6 +100,7 @@ export default {
 </script>
 <style lang='less' scoped>
 .write-followup {
+  height:100%;
   overflow-x:hidden;
   .content {
     padding-top: 44px;

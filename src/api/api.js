@@ -11,10 +11,12 @@ const METHODS = {
   PUT: "put",
   DELETE: "delete"
 };
-// 超时时间
-axios.defaults.timeout = 5000;
+const instance = axios.create({
+  withCredentials: true,
+  timeout:5000
+}) 
 /*----------------------请求拦截----------------------*/
-axios.interceptors.request.use(
+instance.interceptors.request.use(
   config => {
     let loading = document.getElementById("ajaxLoading");
     loading.style.display = "block";
@@ -27,7 +29,9 @@ axios.interceptors.request.use(
       const type = config.headers["Content-Type"];
       if (type && type.indexOf("json") > -1) {
         config.data = JSON.stringify(config.data);
-      } else {
+      } else if(type && type.indexOf("form-data") > -1){
+
+      }else {
         config.data = Qs.stringify(config.data);
       }
     }
@@ -50,7 +54,7 @@ axios.interceptors.request.use(
   }
 );
 /*----------------------响应拦截----------------------*/
-axios.interceptors.response.use(
+instance.interceptors.response.use(
   response => {
     let loading = document.getElementById("ajaxLoading");
     loading.style.display = "none";
@@ -82,7 +86,8 @@ const request = ({
   params,
   headers = {},
   method = METHODS.GET,
-  server = "service"
+  server = "service",
+  extraFileParams,
 }) => {
   let httpUrl = window.config[server] + url;
   function checkCode(res) {
@@ -118,22 +123,26 @@ const request = ({
     });
   }
   if (method === METHODS.GET) {
-    return axios
+    return instance
       .get(httpUrl, { params: params })
       .then(res => checkCode(res.data));
   } else if (method === METHODS.POST) {
-    return axios
-      .post(httpUrl, params, { headers })
+    return instance
+      .post(httpUrl, params, { headers, onUploadProgress: progressEvent => {
+        let complete = (progressEvent.loaded / progressEvent.total * 100 | 0)
+        extraFileParams.progress.progressNum = complete;
+      }})
       .then(res => checkCode(res.data));
   }
 };
-const post = ({ url, params, headers, server }) =>
+const post = ({ url, params, headers, server,extraFileParams }) =>
   request({
     url,
     params,
     headers,
     server,
-    method: METHODS.POST
+    method: METHODS.POST,
+    extraFileParams,
   });
 export const get = ({ url, params, headers, server }) =>
   request({
@@ -141,6 +150,6 @@ export const get = ({ url, params, headers, server }) =>
     params,
     headers,
     server,
-    method: METHODS.GET
+    method: METHODS.GET,
   });
 export default post;
