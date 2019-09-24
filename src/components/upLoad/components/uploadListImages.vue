@@ -17,15 +17,12 @@
 <script>
 import Api from '@api'
 import tool from './js/tool'
-import PreviewImage from './PreviewImage'
 import { Promise } from 'q';
 export default {
   name: "uploadImage",
-  components: {
-    PreviewImage,
-  },
   data() {
     return {
+      imgSuccessList:[], //上传成功后的 数据集
       imagesPromise:[],
       changeImgList:[], // 当前改变的图片
       imagesList:[], //图片 数据集
@@ -75,6 +72,9 @@ export default {
         let onePromise = Api.uploadFilesOrImgs(fd,item).then(res => {
           item.progress.progressNum = 100; item.progress.progressState = 1; item.progress.isNew = false;
           item.progress.isProgress=false;
+          // Object.keys(res).forEach(one=> item[one] = res[one])
+          this.imgSuccessList.push(res);
+          this.$emit('getImgSuccessList',this.imgSuccessList)
           
         }).catch( err => {
           item.progress.progressState = 2;
@@ -119,7 +119,7 @@ export default {
             Promise.all(this.imagesPromise).then(res=> {
               this.imagesList.push(...this.changeImgList);
               // tool.removeRepeat(this);
-              
+              // console.log(this.changeImgList)
               this.$emit('parentImgLoad',this.imagesList)
               this.changeImgList=[];
             })

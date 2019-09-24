@@ -3,15 +3,12 @@
     <div class="enclosure">
       <div class="title">附件</div>
       <div class="content">
-        <UpLoadImages ref="imageRef" @parentImgLoad="parentImgLoad"></UpLoadImages>
+        <UpLoadImages ref="imageRef" @parentImgLoad="parentImgLoad" @getImgSuccessList="getImgSuccessList"></UpLoadImages>
         <UpLoadEnclosure ref="enclosureRef" @parentEnclosureLoad="parentEnclosureLoad"></UpLoadEnclosure>
       </div>
-        <!-- <mu-button color='primary' @click="up">uPload</mu-button> -->
-
     </div>
 
     <PreviewImage :previewView="previewView" :imagesList="imgPreviewList" :previewSrc="previewSrc" :previewIndex="previewIndex" @closePreview="closePreview"></PreviewImage>
-    
     <div class="preview">
       <div class="imgPreview">
         <div class="imgList" :class="[isAlimatin?'animation-in':'']" v-for="(item,index) in imgPreviewList" :key="index">
@@ -74,7 +71,7 @@ import PreviewImage from './components/PreviewImage'
 import tool from './components/js/tool'
 export default {
   name:"upLoad",
-  components:{ UpLoadImages,UpLoadEnclosure,PreviewImage },
+  components:{ UpLoadImages,UpLoadEnclosure,PreviewImage},
   data(){
     return{
       isAlimatin:true, //是否开启动画
@@ -101,9 +98,8 @@ export default {
     }
   },
   methods:{
-    up(){
-      this.$refs.imageRef.allUpload();
-      this.$refs.enclosureRef.allUpload();
+    getImgSuccessList(data){
+      console.log('getImgSuccessList:',data)
     },
     parentImgLoad(data){
       this.imgPreviewList = data;
@@ -147,6 +143,10 @@ export default {
     },
     closePreview2(){
       this.previewView2 = false;
+    },
+    openPreview2(item){
+      this.previewView2 = true;
+      this.previewSrc2 = item;
     }
   }
 }
