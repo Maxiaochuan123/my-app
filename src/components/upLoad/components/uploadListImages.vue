@@ -15,6 +15,7 @@
 </template>
 
 <script>
+import Api from '@api'
 import axios from 'axios'
 import tool from './js/tool'
 import PreviewImage from './PreviewImage'
@@ -35,7 +36,14 @@ export default {
       zipBeforeSize:0, //压缩前容量
       zipAfterSize:0, //压缩后容量
       zipRatio: .92, //压缩比 0 ~ .92 默认 .92
-      isDirectUpload:true //是否直接上传
+      isDirectUpload:true, //是否直接上传,
+
+      batchId:'',
+      reqData: {
+        file: '',
+        type:'img',
+        batchId: ''
+      }
     };
   },
   methods: {
@@ -52,6 +60,8 @@ export default {
           if(item.progress.progressState == 0){
             const fd = new FormData();
             fd.append('file', item.file);
+            fd.append('type', 'img');
+            fd.append('batchId', '');
             this.uploadHahdle(item, fd);
           }
           // else if(item.progress.progressState == 2){
@@ -71,22 +81,20 @@ export default {
       
       let config = {
         onUploadProgress: progressEvent => {
-          let complete = (progressEvent.loaded / progressEvent.total * 100 | 0)
+          let complete = (progressEvent.loaded / progressEvent.total * 100 | 0);
           item.progress.progressNum = complete;
         },
-        headers: {
-          'Content-Type': 'multipart/form-data'
-        }
+        headers: {'Content-Type': 'multipart/form-data'},
       } 
-      axios.post('https://jsonplaceholder.typicode.com/posts/', fd,config).then( res => {
-        if(res.status === 201){
-          item.progress.progressNum = 100; item.progress.progressState = 1; item.progress.isNew = false;
-        };
+
+      Api.uploadFilesOrImgs(fd,item).then(res => {
+        item.progress.progressNum = 100; item.progress.progressState = 1; item.progress.isNew = false;
         item.progress.isProgress=false;
       }).catch( err => {
         item.progress.progressState = 2;
         item.progress.isProgress=false;
       })
+
     },
 
     // 删除图片
