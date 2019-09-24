@@ -17,7 +17,7 @@
 <script>
 import Api from '@api'
 import tool from './js/tool'
-import { Promise } from 'q';
+import { Promise, reject } from 'q';
 export default {
   name: "uploadImage",
   data() {
@@ -57,7 +57,7 @@ export default {
     },
 
     // 上传函数
-    uploadHahdle(item){
+    uploadHahdle(item,resolve,reject){
       item.progress.isProgress = true;
       item.progress.progressState = 0;
       item.progress.progressNum = 0;
@@ -68,20 +68,18 @@ export default {
         fd.append('type', 'img');
         fd.append('batchId', '');
         this.changeImgList.push(item);
-
-        let onePromise = Api.uploadFilesOrImgs(fd,item).then(res => {
+        Api.uploadFilesOrImgs(fd,item).then(res => {
           item.progress.progressNum = 100; item.progress.progressState = 1; item.progress.isNew = false;
           item.progress.isProgress=false;
           // Object.keys(res).forEach(one=> item[one] = res[one])
-          this.imgSuccessList.push(res);
-          this.$emit('getImgSuccessList',this.imgSuccessList)
-          
+          // this.imgSuccessList.push(res);
+          // this.$emit('getImgSuccessList',this.imgSuccessList)
+          resolve(res);
         }).catch( err => {
           item.progress.progressState = 2;
           item.progress.isProgress=false;
+          reject(err)
         })
-        
-        this.imagesPromise.push(onePromise);
       }
     },
 
@@ -99,35 +97,36 @@ export default {
       })
       this.imagesPromise = [];
       filesArr.forEach(fileItem => {
-        let fileRender = new FileReader();
-        fileRender.readAsDataURL(fileItem);  // file 转成 dataURL字符串
-        let width,height; //图片宽度 & 高度
+        let onePromise = new Promise((resolve,reject) => {
+           let fileRender = new FileReader();
+          fileRender.readAsDataURL(fileItem);  // file 转成 dataURL字符串
+          let width,height; //图片宽度 & 高度
 
-        fileRender.onload = fileEvent =>{
-          const img = new Image();
-          img.src = fileEvent.target.result;
-          
-          img.onload = imgEvent =>{
-            // 是否限制图片尺寸
-            if(this.limitedSize){
-              [width,height] = tool.isLimitedSize(imgEvent, this);
-            }else{
-              [width,height] = [img.width,img.height];
+          fileRender.onload = fileEvent =>{
+            const img = new Image();
+            img.src = fileEvent.target.result;
+            
+            img.onload = imgEvent =>{
+              // 是否限制图片尺寸
+              if(this.limitedSize){
+                [width,height] = tool.isLimitedSize(imgEvent, this);
+              }else{
+                [width,height] = [img.width,img.height];
+              }
+              this.canvasDrawPictures(img,width,height,fileItem,resolve,reject);
             }
-            this.canvasDrawPictures(img,width,height,fileItem);
-
-            Promise.all(this.imagesPromise).then(res=> {
+          }
+        })
+        this.imagesPromise.push(onePromise);
+      })
+       Promise.all(this.imagesPromise).then(res=> {
               this.imagesList.push(...this.changeImgList);
               // tool.removeRepeat(this);
-              // console.log(this.changeImgList)
+              this.imgSuccessList = [...res];
+              this.$emit('getImgSuccessList',this.imgSuccessList)
               this.$emit('parentImgLoad',this.imagesList)
               this.changeImgList=[];
             })
-
-          }
-        }
-      })
-      
     },
 
 
@@ -138,7 +137,7 @@ export default {
      * @param {height} 图片的高度
      * @return: blob / base64
      */
-    canvasDrawPictures(img,width,height,fileItem){
+    canvasDrawPictures(img,width,height,fileItem,resolve,reject){
       let canvas = document.createElement('canvas');
       canvas.width = width, canvas.height = height;
       let ctx = canvas.getContext('2d');
@@ -180,7 +179,7 @@ export default {
           progressNum:0, //进度
         }
       }
-      this.uploadHahdle(item)
+      this.uploadHahdle(item,resolve,reject)
       // console.log(`压缩后: ${tool.bytesToSize(file.size)}, 压缩比: ${zipRatioActive}`);
     },
   }

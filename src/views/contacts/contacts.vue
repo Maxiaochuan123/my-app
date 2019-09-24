@@ -71,6 +71,9 @@ export default {
     };
   },
   created(){
+    this.api.getContacts().then(res=>{
+      console.log('res:',res)
+    })
     this.$store.commit('setUserList',userList)
   },
 };
