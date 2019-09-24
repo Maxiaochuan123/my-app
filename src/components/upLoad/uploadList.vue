@@ -6,6 +6,8 @@
         <UpLoadImages ref="imageRef" @parentImgLoad="parentImgLoad"></UpLoadImages>
         <UpLoadEnclosure ref="enclosureRef" @parentEnclosureLoad="parentEnclosureLoad"></UpLoadEnclosure>
       </div>
+        <!-- <mu-button color='primary' @click="up">uPload</mu-button> -->
+
     </div>
 
     <PreviewImage :previewView="previewView" :imagesList="imgPreviewList" :previewSrc="previewSrc" :previewIndex="previewIndex" @closePreview="closePreview"></PreviewImage>
@@ -42,8 +44,14 @@
           <mu-menu placement="left-start" :open.sync="listItem.openMenu">
             <i class="iconfont icon-gengduovertical"></i>
             <mu-list slot="content">
-              <mu-list-item button v-for="(menuItem,index) in menuList" :key="index" @click="operation(listItem, menuItem)">
-                <mu-list-item-title>{{menuItem.title}}</mu-list-item-title>
+              <mu-list-item button v-show="/^image/.test(listItem.file.type)" @click="operation(listItem, '查看')">
+                <mu-list-item-title>查看</mu-list-item-title>
+              </mu-list-item>
+              <mu-list-item button @click="operation(listItem, '下载')">
+                <mu-list-item-title>下载</mu-list-item-title>
+              </mu-list-item>
+              <mu-list-item button @click="operation(listItem, '删除')">
+                <mu-list-item-title>删除</mu-list-item-title>
               </mu-list-item>
             </mu-list>
           </mu-menu>
@@ -93,6 +101,10 @@ export default {
     }
   },
   methods:{
+    up(){
+      this.$refs.imageRef.allUpload();
+      this.$refs.enclosureRef.allUpload();
+    },
     parentImgLoad(data){
       this.imgPreviewList = data;
     },
@@ -113,10 +125,10 @@ export default {
     parentEnclosureLoad(data){
       this.enclosureList = data;
     },
-    operation(listItem, menuItem){
+    operation(listItem, typeTest){
       listItem.openMenu = false;
 
-      switch(menuItem.title){
+      switch(typeTest){
         case '查看':
             if(/^image/.test(listItem.file.type)){
               this.previewView2 = true;

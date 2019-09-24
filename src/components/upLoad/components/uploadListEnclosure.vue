@@ -15,7 +15,7 @@
 </template>
 
 <script>
-import axios from 'axios'
+import Api from '@api'
 import tool from './js/tool'
 export default {
   name: "uploadImage",
@@ -56,20 +56,10 @@ export default {
       item.progress.progressState = 0;
       item.progress.progressNum = 0;
       
-      let config = {
-        onUploadProgress: progressEvent => {
-          let complete = (progressEvent.loaded / progressEvent.total * 100 | 0)
-          item.progress.progressNum = complete;
-        },
-        headers: {
-          'Content-Type': 'multipart/form-data'
-        }
-      } 
-      axios.post('https://jsonplaceholder.typicode.com/posts/', fd,config).then( res => {
-        if(res.status === 201){
-          item.progress.progressNum = 100; item.progress.progressState = 1; item.progress.isNew = false;
-        };
+      Api.uploadFilesOrImgs(fd,item).then(res => {
+        item.progress.progressNum = 100; item.progress.progressState = 1; item.progress.isNew = false;
         item.progress.isProgress=false;
+        console.log('success:',item.progress.progressState)
       }).catch( err => {
         item.progress.progressState = 2;
         item.progress.isProgress=false;

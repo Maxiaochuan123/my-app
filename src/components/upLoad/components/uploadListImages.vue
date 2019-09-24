@@ -16,9 +16,9 @@
 
 <script>
 import Api from '@api'
-import axios from 'axios'
 import tool from './js/tool'
 import PreviewImage from './PreviewImage'
+import { Promise } from 'q';
 export default {
   name: "uploadImage",
   components: {
@@ -26,6 +26,8 @@ export default {
   },
   data() {
     return {
+      imagesPromise:[],
+      changeImgList:[], // 当前改变的图片
       imagesList:[], //图片 数据集
       minSize: 1024 * 1024, //图片容量最小值
       maxSize: 1024 * 1024 * 10, //图片容量最大值
@@ -36,65 +38,51 @@ export default {
       zipBeforeSize:0, //压缩前容量
       zipAfterSize:0, //压缩后容量
       zipRatio: .92, //压缩比 0 ~ .92 默认 .92
-      isDirectUpload:true, //是否直接上传,
-
-      batchId:'',
-      reqData: {
-        file: '',
-        type:'img',
-        batchId: ''
-      }
+      isDirectUpload:true, //是否直接上传
     };
   },
+  // watch:{
+  //   imagesList:{
+  //     handler:function(newVal,oldVal){
+  //       // this.allUpload();
+  //     },
+  //     deep:true//对象内部的属性监听，也叫深度监听
+  //   }
+  // },
   methods: {
     // 单个点击重传
     oneUpLoad(item){
       const fd = new FormData();
       fd.append('file', item.file);
+      fd.append('type', 'img');
+      fd.append('batchId', '');
       this.uploadHahdle(item,fd);
-    },
-    // 全部上传
-    allUpload(){
-      // if(!this.isDirectUpload){
-        this.imagesList.forEach((item,index)=>{
-          if(item.progress.progressState == 0){
-            const fd = new FormData();
-            fd.append('file', item.file);
-            fd.append('type', 'img');
-            fd.append('batchId', '');
-            this.uploadHahdle(item, fd);
-          }
-          // else if(item.progress.progressState == 2){
-          //   const fdError = new FormData();
-          //   fdError.append('file', item.file);
-          //   this.uploadHahdle(item, fdError);
-          // }
-        })
-      // }
     },
 
     // 上传函数
-    uploadHahdle(item,fd){
+    uploadHahdle(item){
       item.progress.isProgress = true;
       item.progress.progressState = 0;
       item.progress.progressNum = 0;
-      
-      let config = {
-        onUploadProgress: progressEvent => {
-          let complete = (progressEvent.loaded / progressEvent.total * 100 | 0);
-          item.progress.progressNum = complete;
-        },
-        headers: {'Content-Type': 'multipart/form-data'},
-      } 
 
-      Api.uploadFilesOrImgs(fd,item).then(res => {
-        item.progress.progressNum = 100; item.progress.progressState = 1; item.progress.isNew = false;
-        item.progress.isProgress=false;
-      }).catch( err => {
-        item.progress.progressState = 2;
-        item.progress.isProgress=false;
-      })
+      if(item.progress.progressState == 0){
+        const fd = new FormData();
+        fd.append('file', item.file);
+        fd.append('type', 'img');
+        fd.append('batchId', '');
+        this.changeImgList.push(item);
 
+        let onePromise = Api.uploadFilesOrImgs(fd,item).then(res => {
+          item.progress.progressNum = 100; item.progress.progressState = 1; item.progress.isNew = false;
+          item.progress.isProgress=false;
+          
+        }).catch( err => {
+          item.progress.progressState = 2;
+          item.progress.isProgress=false;
+        })
+        
+        this.imagesPromise.push(onePromise);
+      }
     },
 
     // 删除图片
@@ -104,13 +92,12 @@ export default {
       this.$refs.fileInput.value = '';
     },
     onChange(){
-      // this.$emit('alimation', true)
       
       const files = this.$refs.fileInput.files;
       const filesArr =  [...files].filter( fileItem =>{
         if(/^image/.test(fileItem.type)) return fileItem;
       })
-
+      this.imagesPromise = [];
       filesArr.forEach(fileItem => {
         let fileRender = new FileReader();
         fileRender.readAsDataURL(fileItem);  // file 转成 dataURL字符串
@@ -124,12 +111,19 @@ export default {
             // 是否限制图片尺寸
             if(this.limitedSize){
               [width,height] = tool.isLimitedSize(imgEvent, this);
-              // console.log(width,height)
             }else{
               [width,height] = [img.width,img.height];
             }
-
             this.canvasDrawPictures(img,width,height,fileItem);
+
+            Promise.all(this.imagesPromise).then(res=> {
+              this.imagesList.push(...this.changeImgList);
+              // tool.removeRepeat(this);
+              
+              this.$emit('parentImgLoad',this.imagesList)
+              this.changeImgList=[];
+            })
+
           }
         }
       })
@@ -172,7 +166,8 @@ export default {
       // canvas 转 base64
       let base64 = canvas.toDataURL('image/jpeg', zipRatioActive);
       let file = tool.dataUrltoFile(base64, fileItem.name.split('.')[0] + ".jpeg");
-      this.imagesList.push({
+      // 进行上传
+      let item = {
         'src':URL.createObjectURL(file),
         'file':fileItem,
         'base64':base64,
@@ -184,10 +179,8 @@ export default {
           progressTag:0, //标签
           progressNum:0, //进度
         }
-      }); //图片预览
-      tool.removeRepeat(this);
-      if(this.isDirectUpload) this.allUpload();
-      this.$emit('parentImgLoad',this.imagesList)
+      }
+      this.uploadHahdle(item)
       // console.log(`压缩后: ${tool.bytesToSize(file.size)}, 压缩比: ${zipRatioActive}`);
     },
   }
