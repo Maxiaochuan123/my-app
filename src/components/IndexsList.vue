@@ -60,8 +60,13 @@ export default {
       userTopTag: "A", //  联系人栏头部的标签名字
     };
   },
-  created() {
-    this.testData();
+  mounted() {
+    this.testData(this.list);
+  },
+  watch:{
+    list(val){
+      this.testData(val)
+    }
   },
   methods: {
     handleScroll(e) {
@@ -84,8 +89,8 @@ export default {
     },
 
     //  请求数据
-    testData() {
-      let res = this.list;
+    testData(list) {
+      let res = list;
       this.sortList = Object.keys(res);
       this.listTemp = this.sortList.map(item => ({
         tag:item,

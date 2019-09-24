@@ -11,7 +11,7 @@
     <AppBar  pageTitle="个人联系人" rightIcon="icon-tianjia" rightLinkName="addContacts" :rightLinkParams="{type:'addPersonal'}"></AppBar>
     
     <div class="content">
-      <SearchBar :list="userList" placeholderText="搜索联系人"></SearchBar>
+      <SearchBar :list="[]" placeholderText="搜索联系人"></SearchBar>
       <div class="organization">
         <mu-list>
           <mu-list-item v-waves button @click="goPage('organization')">
@@ -43,8 +43,9 @@
         <div slot="row" slot-scope="{row}" class="user-index">
           <img :src="loadingImg('默认头像.png')" />
           <div>
-            <span>{{row.Fsinger_name}}</span>
-            <span>{{row.describe}}</span>
+            <span>fdasfdsa</span>
+            <span>{{row.customerName}}</span>
+            <span>{{row.detailAddress}}</span>
             <i class="iconfont icon-dianhua"></i>
           </div>
         </div>
@@ -58,7 +59,7 @@ import AppBar from "../../components/AppBar";
 import IndexsList from "../../components/IndexsList";
 import SearchBar from "../../components/SearchBar";
 
-import userList from '../../../static/json/userList'
+// import userList from '../../../static/json/userList'
 export default {
   components: {
     AppBar,
@@ -67,14 +68,15 @@ export default {
   },
   data() {
     return {
-      userList:userList
+      userList:{}
     };
   },
   created(){
-    this.api.getContacts().then(res=>{
-      console.log('res:',res)
+    this.api.getContacts({search:'',type:3}).then(res=>{
+      this.userList = res.data
+      console.log('userList:',this.userList)
     })
-    this.$store.commit('setUserList',userList)
+    // this.$store.commit('setUserList',userList)
   },
 };
 </script>
