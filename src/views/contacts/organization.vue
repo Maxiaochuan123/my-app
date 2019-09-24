@@ -167,10 +167,10 @@ export default {
       }else if(type === 'contacts'){
         this.drawerContacts = !this.drawerContacts;
         // if(item.children.length === 0) this.drawerContacts = false;
-        // this.api.getContacts({groupId:3}).then(res => {
-        //   console.log('联系人列表:',res)
-        //   this.contactsList = res.data;
-        // })
+        this.api.getContacts({deptId:item.id}).then(res => {
+          console.log('联系人列表:',res)
+          this.contactsList = res.data;
+        })
       }
 
       if(type === 'group_1' || type === 'contacts'){

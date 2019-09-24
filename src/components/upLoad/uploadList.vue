@@ -3,13 +3,12 @@
     <div class="enclosure">
       <div class="title">附件</div>
       <div class="content">
-        <UpLoadImages ref="imageRef" @parentImgLoad="parentImgLoad"></UpLoadImages>
+        <UpLoadImages ref="imageRef" @parentImgLoad="parentImgLoad" @getImgSuccessList="getImgSuccessList"></UpLoadImages>
         <UpLoadEnclosure ref="enclosureRef" @parentEnclosureLoad="parentEnclosureLoad"></UpLoadEnclosure>
       </div>
     </div>
 
     <PreviewImage :previewView="previewView" :imagesList="imgPreviewList" :previewSrc="previewSrc" :previewIndex="previewIndex" @closePreview="closePreview"></PreviewImage>
-    
     <div class="preview">
       <div class="imgPreview">
         <div class="imgList" :class="[isAlimatin?'animation-in':'']" v-for="(item,index) in imgPreviewList" :key="index">
@@ -42,8 +41,14 @@
           <mu-menu placement="left-start" :open.sync="listItem.openMenu">
             <i class="iconfont icon-gengduovertical"></i>
             <mu-list slot="content">
-              <mu-list-item button v-for="(menuItem,index) in menuList" :key="index" @click="operation(listItem, menuItem)">
-                <mu-list-item-title>{{menuItem.title}}</mu-list-item-title>
+              <mu-list-item button v-show="/^image/.test(listItem.file.type)" @click="operation(listItem, '查看')">
+                <mu-list-item-title>查看</mu-list-item-title>
+              </mu-list-item>
+              <mu-list-item button @click="operation(listItem, '下载')">
+                <mu-list-item-title>下载</mu-list-item-title>
+              </mu-list-item>
+              <mu-list-item button @click="operation(listItem, '删除')">
+                <mu-list-item-title>删除</mu-list-item-title>
               </mu-list-item>
             </mu-list>
           </mu-menu>
@@ -66,7 +71,7 @@ import PreviewImage from './components/PreviewImage'
 import tool from './components/js/tool'
 export default {
   name:"upLoad",
-  components:{ UpLoadImages,UpLoadEnclosure,PreviewImage },
+  components:{ UpLoadImages,UpLoadEnclosure,PreviewImage},
   data(){
     return{
       isAlimatin:true, //是否开启动画
@@ -93,6 +98,9 @@ export default {
     }
   },
   methods:{
+    getImgSuccessList(data){
+      console.log('getImgSuccessList:',data)
+    },
     parentImgLoad(data){
       this.imgPreviewList = data;
     },
@@ -113,10 +121,10 @@ export default {
     parentEnclosureLoad(data){
       this.enclosureList = data;
     },
-    operation(listItem, menuItem){
+    operation(listItem, typeTest){
       listItem.openMenu = false;
 
-      switch(menuItem.title){
+      switch(typeTest){
         case '查看':
             if(/^image/.test(listItem.file.type)){
               this.previewView2 = true;
@@ -135,6 +143,10 @@ export default {
     },
     closePreview2(){
       this.previewView2 = false;
+    },
+    openPreview2(item){
+      this.previewView2 = true;
+      this.previewSrc2 = item;
     }
   }
 }
