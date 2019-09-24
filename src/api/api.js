@@ -13,8 +13,8 @@ const METHODS = {
 };
 const instance = axios.create({
   withCredentials: true,
-  timeout:5000
-}) 
+  timeout: 5000
+});
 /*----------------------请求拦截----------------------*/
 instance.interceptors.request.use(
   config => {
@@ -29,9 +29,8 @@ instance.interceptors.request.use(
       const type = config.headers["Content-Type"];
       if (type && type.indexOf("json") > -1) {
         config.data = JSON.stringify(config.data);
-      } else if(type && type.indexOf("form-data") > -1){
-
-      }else {
+      } else if (type && type.indexOf("form-data") > -1) {
+      } else {
         config.data = Qs.stringify(config.data);
       }
     }
@@ -87,7 +86,7 @@ const request = ({
   headers = {},
   method = METHODS.GET,
   server = "service",
-  extraFileParams,
+  extraFileParams
 }) => {
   let httpUrl = window.config[server] + url;
   function checkCode(res) {
@@ -128,21 +127,27 @@ const request = ({
       .then(res => checkCode(res.data));
   } else if (method === METHODS.POST) {
     return instance
-      .post(httpUrl, params, { headers, onUploadProgress: progressEvent => {
-        let complete = (progressEvent.loaded / progressEvent.total * 100 | 0)
-        extraFileParams.progress.progressNum = complete;
-      }})
+      .post(httpUrl, params, {
+        headers,
+        onUploadProgress: progressEvent => {
+          let complete =
+            ((progressEvent.loaded / progressEvent.total) * 100) | 0;
+          if (extraFileParams) {
+            extraFileParams.progress.progressNum = complete;
+          }
+        }
+      })
       .then(res => checkCode(res.data));
   }
 };
-const post = ({ url, params, headers, server,extraFileParams }) =>
+const post = ({ url, params, headers, server, extraFileParams }) =>
   request({
     url,
     params,
     headers,
     server,
     method: METHODS.POST,
-    extraFileParams,
+    extraFileParams
   });
 export const get = ({ url, params, headers, server }) =>
   request({
@@ -150,6 +155,6 @@ export const get = ({ url, params, headers, server }) =>
     params,
     headers,
     server,
-    method: METHODS.GET,
+    method: METHODS.GET
   });
 export default post;
