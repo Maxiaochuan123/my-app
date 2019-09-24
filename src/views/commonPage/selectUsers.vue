@@ -9,10 +9,6 @@
       :isShowRightBtn="false"
       pageTitle="选择用户"
     ></AppBar>
-    <!-- <SearchBar
-      :list="userList"
-      placeholderText="搜索客户"
-    ></SearchBar>-->
     <SearchInputBar
       @searchInputBarChange="searchInputBarChange"
       placeholderText="搜索客户"

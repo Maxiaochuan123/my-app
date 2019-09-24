@@ -9,3 +9,5 @@ export const USER_LOGIN_IN = getApi("/login");
 export const USER_LOGIN_OUT = getApi("/logout");
 // 查询配置字段
 export const QUERY_FIELD_LIST = getApi("/fields/selectField");
+// 上传文件
+export const UPLOAD_FILES = getApi("/file/upload");
