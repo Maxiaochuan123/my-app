@@ -16,7 +16,7 @@
 
 <script>
 import Api from '@api'
-import tool from './js/tool'
+import tool from './js/tool';
 import { Promise, reject } from 'q';
 export default {
   name: "uploadImage",
@@ -52,7 +52,7 @@ export default {
       const fd = new FormData();
       fd.append('file', item.file);
       fd.append('type', 'img');
-      fd.append('batchId', '');
+      fd.append('batchId', this.$parent.guid);
       this.uploadHahdle(item,fd);
     },
 
@@ -66,15 +66,13 @@ export default {
         const fd = new FormData();
         fd.append('file', item.file);
         fd.append('type', 'img');
-        fd.append('batchId', '');
+        fd.append('batchId', this.$parent.guid);
         this.changeImgList.push(item);
         Api.uploadFilesOrImgs(fd,item).then(res => {
           item.progress.progressNum = 100; item.progress.progressState = 1; item.progress.isNew = false;
           item.progress.isProgress=false;
-          // Object.keys(res).forEach(one=> item[one] = res[one])
-          // this.imgSuccessList.push(res);
-          // this.$emit('getImgSuccessList',this.imgSuccessList)
-          resolve(res);
+          Object.keys(res).forEach(one=> item[one] = res[one])
+          resolve(item);
         }).catch( err => {
           item.progress.progressState = 2;
           item.progress.isProgress=false;
@@ -85,9 +83,14 @@ export default {
 
     // 删除图片
     deleteImageItem(item){
-      this.imagesList = this.imagesList.filter(imgItem => imgItem.file.name !== item.file.name);
-      this.$emit('parentImgLoad',this.imagesList)
-      this.$refs.fileInput.value = '';
+      Api.deleteFilesOrImgs({
+        id:item.fileId
+      }).then(res => {
+        this.imagesList = this.imagesList.filter(imgItem => imgItem.fileId !== item.fileId);
+        this.imgSuccessList = this.imgSuccessList.filter(imgItem => imgItem.fileId !== item.fileId);
+        this.$emit('parentImgLoad',this.imagesList)
+        this.$refs.fileInput.value = '';
+      })
     },
     onChange(){
       
@@ -123,7 +126,7 @@ export default {
               this.imagesList.push(...this.changeImgList);
               // tool.removeRepeat(this);
               this.imgSuccessList = [...this.imgSuccessList,...res];
-              this.$emit('getImgSuccessList',this.imgSuccessList)
+              this.$emit('getImgSuccessList',{guid:this.$parent.guid,list:this.imgSuccessList})
               this.$emit('parentImgLoad',this.imagesList)
               this.changeImgList=[];
             })

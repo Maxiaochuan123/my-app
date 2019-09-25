@@ -350,7 +350,8 @@ export default {
     },
     getImgSuccessList(res,row) {
       const {fieldName} = row;
-      this.form[fieldName] = res.map(item => item.batchId).join(',');
+      const {list,guid} = res;
+      this.form[fieldName] = guid;
     }
   }
 };

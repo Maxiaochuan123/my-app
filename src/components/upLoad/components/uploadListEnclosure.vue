@@ -30,15 +30,20 @@ export default {
     oneUpLoad(item){
       const fd = new FormData();
       fd.append('file', item.file);
+      fd.append('type', 'file');
+      fd.append('batchId', this.$parent.guid);
       this.uploadHahdle(item,fd);
     },
     // 全部上传
     allUpload(){
       // if(!this.isDirectUpload){
         this.enclosureList.forEach((item,index)=>{
+          
           if(item.progress.progressState == 0){
             const fd = new FormData();
             fd.append('file', item.file);
+            fd.append('type', 'file');
+            fd.append('batchId', this.$parent.guid);
             this.uploadHahdle(item, fd);
           }
           // else if(item.progress.progressState == 2){
@@ -59,18 +64,23 @@ export default {
       Api.uploadFilesOrImgs(fd,item).then(res => {
         item.progress.progressNum = 100; item.progress.progressState = 1; item.progress.isNew = false;
         item.progress.isProgress=false;
-        console.log('success:',item.progress.progressState)
+        Object.keys(res).forEach(one=> item[one] = res[one])
       }).catch( err => {
         item.progress.progressState = 2;
         item.progress.isProgress=false;
       })
     },
 
-    // 删除图片
+    // 删除文件
     deleteImageItem(item){
-      this.enclosureList = this.enclosureList.filter(imgItem => imgItem.file.name !== item.file.name);
+      Api.deleteFilesOrImgs({
+        id:item.fileId
+      }).then(res => {
+      this.enclosureList = this.enclosureList.filter(imgItem => imgItem.fileId !== item.fileId);
       this.$emit('parentEnclosureLoad',this.enclosureList)
       this.$refs.fileInput.value = '';
+      })
+     
     },
     onChange(){
       const files = this.$refs.fileInput.files;

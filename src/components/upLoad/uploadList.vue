@@ -69,11 +69,13 @@ import UpLoadImages from './components/uploadListImages'
 import UpLoadEnclosure from './components/uploadListEnclosure'
 import PreviewImage from './components/PreviewImage'
 import tool from './components/js/tool'
+import tools from '../../../static/js/tool'
 export default {
   name:"upLoad",
   components:{ UpLoadImages,UpLoadEnclosure,PreviewImage},
   data(){
     return{
+      guid:'', // 用于文件上传的标志
       isAlimatin:true, //是否开启动画
       imgPreviewList:[],
       previewView:false, //预览视窗
@@ -96,6 +98,9 @@ export default {
       previewView2:false,
       previewSrc2:''
     }
+  },
+  mounted() {
+    this.guid = tools.guid();
   },
   methods:{
     getImgSuccessList(data){

@@ -63,6 +63,7 @@ export default {
   bottom: 0;
   height: 87px;
   box-shadow:0px 16px 23px 0px rgba(159,159,159,1);
+  z-index:100;
   .nav-item {
     display: flex;
     margin: 6px 10px 6px 0;

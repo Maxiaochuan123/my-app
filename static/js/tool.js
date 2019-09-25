@@ -60,9 +60,9 @@ export default {
   },
   // 解密登录的信息并返回userInfo的对象
   decUserInfo() {
-    let login = localStorage.getItem('login');
-    if (typeof login === 'string' && login !== '') {
-      return JSON.parse(this.decAse192(login, 'login'));
+    let login = localStorage.getItem("login");
+    if (typeof login === "string" && login !== "") {
+      return JSON.parse(this.decAse192(login, "login"));
     } else {
       return {};
     }
@@ -81,5 +81,12 @@ export default {
       equipmentType = "iOS";
     }
     return equipmentType;
+  },
+  guid() {
+    // 用于文件多张上传需要传入的randow
+    function S4() {
+      return (((1 + Math.random()) * 0x10000) | 0).toString(16).substring(1);
+    }
+    return S4() + S4() + S4() + S4() + S4() + S4() + S4() + S4();
   }
 };
