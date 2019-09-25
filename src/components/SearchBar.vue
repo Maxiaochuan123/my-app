@@ -15,7 +15,7 @@
           :key="index"
           :label="item.userName"
           :value="item.userName"
-          @click.native="isGoPage ? goPage(pageLinkName) : goTag(item.tag)"
+          @click.native="isGoPage ? goPage(pageLinkName,list[index]) : goTag(item.tag)"
         ></mu-option>
       </mu-select>
     </div>
@@ -23,6 +23,7 @@
 </template>
 
 <script>
+import {mapState} from 'vuex'
 export default {
   name: "search-bar",
   props: {
@@ -51,14 +52,31 @@ export default {
       }
     };
   },
-  mounted() {
-    this.list.forEach( item => {
-      item.userList.forEach( itemUser => {
-        this.searchList.push({userName:itemUser.Fsinger_name,tag:item.Findex})
-      })
-    })
+  computed:{
+    ...mapState(['userList'])
   },
+  watch:{
+    list(val){
+      this.setSearchList(val);
+    }
+  },
+  
   methods: {
+    setSearchList(list){
+      if(this.isGoPage){
+        list.forEach( item => {
+          this.searchList.push({userName:item.realname})
+        })
+      }else{
+        list.forEach( item => {
+          for(let item_1 in item){
+            for(let item_2 in item[item_1]){
+              this.searchList.push({userName:item[item_1][item_2].name,tag:item_1})
+            }
+          }
+        })
+      }
+    },
     goTag(tag) {
       document.querySelector(`#${tag}`).scrollIntoView(true);
     }

@@ -68,6 +68,12 @@ const router = new Router({
           component: () => import("../views/contacts/contacts.vue")
         },
         {
+          path: "/contactsDetails",
+          name: "contactsDetails",
+          meta: { zIndex: 1 },
+          component: () => import("../views/contacts/contactsDetails.vue")
+        },
+        {
           path: "/addContacts/:type/:id?",
           name: "addContacts",
           meta: { zIndex: 1 },
