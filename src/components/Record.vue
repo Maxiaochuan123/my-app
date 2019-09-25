@@ -33,9 +33,8 @@
             <div class="node-right">
               <div class="name">{{item.realname}}</div>
               <div class="talk">{{item.content}}</div>
-              <!-- 图片等等再写公用组件 -->
-              <div v-if="item.img.length>0">
-                <div class="images"></div>
+              <div v-if="item.img.length > 0" class="show-imgs">
+                <PreviewImageBase :imagesList="item.img.map(one => one.filePath)"></PreviewImageBase>
               </div>
               <div class="sub-info">
                 <label>跟进类型:</label>
@@ -58,9 +57,10 @@
 
 <script>
 import Nothing from "@components/Nothing.vue";
+import PreviewImageBase from "@components/upLoad/components/PreviewImageBase.vue";
 export default {
   name: "Record",
-  components: { Nothing },
+  components: { Nothing, PreviewImageBase },
   data() {
     return {};
   },
@@ -123,6 +123,9 @@ export default {
           flex: 1;
           width: auto;
           margin-left: 10px;
+          .show-imgs{
+            margin:20px 0 0 0;
+          }
           .name {
             font-size: @primary-size;
             color: @primary-text;

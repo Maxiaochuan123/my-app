@@ -10,6 +10,6 @@ export const USER_LOGIN_OUT = getApi("/logout");
 // 查询配置字段
 export const QUERY_FIELD_LIST = getApi("/fields/selectField");
 // 上传文件
-export const UPLOAD_FILES = getApi("/file/upload");
+export const UPLOAD_FILES = getApi("/allFile/upload");
 // 删除文件
-export const DELETE_FILES = getApi("/file/deleteById");
+export const DELETE_FILES = getApi("/allFile/deleteById");
