@@ -58,9 +58,7 @@ new Vue({
   components: { App },
   template: "<App/>"
 });
-// const prefix = `${window.location.protocol}//${window.location.host}`; //正式库地址
-const prefix = `${window.location.protocol}//${window.location.host}/api`; //测试本地
-// const prefix = "http://192.168.0.92:6080"; //测试本地
+const prefix = `${window.location.protocol}//${window.location.host}/api`;
 window.config = {
   service: prefix
 };
