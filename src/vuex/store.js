@@ -14,11 +14,11 @@ export default new Vuex.Store({
     accessToken: "", // token
     authorities: {}, // 作者的权限
     loginUser: {}, // 登录者的信息
-    userList: []
+    info: {}, //点击的当前 用户信息
   },
   mutations: {
     // 基础方法
-    setUserList: (state, data) => (state.userList = data),
+    setInfo: (state, data) => (state.info = data),
     // 登录的基本信息
     setloginInfo: (state, data) => {
       const {accessToken,authorities,user} = data;

@@ -92,6 +92,8 @@ export default {
     testData(list) {
       let res = list;
       this.sortList = Object.keys(res);
+      this.currentSort = this.sortList[0]
+      this.userTopTag = this.sortList[0]
       this.listTemp = this.sortList.map(item => ({
         tag:item,
         data:res[item]

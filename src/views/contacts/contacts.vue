@@ -8,10 +8,10 @@
 
 <template>
   <div class="contacts">
-    <AppBar  pageTitle="个人联系人" rightIcon="icon-tianjia" rightLinkName="addContacts" :rightLinkParams="{type:'addPersonal'}"></AppBar>
+    <AppBar pageTitle="个人联系人" rightIcon="icon-tianjia" rightLinkName="addContacts" :rightLinkParams="{type:'addPersonal'}"></AppBar>
     
     <div class="content">
-      <SearchBar :list="[]" placeholderText="搜索联系人"></SearchBar>
+      <SearchBar :list="sheachList" placeholderText="搜索联系人" pageLinkName="personalInfo"></SearchBar>
       <div class="organization">
         <mu-list>
           <mu-list-item v-waves button @click="goPage('organization')">
@@ -40,12 +40,11 @@
         </mu-list>
       </div>
       <IndexsList :tagTop="242" :tagTopoffsetTop="250" :listSpacing="198" :list="userList">
-        <div slot="row" slot-scope="{row}" class="user-index">
+        <div slot="row" slot-scope="{row}" class="user-index" @click="goDetails('contactsDetails',row)">
           <img :src="loadingImg('默认头像.png')" />
           <div>
-            <span>fdasfdsa</span>
-            <span>{{row.customerName}}</span>
-            <span>{{row.detailAddress}}</span>
+            <span>{{row.name}}</span>
+            <span>{{row.remark}}</span>
             <i class="iconfont icon-dianhua"></i>
           </div>
         </div>
@@ -68,16 +67,24 @@ export default {
   },
   data() {
     return {
-      userList:{}
+      userList:{},
+      sheachList:[]
     };
   },
   created(){
     this.api.getContacts({search:'',type:3}).then(res=>{
       this.userList = res.data
-      console.log('userList:',this.userList)
+      this.sheachList.push(res.data)
     })
-    // this.$store.commit('setUserList',userList)
   },
+  methods:{
+    goDetails(pathName, item){
+      this.$router.push({
+        name: pathName
+      })
+      this.$store.commit('setInfo',item)
+    }
+  }
 };
 </script>
 
@@ -109,6 +116,7 @@ export default {
       color: @regular-text;
       height: 66px;
       padding: 0 20px;
+      position: relative;
       
       img {
         border-radius: 50%;
@@ -119,7 +127,7 @@ export default {
         width: 86%;
         margin-left: 20px;
         padding: 12px 0;
-        position: relative;
+        
         display: flex;
         flex-direction: column;
         border-bottom: 1px solid @primary-border;
@@ -140,7 +148,7 @@ export default {
           color: @primary;
           position: absolute;
           top: 24px;
-          right: 20px;
+          right: 36px;
         }
         
       }

@@ -50,7 +50,7 @@
         <mu-tab>基本信息</mu-tab>
       </mu-tabs>
       <div class="followUprecord" v-if="active === 0">
-        <Record></Record>
+        <Record :record="[]"></Record>
       </div>
       <div class="basicsInfo" v-if="active === 1">
         <mu-list v-if="infoType === '买车'">
@@ -290,14 +290,14 @@ export default {
 
       bottomList: [
         {
-          img: loadingImg('buttom-write-follow.png'),
+          img: '../../../static/images/buttom-write-follow.png',
           label: "写跟进",
           linkName: "writeFollowup",
           isLink: true,
           type: "writeFollow"
         },
         {
-          img: loadingImg('buttom-call.png'),
+          img: '../../../static/images/buttom-call.png',
           label: "打电话",
           linkName: "myInfoChild",
           isLink: false,

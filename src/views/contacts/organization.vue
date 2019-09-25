@@ -18,7 +18,7 @@
       <mu-paper :z-depth="0">
         <mu-list>
           <div v-for="(item ,index) in companyList" :key="index">
-            <mu-list-item button v-waves @click="getCompanyItem(item,'dept')">
+            <mu-list-item button v-waves :class="index === deptActive ? 'active' : '' " @click="getCompanyItem(item,'dept',index)">
               <mu-list-item-title :class="[item.children.length > 0 ? '' : 'isdisable']">{{item.name}}</mu-list-item-title>
               <mu-list-item-action>
                 <mu-icon value=":iconfont icon-rightArrow"></mu-icon>
@@ -34,10 +34,11 @@
       <mu-drawer class="department" right :open.sync="drawerDepartment">
         <!-- <mu-paper :z-depth="0"> -->
           <div class="listTitle">{{deptTitleName}}</div>
+          <!-- <div class="listTitle">部门抽屉</div> -->
         <!-- </mu-paper> -->
         <mu-list>
           <div v-for="(item ,index) in deptList" :key="index">
-            <mu-list-item button v-waves @click="getCompanyItem(item, item.children.length > 0 ? 'group' : 'contacts')">
+            <mu-list-item button v-waves :class="index === groupActive ? 'active' : '' " @click="getCompanyItem(item,'group', index)">
               <mu-list-item-title :class="[item.children.length > 0 ? '' : 'isdisable']">{{item.name}}</mu-list-item-title>
               <mu-list-item-action>
                 <mu-icon value=":iconfont icon-rightArrow"></mu-icon>
@@ -51,12 +52,12 @@
       <!-- 组抽屉 1 -->
       <mu-drawer class="group" right :open.sync="drawerGroup">
         <!-- <mu-paper :z-depth="0"> -->
-          <!-- <div class="listTitle">{{groupTitleName}}</div> -->
-          <div class="listTitle">group</div>
+          <div class="listTitle">{{groupTitleName}}</div>
+          <!-- <div class="listTitle">组抽屉 1</div> -->
         <!-- </mu-paper> -->
         <mu-list>
           <div v-for="(item ,index) in groupList" :key="index">
-            <mu-list-item button v-waves  @click="getCompanyItem(item, item.children.length > 0 ? 'group_1' : 'contacts')">
+            <mu-list-item button v-waves :class="index === group_1_Active ? 'active' : '' " @click="getCompanyItem(item, item.children.length > 0 ? 'group_1' : 'contacts', index)">
               <mu-list-item-title :class="[item.children.length > 0 ? '' : 'isdisable']">{{item.name}}</mu-list-item-title>
               <mu-list-item-action>
                 <mu-icon value=":iconfont icon-rightArrow"></mu-icon>
@@ -70,12 +71,12 @@
       <!-- 子组抽屉  1-1 -->
       <mu-drawer class="group_1" right :open.sync="drawerGroup_1">
         <!-- <mu-paper :z-depth="0"> -->
-          <!-- <div class="listTitle">{{groupTitleName_1}}</div> -->
-          <div class="listTitle">group_1</div>
+          <div class="listTitle">{{groupTitleName_1}}</div>
+          <!-- <div class="listTitle">组抽屉 1-1</div> -->
         <!-- </mu-paper> -->
         <mu-list>
           <div v-for="(item ,index) in groupList_1" :key="index">
-            <mu-list-item button v-waves  @click="getCompanyItem(item ,'contacts')">
+            <mu-list-item button v-waves :class="index === contactsActive ? 'active' : '' " @click="getCompanyItem(item ,'contacts',index)">
               <mu-list-item-title :class="[item.children.length > 0 ? '' : 'isdisable']">{{item.name}}</mu-list-item-title>
               <mu-list-item-action>
                 <mu-icon value=":iconfont icon-rightArrow"></mu-icon>
@@ -91,13 +92,13 @@
         <div class="listTitle">联系人</div>
         <mu-list textline="two-line">
           <div v-for="(item ,index) in contactsList" :key="index">
-            <mu-list-item button v-waves @click="drawerContacts = false;drawerDepartment = false; goPage('personalInfo')">
+            <mu-list-item button v-waves @click="drawerContacts = false;drawerDepartment = false; goPage('personalInfo',item)">
               <mu-avatar>
                 <img :src="loadingImg('默认头像.png')">
               </mu-avatar>
               <mu-list-item-content>
-                <mu-list-item-title>{{item.name}}</mu-list-item-title>
-                <mu-list-item-sub-title>总经理</mu-list-item-sub-title>
+                <mu-list-item-title>{{item.realname}}</mu-list-item-title>
+                <mu-list-item-sub-title>{{item.post}}</mu-list-item-sub-title>
               </mu-list-item-content>
             </mu-list-item>
             <mu-divider shallow-inset v-show="index + 1 !== contactsList.length"></mu-divider>
@@ -113,8 +114,7 @@
 <script>
 import AppBar from '../../components/AppBar'
 import SearchBar from '../../components/SearchBar'
-// import Api from '@api'
-import { mapState } from 'vuex'
+import { mapMutations } from 'vuex'
 export default {
   name:'organization',
   components:{ AppBar,SearchBar },
@@ -124,6 +124,7 @@ export default {
       drawerGroup: false, //组抽屉
       drawerGroup_1: false, //子组抽屉
       drawerContacts: false, //联系人抽屉
+      userList:[],
 
       companyList:[],
       deptList:[],
@@ -134,52 +135,54 @@ export default {
       deptTitleName:'',
       groupTitleName:'',
       groupTitleName_1:'',
+
+      deptActive:'',
+      groupActive:'',
+      group_1_Active:'',
+      contactsActive:''
     }
   },
   created(){
     this.api.getDeptTree({type:'tree'}).then(res => {
       this.companyList = res.data;
     })
-    // this.api.getDeptContacts({groupId:18}).then(res => {
-    //   console.log('部门联系人:',res)
-    // })
+    this.api.getDeptContacts({deptId:'',shearch:'',needGroup:0}).then(res => {
+      this.userList = res.data;
+      // this.$store.commit('setUserList',res.data)
+    })
     
   },
   methods:{
-    getCompanyItem(item,type){
+    getCompanyItem(item,type,index){
       if(type === 'dept'){
+        this.deptActive = index;
         this.drawerDepartment = !this.drawerDepartment;
-        if(!this.drawerDepartment) this.drawerGroup=false; this.drawerGroup_1=false; this.drawerContacts=false;
+        if(!this.drawerDepartment) this.drawerGroup=false; this.drawerGroup_1=false; this.drawerContacts=false; this.groupActive=''; this.group_1_Active=''; this.contactsActive='';
         this.deptTitleName = item.name;
         this.deptList = item.children;
       }else if(type === 'group'){
+        this.groupActive = index;
         this.drawerGroup = !this.drawerGroup;
-        if(!this.drawerGroup) this.drawerGroup_1=false;this.drawerContacts=false;
-
+        if(!this.drawerGroup) this.drawerGroup_1=false;this.drawerContacts=false; this.group_1_Active=''; this.contactsActive='';
         this.groupTitleName = item.name;
         this.groupList = item.children;
       }else if(type === 'group_1'){
         this.drawerGroup_1 = !this.drawerGroup_1;
-        if(!this.drawerGroup_1) this.drawerContacts=false;
-
+        if(!this.drawerGroup_1) this.drawerContacts=false;  this.contactsActive='';
         this.groupTitleName_1 = item.name;
         this.groupList_1 = item.children;
       }else if(type === 'contacts'){
+        this.contactsActive = index;
         this.drawerContacts = !this.drawerContacts;
-        // if(item.children.length === 0) this.drawerContacts = false;
-        this.api.getContacts({deptId:item.id}).then(res => {
-          console.log('联系人列表:',res)
+        this.api.getDeptContacts({deptId:item.id,shearch:'',needGroup:0}).then(res => {
           this.contactsList = res.data;
         })
       }
 
       if(type === 'group_1' || type === 'contacts'){
-        
+        this.group_1_Active = index;
       }
     }
-  },
-  computed:{
-    ...mapState(['userList'])
   }
 }
 </script>
@@ -191,6 +194,10 @@ export default {
     
     .content{
       padding: 104px 0;
+
+      .active{
+        background-color: #d3d3d3;
+      }
 
       .listTitle{
         color: @primary-text;
@@ -225,8 +232,13 @@ export default {
         }
         &.contacts{
           width: 60vw;
+          .mu-avatar{
+            background-color: transparent;
+          }
+          .mu-item-sub-title{
+            line-height: 20px;
+          }
         }
-
       }
     }
   }

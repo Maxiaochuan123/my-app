@@ -10,13 +10,13 @@
     <AppBar  :pageTitle="title"></AppBar>
     
     <div class="content">
-      <SearchBar :list="userList" placeholderText="搜索联系人"></SearchBar>
+      <SearchBar :list="[]" placeholderText="搜索联系人"></SearchBar>
         <IndexsList :list="userList">
           <div slot="row" slot-scope="{row}" class="user-index">
             <img :src="loadingImg('默认头像.png')" />
             <div>
-              <span>{{row.Fsinger_name}}</span>
-              <span>{{row.describe}}</span>
+              <span>{{row.createUserName}}</span>
+              <span>{{row.detailAddress}}</span>
               <i class="iconfont icon-dianhua"></i>
             </div>
           </div>
@@ -29,7 +29,7 @@
 import AppBar from "../../components/AppBar";
 import IndexsList from "../../components/IndexsList";
 import SearchBar from "../../components/SearchBar";
-import { mapState } from 'vuex'
+// import { mapState } from 'vuex'
 export default {
   components: {
     AppBar,
@@ -38,12 +38,18 @@ export default {
   },
   data() {
     return {
-      title: "联系人"
+      title: "联系人",
+      userList:[]
     };
   },
-  computed:{
-    ...mapState(['userList'])
+  created(){
+    this.api.getContacts({search:'',type:3}).then(res=>{
+      this.userList = res.data
+    })
   }
+  // computed:{
+  //   ...mapState(['userList'])
+  // }
 };
 </script>
 

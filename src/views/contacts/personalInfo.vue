@@ -19,10 +19,10 @@
         </div>
         <div class="info">
           <div class="name">
-            <span>张三</span>
-            <img :src="loadingImg('女.png')" />
+            <span>{{info.realname}}</span>
+            <!-- <img :src="loadingImg('女.png')" /> -->
           </div>
-          <div class="level">总经理</div>
+          <div class="level">{{info.post}}</div>
         </div>
       </mu-paper>
 
@@ -34,11 +34,11 @@
           <mu-list-item v-waves>
             <mu-list-item-content>
               <mu-list-item-title>手机号码</mu-list-item-title>
-              <mu-list-item-sub-title>13111866951</mu-list-item-sub-title>
+              <mu-list-item-sub-title>{{info.mobile}}</mu-list-item-sub-title>
             </mu-list-item-content>
             <mu-list-item-action>
               <mu-icon
-                @click="dial(13111866951)"
+                @click="dial(info.mobile)"
                 value=":iconfont icon-dianhua"
               ></mu-icon>
             </mu-list-item-action>
@@ -47,7 +47,7 @@
           <mu-list-item>
             <mu-list-item-content>
               <mu-list-item-title>部门</mu-list-item-title>
-              <mu-list-item-sub-title>成都众汇车服集团有限公司/四川公司/总经办</mu-list-item-sub-title>
+              <mu-list-item-sub-title>{{info.deptName}}</mu-list-item-sub-title>
             </mu-list-item-content>
           </mu-list-item>
         </mu-list>
@@ -63,10 +63,13 @@ export default {
   components: { AppBar },
   data() {
     return {
-   
+      info:this.$route.params
     };
   },
-  methods: {}
+  methods: {},
+  mounted(){
+    console.log(this.info)
+  }
 };
 </script>
 

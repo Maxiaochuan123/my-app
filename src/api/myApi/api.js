@@ -5,6 +5,8 @@ export default {
   getContacts: params => get({ params, url: '/crmContacts/queryContactsListHtml' }),
   // 查询部门列表
   getDeptTree: params => get({ params, url: '/sysDept/queryDeptTree' }),
-  // 部门ID查询联系人
-  getDeptContacts: params => get({ params, url: '/sysUser/queryUserNameByDeptId' }),
+  // 联系人 - 公司 - 部门
+  getDeptContacts: params => get({ params, url: '/sysUser/querySimpleUserByDeptId' }),
+  // 联系人 - 公司所有
+  // getDeptContactsAll: params => get({ params, url: '/sysUser/querySimpleUserGroupByDept' }),
 }
