@@ -109,8 +109,9 @@ const request = ({
         } else if (res.msg) {
           Toast.error({
             message: res.msg,
-            position: "top"
+            position: "top",
           });
+          
         } else {
           Toast.error({
             message: `code:${res.code}`,
