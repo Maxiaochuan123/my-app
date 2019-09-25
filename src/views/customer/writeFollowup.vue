@@ -36,7 +36,7 @@ export default {
     return {
       fieldList: [
         {
-          fieldName: "content",
+          fieldName: "category",
           formType: "select",
           isNull: 1,
           name: "跟进类型",
@@ -63,7 +63,7 @@ export default {
           value: ""
         },
         {
-          fieldName: "category",
+          fieldName: "content",
           formType: "textarea",
           isNull: 1,
           name: "跟进内容",
