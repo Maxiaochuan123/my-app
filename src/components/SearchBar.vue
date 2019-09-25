@@ -15,7 +15,7 @@
           :key="index"
           :label="item.userName"
           :value="item.userName"
-          @click.native="isGoPage ? goPage(pageLinkName,list[index]) : goTag(item.tag)"
+          @click.native="isGoPage ? goPage(pageLinkName,list[index],{},setStoreMethodName) : goTag(item.tag)"
         ></mu-option>
       </mu-select>
     </div>
@@ -40,6 +40,10 @@ export default {
       default: false
     },
     pageLinkName: {
+      type: String,
+      default: ""
+    },
+    setStoreMethodName: {
       type: String,
       default: ""
     }

@@ -11,7 +11,7 @@
     <AppBar pageTitle="个人联系人" rightIcon="icon-tianjia" rightLinkName="addContacts" :rightLinkParams="{type:'addPersonal'}"></AppBar>
     
     <div class="content">
-      <SearchBar :list="sheachList" placeholderText="搜索联系人" pageLinkName="personalInfo"></SearchBar>
+      <SearchBar :list="sheachList" placeholderText="搜索联系人" pageLinkName="contactsDetails" setStoreMethodName="setInfo"></SearchBar>
       <div class="organization">
         <mu-list>
           <mu-list-item v-waves button @click="goPage('organization')">
@@ -40,7 +40,7 @@
         </mu-list>
       </div>
       <IndexsList :tagTop="242" :tagTopoffsetTop="250" :listSpacing="198" :list="userList">
-        <div slot="row" slot-scope="{row}" class="user-index" @click="goDetails('contactsDetails',row)">
+        <div slot="row" slot-scope="{row}" class="user-index" @click="goPage('contactsDetails',row,{},'setInfo')">
           <img :src="loadingImg('默认头像.png')" />
           <div>
             <span>{{row.name}}</span>
@@ -76,14 +76,6 @@ export default {
       this.userList = res.data
       this.sheachList.push(res.data)
     })
-  },
-  methods:{
-    goDetails(pathName, item){
-      this.$router.push({
-        name: pathName
-      })
-      this.$store.commit('setInfo',item)
-    }
   }
 };
 </script>
