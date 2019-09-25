@@ -99,7 +99,7 @@ export default {
   },
   methods:{
     getImgSuccessList(data){
-      console.log('getImgSuccessList:',data)
+      this.$emit('getImgSuccessList',data);
     },
     parentImgLoad(data){
       this.imgPreviewList = data;

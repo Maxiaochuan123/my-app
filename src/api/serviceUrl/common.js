@@ -11,3 +11,5 @@ export const USER_LOGIN_OUT = getApi("/logout");
 export const QUERY_FIELD_LIST = getApi("/fields/selectField");
 // 上传文件
 export const UPLOAD_FILES = getApi("/file/upload");
+// 删除文件
+export const DELETE_FILES = getApi("/file/deleteById");

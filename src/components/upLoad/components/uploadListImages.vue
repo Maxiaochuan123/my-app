@@ -122,7 +122,7 @@ export default {
        Promise.all(this.imagesPromise).then(res=> {
               this.imagesList.push(...this.changeImgList);
               // tool.removeRepeat(this);
-              this.imgSuccessList = [...res];
+              this.imgSuccessList = [...this.imgSuccessList,...res];
               this.$emit('getImgSuccessList',this.imgSuccessList)
               this.$emit('parentImgLoad',this.imagesList)
               this.changeImgList=[];
