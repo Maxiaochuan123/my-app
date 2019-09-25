@@ -93,6 +93,7 @@
             <UploadList
               class="upload-file"
               v-else-if="fileArr.indexOf(item.type) > -1"
+              @getImgSuccessList="getImgSuccessList(...arguments,item)"
             ></UploadList>
             <!-- 文本域类型 -->
             <mu-text-field
@@ -346,6 +347,10 @@ export default {
       // this.form[`${fieldName}_lng`] = lng;
       // this.form[`${fieldName}_lat`] = lat;
       // this.from[`${fieldName}_region`] = region;
+    },
+    getImgSuccessList(res,row) {
+      const {fieldName} = row;
+      this.form[fieldName] = res.map(item => item.batchId).join(',');
     }
   }
 };

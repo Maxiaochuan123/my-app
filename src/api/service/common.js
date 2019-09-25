@@ -20,12 +20,18 @@ export default {
       params,
       url: COMMON.QUERY_FIELD_LIST
     }),
-  // 查询客户的字段
-  uploadFilesOrImgs: (params,extraFileParams) =>
+  // 上传文件
+  uploadFilesOrImgs: (params, extraFileParams) =>
     post({
       params,
       extraFileParams,
       url: COMMON.UPLOAD_FILES,
       headers: { "Content-Type": "multipart/form-data" }
+    }),
+  // 删除文件
+  deleteFilesOrImgs: params =>
+    post({
+      params,
+      url: COMMON.DELETE_FILES
     })
 };
