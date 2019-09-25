@@ -130,9 +130,10 @@ export default {
     queryContacts() {
       // 查询联系人
       Api.queryContactsById({
-        customerId: this.id
+        customerId: this.id,
+        pageType:0
       }).then(res => {
-        this.contactsList = res.data.list || [];
+        this.contactsList = res.data || [];
       });
     },
     queryCustomerDetails() {

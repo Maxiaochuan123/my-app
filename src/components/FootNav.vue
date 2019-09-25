@@ -1,11 +1,4 @@
 <!--
- * @Description: In User Settings Edit
- * @Author: your name
- * @Date: 2019-09-04 18:57:37
- * @LastEditTime: 2019-09-05 15:15:14
- * @LastEditors: Please set LastEditors
- -->
-<!--
  * @Description: 底部导航,不同于主页的底部
  * @Author:shenah
  -->
