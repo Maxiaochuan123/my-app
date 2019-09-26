@@ -52,6 +52,7 @@ export default {
   mounted() {
     this.typeObj = this.judgePageTitle();
     this.queryField();
+    // console.log(this.id)
   },
   methods: {
     handleCustomerData(arr) {
@@ -69,6 +70,12 @@ export default {
         return {
           title: "新增联系人",
           type: "add",
+          model
+        };
+      }else if(this.type === "editPersonal" || this.type === "editCustomer"){
+        return {
+          title: "编辑联系人",
+          type: "edit",
           model
         };
       }
@@ -89,6 +96,11 @@ export default {
             search: "",
             type: 2
           }).then(res2 => {
+            let enterpriseValue = '';
+            let customerIdValue = '';
+            if(this.id) {
+              
+            }
             let arr = [
               {
                 fieldName: "enterprise",
@@ -99,14 +111,14 @@ export default {
                   .map(item => `${item.customerId}^_^${item.customerName}`)
                   .join(","),
                 type: 3,
-                value: "",
+                value: enterpriseValue,
                 relation: "customerId"
               },
               {
                 fieldName: "customerId",
                 htmlHidden: 1,
                 name: "关联企业Id",
-                value: ""
+                value: customerIdValue
               }
             ];
             this.fieldList = [...arr, ...res.data];

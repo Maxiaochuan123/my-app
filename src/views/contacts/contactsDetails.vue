@@ -140,10 +140,11 @@ export default {
         },
         {
           title: "编辑",
-          linkName: "editBasicsInfo",
+          linkName: "addContacts",
           isLink: true,
           linkParams:{
-            title:`编辑个人信息`
+            type:'editPersonal',
+            id: this.$store.state.info.contactsId
           }
         },
         {

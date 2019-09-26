@@ -39,7 +39,7 @@
           </mu-list-item>
         </mu-list>
       </div>
-      <IndexsList :tagTop="242" :tagTopoffsetTop="250" :listSpacing="198" :list="userList">
+      <IndexsList :tagTop="242" :tagTopoffsetTop="250" :listSpacing="198" :list="userList" v-if="Object.keys(userList).length > 0">
         <div slot="row" slot-scope="{row}" class="user-index" @click="goPage('contactsDetails',row,{},'setInfo')">
           <img :src="loadingImg('默认头像.png')" />
           <div>
@@ -49,6 +49,7 @@
           </div>
         </div>
       </IndexsList>
+      <Nothing words="暂无联系人" v-else></Nothing>
     </div>
   </div>
 </template>
@@ -57,13 +58,14 @@
 import AppBar from "../../components/AppBar";
 import IndexsList from "../../components/IndexsList";
 import SearchBar from "../../components/SearchBar";
+import Nothing from '../../components/Nothing'
 
-// import userList from '../../../static/json/userList'
 export default {
   components: {
     AppBar,
     IndexsList,
-    SearchBar
+    SearchBar,
+    Nothing
   },
   data() {
     return {
