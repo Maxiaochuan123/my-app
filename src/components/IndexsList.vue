@@ -86,6 +86,7 @@ export default {
           this.currentSort = item.tag;
         }
       });
+      console.log('tag:',this.userTopTag,this.currentSort)
     },
 
     //  请求数据
