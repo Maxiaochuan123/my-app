@@ -96,29 +96,18 @@ export default {
             search: "",
             type: 2
           }).then(res2 => {
-            let enterpriseValue = '';
-            let customerIdValue = '';
-            if(this.id) {
-              
-            }
             let arr = [
               {
                 fieldName: "enterprise",
                 formType: "select",
                 isNull: 0,
-                name: "关联企业",
+                name: "关联客户",
                 options: this.handleCustomerData(res2.data)
                   .map(item => `${item.customerId}^_^${item.customerName}`)
                   .join(","),
                 type: 3,
-                value: enterpriseValue,
-                relation: "customerId"
-              },
-              {
-                fieldName: "customerId",
-                htmlHidden: 1,
-                name: "关联企业Id",
-                value: customerIdValue
+                value: '',
+                relation: "customerId,customerName"
               }
             ];
             this.fieldList = [...arr, ...res.data];
