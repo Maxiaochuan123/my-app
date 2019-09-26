@@ -62,7 +62,9 @@ export default {
         query
       });
       // setStoreMethodName mutation 方法名
-      this.$store.commit(setStoreMethodName,params)
+      if(setStoreMethodName) {
+        this.$store.commit(setStoreMethodName,params)
+      }
     },
     // 覆盖前面的跳转
     goReplacePage(linkName, params = {}, query = {}) {

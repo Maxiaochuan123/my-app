@@ -27,6 +27,10 @@ import {mapState} from 'vuex'
 export default {
   name: "search-bar",
   props: {
+    showLabel:{
+      type: String,
+      default: "name"
+    },
     placeholderText:{
       type: String,
       default: "搜索"
@@ -61,6 +65,8 @@ export default {
   },
   watch:{
     list(val){
+      this.searchList = [];
+      this.search.value = '';
       this.setSearchList(val);
     }
   },
@@ -75,7 +81,7 @@ export default {
         list.forEach( item => {
           for(let item_1 in item){
             for(let item_2 in item[item_1]){
-              this.searchList.push({userName:item[item_1][item_2].name,tag:item_1})
+              this.searchList.push({userName:item[item_1][item_2][this.showLabel],tag:item_1})
             }
           }
         })
