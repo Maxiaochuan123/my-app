@@ -312,7 +312,7 @@ export default {
       if (typeof options === "string") {
         this.pickerList = options.split(",").map((item, index) => {
           const [value, text = value] = item.split("^_^");
-          if (nowValue && nowValue === value*1) {
+          if (nowValue && nowValue+'' === value) {
             this.pickerAnchor = [index];
           }
           return {
