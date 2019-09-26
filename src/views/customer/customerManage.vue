@@ -10,7 +10,8 @@
       pageTitle="客户管理"
     ></AppBar>
     <SearchBar
-      :list="[]"
+      :list="searchList"
+      showLabel="customerName"
       placeholderText="搜索客户"
     ></SearchBar>
     <mu-tabs
@@ -27,11 +28,11 @@
     </mu-tabs>
     <div class="content">
       <IndexsList
-        :list="userList"
+        :list="userObj"
         :listSpacing="0"
         :tagTop="242"
         :tagTopoffsetTop="250"
-        v-if="Object.keys(userList).length>0"
+        v-if="Object.keys(userObj).length>0"
       >
         <div
           @click="toDetails(row)"
@@ -71,7 +72,8 @@ export default {
       rightIcon: "icon-tianjia",
       rightLinkName: "addOrEditCustomer",
       active: "my", // 当前激活(my=>我的,team=>团队)
-      userList:[],
+      userObj:{}, // 客户列表
+      searchList:[], // 搜索客户
       words: "暂无我的客户",
       requestParams: {
         // 列表请求的参数
@@ -90,7 +92,10 @@ export default {
   methods: {
     queryList() {
       Api.queryCustomerList(this.requestParams).then(res => {
-        this.userList = res.data;
+        this.userObj = res.data;
+        
+        this.searchList = [res.data];
+        console.log(111,this.searchList)
       });
     },
     tabChange(val) {

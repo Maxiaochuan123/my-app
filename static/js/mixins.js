@@ -62,8 +62,13 @@ export default {
         query
       });
       // setStoreMethodName mutation 方法名
+<<<<<<< HEAD
       if(setStoreMethodName){
         this.$store.commit(setStoreMethodName,params);
+=======
+      if(setStoreMethodName) {
+        this.$store.commit(setStoreMethodName,params)
+>>>>>>> 8e4cc74cf1b370e36a431ec070709bb063420473
       }
     },
     // 覆盖前面的跳转
