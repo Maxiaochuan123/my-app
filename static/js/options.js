@@ -7,7 +7,7 @@
  */
 export default {
   toast:{
-    position: 'bottom',               // 弹出的位置
+    position: 'top',               // 弹出的位置
     time: 1000,                       // 显示的时长
     closeIcon: 'close',               // 关闭的图标
     close: true,                      // 是否显示关闭按钮

@@ -19,7 +19,7 @@
         <mu-list>
           <div v-for="(item ,index) in companyList" :key="index">
             <mu-list-item button v-waves :class="index === deptActive ? 'active' : '' " @click="getCompanyItem(item,'dept',index)">
-              <mu-list-item-title :class="[item.children.length > 0 ? '' : 'isdisable']">{{item.name}}</mu-list-item-title>
+              <mu-list-item-title>{{item.name}}</mu-list-item-title>
               <mu-list-item-action>
                 <mu-icon value=":iconfont icon-rightArrow"></mu-icon>
               </mu-list-item-action>
@@ -36,10 +36,10 @@
           <div class="listTitle">{{deptTitleName}}</div>
           <!-- <div class="listTitle">部门抽屉</div> -->
         <!-- </mu-paper> -->
-        <mu-list>
+        <mu-list v-if="deptList.length > 0">
           <div v-for="(item ,index) in deptList" :key="index">
             <mu-list-item button v-waves :class="index === groupActive ? 'active' : '' " @click="getCompanyItem(item,'group', index)">
-              <mu-list-item-title :class="[item.children.length > 0 ? '' : 'isdisable']">{{item.name}}</mu-list-item-title>
+              <mu-list-item-title>{{item.name}}</mu-list-item-title>
               <mu-list-item-action>
                 <mu-icon value=":iconfont icon-rightArrow"></mu-icon>
               </mu-list-item-action>
@@ -47,6 +47,7 @@
             <mu-divider shallow-inset v-show="index + 1 !== deptList.length"></mu-divider>
           </div>
         </mu-list>
+        <Nothing  words="暂无子部门" v-else></Nothing>
       </mu-drawer>
 
       <!-- 组抽屉 1 -->
@@ -55,10 +56,10 @@
           <div class="listTitle">{{groupTitleName}}</div>
           <!-- <div class="listTitle">组抽屉 1</div> -->
         <!-- </mu-paper> -->
-        <mu-list>
+        <mu-list v-if="groupList.length > 0">
           <div v-for="(item ,index) in groupList" :key="index">
             <mu-list-item button v-waves :class="index === group_1_Active ? 'active' : '' " @click="getCompanyItem(item, item.children.length > 0 ? 'group_1' : 'contacts', index)">
-              <mu-list-item-title :class="[item.children.length > 0 ? '' : 'isdisable']">{{item.name}}</mu-list-item-title>
+              <mu-list-item-title>{{item.name}}</mu-list-item-title>
               <mu-list-item-action>
                 <mu-icon value=":iconfont icon-rightArrow"></mu-icon>
               </mu-list-item-action>
@@ -66,6 +67,7 @@
             <mu-divider shallow-inset v-show="index + 1 !== groupList.length"></mu-divider>
           </div>
         </mu-list>
+        <Nothing  words="暂无子部门" v-else></Nothing>
       </mu-drawer>
 
       <!-- 子组抽屉  1-1 -->
@@ -74,10 +76,10 @@
           <div class="listTitle">{{groupTitleName_1}}</div>
           <!-- <div class="listTitle">组抽屉 1-1</div> -->
         <!-- </mu-paper> -->
-        <mu-list>
+        <mu-list v-if="groupList_1.length > 0">
           <div v-for="(item ,index) in groupList_1" :key="index">
             <mu-list-item button v-waves :class="index === contactsActive ? 'active' : '' " @click="getCompanyItem(item ,'contacts',index)">
-              <mu-list-item-title :class="[item.children.length > 0 ? '' : 'isdisable']">{{item.name}}</mu-list-item-title>
+              <mu-list-item-title >{{item.name}}</mu-list-item-title>
               <mu-list-item-action>
                 <mu-icon value=":iconfont icon-rightArrow"></mu-icon>
               </mu-list-item-action>
@@ -85,16 +87,17 @@
             <mu-divider shallow-inset v-show="index + 1 !== groupList_1.length"></mu-divider>
           </div>
         </mu-list>
+        <Nothing  words="暂无子部门" v-else></Nothing>
       </mu-drawer>
 
       <!-- 联系人抽屉 -->
       <mu-drawer class="contacts" :style="`width:${drawerGroup_1 ? '60vw' : drawerGroup ? '70vw' : '80vw'}`" right :open.sync="drawerContacts">
         <div class="listTitle">联系人</div>
-        <mu-list textline="two-line">
+        <mu-list textline="two-line" v-if="contactsList.length > 0">
           <div v-for="(item ,index) in contactsList" :key="index">
             <mu-list-item button v-waves @click="drawerContacts = false;drawerDepartment = false; goPage('personalInfo',item)">
               <mu-avatar>
-                <img :src="loadingImg('默认头像.png')">
+                <img :src="loadingImg('defaultImg.png')">
               </mu-avatar>
               <mu-list-item-content>
                 <mu-list-item-title>{{item.realname}}</mu-list-item-title>
@@ -104,6 +107,8 @@
             <mu-divider shallow-inset v-show="index + 1 !== contactsList.length"></mu-divider>
           </div>
         </mu-list>
+        <Nothing  words="暂无联系人" v-else></Nothing>
+
       </mu-drawer>
     </div>
     
@@ -114,10 +119,11 @@
 <script>
 import AppBar from '../../components/AppBar'
 import SearchBar from '../../components/SearchBar'
+import Nothing from '../../components/Nothing'
 import { mapMutations } from 'vuex'
 export default {
   name:'organization',
-  components:{ AppBar,SearchBar },
+  components:{ AppBar,SearchBar,Nothing },
   data(){
     return{
       drawerDepartment: false, //部门抽屉
@@ -190,7 +196,6 @@ export default {
 <style scoped lang="less">
   .organization{
     height: 100vh;
-    // background-color: cornflowerblue;
     
     .content{
       padding: 104px 0;
@@ -198,7 +203,12 @@ export default {
       .active{
         background-color: #d3d3d3;
       }
-
+      .mu-list{
+        padding: 0;
+        /deep/ .mu-item{
+          height:46px;
+        }
+      }
       .listTitle{
         color: @primary-text;
         font-size: @primary-size;
@@ -211,6 +221,7 @@ export default {
         .shallow-inset{
           margin-left: 67px;
         }
+        
         .mu-item-title{
           font-weight: 400;
         }
@@ -238,6 +249,9 @@ export default {
           .mu-item-sub-title{
             line-height: 20px;
           }
+        }
+        .nothing{
+          height: calc(100% - 72px);
         }
       }
     }

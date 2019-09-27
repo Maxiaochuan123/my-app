@@ -39,32 +39,32 @@
           <mu-carousel-item>
             <div class="gridNav">
               <div class="row">
-                <div @click="goPage('clue')"><img :src="loadingImg('线索.png')"><span>线索</span></div>
-                <div @click="goPage('customerManage')"><img :src="loadingImg('客户.png')"><span>客户</span></div>
-                <div @click="goPage('commonWatersClue')"><img :src="loadingImg('公海.png')"><span>公海</span></div>
-                <div><img :src="loadingImg('待办.png')"><span>待办</span></div>
+                <div @click="goPage('clue')"><img :src="loadingImg('clue.png')"><span>线索</span></div>
+                <div @click="goPage('customerManage')"><img :src="loadingImg('customer.png')"><span>客户</span></div>
+                <div @click="goPage('commonWatersClue')"><img :src="loadingImg('pubSea.png')"><span>公海</span></div>
+                <div><img :src="loadingImg('toduList.png')"><span>待办</span></div>
               </div>
               <div class="row">
-                <div><img :src="loadingImg('日报.png')"><span>日报</span></div>
-                <div><img :src="loadingImg('拜访.png')"><span>拜访</span></div>
-                <div><img :src="loadingImg('任务.png')"><span>任务</span></div>
-                <div><img :src="loadingImg('订单.png')"><span>订单</span></div>
+                <div><img :src="loadingImg('daily.png')"><span>日报</span></div>
+                <div><img :src="loadingImg('visit.png')"><span>拜访</span></div>
+                <div><img :src="loadingImg('task.png')"><span>任务</span></div>
+                <div><img :src="loadingImg('order.png')"><span>订单</span></div>
               </div>
             </div>
           </mu-carousel-item>
           <mu-carousel-item>
             <div class="gridNav">
               <div class="row">
-                <div><img :src="loadingImg('日报.png')"><span>考勤</span></div>
-                <div><img :src="loadingImg('日报.png')"><span>统计报表</span></div>
-                <div><img :src="loadingImg('日报.png')"><span>知识库</span></div>
-                <div><img :src="loadingImg('日报.png')"><span>查征信</span></div>
+                <div><img :src="loadingImg('daily.png')"><span>考勤</span></div>
+                <div><img :src="loadingImg('daily.png')"><span>统计报表</span></div>
+                <div><img :src="loadingImg('daily.png')"><span>知识库</span></div>
+                <div><img :src="loadingImg('daily.png')"><span>查征信</span></div>
               </div>
               <div class="row">
-                <div><img :src="loadingImg('日报.png')"><span>产品</span></div>
-                <div><img :src="loadingImg('日报.png')"><span>回款</span></div>
-                <div><img :src="loadingImg('日报.png')"><span>合同</span></div>
-                <div><img :src="loadingImg('日报.png')"><span>商机</span></div>
+                <div><img :src="loadingImg('daily.png')"><span>产品</span></div>
+                <div><img :src="loadingImg('daily.png')"><span>回款</span></div>
+                <div><img :src="loadingImg('daily.png')"><span>合同</span></div>
+                <div><img :src="loadingImg('daily.png')"><span>商机</span></div>
               </div>
             </div>
           </mu-carousel-item>

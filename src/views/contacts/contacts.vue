@@ -8,16 +8,19 @@
 
 <template>
   <div class="contacts">
+
     <AppBar pageTitle="个人联系人" rightIcon="icon-tianjia" rightLinkName="addContacts" :rightLinkParams="{type:'addPersonal'}"></AppBar>
     
     <div class="content">
+
       <SearchBar :list="sheachList" placeholderText="搜索联系人" pageLinkName="contactsDetails" setStoreMethodName="setInfo"></SearchBar>
+      
       <div class="organization">
         <mu-list>
           <mu-list-item v-waves button @click="goPage('organization')">
             <mu-list-item-action>
               <mu-avatar>
-                <img :src="loadingImg('公司部门.png')">
+                <img :src="loadingImg('department.png')">
               </mu-avatar>
             </mu-list-item-action>
             <mu-list-item-title>公司部门</mu-list-item-title>
@@ -29,7 +32,7 @@
           <mu-list-item v-waves button @click="goPage('teamContacts')">
             <mu-list-item-action>
               <mu-avatar>
-                <img :src="loadingImg('团队联系人.png')" >
+                <img :src="loadingImg('teamContacts.png')" >
               </mu-avatar>
             </mu-list-item-action>
             <mu-list-item-title>团队联系人</mu-list-item-title>
@@ -40,8 +43,8 @@
         </mu-list>
       </div>
       <IndexsList :tagTop="242" :tagTopoffsetTop="250" :listSpacing="198" :list="userList" v-if="Object.keys(userList).length > 0">
-        <div slot="row" slot-scope="{row}" class="user-index" @click="goPage('contactsDetails',row,{},'setInfo')">
-          <img :src="loadingImg('默认头像.png')" />
+        <div slot="row" slot-scope="{row}" class="user-index" @click="goPage('contactsDetails',{id: row.contactsId,type:'联系人'})">
+          <img :src="loadingImg('defaultImg.png')" />
           <div>
             <span>{{row.name}}</span>
             <span>{{row.remark}}</span>
@@ -50,7 +53,9 @@
         </div>
       </IndexsList>
       <Nothing words="暂无联系人" v-else></Nothing>
+
     </div>
+
   </div>
 </template>
 
@@ -70,11 +75,12 @@ export default {
   data() {
     return {
       userList:{},
-      sheachList:[]
+      sheachList:[],
     };
   },
   created(){
     this.api.getContacts({search:'',type:3}).then(res=>{
+      if(res.msg !== 'success') this.$toast.warning('联系人列表获取失败!');
       this.userList = res.data
       this.sheachList.push(res.data)
     })
@@ -92,6 +98,9 @@ export default {
     bottom: 0;
 
     .organization{
+      .mu-list{
+        padding: 0;
+      }
       position: fixed;
       top: 104px;
       width: 100vw;

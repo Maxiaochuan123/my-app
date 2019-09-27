@@ -15,12 +15,12 @@
         class="topInfo"
       >
         <div class="headImg">
-          <img :src="loadingImg('默认头像.png')" />
+          <img :src="loadingImg('defaultImg.png')" />
         </div>
         <div class="info">
           <div class="name">
             <span>{{info.realname}}</span>
-            <!-- <img :src="loadingImg('女.png')" /> -->
+            <!-- <img :src="loadingImg('female.png')" /> -->
           </div>
           <div class="level">{{info.post}}</div>
         </div>

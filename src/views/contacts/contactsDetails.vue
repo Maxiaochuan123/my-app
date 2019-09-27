@@ -9,22 +9,21 @@
   <div class="clueDetails">
     <AppBar
       pageTitle="个人信息"
-      isDrawer
-      drawerIcon="icon-guolv"
       rightIcon="icon-tianjia"
       isMenu
       :menuList="menuList"
+      @menuChange="menuChange"
     ></AppBar>
     <div class="content">
       <mu-paper :z-depth="0" class="infoCard">
         <div class="topInfo">
           <div class="headImg">
-            <img :src="loadingImg('默认头像.png')" />
+            <img :src="loadingImg('defaultImg.png')" />
           </div>
           <div class="info">
             <div class="name">
               <span>{{info.name}}</span>
-              <img :src="loadingImg(info.sex === '男' ? '男.png' : '女.png')" />
+              <img :src="loadingImg(info.sex === '男' ? 'male.png' : 'female.png')" />
             </div>
             <div class="clueDate">{{info.createTime}}</div>
           </div>
@@ -37,7 +36,7 @@
           </mu-list-item>
           <mu-list-item>
             <mu-list-item-title>客户级别</mu-list-item-title>
-            <mu-list-item-action>{{info.customer_level}}</mu-list-item-action>
+            <mu-list-item-action>{{info.customerLevel}}</mu-list-item-action>
           </mu-list-item>
           <mu-list-item>
             <mu-list-item-title>电话号码</mu-list-item-title>
@@ -50,7 +49,7 @@
         <mu-tab>基本信息</mu-tab>
       </mu-tabs>
       <div class="followUprecord" v-if="active === 0">
-        <Record :record="[]"></Record>
+        <Record :record="record"></Record>
       </div>
       <div class="basicsInfo" v-if="active === 1">
         <mu-list>
@@ -78,14 +77,14 @@
           <mu-list-item>
             <mu-list-item-content>
               <mu-list-item-title>关联客户</mu-list-item-title>
-              <mu-list-item-sub-title>众汇</mu-list-item-sub-title>
+              <mu-list-item-sub-title>{{info.customerName}}</mu-list-item-sub-title>
             </mu-list-item-content>
           </mu-list-item>
           <mu-divider shallow-inset></mu-divider>
           <mu-list-item>
             <mu-list-item-content>
               <mu-list-item-title>客户级别</mu-list-item-title>
-              <mu-list-item-sub-title>{{info.customer_level}}</mu-list-item-sub-title>
+              <mu-list-item-sub-title>{{info.customerLevel}}</mu-list-item-sub-title>
             </mu-list-item-content>
           </mu-list-item>
           <mu-divider shallow-inset></mu-divider>
@@ -111,6 +110,7 @@
           </mu-list-item>
         </mu-list>
       </div>
+      
       <FootNav :list="bottomList" @footNavChange="dial(info.mobile)"></FootNav>
     </div>
   </div>
@@ -128,15 +128,15 @@ export default {
   },
   data() {
     return {
-      active: 1,
+      active: 0,
       infoType: '车贷',
-      info: this.$store.state.info,
-      clueDate: Date.now(),
+      info: {},
+      record:[],
       menuList: [
         {
           title: "分享",
           linkName: "",
-          isLink: true
+          isLink: false
         },
         {
           title: "编辑",
@@ -144,13 +144,13 @@ export default {
           isLink: true,
           linkParams:{
             type:'editPersonal',
-            id: this.$store.state.info.contactsId
+            id: this.$route.params.id
           }
         },
         {
           title: "删除",
           linkName: "",
-          isLink: true
+          isLink: false
         }
       ],
 
@@ -171,6 +171,44 @@ export default {
         }
       ]
     };
+  },
+  created(){
+    this.api.getContactsDetails({contactsId:this.$route.params.id}).then(res=>{
+      if(res.msg !== 'success') this.$toast.warning('联系人详情获取失败!');
+      this.info = res.data;
+    })
+    this.api.getContactsFollowUp({contactsId:this.$route.params.id}).then(res=>{
+      if(res.msg !== 'success') this.$toast.warning('跟进信息获取失败!');
+      this.record = res.data;
+    })
+  },
+  methods:{
+    menuChange(data){
+      let {title} = {...data};
+      switch(title){
+        case '删除':
+          this.$confirm('是否删除此联系人 ?', '提示').then(res=>{
+            if(res.result){
+              this.api.contactsDelete({contactsIds:this.$route.params.id}).then(res=>{
+                if(res.msg === 'success'){
+                  this.$toast.success('联系人删除成功!');
+                  this.$router.go(-1)
+                }else{
+                  this.$toast.warning('联系人删除失败!');
+                }
+              })
+            }
+          });
+          break;
+
+        case '分享':
+          this.$confirm('是否分享此联系人 ?', '提示').then(res=>{
+            if(res.result){
+              this.goPage('selectUsers',{id:this.$route.params.id,type:'contactsDetailsShare'})
+            }
+          })
+      }
+    }
   }
 };
 </script>
@@ -248,6 +286,7 @@ export default {
           font-weight: 500;
           .mu-item-title{
             font-size: @regular-size;
+            width: 50px;
           }
         }
       }

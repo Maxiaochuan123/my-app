@@ -100,6 +100,7 @@ export default {
       return this.$route.params.id;
     },
     // 从那个入口进来的
+    // contactsDetailsShare => 从联系人详情的分享
     // customerDetailsShare => 从客户详情的分享
     // commonWatersClue => 从公海线索里面点进来
     // commonWatersCustomer => 从公海客户里面点进来
@@ -121,6 +122,7 @@ export default {
   },
   mounted() {
     this.queryUser();
+    console.log(this.id,this.type)
   },
   methods: {
     searchInputBarChange(obj) {
@@ -171,10 +173,18 @@ export default {
     },
     submit() {
       let params = this.beforeSubmit();
-      Api.customerShareToUsers(params).then(() => {
+      let shareApi
+      switch (this.type) {
+        case 'contactsDetailsShare':
+          shareApi = this.api.contactsShare;
+          break;
+        case 'commonWatersClue':
+          shareApi = Api.customerShareToUsers;
+          break;
+      }
+      shareApi(params).then(() => {
         this.$toast.success({
-          message: "分享成功",
-          position: "top"
+          message: "分享成功"
         });
         this.goBack();
       });

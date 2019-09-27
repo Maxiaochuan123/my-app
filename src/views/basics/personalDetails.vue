@@ -81,8 +81,7 @@ export default {
       // 退出登录
       Api.userLoginOut().then(res => {
         this.$toast.success({
-          message: res.msg,
-          position: "top"
+          message: res.msg
         });
         tool.signOut();
       });

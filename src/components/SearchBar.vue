@@ -99,7 +99,7 @@ export default {
 .search-bar {
   position: fixed;
   top: 44px;
-  z-index: 99;
+  z-index: 88;
   width: 100%;
   height: 60px;
   padding: 12px 15px;

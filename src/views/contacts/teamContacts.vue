@@ -13,7 +13,7 @@
       <SearchBar :list="[]" placeholderText="搜索联系人"></SearchBar>
         <IndexsList :list="userList">
           <div slot="row" slot-scope="{row}" class="user-index">
-            <img :src="loadingImg('默认头像.png')" />
+            <img :src="loadingImg('defaultImg.png')" />
             <div>
               <span>{{row.createUserName}}</span>
               <span>{{row.detailAddress}}</span>

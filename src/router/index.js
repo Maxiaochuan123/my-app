@@ -68,7 +68,7 @@ const router = new Router({
           component: () => import("../views/contacts/contacts.vue")
         },
         {
-          path: "/contactsDetails",
+          path: "/contactsDetails/:id",
           name: "contactsDetails",
           meta: { zIndex: 1 },
           component: () => import("../views/contacts/contactsDetails.vue")
@@ -144,7 +144,7 @@ const router = new Router({
         },
         // 写跟进
         {
-          path: "/writeFollowup/:id",
+          path: "/writeFollowup/:id/:type",
           name: "writeFollowup",
           meta: { zIndex: 1 },
           component: () => import("../views/customer/writeFollowup.vue")

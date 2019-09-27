@@ -55,16 +55,12 @@ export default {
       this.$router.go(index);
     },
     // 跳转页面
-    goPage(linkName, params = {}, query = {}, setStoreMethodName) {
+    goPage(linkName, params = {}, query = {}) {
       this.$router.push({
         name: linkName,
         params,
         query
       });
-      // setStoreMethodName mutation 方法名
-      if(setStoreMethodName) {
-        this.$store.commit(setStoreMethodName,params)
-      }
     },
     // 覆盖前面的跳转
     goReplacePage(linkName, params = {}, query = {}) {

@@ -96,26 +96,22 @@ const request = ({
       } else {
         if (res.code === CODE_FAIL_LOGIN) {
           Toast.error({
-            message: "token过期,或者没有登录",
-            position: "top"
+            message: "token过期,或者没有登录"
           });
           tool.signOut();
         } else if (res.code === NO_VIEW_RECORD_PERMISSION) {
           Toast.error({
-            message: "您没有权限访问",
-            position: "top"
+            message: "您没有权限访问"
           });
           window.history.go(-1);
         } else if (res.msg) {
           Toast.error({
-            message: res.msg,
-            position: "top",
+            message: res.msg
           });
           
         } else {
           Toast.error({
-            message: `code:${res.code}`,
-            position: "top"
+            message: `code:${res.code}`
           });
         }
         reject(res);

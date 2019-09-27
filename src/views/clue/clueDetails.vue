@@ -19,12 +19,12 @@
       <mu-paper :z-depth="0" class="infoCard">
         <div class="topInfo">
           <div class="headImg">
-            <img :src="loadingImg('默认头像.png')" />
+            <img :src="loadingImg('defaultImg.png')" />
           </div>
           <div class="info">
             <div class="name">
               <span>张三</span>
-              <img :src="loadingImg('女.png')" />
+              <img :src="loadingImg('female.png')" />
             </div>
             <div class="clueDate">{{ clueDate | formatDate}}</div>
           </div>

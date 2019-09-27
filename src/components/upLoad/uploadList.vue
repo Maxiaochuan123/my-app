@@ -27,7 +27,7 @@
 
       <div class="enclosurePreview">
         <div class="enclosureList" :class="[isAlimatin?'animation-in':'']" v-for="(listItem ,index) in enclosureList" :key="index">
-          <img src="../../../static/images/附件.png">
+          <img src="../../../static/images/enclosure.png">
           <div class="reUpload" v-show="listItem.progress.progressState == 2">
             <i class="iconfont icon-shangchuan" @click="$refs.imageRef.oneUpLoad(listItem)"></i>
           </div>

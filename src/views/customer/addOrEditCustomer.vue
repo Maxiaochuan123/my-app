@@ -59,16 +59,14 @@ export default {
             entity: { ...generalFormVue.form, id: this.id }
           }).then(res => {
             this.$toast.success({
-              message: res.msg,
-              position: "top"
+              message: res.msg
             });
             this.goBack();
           });
           return true;
         }
         this.$toast.info({
-          message: "必填的字段请填写完整",
-          position: "top"
+          message: "必填的字段请填写完整"
         });
         return false;
       });

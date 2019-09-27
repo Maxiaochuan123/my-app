@@ -79,16 +79,22 @@ export default {
   methods: {
     customFnc() {
       // 保存
+      let addFollowUpRecordApi
+      if(this.$route.params.type && this.$route.params.type === '联系人'){
+        addFollowUpRecordApi = this.api.addContactsFollowUp;
+      }else{
+        addFollowUpRecordApi = Api.addCustomerFollowUpRecord;
+      }
       const generalFormVue = this.$refs.generalForm;
       generalFormVue.$refs.form.validate().then(result => {
         if (result) {
-          Api.addCustomerFollowUpRecord({
+          addFollowUpRecordApi({
             ...generalFormVue.form,
-            typesId: this.id
+            typesId: this.id,
+            isEvent:0
           }).then(res => {
             this.$toast.success({
-              message: "新增成功",
-              position: "top"
+              message: "新增成功"
             });
             this.goBack();
           });

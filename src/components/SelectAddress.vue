@@ -211,8 +211,7 @@ export default {
         console.log("定位失败", error);
         // 否则定位失败
         this.$toast.info({
-          message: "定位失败,请手动输入",
-          position: "top"
+          message: "定位失败,请手动输入"
         });
       });
       geolocation.getCurrentPosition();
@@ -247,8 +246,7 @@ export default {
             this.geocoderAnalysis(location);
           } else {
             this.$toast.info({
-              message: "当前地址无法获取到点位",
-              position: "top"
+              message: "当前地址无法获取到点位"
             });
           }
         });
@@ -300,8 +298,7 @@ export default {
           this.addMarker(lnglat);
         } else {
           this.$toast.info({
-            message: "根据地址查询位置失败",
-            position: "top"
+            message: "根据地址查询位置失败"
           });
         }
       });
@@ -316,8 +313,7 @@ export default {
           this.setMapCenter(lnglat);
         } else {
           this.$toast.info({
-            message: "根据经纬度查询地址失败",
-            position: "top"
+            message: "根据经纬度查询地址失败"
           });
         }
       });

@@ -236,8 +236,7 @@ export default {
               customerIds: this.id
             }).then(res => {
               this.$toast.success({
-                message: "删除成功",
-                position: "top"
+                message: "删除成功"
               });
               this.goBack();
             });

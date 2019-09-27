@@ -112,9 +112,10 @@
               :placeholder="placeholder(item,index)"
               :prop="item.fieldName"
               type="dateTime"
+              container="bottomSheet"
               v-else-if="dateTimeArr.indexOf(item.type) > -1"
               v-model="form[item.fieldName]"
-              value-format="YYYY-MM-DD HH:MM"
+              value-format="YYYY-MM-DD HH:mm"
             ></mu-date-input>
           </mu-form-item>
           <mu-divider v-if="item.htmlHidden!==1"></mu-divider>
