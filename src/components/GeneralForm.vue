@@ -91,9 +91,9 @@
             ></SelectAddress>
             <!-- 上传文件  -->
             <UploadList
+              @getImgSuccessList="getImgSuccessList(...arguments,item)"
               class="upload-file"
               v-else-if="fileArr.indexOf(item.type) > -1"
-              @getImgSuccessList="getImgSuccessList(...arguments,item)"
             ></UploadList>
             <!-- 文本域类型 -->
             <mu-text-field
@@ -201,8 +201,20 @@ export default {
       // 初始化form
       let form = {};
       arr.forEach(item => {
-        let { fieldName, value } = item;
-        form[fieldName] = value;
+        let { fieldName, value, relation, type } = item;
+        if (relation) {
+          if (this.singleArr.indexOf(type) > -1) {
+            const [idField, nameField] = relation.split(",");
+            const name = arr.filter(one => one.fieldName === nameField);
+            if (name.length > 0) {
+              form[fieldName] = name[0].value;
+            } else {
+              form[fieldName] = value;
+            }
+          }
+        } else {
+          form[fieldName] = value;
+        }
       });
       this.form = form;
     },
@@ -294,13 +306,14 @@ export default {
       const { fieldName, options, name, relation } = row;
       let nowValue = this.form[fieldName];
       if (relation) {
-        nowValue = this.form[relation];
+        const [idField, nameField] = relation.split(",");
+        nowValue = this.form[idField];
       }
       this.pickerTitle = name;
       if (typeof options === "string") {
         this.pickerList = options.split(",").map((item, index) => {
           const [value, text = value] = item.split("^_^");
-          if (nowValue && nowValue === value) {
+          if (nowValue && nowValue+'' === value) {
             this.pickerAnchor = [index];
           }
           return {
@@ -332,8 +345,10 @@ export default {
         text: selectText
       } = this.pickerList[column];
       if (relation) {
+        const [idField, nameField] = relation.split(",");
         this.form[fieldName] = selectText;
-        this.form[relation] = selectValue;
+        this.form[idField] = selectValue;
+        this.form[nameField] = selectText;
       } else {
         this.form[fieldName] = selectText;
       }
@@ -349,9 +364,9 @@ export default {
       // this.form[`${fieldName}_lat`] = lat;
       // this.from[`${fieldName}_region`] = region;
     },
-    getImgSuccessList(res,row) {
-      const {fieldName} = row;
-      const {list,guid} = res;
+    getImgSuccessList(res, row) {
+      const { fieldName } = row;
+      const { list, guid } = res;
       this.form[fieldName] = guid;
     }
   }

@@ -93,9 +93,7 @@ export default {
     queryList() {
       Api.queryCustomerList(this.requestParams).then(res => {
         this.userObj = res.data;
-        
         this.searchList = [res.data];
-        console.log(111,this.searchList)
       });
     },
     tabChange(val) {
