@@ -1,10 +1,10 @@
 /**
  * 动态引入插件js防止首页过慢
  */
-function asynLoading({ url, resolve, reject, target }) {
+function asynLoading({ url, resolve, reject, target, async }) {
   let script = document.createElement("script");
   script.type = "text/javascript";
-  script.async = true;
+  script.async = async;
   script.src = url;
   script.onerror = reject;
   document.head.appendChild(script);
@@ -28,7 +28,8 @@ export function amapPullIn() {
         resolve,
         reject,
         url: "/static/libs/amap.js",
-        target: "AMap"
+        target: "AMap",
+        async: true
       });
     }
   });
