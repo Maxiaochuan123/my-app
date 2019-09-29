@@ -97,8 +97,8 @@
 </template>
 
 <script>
-import tool from "../../../static/js/tool.js";
-import Rules from "../../../static/js/rules";
+import tool from "@static/js/tool.js";
+import Rules from "@static/js/rules";
 import axios from "axios";
 import qs from "querystring";
 import Api from "@api";

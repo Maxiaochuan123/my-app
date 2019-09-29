@@ -37,6 +37,7 @@ module.exports = {
       '@components': resolve('src/components'),
       '@api': resolve('src/api/index.js'),
       '@constants': resolve('src/constants'),
+      '@static':path.resolve(__dirname,'../static'),
     }
   },
   module: {

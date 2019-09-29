@@ -61,7 +61,7 @@
 <script>
 import { mapState } from "vuex";
 import AppBar from "@components/AppBar.vue";
-import tool from "../../../static/js/tool";
+import tool from "@static/js/tool";
 import Api from "@api";
 export default {
   name: "personalDetails",

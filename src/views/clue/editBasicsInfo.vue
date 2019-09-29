@@ -97,7 +97,7 @@
 <script>
 import AppBar from '../../components/AppBar'
 import Picker from "dm-vue-picker-h5";
-import Rules from '../../../static/js/rules'
+import Rules from '@static/js/rules'
 export default {
   name:'editBasicsInfo',
   components:{ AppBar,Picker },
