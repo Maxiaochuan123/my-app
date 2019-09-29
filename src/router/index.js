@@ -46,12 +46,6 @@ const router = new Router({
           meta: { zIndex: 1 },
           component: () => import("../views/basics/personalDetails.vue")
         },
-        {
-          path: "/myInfoChild",
-          name: "myInfoChild",
-          meta: { zIndex: 1 },
-          component: () => import("../views/basics/myInfoChild.vue")
-        },
         // 共用页面
         // 选择用户
         {
