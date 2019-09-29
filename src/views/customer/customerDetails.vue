@@ -131,7 +131,7 @@ export default {
       // 查询联系人
       Api.queryContactsById({
         customerId: this.id,
-        pageType:0
+        pageType: 0
       }).then(res => {
         this.contactsList = res.data || [];
       });
@@ -225,7 +225,12 @@ export default {
         this.$confirm("是否将此客户放入公海?", "提示").then(
           ({ result, value }) => {
             if (result) {
-              console.log("放入公海");
+              Api.customerToPublicPool({
+                ids: this.id
+              }).then(res => {
+                this.$toast.success("放入公海成功");
+                this.goBack();
+              });
             }
           }
         );

@@ -7,6 +7,7 @@
     <div class="serch-input">
       <mu-icon value=":iconfont icon-sousuo"></mu-icon>
       <input
+        :placeholder="placeholderText"
         class="query-input"
         type="text"
         v-model="inputValue"
@@ -34,11 +35,15 @@ export default {
     placeholderText: {
       type: String,
       default: "搜索"
+    },
+    type: {
+      type: String,
+      default: ""
     }
   },
   watch: {
     inputValue(val) {
-      this.$emit("searchInputBarChange", { type: "direct", value: val });
+      this.$emit("searchInputBarChange", { type: this.type, value: val });
     }
   },
   mounted() {},

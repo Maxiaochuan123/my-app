@@ -147,7 +147,6 @@ export default {
       let zipRatioActive;
       
       
-      // console.log('压缩前:', tool.bytesToSize(fileItem.size))
       // 是否限制图片大小
       
       if(fileItem.size >= this.maxSize){
@@ -183,7 +182,6 @@ export default {
         }
       }
       this.uploadHahdle(item,resolve,reject)
-      // console.log(`压缩后: ${tool.bytesToSize(file.size)}, 压缩比: ${zipRatioActive}`);
     },
   }
 };

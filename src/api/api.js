@@ -1,3 +1,7 @@
+/**
+ * @Description: 统一封装axios请求
+ * @Author: shenah
+ */
 import Qs from "qs";
 import tool from "../../static/js/tool";
 import axios from "axios";
@@ -108,7 +112,6 @@ const request = ({
           Toast.error({
             message: res.msg
           });
-          
         } else {
           Toast.error({
             message: `code:${res.code}`

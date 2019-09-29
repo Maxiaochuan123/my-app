@@ -19,4 +19,8 @@ export const QUERY_CUSTOMER_FOLLOW_RECORD = getApi("/getFollowUpRecord");
  // 根据客户id查询联系人
 export const QUERY_CONTACTS_BY_ID = getApi("/queryClientToContacts");
 // 把客户分享给用户
- export const CUSTOMER_SHARE_TO_USERS = getApi("/addClientToMembers"); 
+ export const CUSTOMER_SHARE_TO_USERS = getApi("/addClientToMembers");
+ // 把客户放入公海
+ export const CUSTOMER_TO_PUBLIC_POOL = getApi("/updateClientToPublicPool");  
+ // 公海客户查询
+ export const QUERY_CUSTOMER_PUBLIC_POOL = getApi("/queryHtmlPublicPoolList");  

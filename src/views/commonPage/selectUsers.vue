@@ -122,15 +122,12 @@ export default {
   },
   mounted() {
     this.queryUser();
-    console.log(this.id,this.type)
   },
   methods: {
     searchInputBarChange(obj) {
       const { type, value } = obj;
-      if (type === "direct") {
-        this.requestParams.search = value;
-        this.queryUser();
-      }
+      this.requestParams.search = value;
+      this.queryUser();
     },
     queryUser() {
       Api.querySimpleUserByDepId(this.requestParams).then(res => {
@@ -173,12 +170,12 @@ export default {
     },
     submit() {
       let params = this.beforeSubmit();
-      let shareApi
+      let shareApi;
       switch (this.type) {
-        case 'contactsDetailsShare':
+        case "contactsDetailsShare":
           shareApi = this.api.contactsShare;
           break;
-        case 'commonWatersClue':
+        case "commonWatersClue":
           shareApi = Api.customerShareToUsers;
           break;
       }
