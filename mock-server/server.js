@@ -1,3 +1,10 @@
+/*
+ * @Description: 利用node作为中间层来模拟数据
+ * @Author: shenah
+ * @Date: 2019-10-08 20:04:42
+ * @LastEditors: shenah
+ * @LastEditTime: 2019-10-08 23:32:11
+ */
 const fs = require("fs");
 const path = require("path");
 const apiPath = path.join(__dirname, "./api/");
@@ -6,6 +13,27 @@ const mock = require("mockjs");
 const app = require("express")();
 let port = process.argv.slice(2)[0] || 9000;
 const prefix = "";
+// app.set('host','192.168.250.250');
+//解决跨域
+app.all("*", function(req, res, next) {
+  // 因为前端用了withCredentials所以不能设置为*
+  // res.header('Access-Control-Allow-Origin', '*');
+  res.header("Access-Control-Allow-Origin", req.headers.origin || "*");
+  // 当withCredentials为true的时候必须要有这个
+  res.header("Access-Control-Allow-Credentials", true);
+  res.header(
+    "Access-Control-Allow-Headers",
+    "Content-Type, Content-Length, Authorization, Accept, X-Requested-With"
+  );
+  res.header("Access-Control-Allow-Methods", "*");
+  res.header("Content-Type", "application/json;charset=utf-8");
+  if (req.method == "OPTIONS") {
+    res.sendStatus(200);
+  } else {
+    next();
+  }
+});
+// 进行app的监听
 app.listen(port, function() {});
 let api = {};
 function getApis() {
@@ -38,13 +66,6 @@ fs.readdir(apiPath, "utf-8", function(err, files) {
 });
 
 getApis();
-app.all("*", function(req, res, next) {
-  res.header("Access-Control-Allow-Origin", "*");
-  res.header("Access-Control-Allow-Methods", "PUT, GET, POST, DELETE, OPTIONS");
-  // 此处根据前端请求携带的请求头进行配置
-  res.header("Access-Control-Allow-Headers", "X-Requested-With, Content-Type");
-  next();
-});
 app.use(function(req, res, next) {
   var data = undefined;
   var delay = 0;
