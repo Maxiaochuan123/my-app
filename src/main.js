@@ -58,7 +58,8 @@ new Vue({
   components: { App },
   template: "<App/>"
 });
-const prefix = `${window.location.protocol}//${window.location.host}/api`;
+// const prefix = `${window.location.protocol}//${window.location.host}/api`;
+const prefix = `http://127.0.0.1:9000`;// mock
 window.config = {
   service: prefix
 };

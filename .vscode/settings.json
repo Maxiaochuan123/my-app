@@ -1,11 +1,11 @@
 {
   "jumpToAliasFile.alias": {
     "vue$": "vue/dist/vue.esm.js",
-    "@": "/Users/shenah/company/my-app/src",
-    "@components": "/Users/shenah/company/my-app/src/components",
-    "@api": "/Users/shenah/company/my-app/src/api/index.js",
-    "@constants": "/Users/shenah/company/my-app/src/constants",
-    "@static": "/Users/shenah/company/my-app/static"
+    "@": "../src",
+    "@components": "../src/components",
+    "@api": "../src/api/index.js",
+    "@constants": "../src/constants",
+    "@static": "../my-app/static"
   },
   "path-intellisense.mappings": {
     "@": "${workspaceRoot}/src",

@@ -1,0 +1,16 @@
+{
+    "root": [
+        {
+            "url": "/login",
+            "desc": "登录",
+            "mock": true,
+            "res": {
+                "code": 0,
+                "msg": "成功",
+                "data": {
+                    "a": 1
+                }
+            }
+        }
+    ]
+}
