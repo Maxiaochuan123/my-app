@@ -26,9 +26,7 @@ app.all("*", function(req, res, next) {
     "Access-Control-Allow-Headers",
     "Content-Type, Content-Length, Authorization, Accept, X-Requested-With,accessToken"
   );
-  res.header("Access-Control-Allow-Methods", "*");
   res.header("Content-Type", "application/json;charset=utf-8");
-  res.header("Access-Control-Allow-Methods", "*");
   if (req.method == "OPTIONS") {
     res.sendStatus(200);
   } else {
