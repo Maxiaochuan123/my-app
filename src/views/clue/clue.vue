@@ -15,28 +15,28 @@
     </mu-tabs>
     <div class="myClue" v-if="active === 0">
       <mu-list textline="two-line">
-        <div v-for="(listItem,index) in myClueUserList" :key="index">
+        <div v-for="(item,index) in clueUserList" :key="index">
           <mu-list-item v-waves>
-            <mu-list-item-content @click="goPage('clueDetails',listItem)">
-              <mu-list-item-title>{{listItem.title}}
-                <span :class="listItem.state === 0 ? nofollowUp : ''">未跟进</span>
+            <mu-list-item-content @click="goPage('clueDetails',{id:item.leadsId})">
+              <mu-list-item-title>{{item.ownerUserName}}
+                <span :class="item.followup === '未跟进' ? 'nofollowUp' : ''">{{item.followup}}</span>
               </mu-list-item-title>
-              <mu-list-item-sub-title>创建人: {{listItem.createPeople}}</mu-list-item-sub-title>
-              <mu-list-item-sub-title>{{listItem.createDate | formatDate}}更新
+              <mu-list-item-sub-title>创建人: {{item.createUserName}}</mu-list-item-sub-title>
+              <mu-list-item-sub-title>{{item.createTime}}更新
               </mu-list-item-sub-title>
             </mu-list-item-content>
-            <mu-menu placement="left-start" :open.sync="listItem.openMenu">
+            <mu-menu placement="left-start" :open.sync="item.openMenu">
               <mu-button icon>
                 <mu-icon value=":iconfont icon-gengduovertical"></mu-icon>
               </mu-button>
               <mu-list slot="content">
-                <mu-list-item button v-for="(menuItem,index) in myClueMenuList" :key="index" @click="operation(listItem, menuItem)">
+                <mu-list-item button v-for="(menuItem,index) in myClueMenuList" :key="index" @click="operation(item, menuItem)">
                   <mu-list-item-title>{{menuItem.title}}</mu-list-item-title>
                 </mu-list-item>
               </mu-list>
             </mu-menu>
           </mu-list-item>
-          <mu-divider shallow-inset v-show="index + 1 !== myClueUserList.length"></mu-divider>
+          <mu-divider shallow-inset v-show="index + 1 !== clueUserList.length"></mu-divider>
         </div>
       </mu-list>
     </div>
@@ -56,18 +56,31 @@ export default {
   data(){
     return{
       active:0,
+      clueUserList:[],
       menuList:[{
         title: "新建买车线索",
-        linkName: "",
-        isLink: true
+        linkName: "editBasicsInfo",
+        isLink: true,
+        linkParams: {
+          type: "6",
+          state: "add"
+        }
       },{
         title: "新建车贷线索",
-        linkName: "",
-        isLink: true
+        linkName: "editBasicsInfo",
+        isLink: true,
+        linkParams: {
+          type: "7",
+          state: "add"
+        }
       },{
         title: "新建车险线索",
-        linkName: "",
-        isLink: true
+        linkName: "editBasicsInfo",
+        isLink: true,
+        linkParams: {
+          type: "5",
+          state: "add"
+        }
       }],
 
       myClueMenuList:[{
@@ -89,44 +102,40 @@ export default {
         isLink:false
       },{
         title:'编辑',
-        isLink:false
+        isLink:true,
       },{
         title:'删除',
         isLink:false
-      }],
-      
-      myClueUserList:[{
-        title:'张三',
-        createPeople: '张三',
-        createDate:Date.now(),
-        state:'0',
-        openMenu: false
-      },{
-        title:'张三',
-        createPeople: '张三',
-        createDate:Date.now(),
-        state:'1',
-      },{
-        title:'张三',
-        createPeople: '张三',
-        createDate:Date.now(),
-        state:'1'
-      },{
-        title:'张三',
-        createPeople: '张三',
-        createDate:Date.now(),
-        state:'1'
-      },{
-        title:'张三',
-        createPeople: '张三',
-        createDate:Date.now(),
-        state:'1'
-      },{
-        title:'张三',
-        createPeople: '张三',
-        createDate:Date.now(),
-        state:'1'
       }]
+    }
+  },
+  created(){
+    this.api.getClueList({search:'',type:'1',pageIndex:1,pageSize:15}).then(res=>{
+      if(res.msg !== 'success') this.$toast.warning('线索列表获取失败!');
+      this.clueUserList = res.data.list
+      this.clueUserList[0].openMenu = false
+    })
+  },
+  methods:{
+    operation(item,menuItem){
+      if(menuItem.isLink && menuItem.title === '编辑'){
+        let type = this.getType(item.leadsType)
+        this.goPage('editBasicsInfo',{state:'edit',type:type,id:item.leadsId})
+        // console.log({state:'edit',type:type,id:item.leadsId})
+      }
+    },
+    getType(leadsType){
+      switch (leadsType) {
+        case '车险线索':
+          return '5'
+          break;
+        case '买车线索':
+          return '6'
+          break;
+        case '车贷线索':
+          return '7'
+          break;
+      }
     }
   }
 }

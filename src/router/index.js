@@ -117,7 +117,7 @@ const router = new Router({
           component: () => import("../views/clue/clueDetails.vue")
         },
         {
-          path: "/editBasicsInfo",
+          path: "/editBasicsInfo/:id?/:type/:state",
           name: "editBasicsInfo",
           meta: { zIndex: 1 },
           component: () => import("../views/clue/editBasicsInfo.vue")

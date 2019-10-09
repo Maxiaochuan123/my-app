@@ -33,10 +33,10 @@ export default {
       return this.$route.params.id;
     },
     // type判断是否哪里进来的
-    // addCustomer表示从客户里面进来的新增
-    // editCustomer表示从客户里面进来的编辑
-    // addPersonal表示从个人联系人进来的新增
-    // editPersonal表示从个人联系人进来的编辑
+    // addCustomer 表示从客户里面进来的新增
+    // editCustomer 表示从客户里面进来的编辑
+    // addPersonal 表示从个人联系人进来的新增
+    // editPersonal 表示从个人联系人进来的编辑
     type() {
       return this.$route.params.type;
     }
@@ -64,8 +64,7 @@ export default {
       return newArr;
     },
     judgePageTitle() {
-      let model =
-        this.type.indexOf("addCustomer") > -1 ? "customer" : "personal";
+      let model = this.type.indexOf("addCustomer") > -1 ? "customer" : "personal";
       if (this.type === "addCustomer" || this.type === "addPersonal") {
         return {
           title: "新增联系人",
@@ -81,17 +80,17 @@ export default {
       }
       return {
         title: "新增联系人",
-        type: "edit",
+        type: "add",
         model
       };
     },
     queryField() {
       Api.queryFieldList({
-        label: "3",
+        label: '3',
         id: this.typeObj.type === "add" ? undefined : this.id
       }).then(res => {
-        if (this.typeObj.model === "personal") {
-          // 查询我的客户
+      if(this.typeObj.model === "personal"){
+          // 查询我的联系人
           Api.queryCustomerList({
             search: "",
             type: 2
@@ -112,7 +111,7 @@ export default {
             ];
             this.fieldList = [...arr, ...res.data];
           });
-        } else {
+        }else {
           this.fieldList = res.data;
         }
       });

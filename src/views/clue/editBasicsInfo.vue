@@ -1,273 +1,154 @@
 <!--
- * @Description: In User Settings Edit
- * @Author: your name
- * @Date: 2019-09-09 15:33:39
- * @LastEditTime: 2019-09-09 18:32:44
- * @LastEditors: Please set LastEditors
+ * @Description: 新建或者编辑线索
  -->
 <template>
-  <div class="editBasicsInfo" >
-    <AppBar :pageTitle="pageTitle" custom :customFnc="openDialog" customTitle="保存"></AppBar>
+  <div class="addOrEditCustomer">
+    <AppBar
+      :customFnc="customFnc"
+      :pageTitle="state === 'add' ? `新增${pageTitle}` :  `编辑${pageTitle}` "
+      custom
+      customTitle="保存"
+    ></AppBar>
     <div class="content">
-      <mu-form ref="form" :model="form" class="mu-demo-form" label-position="left" label-width="118">
-        <mu-paper :z-depth="0" class="block">
-          <mu-form-item prop="value1" label="线索名称" :rules="myRules.userName">
-            <mu-text-field v-model="form.value1" placeholder="请输入线索名称(必填)"></mu-text-field>
-          </mu-form-item>
-          <mu-divider></mu-divider>
-          <mu-form-item prop="value2" label="线索来源" :rules="myRules.sex">
-            <div class="surround" @click="showPicker('线索来源')">
-              <mu-text-field v-model="form.value2.text" placeholder="请选择线索来源(必填)" disabled ></mu-text-field>
-              <i class="iconfont icon-rightArrow"></i>
-            </div>
-          </mu-form-item>
-          <mu-divider></mu-divider>
-          <mu-form-item prop="value2" label="线索级别" :rules="myRules.sex">
-            <div class="surround" @click="showPicker('线索级别')">
-              <mu-text-field v-model="form.value2.text" placeholder="请选择线索级别(必填)" disabled ></mu-text-field>
-              <i class="iconfont icon-rightArrow"></i>
-            </div>
-          </mu-form-item>
-          <mu-divider></mu-divider>
-          <mu-form-item prop="value3" label="电话号码" :rules="myRules.phone">
-            <mu-text-field v-model="form.value3" placeholder="请输入电话号码(必填)"></mu-text-field>
-          </mu-form-item>
-        </mu-paper>
-        
-        <mu-paper :z-depth="0" class="block">
-          <mu-form-item prop="input" label="是否驾车">
-            <div class="surround" @click="showPicker">
-              <mu-text-field v-model="form.value6" placeholder="请选择是否驾车" disabled ></mu-text-field>
-              <i class="iconfont icon-rightArrow"></i>
-            </div>
-          </mu-form-item>
-          <mu-divider></mu-divider>
-          <mu-form-item prop="input" label="所驾车型">
-            <div class="surround" @click="showPicker">
-              <mu-text-field v-model="form.value6" placeholder="请选择所驾车型" disabled ></mu-text-field>
-              <i class="iconfont icon-rightArrow"></i>
-            </div>
-          </mu-form-item>
-          <mu-divider></mu-divider>
-          <mu-form-item prop="input" label="兴趣车型">
-            <div class="surround" @click="showPicker">
-              <mu-text-field v-model="form.value6" placeholder="请选择兴趣车型" disabled ></mu-text-field>
-              <i class="iconfont icon-rightArrow"></i>
-            </div>
-          </mu-form-item>
-          <mu-divider></mu-divider>
-          <mu-form-item prop="input" label="车身颜色">
-            <mu-text-field v-model="form.value7" placeholder="请输入车身颜色"></mu-text-field>
-          </mu-form-item>
-          <mu-divider></mu-divider>
-          <mu-form-item prop="input" label="内饰颜色">
-            <mu-text-field v-model="form.value8" placeholder="请输入内饰颜色"></mu-text-field>
-          </mu-form-item>
-          <mu-divider></mu-divider>
-          <mu-form-item prop="input" label="对比车型">
-            <div class="surround" @click="showPicker('对比车型')">
-              <mu-text-field v-model="form.value9.text" placeholder="请选择对比车型" disabled ></mu-text-field>
-              <i class="iconfont icon-rightArrow"></i>
-            </div>
-          </mu-form-item>
-        </mu-paper>
-      </mu-form>
-
-      <!-- 弹出选择器 取消事件 @cancel -->
-      <Picker
-        ref="picker"
-        :textTitle="pickerTitle"
-        :data="pickerList"
-        name="name"
-        picker-class="pickerClass"
-        :anchor="[0]"
-        @confirm="confirmPicker">
-      </Picker>
-
-      <!-- dialog对话框 -->
-      <mu-dialog title="新增线索" width="600" max-width="80%" :esc-press-close="false" :overlay-close="false" :open.sync="dialogState">
-        确认信息无误, 点击确定按钮新增线索
-        <mu-button slot="actions" flat @click="closeDialog">取消</mu-button>
-        <mu-button slot="actions" flat color="primary" v-loading="btnLoading" data-mu-loading-size="24" @click="submitDialog">确定</mu-button>
-      </mu-dialog>
+      <GeneralForm
+        :fieldList="fieldList"
+        ref="generalForm"
+      ></GeneralForm>
     </div>
   </div>
 </template>
 
 <script>
-import AppBar from '../../components/AppBar'
-import Picker from "dm-vue-picker-h5";
-import Rules from '../../../static/js/rules'
+import AppBar from "../../components/AppBar";
+import GeneralForm from "@components/GeneralForm.vue";
+import Qs from 'qs'
 export default {
-  name:'editBasicsInfo',
-  components:{ AppBar,Picker },
-  data(){
-    return{
-      pageTitle: this.$route.params.title,
-      // 线索来源
-      pickerList1:[
-        {
-          text: "张三",
-          value: 1
-        },
-        {
-          text: "李四",
-          value: 2
-        },
-        {
-          text: "王五",
-          value: 3
-        },
-        {
-          text: "赵六",
-          value: 4
-        }
-      ],
-      // 线索级别
-      pickerList2:[
-        {
-          text: "张三",
-          value: 1
-        },
-        {
-          text: "李四",
-          value: 2
-        },
-        {
-          text: "王五",
-          value: 3
-        },
-        {
-          text: "赵六",
-          value: 4
-        }
-      ],
-      // 是否驾车
-      pickerList1:[
-        {
-          text: "张三",
-          value: 1
-        },
-        {
-          text: "李四",
-          value: 2
-        },
-        {
-          text: "王五",
-          value: 3
-        },
-        {
-          text: "赵六",
-          value: 4
-        }
-      ],
-      // 所驾车型
-      pickerList1:[
-        {
-          text: "张三",
-          value: 1
-        },
-        {
-          text: "李四",
-          value: 2
-        },
-        {
-          text: "王五",
-          value: 3
-        },
-        {
-          text: "赵六",
-          value: 4
-        }
-      ],
-      // 兴趣车型
-      pickerList1:[
-        {
-          text: "张三",
-          value: 1
-        },
-        {
-          text: "李四",
-          value: 2
-        },
-        {
-          text: "王五",
-          value: 3
-        },
-        {
-          text: "赵六",
-          value: 4
-        }
-      ],
-      // 对比车型
-      pickerList1:[
-        {
-          text: "张三",
-          value: 1
-        },
-        {
-          text: "李四",
-          value: 2
-        },
-        {
-          text: "王五",
-          value: 3
-        },
-        {
-          text: "赵六",
-          value: 4
-        }
-      ],
-      form: {
-        value1: "",
-        value2: "",
-        value3: "",
-        value4: "",
-        value5: "",
-        value6: "",
-        value7: "",
-        value8: "",
-        value9: "",
-      },
+  components: {
+    AppBar,
+    GeneralForm
+  },
+  computed: {
+    // 当前传入的id
+    id() {
+      return this.$route.params.id;
+    },
+    // 状态 新增 还是 编辑 add or edit
+    state() {
+      return this.$route.params.state;
+    },
+    // 5：车险线索, 6：买车线索, 7:车贷线索
+    type() {
+      return this.$route.params.type;
+    },
+    pageTitle(){
+      switch (this.type) {
+        case '5':
+          return '车险线索'
+          break;
+        case '6':
+          return '买车线索'
+          break;
+        case '7':
+          return '车贷线索'
+          break;
+      }
     }
   },
+  data() {
+    return {
+      fieldList: []
+    };
+  },
+  mounted() {
+    this.queryField();
+  },
   methods: {
-    submitDialog(){
-      this.apiMethod.getCreditReporting(this)
+    queryField() {
+      this.api.getClueField({
+        leadsType: this.type,
+        id: this.state === "add" ? undefined : this.id
+      }).then(res => {
+        this.fieldList = res.data;
+      });
     },
-    showPicker(pickerTitle) {
-      this.pickerTitle = pickerTitle;
-      switch (pickerTitle){
-        case '性别':
-          this.pickerList = this.pickerList1;
-          break;
-        case '关键/决策人':
-          this.pickerList = this.pickerList2;
-          break;
-      }
-      this.$refs.picker.show()
+    customFnc() {
+      const generalFormVue = this.$refs.generalForm;
+      generalFormVue.$refs.form.validate().then(result => {
+        if (result) {
+          let reqData = this.dataHandle({...generalFormVue.form});
+          console.log(reqData)
+          // 010-87655210 reqData
+          this.api.addClue(reqData).then(res => {
+            this.$toast.success({
+              message: res.msg
+            });
+            this.goBack();
+          });
+          return true;
+        }
+        this.$toast.info({
+          message: "必填的字段请填写完整"
+        });
+        return false;
+      });
     },
-    confirmPicker(value,column,text) {
-      // console.log(value)//选中的条目的value
-      // console.log(column)//选中的列的索引
-      // console.log(text)//选中的条目的text
-      switch (this.pickerTitle){
-        case '性别':
-          this.form.value2 = this.pickerList[column];
-          break;
-        case '关键/决策人':
-          this.form.value9 = this.pickerList[column];
-          break;
+    // 数据处理
+    dataHandle(formVue){
+      let entityTemp = []; let entity = []; let leadsType = [];
+      
+      for(let item of this.fieldList){
+        if(item.fieldType === 1){
+          entityTemp.push({[item.fieldName]:item.value})
+        }else{
+          leadsType.push({
+            fieldId:item.fieldId,
+            name:item.fieldName,
+            activityValue:item.value
+          })
+        }
       }
-    }
+
+      // entity
+      entityTemp.forEach(item=>{
+        Object.keys(item).forEach(key=>{
+          if(formVue[key]){
+            item[key]=formVue[key]
+          }
+        })
+      })
+      for(let item of entityTemp){
+        for(let key in item){
+          entity[Object.keys(item)[0]] = item[key]
+        }
+      }
+
+      // leadsType
+      leadsType.forEach((item,index)=>{
+        if(formVue[item.name]){
+          item.activityValue = formVue[item.name]
+        }
+      })
+      entity.leadsId = this.state === 'add' ? '' : this.id
+
+      return {
+        entity: {...entity},
+        leadsType: [...leadsType],
+      };
+    },
+    handleCustomerData(arr) {
+      // 处理数据
+      let newArr = [];
+      Object.keys(arr).forEach(item => {
+        newArr.push(...arr[item]);
+      });
+      return newArr;
+    },
   }
-}
+};
 </script>
 
 <style scoped lang="less">
-  .editBasicsInfo{
-    .content{
-      padding-top: 44px;
-    }
-  }
+.content {
+  padding-top: 44px;
+}
 </style>

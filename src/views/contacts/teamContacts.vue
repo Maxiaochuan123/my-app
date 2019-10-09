@@ -43,9 +43,9 @@ export default {
     };
   },
   created(){
-    this.api.getContacts({search:'',type:3}).then(res=>{
-      this.userList = res.data
-    })
+    // this.api.getTeamContacts({contactsId:''}).then(res=>{
+    //   this.userList = res.data
+    // })
   }
   // computed:{
   //   ...mapState(['userList'])
