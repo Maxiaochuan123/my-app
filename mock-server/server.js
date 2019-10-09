@@ -1,9 +1,10 @@
 /*
  * @Description: 利用node作为中间层来模拟数据
+   用法根据后台分的模块自行在api中哪个模块中建立相应的请求以及请求数据
  * @Author: shenah
- * @Date: 2019-10-08 20:04:42
+ * @Date: 2019-10-08
  * @LastEditors: shenah
- * @LastEditTime: 2019-10-08 23:32:11
+ * @LastEditTime: 2019-10-08
  */
 const fs = require("fs");
 const path = require("path");
@@ -13,20 +14,21 @@ const mock = require("mockjs");
 const app = require("express")();
 let port = process.argv.slice(2)[0] || 9000;
 const prefix = "";
-// app.set('host','192.168.250.250');
 //解决跨域
 app.all("*", function(req, res, next) {
   // 因为前端用了withCredentials所以不能设置为*
   // res.header('Access-Control-Allow-Origin', '*');
+  // 因为这个项目需要传accessToken
   res.header("Access-Control-Allow-Origin", req.headers.origin || "*");
   // 当withCredentials为true的时候必须要有这个
   res.header("Access-Control-Allow-Credentials", true);
   res.header(
     "Access-Control-Allow-Headers",
-    "Content-Type, Content-Length, Authorization, Accept, X-Requested-With"
+    "Content-Type, Content-Length, Authorization, Accept, X-Requested-With,accessToken"
   );
   res.header("Access-Control-Allow-Methods", "*");
   res.header("Content-Type", "application/json;charset=utf-8");
+  res.header("Access-Control-Allow-Methods", "*");
   if (req.method == "OPTIONS") {
     res.sendStatus(200);
   } else {

@@ -37,7 +37,7 @@ Vue.config.productionTip = false;
 Vue.prototype.storage = storage;
 
 import api from "./api/myApi/api";
-Vue.prototype.api = api
+Vue.prototype.api = api;
 
 import preview from "vue-photo-preview";
 import "vue-photo-preview/dist/skin.css";
@@ -58,8 +58,8 @@ new Vue({
   components: { App },
   template: "<App/>"
 });
-// const prefix = `${window.location.protocol}//${window.location.host}/api`;
-const prefix = `http://127.0.0.1:9000`;// mock
+const prefix = `${window.location.protocol}//${window.location.host}/api`;
+// const prefix = `${window.location.protocol}//${window.location.host}/mock`; // mocksever数据
 window.config = {
   service: prefix
 };

@@ -23,6 +23,13 @@ module.exports = {
         pathRewrite: {
           "^/api": ""
         }
+      },
+      "/mock/*": {
+        target: "http://127.0.0.1:9000",
+        secure: false,
+        pathRewrite: {
+          "^/mock": ""
+        }
       }
     },
 
@@ -32,7 +39,7 @@ module.exports = {
     host: "192.168.50.226", // can be overwritten by process.env.HOST
     // host: "192.168.0.111", // can be overwritten by process.env.HOST
     port: 8080, // can be overwritten by process.env.PORT, if port is in use, a free one will be determined
-    autoOpenBrowser: false,
+    autoOpenBrowser: true,
     errorOverlay: true,
     notifyOnErrors: true,
     poll: false, // https://webpack.js.org/configuration/dev-server/#devserver-watchoptions-
@@ -42,7 +49,7 @@ module.exports = {
      */
 
     // https://webpack.js.org/configuration/devtool/#development
-    devtool: 'source-map',
+    devtool: "source-map",
 
     // If you have problems debugging vue-files in devtools,
     // set this to false - it *may* help
