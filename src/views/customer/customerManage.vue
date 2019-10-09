@@ -92,7 +92,7 @@ export default {
       Api.queryCustomerList(this.requestParams).then(res => {
         let list = res.data || [];
         this.userObj = list;
-        this.searchList = list.length > 0 ? list : [{}];
+        this.searchList = Object.keys(list).length > 0 ? [list] : [{}];
       });
     },
     tabChange(val) {

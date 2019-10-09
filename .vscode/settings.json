@@ -13,25 +13,5 @@
     "@api": "${workspaceRoot}/src/api/index.js",
     "@constants": "${workspaceRoot}/src/constants",
     "@static": "${workspaceRoot}/static"
-  },
-  // 不自动生成文件注释
-  "fileheader.configObj": {
-    "autoAdd": false
-  },
-  // 头部注释的模板
-  "fileheader.customMade": {
-    //此为头部注释
-    "Description": "",
-    "Author": "shenah",
-    "Date": "Do not edit",
-    "LastEditors": "shenah",
-    "LastEditTime": "Do not edit"
-  },
-  // 函数注释的模板
-  "fileheader.cursorMode": {
-    //此为函数注释
-    "description": "",
-    "param": "参数名 参数说明",
-    "return": ""
   }
 }

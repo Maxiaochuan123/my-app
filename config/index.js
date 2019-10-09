@@ -10,28 +10,13 @@
 // see http://vuejs-templates.github.io/webpack for documentation.
 
 const path = require("path");
-
+const proxy = require("./proxy");
 module.exports = {
   dev: {
     // Paths
     assetsSubDirectory: "static",
     assetsPublicPath: "/",
-    proxyTable: {
-      "/api": {
-        target: "http://192.168.0.92:6080",
-        changeOrigin: true,
-        pathRewrite: {
-          "^/api": ""
-        }
-      },
-      "/mock/*": {
-        target: "http://127.0.0.1:9000",
-        secure: false,
-        pathRewrite: {
-          "^/mock": ""
-        }
-      }
-    },
+    proxyTable: proxy,
 
     // Various Dev Server settings
     // host: 'localhost', // can be overwritten by process.env.HOST

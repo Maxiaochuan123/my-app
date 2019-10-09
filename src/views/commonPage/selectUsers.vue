@@ -178,6 +178,9 @@ export default {
         case "commonWatersClue":
           shareApi = Api.customerShareToUsers;
           break;
+        case "customerDetailsShare":
+          shareApi = Api.customerShareToUsers;
+          break;
       }
       shareApi(params).then(() => {
         this.$toast.success({
