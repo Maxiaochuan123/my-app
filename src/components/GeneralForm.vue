@@ -335,9 +335,6 @@ export default {
       this.$refs.picker.show();
     },
     handlePickerConfirm(value, column, text) {
-      // console.log(value); //选中的条目的value
-      // console.log(column); //选中的列的索引
-      // console.log(text); //选中的条目的text
       const {
         relation,
         fieldName,

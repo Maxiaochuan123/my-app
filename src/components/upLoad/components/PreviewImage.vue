@@ -164,14 +164,12 @@ export default {
     getZoom(e){
       let tempNum = this.transform.scale;
       if(parseInt(e.zoom) > 0){
-        console.log('大于0')
         tempNum += .1;
         if(tempNum >= 1.8){
           tempNum = 1.8;
         }
         this.transform.scale = parseFloat(tempNum.toFixed(1));
       }else{
-        console.log('小于0')
         tempNum -= .1;
         if(tempNum <= .4){
           tempNum = .4;

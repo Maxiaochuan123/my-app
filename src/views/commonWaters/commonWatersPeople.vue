@@ -4,19 +4,19 @@
  -->
 <template>
   <div class="commonWatersPeople">
-    <div v-if="clueList.length > 0">
+    <div v-if="$parent.customerList.length > 0">
       <div
         :key="index"
         class="clue-item"
-        v-for="(item,index) in clueList"
+        v-for="(item,index) in $parent.customerList"
       >
         <div class="clue-item-wrap">
           <div
             @click="toDetails(item)"
             class="clue-left"
           >
-            <span class="primary-words">{{item.name}}</span>
-            <div class="sub-title regular-words">{{item.createName}}</div>
+            <span class="primary-words">{{item.customerName}}</span>
+            <div class="sub-title regular-words">{{item.detailAddress}}</div>
           </div>
           <div class="clue-right">
             <mu-button
@@ -42,71 +42,23 @@
 
 <script>
 import Nothing from "@components/Nothing.vue";
+
 export default {
   name: "commonWatersPeople",
-  components: {Nothing},
+  components: { Nothing },
   data() {
     return {
-      clueList: []
+      clueList: [],
+      listObj: {} // 公海客户列表对象
     };
   },
   props: {},
-  mounted() {
-    setTimeout(() => {
-      this.clueList = [
-        {
-          id: 15,
-          name: "四川好易车汽车贸易有限公司",
-          createName: "四川省成都市高新区天府街道224号"
-        },
-        {
-          id: 16,
-          name: "四川好易车汽车贸易有限公司",
-          createName: "四川省成都市高新区天府街道224号"
-        },
-        {
-          id: 17,
-          name: "四川好易车汽车贸易有限公司",
-          createName: "四川省成都市高新区天府街道224号"
-        },
-        {
-          id: 18,
-          name: "四川好易车汽车贸易有限公司",
-          createName: "四川省成都市高新区天府街道224号"
-        },
-        {
-          id: 19,
-          name: "四川好易车汽车贸易有限公司",
-          createName: "四川省成都市高新区天府街道224号"
-        },
-        {
-          id: 20,
-          name: "四川好易车汽车贸易有限公司",
-          createName: "四川省成都市高新区天府街道224号"
-        },
-        {
-          id: 21,
-          name: "四川好易车汽车贸易有限公司",
-          createName: "四川省成都市高新区天府街道224号"
-        },
-        {
-          id: 22,
-          name: "四川好易车汽车贸易有限公司",
-          createName: "四川省成都市高新区天府街道224号"
-        },
-        {
-          id: 23,
-          name: "四川好易车汽车贸易有限公司",
-          createName: "四川省成都市高新区天府街道224号"
-        }
-      ]; // 当前列表
-    }, 500);
-  },
+  mounted() {},
   methods: {
     toDetails(row) {
       // 去客户公海详情
       this.goPage("customerBasic", {
-        id: row.id,
+        id: row.customerId,
         type: "commonWatersCustomer"
       });
     },
@@ -114,7 +66,7 @@ export default {
       if (type === "distribute") {
         // 分配
         this.goPage("selectUsers", {
-          id: row.id,
+          id: row.customerId,
           type: "commonWatersCustomer"
         });
       } else if (type === "receive") {

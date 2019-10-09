@@ -11,8 +11,8 @@
     ></AppBar>
     <SearchBar
       :list="searchList"
-      showLabel="customerName"
       placeholderText="搜索客户"
+      showLabel="customerName"
     ></SearchBar>
     <mu-tabs
       :value.sync="active"
@@ -72,8 +72,8 @@ export default {
       rightIcon: "icon-tianjia",
       rightLinkName: "addOrEditCustomer",
       active: "my", // 当前激活(my=>我的,team=>团队)
-      userObj:{}, // 客户列表
-      searchList:[], // 搜索客户
+      userObj: {}, // 客户列表
+      searchList: [], // 搜索客户
       words: "暂无我的客户",
       requestParams: {
         // 列表请求的参数
@@ -83,17 +83,16 @@ export default {
     };
   },
   props: {},
-  created() {
-
-  },
+  created() {},
   mounted() {
     this.queryList();
   },
   methods: {
     queryList() {
       Api.queryCustomerList(this.requestParams).then(res => {
-        this.userObj = res.data;
-        this.searchList = [res.data];
+        let list = res.data || [];
+        this.userObj = list;
+        this.searchList = Object.keys(list).length > 0 ? [list] : [{}];
       });
     },
     tabChange(val) {

@@ -35,10 +35,7 @@
           >确定</div>
         </div>
         <div class="map-address">
-          <div
-            id="amap"
-            v-show="mapFlag"
-          ></div>
+          <div id="amap"></div>
           <div class="search-bar">
             <div class="serch-input">
               <mu-icon
@@ -66,7 +63,8 @@
 
 <script>
 import AppBar from "@components/AppBar";
-import AMap from "AMap";
+import { amapPullIn } from "@static/js/dynamicLib";
+import tools from "@static/js/tool";
 export default {
   name: "SelectAddress",
   components: { AppBar },
@@ -77,8 +75,7 @@ export default {
       region: "", // 区域(省市区)
       inputValue: "", // 输入的值
       showInputValue: "", // 地址显示的值
-      openFullscreen: false,
-      mapFlag: false
+      openFullscreen: false
     };
   },
   props: {
@@ -108,12 +105,10 @@ export default {
       this.inputValue = this.defaultValue;
       this.showInputValue = this.defaultValue;
       this.$nextTick(() => {
-        this.loadMap(); // 地图的加载
-        this.addPlugin(); // 向地图增加插件
-        setTimeout(() => {
-          // 这样做是让地图先渲染,渲染完成后再显示这样点击地址就不会那么卡
-          this.mapFlag = true;
-        }, 500);
+        tools.openLoading("加载地图.....");
+        amapPullIn().then(AMap => {
+          this.loadMap(); // 地图的加载
+        });
       });
     },
     submit() {
@@ -153,6 +148,10 @@ export default {
       this.map = new AMap.Map("amap", {
         city: "",
         zoom: 18
+      });
+      this.map.on("complete", () => {
+        tools.closeLoading();
+        this.addPlugin(); // 向地图增加插件
       });
     },
     addPlugin() {

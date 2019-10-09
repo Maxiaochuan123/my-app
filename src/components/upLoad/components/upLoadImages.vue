@@ -115,7 +115,6 @@ export default {
             // 是否限制图片尺寸
             if(this.limitedSize){
               [width,height] = tool.isLimitedSize(imgEvent, this);
-              // console.log(width,height)
             }else{
               [width,height] = [img.width,img.height];
             }
@@ -142,7 +141,6 @@ export default {
       let zipRatioActive;
       
       
-      // console.log('压缩前:', tool.bytesToSize(fileItem.size))
       // 是否限制图片大小
       
       if(fileItem.size >= this.maxSize){
@@ -178,7 +176,6 @@ export default {
       tool.removeRepeat(this);
       if(this.isDirectUpload) this.allUpload();
       this.$emit('parentImgLoad',this.imagesList)
-      // console.log(`压缩后: ${tool.bytesToSize(file.size)}, 压缩比: ${zipRatioActive}`);
     },
   }
 };

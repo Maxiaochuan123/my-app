@@ -1,4 +1,4 @@
-import * as SYS_USER from "../serviceUrl/sysUser";
+import * as C from "../serviceUrl/sysUser";
 import post, { get } from "../api";
 /** 系统用户模块 */
 export default {
@@ -6,6 +6,6 @@ export default {
   querySimpleUserByDepId: params =>
     get({
       params,
-      url: SYS_USER.QUERY_SIMPLE_USER_BY_DEP_ID
+      url: C.QUERY_SIMPLE_USER_BY_DEP_ID
     })
 };

@@ -1,4 +1,4 @@
-import * as CONTACTS from "../serviceUrl/contacts";
+import * as C from "../serviceUrl/contacts";
 import post, { get } from "../api";
 /** 联系人模块 */
 export default {
@@ -6,7 +6,7 @@ export default {
   addOrEditContacts: params =>
     post({
       params,
-      url: CONTACTS.ADD_OR_EDIT_CONTACTS,
+      url: C.ADD_OR_EDIT_CONTACTS,
       headers: { "Content-Type": "application/json;charset=UTF-8" }
     })
 };

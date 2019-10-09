@@ -52,7 +52,6 @@ export default {
   mounted() {
     this.typeObj = this.judgePageTitle();
     this.queryField();
-    // console.log(this.id)
   },
   methods: {
     handleCustomerData(arr) {

@@ -19,9 +19,15 @@
 </template>
 
 <script>
+<<<<<<< HEAD
 import AppBar from "../../components/AppBar";
 import GeneralForm from "@components/GeneralForm.vue";
 import Qs from 'qs'
+=======
+import AppBar from '../../components/AppBar'
+import Picker from "dm-vue-picker-h5";
+import Rules from '@static/js/rules'
+>>>>>>> master
 export default {
   components: {
     AppBar,
@@ -40,10 +46,17 @@ export default {
     type() {
       return this.$route.params.type;
     },
+<<<<<<< HEAD
     pageTitle(){
       switch (this.type) {
         case '5':
           return '车险线索'
+=======
+    confirmPicker(value,column,text) {
+      switch (this.pickerTitle){
+        case '性别':
+          this.form.value2 = this.pickerList[column];
+>>>>>>> master
           break;
         case '6':
           return '买车线索'

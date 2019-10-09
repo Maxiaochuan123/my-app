@@ -135,7 +135,7 @@ export default {
               this.previewView2 = true;
               this.previewSrc2 = listItem.dataUrl;
             }else{
-              console.log('其他类型')
+             
             }
           break;
         case '下载':

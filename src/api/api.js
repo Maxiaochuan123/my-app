@@ -1,5 +1,9 @@
+/**
+ * @Description: 统一封装axios请求
+ * @Author: shenah
+ */
 import Qs from "qs";
-import tool from "../../static/js/tool";
+import tool from "@static/js/tool";
 import axios from "axios";
 import Toast from "muse-ui-toast";
 const CODE_SUCCESS = 0;
@@ -18,8 +22,7 @@ const instance = axios.create({
 /*----------------------请求拦截----------------------*/
 instance.interceptors.request.use(
   config => {
-    let loading = document.getElementById("ajaxLoading");
-    loading.style.display = "block";
+    tool.openLoading();
     // 参数序列化
     if (
       config.method === "post" ||
@@ -47,21 +50,18 @@ instance.interceptors.request.use(
     Toast.error({
       message: "加载超时"
     });
-    let loading = document.getElementById("ajaxLoading");
-    loading.style.display = "none";
+    tool.closeLoading();
     return Promise.reject(error);
   }
 );
 /*----------------------响应拦截----------------------*/
 instance.interceptors.response.use(
   response => {
-    let loading = document.getElementById("ajaxLoading");
-    loading.style.display = "none";
+    tool.closeLoading();
     return response;
   },
   error => {
-    let loading = document.getElementById("ajaxLoading");
-    loading.style.display = "none";
+    tool.closeLoading();
     if (error && error.response) {
       switch (error.response.status) {
         case CODE_FAIL_LOGIN:
@@ -108,7 +108,6 @@ const request = ({
           Toast.error({
             message: res.msg
           });
-          
         } else {
           Toast.error({
             message: `code:${res.code}`

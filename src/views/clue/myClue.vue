@@ -106,7 +106,6 @@ export default {
       if(menuItem.linkName){
         this.goPage(menuItem.linkName)
       }else{
-        console.log('啦啦啦')
         listItem.openMenu = false
       }
     }
