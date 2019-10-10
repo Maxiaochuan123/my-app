@@ -76,7 +76,11 @@ export default {
     queryPublicPoolClue() {
       // 查询公海线索
       Api.queryCommonWaterClueList(this.requestParams).then(res => {
-        this.clueList = res.data.list;
+        let list = [];
+        Object.keys(res.data).forEach(item => {
+          list.push(...res.data[item]);
+        });
+        this.clueList = list;
       });
     },
     queryPublicPoolCustomer() {
