@@ -4,19 +4,21 @@
  -->
 <template>
   <div class="common-waters-clue">
-    <div v-if="clueList.length>0">
+    <div v-if="$parent.clueList.length>0">
       <div
         :key="index"
         class="clue-item"
-        v-for="(item,index) in clueList"
+        v-for="(item,index) in $parent.clueList"
       >
         <div class="clue-item-wrap">
           <div
             @click="toDetails(item)"
             class="clue-left"
           >
-            <span class="primary-words">{{item.name}}</span>
-            <div class="sub-title regular-words">{{item.createName}}</div>
+            <span
+              class="primary-words"
+            >{{item.leadsName}}({{item.leadsLevel.charAt(0)}})({{item.leadsType.substring(0,item.leadsType.length-2)}})</span>
+            <div class="sub-title regular-words">{{item.createUserName}}</div>
           </div>
           <div class="clue-right">
             <mu-button
@@ -46,62 +48,10 @@ export default {
   name: "commonWatersClue",
   components: { Nothing },
   data() {
-    return {
-      clueList: []
-    };
+    return {};
   },
   props: {},
-  mounted() {
-    setTimeout(() => {
-      this.clueList = [
-        {
-          id: 15,
-          name: "白超超(A)",
-          createName: "张三"
-        },
-        {
-          id: 16,
-          name: "白超超(A)",
-          createName: "张三"
-        },
-        {
-          id: 17,
-          name: "白超超(A)",
-          createName: "张三"
-        },
-        {
-          id: 18,
-          name: "白超超(A)",
-          createName: "张三"
-        },
-        {
-          id: 19,
-          name: "白超超(A)",
-          createName: "张三"
-        },
-        {
-          id: 20,
-          name: "白超超(A)",
-          createName: "张三"
-        },
-        {
-          id: 21,
-          name: "白超超(A)",
-          createName: "张三"
-        },
-        {
-          id: 22,
-          name: "白超超(A)",
-          createName: "张三"
-        },
-        {
-          id: 23,
-          name: "白超超(A)",
-          createName: "张三"
-        }
-      ]; // 当前列表
-    }, 500);
-  },
+  mounted() {},
   methods: {
     toDetails(row) {
       // 进入线索的详情

@@ -54,7 +54,8 @@ export default {
         type: "8"
       },
       active: "clue", // 当前激活
-      customerList: [] // 客户列表
+      customerList: [], // 客户列表
+      clueList: [] // 线索列表
     };
   },
   props: {},
@@ -67,11 +68,19 @@ export default {
       const { type, value } = obj;
       this.requestParams.search = value;
       if (type === "clue") {
+        this.queryPublicPoolClue();
       } else {
-        this.queryPublicPool();
+        this.queryPublicPoolCustomer();
       }
     },
-    queryPublicPool() {
+    queryPublicPoolClue() {
+      // 查询公海线索
+      Api.queryCommonWaterClueList(this.requestParams).then(res => {
+        this.clueList = res.data.list;
+      });
+    },
+    queryPublicPoolCustomer() {
+      // 查询公海客户
       Api.queryPublicPoolCustomer(this.requestParams).then(res => {
         let list = [];
         Object.keys(res.data).forEach(item => {
@@ -85,9 +94,10 @@ export default {
       if (this.$route.path.indexOf("commonWatersPeople") > -1) {
         this.active = "customer";
         this.requestParams.type = "8";
-        this.queryPublicPool();
+        this.queryPublicPoolCustomer();
       } else {
         this.active = "clue";
+        this.queryPublicPoolClue();
       }
     },
     tabChange(val) {
@@ -95,10 +105,11 @@ export default {
       this.$refs.searchInputBar.inputValue = "";
       if (val === "clue") {
         // 线索
+        this.queryPublicPoolClue();
       } else {
         this.requestParams.type = "8";
         // 公海客户
-        this.queryPublicPool();
+        this.queryPublicPoolCustomer();
       }
     }
   }
