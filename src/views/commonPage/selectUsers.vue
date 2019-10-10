@@ -104,6 +104,7 @@ export default {
     // customerDetailsShare => 从客户详情的分享
     // commonWatersClue => 从公海线索里面点进来
     // commonWatersCustomer => 从公海客户里面点进来
+    // clue => 线索分享
     type() {
       return this.$route.params.type;
     }
@@ -180,6 +181,9 @@ export default {
           break;
         case "customerDetailsShare":
           shareApi = Api.customerShareToUsers;
+          break;
+        case "clue":
+          shareApi = this.api.clueShare;
           break;
       }
       shareApi(params).then(() => {

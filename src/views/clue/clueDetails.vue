@@ -9,11 +9,10 @@
   <div class="clueDetails">
     <AppBar
       pageTitle="线索详情"
-      isDrawer
-      drawerIcon="icon-guolv"
       rightIcon="icon-tianjia"
       isMenu
       :menuList="menuList"
+      @menuChange="menuChange"
     ></AppBar>
     <div class="content">
       <mu-paper :z-depth="0" class="infoCard">
@@ -22,26 +21,23 @@
             <img :src="loadingImg('defaultImg.png')" />
           </div>
           <div class="info">
-            <div class="name">
-              <span>张三</span>
-              <img :src="loadingImg('female.png')" />
-            </div>
-            <div class="clueDate">{{ clueDate | formatDate}}</div>
+            <div class="name"> <span>{{info.createUserName}}</span> </div>
+            <div class="clueDate">{{info.createTime}}</div>
           </div>
         </div>
         <mu-divider shallow-inset></mu-divider>
         <mu-list>
           <mu-list-item>
             <mu-list-item-title>创建人</mu-list-item-title>
-            <mu-list-item-action>张三</mu-list-item-action>
+            <mu-list-item-action>{{info.createUserName}}</mu-list-item-action>
           </mu-list-item>
           <mu-list-item>
             <mu-list-item-title>线索来源</mu-list-item-title>
-            <mu-list-item-action>到店</mu-list-item-action>
+            <mu-list-item-action>{{info.leadsSource}}</mu-list-item-action>
           </mu-list-item>
           <mu-list-item>
             <mu-list-item-title>电话号码</mu-list-item-title>
-            <mu-list-item-action>13111866951</mu-list-item-action>
+            <mu-list-item-action>{{info.mobile}}</mu-list-item-action>
           </mu-list-item>
         </mu-list>
       </mu-paper>
@@ -50,184 +46,184 @@
         <mu-tab>基本信息</mu-tab>
       </mu-tabs>
       <div class="followUprecord" v-if="active === 0">
-        <Record :record="[]"></Record>
+        <Record :record="record"></Record>
       </div>
       <div class="basicsInfo" v-if="active === 1">
-        <mu-list v-if="infoType === '买车'">
+        <mu-list v-if="info.leadsType === '买车线索'">
           <mu-list-item>
             <mu-list-item-content>
               <mu-list-item-title>是否驾车</mu-list-item-title>
-              <mu-list-item-sub-title>是</mu-list-item-sub-title>
+              <mu-list-item-sub-title>{{info.isDriving}}</mu-list-item-sub-title>
             </mu-list-item-content>
           </mu-list-item>
           <mu-divider shallow-inset></mu-divider>
           <mu-list-item>
             <mu-list-item-content>
               <mu-list-item-title>所驾车型</mu-list-item-title>
-              <mu-list-item-sub-title>福特翼虎</mu-list-item-sub-title>
+              <mu-list-item-sub-title>{{info.drivingModel}}</mu-list-item-sub-title>
             </mu-list-item-content>
           </mu-list-item>
           <mu-divider shallow-inset></mu-divider>
           <mu-list-item>
             <mu-list-item-content>
               <mu-list-item-title>兴趣车型</mu-list-item-title>
-              <mu-list-item-sub-title>福特野马</mu-list-item-sub-title>
+              <mu-list-item-sub-title>{{info.interestedModel}}</mu-list-item-sub-title>
             </mu-list-item-content>
           </mu-list-item>
           <mu-divider shallow-inset></mu-divider>
           <mu-list-item>
             <mu-list-item-content>
               <mu-list-item-title>车身颜色</mu-list-item-title>
-              <mu-list-item-sub-title>白</mu-list-item-sub-title>
+              <mu-list-item-sub-title>{{info.carColor}}</mu-list-item-sub-title>
             </mu-list-item-content>
           </mu-list-item>
           <mu-divider shallow-inset></mu-divider>
           <mu-list-item>
             <mu-list-item-content>
               <mu-list-item-title>内饰颜色</mu-list-item-title>
-              <mu-list-item-sub-title>棕/白</mu-list-item-sub-title>
+              <mu-list-item-sub-title>{{info.InteriorColor}}</mu-list-item-sub-title>
             </mu-list-item-content>
           </mu-list-item>
           <mu-divider shallow-inset></mu-divider>
           <mu-list-item>
             <mu-list-item-content>
               <mu-list-item-title>对比车型</mu-list-item-title>
-              <mu-list-item-sub-title>马自达</mu-list-item-sub-title>
+              <mu-list-item-sub-title>{{info.contrastModel}}</mu-list-item-sub-title>
             </mu-list-item-content>
           </mu-list-item>
           <mu-divider shallow-inset></mu-divider>
           <mu-list-item>
             <mu-list-item-content>
               <mu-list-item-title>下次联系时间</mu-list-item-title>
-              <mu-list-item-sub-title>{{ Date.now() | formatDate}}</mu-list-item-sub-title>
+              <mu-list-item-sub-title>{{info.nextTime}}</mu-list-item-sub-title>
             </mu-list-item-content>
           </mu-list-item>
           <mu-divider shallow-inset></mu-divider>
           <mu-list-item>
             <mu-list-item-content>
               <mu-list-item-title>备注</mu-list-item-title>
-              <mu-list-item-sub-title>有购买意向</mu-list-item-sub-title>
+              <mu-list-item-sub-title>{{info.remark}}</mu-list-item-sub-title>
             </mu-list-item-content>
           </mu-list-item>
         </mu-list>
 
-        <mu-list v-if="infoType === '车险'">
+        <mu-list v-if="info.leadsType === '车险线索'">
           <mu-list-item>
             <mu-list-item-content>
               <mu-list-item-title>产品名称</mu-list-item-title>
-              <mu-list-item-sub-title>万网销售产品</mu-list-item-sub-title>
+              <mu-list-item-sub-title>{{info.productName}}</mu-list-item-sub-title>
             </mu-list-item-content>
           </mu-list-item>
           <mu-divider shallow-inset></mu-divider>
           <mu-list-item class="textWaperItem">
             <mu-list-item-content>
               <mu-list-item-title>套餐内容</mu-list-item-title>
-              <div class="textWaper">有线WA(GH)20台+中国人寿三年盗抢险+软件套餐九</div>
+              <div class="textWaper">{{info.packageContent}}</div>
             </mu-list-item-content>
           </mu-list-item>
           <mu-divider shallow-inset></mu-divider>
           <mu-list-item>
             <mu-list-item-content>
               <mu-list-item-title>单价</mu-list-item-title>
-              <mu-list-item-sub-title>{{1000 | formatCurrency}}</mu-list-item-sub-title>
+              <mu-list-item-sub-title>{{info.unitPrice | formatCurrency('元')}}</mu-list-item-sub-title>
             </mu-list-item-content>
           </mu-list-item>
           <mu-divider shallow-inset></mu-divider>
           <mu-list-item>
             <mu-list-item-content>
               <mu-list-item-title>数量</mu-list-item-title>
-              <mu-list-item-sub-title>2套</mu-list-item-sub-title>
+              <mu-list-item-sub-title>{{info.amount}}</mu-list-item-sub-title>
             </mu-list-item-content>
           </mu-list-item>
           <mu-divider shallow-inset></mu-divider>
           <mu-list-item>
             <mu-list-item-content>
               <mu-list-item-title>总金额</mu-list-item-title>
-              <mu-list-item-sub-title>{{2000 | formatCurrency}}</mu-list-item-sub-title>
+              <mu-list-item-sub-title>{{info.totalaMount | formatCurrency('元')}}</mu-list-item-sub-title>
             </mu-list-item-content>
           </mu-list-item>
           <mu-divider shallow-inset></mu-divider>
           <mu-list-item>
             <mu-list-item-content>
               <mu-list-item-title>质保期</mu-list-item-title>
-              <mu-list-item-sub-title>三年</mu-list-item-sub-title>
+              <mu-list-item-sub-title>{{info.warranty}}</mu-list-item-sub-title>
             </mu-list-item-content>
           </mu-list-item>
           <mu-divider shallow-inset></mu-divider>
           <mu-list-item>
             <mu-list-item-content>
               <mu-list-item-title>下次联系时间</mu-list-item-title>
-              <mu-list-item-sub-title>{{ Date.now() | formatDate}}</mu-list-item-sub-title>
+              <mu-list-item-sub-title>{{info.nextTime}}</mu-list-item-sub-title>
             </mu-list-item-content>
           </mu-list-item>
           <mu-divider shallow-inset></mu-divider>
           <mu-list-item>
             <mu-list-item-content>
               <mu-list-item-title>备注</mu-list-item-title>
-              <mu-list-item-sub-title>有购买意向</mu-list-item-sub-title>
+              <mu-list-item-sub-title>{{info.remark}}</mu-list-item-sub-title>
             </mu-list-item-content>
           </mu-list-item>
         </mu-list>
 
-        <mu-list v-if="infoType === '车贷'">
+        <mu-list v-if="info.leadsType === '车贷线索'">
           <mu-list-item>
             <mu-list-item-content>
               <mu-list-item-title>兴趣车型</mu-list-item-title>
-              <mu-list-item-sub-title>福特野马</mu-list-item-sub-title>
+              <mu-list-item-sub-title>{{info.interestedModel}}</mu-list-item-sub-title>
             </mu-list-item-content>
           </mu-list-item>
           <mu-divider shallow-inset></mu-divider>
           <mu-list-item>
             <mu-list-item-content>
               <mu-list-item-title>车身颜色</mu-list-item-title>
-              <mu-list-item-sub-title>白</mu-list-item-sub-title>
+              <mu-list-item-sub-title>{{info.carColor}}</mu-list-item-sub-title>
             </mu-list-item-content>
           </mu-list-item>
           <mu-divider shallow-inset></mu-divider>
           <mu-list-item>
             <mu-list-item-content>
               <mu-list-item-title>内饰颜色</mu-list-item-title>
-              <mu-list-item-sub-title>棕/白</mu-list-item-sub-title>
+              <mu-list-item-sub-title>{{info.InteriorColor}}</mu-list-item-sub-title>
             </mu-list-item-content>
           </mu-list-item>
           <mu-divider shallow-inset></mu-divider>
           <mu-list-item>
             <mu-list-item-content>
               <mu-list-item-title>对比车型</mu-list-item-title>
-              <mu-list-item-sub-title>马自达</mu-list-item-sub-title>
+              <mu-list-item-sub-title>{{info.contrastModel}}</mu-list-item-sub-title>
             </mu-list-item-content>
           </mu-list-item>
           <mu-divider shallow-inset></mu-divider>
           <mu-list-item>
             <mu-list-item-content>
               <mu-list-item-title>贷款金额</mu-list-item-title>
-              <mu-list-item-sub-title>{{80000 | formatCurrency}}</mu-list-item-sub-title>
+              <mu-list-item-sub-title>{{info.loansAmount | formatCurrency_wan}}</mu-list-item-sub-title>
             </mu-list-item-content>
           </mu-list-item>
           <mu-divider shallow-inset></mu-divider>
           <mu-list-item>
             <mu-list-item-content>
               <mu-list-item-title>贷款期限</mu-list-item-title>
-              <mu-list-item-sub-title>24个月</mu-list-item-sub-title>
+              <mu-list-item-sub-title>{{info.loanPeriod}} 个月</mu-list-item-sub-title>
             </mu-list-item-content>
           </mu-list-item>
           <mu-divider shallow-inset></mu-divider>
           <mu-list-item>
             <mu-list-item-content>
               <mu-list-item-title>下次联系时间</mu-list-item-title>
-              <mu-list-item-sub-title>{{ Date.now() | formatDate}}</mu-list-item-sub-title>
+              <mu-list-item-sub-title>{{info.nextTime}}</mu-list-item-sub-title>
             </mu-list-item-content>
           </mu-list-item>
           <mu-divider shallow-inset></mu-divider>
           <mu-list-item>
             <mu-list-item-content>
               <mu-list-item-title>备注</mu-list-item-title>
-              <mu-list-item-sub-title>有购买意向</mu-list-item-sub-title>
+              <mu-list-item-sub-title>{{info.remark}}</mu-list-item-sub-title>
             </mu-list-item-content>
           </mu-list-item>
         </mu-list>
       </div>
-      <FootNav :list="bottomList" @footNavChange="dial(13111866951)"></FootNav>
+      <FootNav :list="bottomList" @footNavChange="dial(info.mobile)"></FootNav>
     </div>
   </div>
 </template>
@@ -244,42 +240,40 @@ export default {
   },
   data() {
     return {
-      active: 1,
-      infoType: '车贷',
+      active: 0,
+      infoType: '买车',
       clueDate: Date.now(),
+      info:{},
       menuList: [
         {
           title: "分享",
           linkName: "",
-          isLink: true
+          isLink: false
         },
         {
-          title: "转为联系人",
+          title: "转换为联系人",
           linkName: "",
-          isLink: true
+          isLink: false
         },
         {
-          title: "转为客户",
+          title: "转换为客户",
           linkName: "",
-          isLink: true
+          isLink: false
         },
         {
           title: "放入公海",
           linkName: "",
-          isLink: true
+          isLink: false
         },
         {
           title: "关闭",
           linkName: "",
-          isLink: true
+          isLink: false
         },
         {
           title: "编辑",
           linkName: "editBasicsInfo",
-          isLink: true,
-          linkParams:{
-            title:`编辑买车线索`
-          }
+          isLink: false
         },
         {
           title: "删除",
@@ -289,22 +283,144 @@ export default {
       ],
 
       bottomList: [
-        {
+        
+      ]
+    };
+  },
+  created() {
+    this.api.getClueDetails({leadsId:this.$route.params.id}).then(res=>{
+      if(res.msg !== 'success') this.$toast.warning('线索详情获取失败!');
+      this.info = res.data;
+      if(this.info.followup === '未跟进' || this.info.followup === '已跟进'){
+        this.bottomList.push({
           img: '../../../static/images/buttom-write-follow.png',
           label: "写跟进",
           linkName: "writeFollowup",
           isLink: true,
-          type: "writeFollow"
-        },
-        {
+          type: "writeFollow",
+          linkParams: { id: this.$route.params.id }
+        },{
           img: '../../../static/images/buttom-call.png',
           label: "打电话",
           linkName: "myInfoChild",
           isLink: false,
           type: "call"
-        }
-      ]
-    };
+        })
+      }else{
+        this.bottomList = [{
+          img: '../../../static/images/buttom-call.png',
+          label: "打电话",
+          linkName: "myInfoChild",
+          isLink: false,
+          type: "call"
+        }]
+      }
+    })
+    this.api.getClueFollowUp({leadsId:this.$route.params.id}).then(res=>{
+      if(res.msg !== 'success') this.$toast.warning('跟进记录获取失败!');
+      this.record = res.data;
+    })
+  },
+  methods: {
+    menuChange(data){
+      let {title} = {...data}
+      switch (title) {
+        case '编辑':
+          let type = this.getType(this.info.leadsType)
+          this.goPage('editBasicsInfo',{state:'edit',type:type,id:this.$route.params.id})
+          break;
+        case '分享':
+          this.$confirm('是否分享此线索 ?', '提示').then(res=>{
+            if(res.result){
+              this.goPage('selectUsers',{id:this.$route.params.id,type:'clue'})
+            }
+          })
+          break;
+        case '转换为联系人':
+          this.$confirm('是否将此线索转换为联系人 ?', '提示').then(res=>{
+            if(res.result){
+              this.api.clueToContact({leadsIds:this.$route.params.id}).then(res=>{
+                if(res.msg === 'success'){
+                  this.$toast.success('已转化为联系人!');
+                  this.$router.go(-1);
+                }else{
+                  this.$toast.error('转化为联系人失败!');
+                }
+              })
+            }
+          })
+          break;
+        case '转换为客户':
+          this.$confirm('是否将此线索转换为客户 ?', '提示').then(res=>{
+            if(res.result){
+              this.api.clueToCustomer({leadsIds:this.$route.params.id}).then(res=>{
+                if(res.msg === 'success'){
+                  this.$toast.success('已转化为客户!')
+                  this.$router.go(-1);
+                }else{
+                  this.$toast.error('转化为客户失败!');
+                }
+              })
+            }
+          })
+          break;
+        case '放入公海':
+          this.$confirm('是否将此线索放入公海 ?', '提示').then(res=>{
+            if(res.result){
+              this.api.cluePutWaters({ids:this.$route.params.id}).then(res=>{
+                if(res.msg === 'success'){
+                  this.$toast.success('已放入公海!')
+                  this.$router.go(-1);
+                }else{
+                  this.$toast.error('放入公海失败!');
+                }
+              })
+            }
+          })
+          break;
+        case '关闭':
+          this.$confirm('是否关闭此线索 ?', '提示').then(res=>{
+            if(res.result){
+              this.api.clueClose({leadsId:this.$route.params.id}).then(res=>{
+                if(res.msg === 'success'){
+                  this.$toast.success('已关闭!')
+                  this.$router.go(-1);
+                }else{
+                  this.$toast.error('关闭失败!');
+                }
+              })
+            }
+          })
+          break;
+        case '删除':
+          this.$confirm('是否删除此线索 ?', '提示').then(res=>{
+            if(res.result){
+              this.api.clueDelete({leadsIds:this.$route.params.id}).then(res=>{
+                if(res.msg === 'success'){
+                  this.$toast.success('已删除!')
+                  this.getClueList();
+                }else{
+                  this.$toast.error('删除失败!');
+                }
+              })
+            }
+          })
+          break;
+      }
+    },
+    getType(leadsType){
+      switch (leadsType) {
+        case '车险线索':
+          return '5'
+          break;
+        case '买车线索':
+          return '6'
+          break;
+        case '车贷线索':
+          return '7'
+          break;
+      }
+    }
   }
 };
 </script>
@@ -342,11 +458,6 @@ export default {
             display: flex;
             align-items: center;
             padding-bottom: 2px;
-            img {
-              width: 20px;
-              height: 20px;
-              margin-left: 6px;
-            }
           }
           .clueDate {
             font-size: 14px;

@@ -76,8 +76,7 @@ export default {
       generalFormVue.$refs.form.validate().then(result => {
         if (result) {
           let reqData = this.dataHandle({...generalFormVue.form});
-          console.log(reqData)
-          // 010-87655210 reqData
+          // 010-87655210
           this.api.addClue(reqData).then(res => {
             this.$toast.success({
               message: res.msg

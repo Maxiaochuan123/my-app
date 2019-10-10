@@ -145,6 +145,9 @@ export default {
     },
     formatCurrency(money) {
       return tool.formatCurrency(money);
+    },
+    formatCurrency_wan(money) {
+      return tool.formatCurrency_wan(money);
     }
   }
 };

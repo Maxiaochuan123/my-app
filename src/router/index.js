@@ -62,7 +62,7 @@ const router = new Router({
           component: () => import("../views/contacts/contacts.vue")
         },
         {
-          path: "/contactsDetails/:id",
+          path: "/contactsDetails/:id/:type?",
           name: "contactsDetails",
           meta: { zIndex: 1 },
           component: () => import("../views/contacts/contactsDetails.vue")
@@ -105,7 +105,7 @@ const router = new Router({
           component: () => import("../views/clue/myClue.vue")
         },
         {
-          path: "/clueDetails",
+          path: "/clueDetails/:id/:type?",
           name: "clueDetails",
           meta: { zIndex: 1 },
           component: () => import("../views/clue/clueDetails.vue")

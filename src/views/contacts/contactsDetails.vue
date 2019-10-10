@@ -160,7 +160,8 @@ export default {
           label: "写跟进",
           linkName: "writeFollowup",
           isLink: true,
-          type: "writeFollow"
+          type: "writeFollow",
+          linkParams: { id: this.$route.params.id }
         },
         {
           img: '../../../static/images/buttom-call.png',
@@ -207,6 +208,7 @@ export default {
               this.goPage('selectUsers',{id:this.$route.params.id,type:'contactsDetailsShare'})
             }
           })
+          break;
       }
     }
   }

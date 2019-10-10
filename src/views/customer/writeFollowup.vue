@@ -30,6 +30,9 @@ export default {
   computed: {
     id() {
       return this.$route.params.id;
+    },
+    type(){
+      return this.$route.params.type;
     }
   },
   data() {
@@ -80,19 +83,21 @@ export default {
     customFnc() {
       // 保存
       let addFollowUpRecordApi
-      if(this.$route.params.type && this.$route.params.type === '联系人'){
+      if(this.type === '联系人'){
         addFollowUpRecordApi = this.api.addContactsFollowUp;
+      }else if(this.type === '线索'){
+        addFollowUpRecordApi = this.api.addClueFollowUp;
       }else{
         addFollowUpRecordApi = Api.addCustomerFollowUpRecord;
       }
       const generalFormVue = this.$refs.generalForm;
       generalFormVue.$refs.form.validate().then(result => {
         if (result) {
-          addFollowUpRecordApi({
-            ...generalFormVue.form,
-            typesId: this.id,
-            isEvent:0
-          }).then(res => {
+          let params = { ...generalFormVue.form,typesId: this.id}
+          if(this.type !== '联系人' || this.type !== '线索'){
+            params.isEvent = 0
+          }
+          addFollowUpRecordApi(params).then(res => {
             this.$toast.success({
               message: "新增成功"
             });
