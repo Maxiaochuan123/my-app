@@ -55,12 +55,15 @@ export default {
   methods: {
     toDetails(row) {
       // 进入线索的详情
-      this.goPage("clueDetails", { id: row.id, type: "commonWatersClue" });
+      this.goPage("clueDetails", { id: row.leadsId, type: "commonWatersClue" });
     },
     btnChange(row, type) {
       if (type === "distribute") {
         // 分配
-        this.goPage("selectUsers", { id: row.id, type: "commonWatersClue" });
+        this.goPage("selectUsers", {
+          id: row.leadsId,
+          type: "commonWatersClue"
+        });
       } else if (type === "receive") {
         // 领取
         this.$confirm("是否领取此线索?", "提示").then(({ result, value }) => {
