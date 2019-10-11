@@ -9,7 +9,7 @@
   <div class="search-bar">
     <div class="serchInput">
       <mu-icon size="16" value=":iconfont icon-sousuo"></mu-icon>
-      <mu-select filterable full-width v-model="search.value" :placeholder="placeholderText">
+      <mu-select full-width v-model="search.value" :placeholder="placeholderText">
         <mu-option
           v-for="(item,index) in searchList"
           :key="index"
@@ -114,13 +114,14 @@ export default {
     color: @regular-text;
     background-color: @primary-border;
 
-    /deep/ .mu-input {
+    .mu-input {
       min-height: 32px;
       margin-bottom: 0;
       padding-bottom: 0;
       padding-top: 0;
+      padding-left:6px;
 
-      /deep/ .mu-select-action,
+      .mu-select-action,
       .mu-input-line,
       .mu-input-focus-line {
         display: none;

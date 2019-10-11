@@ -88,8 +88,9 @@ export default {
 };
 </script>
 
-<style scoped lang="less">
+<style lang="less">
 .contacts {
+  
   .content {
     width: 100vw;
     height: 100vh;
@@ -98,9 +99,6 @@ export default {
     bottom: 0;
 
     .organization{
-      .mu-list{
-        padding: 0;
-      }
       position: fixed;
       top: 104px;
       width: 100vw;
@@ -112,14 +110,15 @@ export default {
     }
 
     .user-index{
-      list-style-type: none;
-      display: flex;
-      justify-content: flex-start;
-      align-items: center;
+      // display: flex;
+      // justify-content: flex-start;
+      // align-items: center;
       color: @regular-text;
       height: 66px;
       padding: 0 20px;
+      padding-top: 12px;
       position: relative;
+      // background-color: dodgerblue;
       
       img {
         border-radius: 50%;
@@ -127,7 +126,10 @@ export default {
         height: 40px;
       }
       div {
-        width: 86%;
+        position: absolute;
+        top: 0;
+        left: 60px;
+        width: 78%;
         margin-left: 20px;
         padding: 12px 0;
         
@@ -150,8 +152,8 @@ export default {
           font-size: 22px;
           color: @primary;
           position: absolute;
-          top: 24px;
-          right: 36px;
+          top: 18px;
+          right: 34px;
         }
         
       }

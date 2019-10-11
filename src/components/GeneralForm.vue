@@ -115,7 +115,7 @@
               container="bottomSheet"
               v-else-if="dateTimeArr.indexOf(item.type) > -1"
               v-model="form[item.fieldName]"
-              value-format="YYYY-MM-DD HH:mm"
+              value-format="YYYY-MM-DDThh:mm:ss"
             ></mu-date-input>
           </mu-form-item>
           <mu-divider v-if="item.htmlHidden!==1"></mu-divider>

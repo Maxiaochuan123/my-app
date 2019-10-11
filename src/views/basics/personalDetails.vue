@@ -83,6 +83,7 @@ export default {
         this.$toast.success({
           message: res.msg
         });
+        this.$store.commit('setBottomNav','home')
         tool.signOut();
       });
     }

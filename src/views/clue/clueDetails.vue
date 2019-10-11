@@ -9,7 +9,7 @@
   <div class="clueDetails">
     <AppBar
       pageTitle="线索详情"
-      rightIcon="icon-tianjia"
+      rightIcon="icon-gengduo1"
       isMenu
       :menuList="menuList"
       @menuChange="menuChange"
@@ -244,6 +244,7 @@ export default {
       infoType: '买车',
       clueDate: Date.now(),
       info:{},
+      record:[],
       menuList: [
         {
           title: "分享",

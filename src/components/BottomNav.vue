@@ -7,9 +7,9 @@
  -->
 <template>
   <div class="bottom-nav">
-    <mu-bottom-nav :value.sync="shift" color="primary">
-      <mu-bottom-nav-item value="movies" title="Home" icon=":iconfont icon-shouye" to="/home"></mu-bottom-nav-item>
-      <mu-bottom-nav-item value="music" title="MyInfo" icon=":iconfont icon-wode" to="/myInfo"></mu-bottom-nav-item>
+    <mu-bottom-nav :value="activeNav" @change="navChange" color="primary">
+      <mu-bottom-nav-item value="home" title="Home" icon=":iconfont icon-shouye" to="/home"></mu-bottom-nav-item>
+      <mu-bottom-nav-item value="myInfo" title="MyInfo" icon=":iconfont icon-wode" to="/myInfo"></mu-bottom-nav-item>
     </mu-bottom-nav>
   </div>
 </template>
@@ -19,8 +19,13 @@ export default {
   name: "bottom-nav",
   data() {
     return {
-      shift: 'movies'
+      activeNav: this.$store.state.bottomNav
     };
+  },
+  methods:{
+    navChange(val){
+      this.$store.commit('setBottomNav',val)
+    }
   }
 };
 </script>

@@ -9,7 +9,7 @@
   <div class="clueDetails">
     <AppBar
       pageTitle="个人信息"
-      rightIcon="icon-tianjia"
+      rightIcon="icon-gengduo1"
       isMenu
       :menuList="menuList"
       @menuChange="menuChange"

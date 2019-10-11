@@ -37,7 +37,7 @@ export default {
     .mu-tabs-center{
       justify-content: space-around;
       padding-top: 5px;
-      /deep/ .mu-tab-wrapper{
+      .mu-tab-wrapper{
         padding: 15px 0 9px;
       }
     }

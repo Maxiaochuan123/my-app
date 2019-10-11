@@ -112,7 +112,7 @@ export default {
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped lang="less">
 .indexs-list {
-  background-color: #fff;
+  // background-color: #fff;
   height: 100%;
   overflow-y: scroll;
 }
@@ -120,7 +120,7 @@ export default {
 .singer {
   width: 100%;
   height: 100%;
-  background-color: #fff;
+  // background-color: #fff;
 }
 
 .singer-top-tag {
@@ -146,7 +146,9 @@ export default {
   color: @regular-text;
   background-color: @auxiliary;
 }
-
+.singer-ul-li ul li{
+  background-color: #fff;
+}
 .singer-ul-li ul li:last-child{
   div div{
     border: none !important;

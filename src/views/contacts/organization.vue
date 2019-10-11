@@ -203,12 +203,12 @@ export default {
       .active{
         background-color: #d3d3d3;
       }
-      .mu-list{
-        padding: 0;
-        /deep/ .mu-item{
-          height:46px;
-        }
-      }
+      // .mu-list{
+      //   padding: 0;
+      //   /deep/ .mu-item{
+      //     height:46px;
+      //   }
+      // }
       .listTitle{
         color: @primary-text;
         font-size: @primary-size;

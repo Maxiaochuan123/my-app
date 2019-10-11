@@ -270,7 +270,7 @@ export default {
         margin-top: 12px;
       }
 
-      /deep/ .mu-tabs{
+      .mu-tabs{
         position: fixed;
         top: 44px;
         z-index: 9;

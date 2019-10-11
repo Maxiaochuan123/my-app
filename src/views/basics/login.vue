@@ -151,7 +151,7 @@ export default {
   }
 }
 </style>
-<style lang='less' scoped>
+<style lang='less'>
 .login {
   position: relative;
   width: 100%;
