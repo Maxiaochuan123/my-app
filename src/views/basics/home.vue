@@ -8,63 +8,120 @@
 <template>
   <div class="home">
     <AppBar
-      :leftIcon="leftIcon"
-      :iconSize="iconSize"
-      :pageTitle="pageTitle"
-      :isDrawer="isDrawer"
       :drawerIcon="drawerIcon"
+      :iconSize="iconSize"
+      :isDrawer="isDrawer"
       :isMenu="isMenu"
+      :leftIcon="leftIcon"
+      :leftLinkName="leftLinkName"
       :menuList="menuList"
+      :pageTitle="pageTitle"
       :rightIcon="rightIcon"
       :rightLinkName="rightLinkName"
-      :leftLinkName="leftLinkName"
     >
       <!-- 抽屉 -->
       <div slot="drawerContent">
-        <mu-button color="primary" @click="changeTheme('theme_one')">
-          theme_one
-        </mu-button>
-        <mu-button color="orange" @click="changeTheme('theme_two')">
-          theme_two
-        </mu-button>
-        <mu-button color="red" @click="changeTheme('theme_three')">
-          Btheme_three
-        </mu-button>
+        <mu-button
+          @click="changeTheme('theme_one')"
+          color="primary"
+        >theme_one</mu-button>
+        <mu-button
+          @click="changeTheme('theme_two')"
+          color="orange"
+        >theme_two</mu-button>
+        <mu-button
+          @click="changeTheme('theme_three')"
+          color="red"
+        >Btheme_three</mu-button>
       </div>
     </AppBar>
-    
+
     <div class="content">
-      <mu-paper :z-depth="1" class="blockNav">
-        <mu-carousel :cycle="false" :hide-controls="true">
+      <mu-paper
+        :z-depth="1"
+        class="blockNav"
+      >
+        <mu-carousel
+          :cycle="false"
+          :hide-controls="true"
+        >
           <mu-carousel-item>
             <div class="gridNav">
               <div class="row">
-                <div @click="goPage('clue')"><img :src="loadingImg('clue.png')"><span>线索</span></div>
-                <div @click="goPage('customerManage')"><img :src="loadingImg('customer.png')"><span>客户</span></div>
-                <div @click="goPage('commonWatersClue')"><img :src="loadingImg('pubSea.png')"><span>公海</span></div>
-                <div><img :src="loadingImg('toduList.png')"><span>待办</span></div>
+                <div @click="goPage('clue')">
+                  <img :src="loadingImg('clue.png')" />
+                  <span>线索</span>
+                </div>
+                <div @click="goPage('customerManage')">
+                  <img :src="loadingImg('customer.png')" />
+                  <span>客户</span>
+                </div>
+                <div @click="goPage('commonWatersClue')">
+                  <img :src="loadingImg('pubSea.png')" />
+                  <span>公海</span>
+                </div>
+                <div>
+                  <img :src="loadingImg('toduList.png')" />
+                  <span>待办</span>
+                </div>
               </div>
               <div class="row">
-                <div><img :src="loadingImg('daily.png')"><span>日报</span></div>
-                <div><img :src="loadingImg('visit.png')"><span>拜访</span></div>
-                <div><img :src="loadingImg('task.png')"><span>任务</span></div>
-                <div><img :src="loadingImg('order.png')"><span>订单</span></div>
+                <div>
+                  <img :src="loadingImg('daily.png')" />
+                  <span>日报</span>
+                </div>
+                <div>
+                  <img :src="loadingImg('visit.png')" />
+                  <span>拜访</span>
+                </div>
+                <div>
+                  <img :src="loadingImg('task.png')" />
+                  <span>任务</span>
+                </div>
+                <div>
+                  <img :src="loadingImg('order.png')" />
+                  <span>订单</span>
+                </div>
               </div>
             </div>
           </mu-carousel-item>
           <mu-carousel-item>
             <div class="gridNav">
               <div class="row">
-                <div><img :src="loadingImg('daily.png')"><span>考勤</span></div>
-                <div><img :src="loadingImg('daily.png')"><span>统计报表</span></div>
-                <div><img :src="loadingImg('daily.png')"><span>知识库</span></div>
-                <div><img :src="loadingImg('daily.png')"><span>查征信</span></div>
+                <div>
+                  <img :src="loadingImg('daily.png')" />
+                  <span>考勤</span>
+                </div>
+                <div>
+                  <img :src="loadingImg('daily.png')" />
+                  <span>统计报表</span>
+                </div>
+                <div>
+                  <img :src="loadingImg('daily.png')" />
+                  <span>知识库</span>
+                </div>
+                <div>
+                  <img :src="loadingImg('daily.png')" />
+                  <span>查征信</span>
+                </div>
               </div>
               <div class="row">
-                <div><img :src="loadingImg('daily.png')"><span>产品</span></div>
-                <div><img :src="loadingImg('daily.png')"><span>回款</span></div>
-                <div><img :src="loadingImg('daily.png')"><span>合同</span></div>
-                <div><img :src="loadingImg('daily.png')"><span>商机</span></div>
+                <div>
+                  <img :src="loadingImg('daily.png')" />
+                  <span>产品</span>
+                </div>
+                <div>
+                  <img :src="loadingImg('daily.png')" />
+                  <span>回款</span>
+                </div>
+                <div>
+                  <img :src="loadingImg('daily.png')" />
+                  <span>合同</span>
+                </div>
+                <div>
+                  <img :src="loadingImg('daily.png')" />
+                  <span>商机</span>
+                </div>
               </div>
             </div>
           </mu-carousel-item>
@@ -76,9 +133,9 @@
 </template>
 
 <script>
-import AppBar from '../../components/AppBar'
-import Theme from 'muse-ui/lib/theme';
-import myTheme from '../../../static/json/myTheme.json'
+import AppBar from "../../components/AppBar";
+import Theme from "muse-ui/lib/theme";
+import myTheme from "../../../static/json/myTheme.json";
 export default {
   components: {
     AppBar
@@ -109,7 +166,8 @@ export default {
         },
         {
           title: "新增客户",
-          linkName: "link3"
+          linkName: "addOrEditCustomer",
+          isLink: true
         },
         {
           title: "新增任务",
@@ -118,35 +176,34 @@ export default {
       ]
     };
   },
-  created(){
-    let activTheme = this.storage.localGet('theme');
-    if(activTheme){
-      Theme.add('theme_one',activTheme,'light')
-      Theme.use('theme_one')
-    }else{
-      this.storage.localSet('theme',myTheme[0])
+  created() {
+    let activTheme = this.storage.localGet("theme");
+    if (activTheme) {
+      Theme.add("theme_one", activTheme, "light");
+      Theme.use("theme_one");
+    } else {
+      this.storage.localSet("theme", myTheme[0]);
     }
   },
   methods: {
-    changeTheme(themeName){
-      let theme = {}
+    changeTheme(themeName) {
+      let theme = {};
 
-      switch(themeName){
-        case 'theme_one':
+      switch (themeName) {
+        case "theme_one":
           theme = myTheme[0];
           break;
-        case 'theme_two':
+        case "theme_two":
           theme = myTheme[1];
           break;
-        case 'theme_three':
+        case "theme_three":
           theme = myTheme[2];
           break;
       }
-      
-      Theme.add(themeName,theme,'light')
-      Theme.use(themeName)
-      this.storage.localSet('theme',theme)
 
+      Theme.add(themeName, theme, "light");
+      Theme.use(themeName);
+      this.storage.localSet("theme", theme);
     }
   }
 };
@@ -156,7 +213,7 @@ export default {
   .content {
     padding: 54px 15px;
 
-    .blockNav{
+    .blockNav {
       border-radius: 10px;
       .mu-carousel {
         height: 210px;
@@ -167,13 +224,13 @@ export default {
             width: 10px;
             height: 10px;
           }
-          .mu-carousel-indicator-button{
+          .mu-carousel-indicator-button {
             margin: 0 5px;
           }
           .mu-carousel-indicator-icon {
             width: 6px;
             height: 6px;
-            background-color: #9F9F9F;
+            background-color: #9f9f9f;
           }
         }
         .gridNav {
@@ -183,14 +240,14 @@ export default {
           flex-direction: column;
           justify-content: space-between;
           align-items: center;
-          
+
           .row {
             width: 100%;
             height: 95px;
             display: flex;
             justify-content: space-around;
             align-items: center;
-            
+
             div {
               height: 66px;
               display: flex;
@@ -198,11 +255,11 @@ export default {
               justify-content: center;
               align-items: center;
 
-              img{
+              img {
                 width: 40px;
                 height: 40px;
               }
-              span{
+              span {
                 font-size: 14px;
                 font-weight: 500;
                 color: @primary-text;
