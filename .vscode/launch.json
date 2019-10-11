@@ -23,16 +23,6 @@
         "webpack:///.static/*": "${webRoot}/*",
         "webpack:///static/*": "${webRoot}/*"
       }
-    },
-    {
-      "type": "chrome",
-      "request": "attach",
-      "name": "mac:chromeAttach",
-      "port": 9222,
-      "sourceMapPathOverrides": {
-        "webpack:///./src/*": "${webRoot}/*"
-      },
-      "webRoot": "${workspaceFolder}/src"
     }
   ]
 }
