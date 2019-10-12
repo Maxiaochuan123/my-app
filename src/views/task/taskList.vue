@@ -3,7 +3,7 @@
  * @Author: shenah
  * @Date: 2019-10-12 09:30:38
  * @LastEditors: shenah
- * @LastEditTime: 2019-10-12 15:47:59
+ * @LastEditTime: 2019-10-12 17:39:26
  -->
 
 <template>
@@ -49,13 +49,13 @@
           <div class="task-header">
             <img
               :src="loadingImg('selected.png')"
-              @click="select(item)"
+              @click.stop="select(item)"
               class="select"
               v-if="item.status === 5"
             />
             <img
               :src="loadingImg('no-selected-color.png')"
-              @click="select(item)"
+              @click.stop="select(item)"
               class="select"
               v-else
             />
