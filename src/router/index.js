@@ -198,6 +198,44 @@ const router = new Router({
                 import("../views/commonWaters/commonWatersPeople.vue")
             }
           ]
+        },
+        // 任务模块
+        // 新增或者编辑任务
+        {
+          path: "/addOrEditTask/:id?",
+          name: "addOrEditTask",
+          meta: { zIndex: 1 },
+          component: () => import("../views/task/addOrEditTask.vue")
+        },
+        // 任务列表
+        {
+          path: "/taskList",
+          name: "taskList",
+          meta: { zIndex: 1 },
+          component: () => import("../views/task/taskList.vue")
+        },
+        // 任务详情
+        {
+          path: "/taskDetails/:id",
+          name: "taskDetails",
+          meta: { zIndex: 1 },
+          component: () => import("../views/task/taskDetails.vue"),
+          children: [
+            // 客户详情记录
+            {
+              path: "taskRecord",
+              name: "taskRecord",
+              meta: { zIndex: 1 },
+              component: () => import("../views/task/taskRecord.vue")
+            },
+            // 客户详情基本信息
+            {
+              path: "taskBasic",
+              name: "taskBasic",
+              meta: { zIndex: 1 },
+              component: () => import("../views/task/taskBasic.vue")
+            }
+          ]
         }
       ]
     }

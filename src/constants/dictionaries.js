@@ -1,6 +1,9 @@
 /*
- * @Description: 字典(先写死)
+ * @Description: 字典表
  * @Author: shenah
+ * @Date: 2019-09-25 15:57:26
+ * @LastEditors: shenah
+ * @LastEditTime: 2019-10-12 15:33:45
  */
 
 // 跟进类型
@@ -32,5 +35,37 @@ export const FOLLOW_UP_TYPE = [
   {
     text: "活动",
     value: "活动"
+  }
+];
+
+// 任务状态
+export const TASK_STATUS = [
+  {
+    text: "正在进行",
+    value: 1
+  },
+  {
+    text: "延期",
+    value: 2
+  },
+  {
+    text: "结束",
+    value: 5
+  }
+];
+
+// 优先级
+export const PRIORITY = [
+  {
+    text: "低",
+    value: 1
+  },
+  {
+    text: "中",
+    value: 2
+  },
+  {
+    text: "高",
+    value: 3
   }
 ];

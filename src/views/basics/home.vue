@@ -74,7 +74,7 @@
                   <img :src="loadingImg('visit.png')" />
                   <span>拜访</span>
                 </div>
-                <div>
+                <div @click="goPage('taskList')">
                   <img :src="loadingImg('task.png')" />
                   <span>任务</span>
                 </div>
