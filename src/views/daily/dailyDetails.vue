@@ -70,14 +70,6 @@
       </div>
 
       <Comment @comment="comment"></Comment>
-      <!-- <div class="comment">
-        <div class="textareaBox">
-          <div class="textarea">
-            <mu-text-field v-model="value10" multi-line :rows="textareaRows" full-width placeholder="请输入内容..."></mu-text-field><br/>
-          </div>
-          <div class="commentBtn">回复</div>
-        </div>
-      </div> -->
 
     </div>
   </div>
@@ -136,7 +128,7 @@ export default {
       }
     },
     comment(data){
-      
+      console.log(data)
     }
   }
 }

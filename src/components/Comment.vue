@@ -4,13 +4,19 @@
       <div class="textarea">
         <mu-text-field v-model="textareaVal" multi-line :rows="0" full-width placeholder="请输入内容..."></mu-text-field>
       </div>
-      <div class="commentBtn" @click="comment">回复</div>
+      <div class="commentBtn" @click="comment">{{btnText}}</div>
     </div>
   </div>
 </template>
 
 <script>
 export default {
+  props:{
+    btnText:{
+      type: String,
+      default: '回复'
+    }
+  },
   data(){
     return{
       textareaVal:'',
