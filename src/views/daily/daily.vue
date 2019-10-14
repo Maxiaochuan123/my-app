@@ -1,11 +1,25 @@
 <template>
   <div class="daily">
-    <AppBar pageTitle="日报" isDrawer drawerIcon="icon-guolv" rightIcon="icon-tianjia" rightLinkName="addDaily" >
+    <AppBar pageTitle="日报" isDrawer drawerIcon="icon-guolv" rightIcon="icon-tianjia" rightLinkName="addDaily" :drawerList="drawerList">
       <!-- 抽屉 -->
-      <div slot="drawerContent">
-        <mu-button color="primary">
-          theme_one
-        </mu-button>
+      <div slot="drawerContent" class="drawerContent">
+        <div class="screen">
+          <div class="title">创建时间</div>
+          <div class="screenInput">
+            <span v-show="!drawerList.value7">请选择创建时间</span>
+            <i class="iconfont icon-rili"></i>
+            <mu-date-input ref="createTime" icon="today" v-model="drawerList.value7" type="date" label-float full-width container="bottomSheet"></mu-date-input>
+          </div>
+        </div>
+        <div class="screen">
+          <div class="title">截止时间</div>
+          <div class="screenInput">
+            <span v-show="!drawerList.value7">请选择截止时间</span>
+            <i class="iconfont icon-rili"></i>
+            <mu-date-input ref="createTime" icon="today" v-model="drawerList.value8" type="date" label-float full-width container="bottomSheet"></mu-date-input>
+          </div>
+        </div>
+
       </div>
     </AppBar>
     <div class="content">
@@ -71,19 +85,75 @@ export default {
   },
   data(){
     return{
-      active:0
+      active:0,
+      drawerList:{
+        value7:'',
+        value8:'',
+      }
     }
   },
   methods:{
     changeTabs(item){
       this.$store.commit('setActiveTabs',item)
-    },
+    }
   }
 }
 </script>
 
 <style lang="less" scoped >
   .daily{
+    .drawerContent{
+      .screen{
+        &:not(:first-child){
+          margin-top: 20px;
+        }
+        .title{
+          font-size: @primary-size;
+          color: @primary-text;
+          margin-bottom: 10px;
+        }
+        .screenInput{
+          height: 36px;
+          border-radius:6px;
+          border:1px solid #9f9f9f;
+          position: relative;
+          >span{
+            position: absolute;
+            left: 10px;
+            height: 36px;
+            line-height: 36px;
+            font-size: @regular-size;
+            color: @regular-text;
+          }
+          >i{
+            position: absolute;
+            right: 10px;
+            font-size: 24px;
+            color: @regular-text;
+          }
+          .mu-input{
+            margin: 0;
+            padding: 0;
+            min-height: 0;
+            /deep/ .mu-input-icon{
+              display: none;
+            }
+            /deep/ .mu-text-field-input{
+              padding-left: 10px;
+            }
+            /deep/ .mu-text-field{
+              width: 96%;
+              margin: 2px 0 0 4px;
+            }
+            // /deep/ .mu-input-label{
+            //   top: -20px;
+            //   left: 10px;
+            // }
+          }
+        }
+      }
+    }
+
     .content{
       padding-top: 94px;
       /deep/ .mu-expansion-panel{
