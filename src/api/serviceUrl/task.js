@@ -7,6 +7,8 @@ const getApi = url => `/task${url}`;
 export const QUERY_TASK_LIST = getApi("/queryPageTask");
 // 添加或者修改任务
 export const ADD_OR_EDIT_TASK = getApi("/addOrUpdate");
+// 根据id查询任务日志
+export const QUERY_TASK_RECORD_BY_ID = getApi("/queryTaskLog");
 // 根据id查询任务详情以及子任务
 export const QUERY_TASK_DETAILS_BY_ID = getApi("/queryTaskById");
 // 修改任务关联业务

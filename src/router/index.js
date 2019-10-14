@@ -251,6 +251,13 @@ const router = new Router({
               component: () => import("../views/task/taskBasic.vue")
             }
           ]
+        },
+        // 添加子任务
+        {
+          path: "/addOrEditSubTask/:id/:subId?",
+          name: "addOrEditSubTask",
+          meta: { zIndex: 1 },
+          component: () => import("../views/task/addOrEditSubTask.vue")
         }
       ]
     }

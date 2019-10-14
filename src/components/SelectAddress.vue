@@ -62,12 +62,11 @@
 </template>
 
 <script>
-import AppBar from "@components/AppBar";
 import { amapPullIn } from "@static/js/dynamicLib";
 import tools from "@static/js/tool";
 export default {
   name: "SelectAddress",
-  components: { AppBar },
+  components: {},
   data() {
     return {
       map: null,

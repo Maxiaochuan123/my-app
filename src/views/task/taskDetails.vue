@@ -3,7 +3,7 @@
  * @Author: shenah
  * @Date: 2019-10-12 14:29:46
  * @LastEditors: shenah
- * @LastEditTime: 2019-10-12 15:50:12
+ * @LastEditTime: 2019-10-14 19:22:46
  -->
 <template>
   <div class="task-details">
@@ -73,7 +73,7 @@
           replace
           to="taskRecord"
           value="record"
-        >跟进记录</mu-tab>
+        >相关记录</mu-tab>
         <mu-tab
           replace
           to="taskBasic"
@@ -110,6 +110,7 @@ export default {
       TASK_STATUS,
       PRIORITY,
       details: {}, // 详情
+      records: [], // 记录
       active: "basic", // 当前激活的(record=> 跟进记录,basic=> 基本信息)
       rightIcon: "icon-gengduo1",
       rightLinkName: "addOrEditCustomer",
@@ -120,13 +121,13 @@ export default {
   },
   props: {},
   mounted() {
-    this.judgeActiveTab();
     this.addBtnList();
-    this.queryDetails();
+    this.judgeActiveTab();
   },
   methods: {
     judgeActiveTab() {
-      if (this.$route.path.indexOf("customerRecord") > -1) {
+      this.queryDetails();
+      if (this.$route.path.indexOf("taskRecord") > -1) {
         this.active = "record";
       } else {
         this.active = "basic";

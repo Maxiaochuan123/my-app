@@ -3,12 +3,15 @@
  * @Author: shenah
  * @Date: 2019-10-12 17:16:43
  * @LastEditors: shenah
- * @LastEditTime: 2019-10-14 13:00:41
+ * @LastEditTime: 2019-10-14 19:58:22
  -->
 
 <template>
   <div class="relate-business">
-    <div class="basic-details-item no-border-bottom">
+    <div
+      :class="{'no-border-bottom':isHideLine}"
+      class="basic-details-item"
+    >
       <div class="basic-details-item-left">
         <div class="sub-title">关联业务</div>
       </div>
@@ -59,6 +62,10 @@
         </div>
       </div>
     </div>
+    <mu-divider
+      style="margin-top:12px;"
+      v-if="isHideLine"
+    ></mu-divider>
   </div>
 </template>
 
@@ -75,10 +82,8 @@ export default {
   components: {},
   data() {
     return {
+      isHideLine: false,
       open: false,
-      clues: [], // 线索
-      customers: [], // 客户
-      contacts: [], // 联系人
       menuList: [
         {
           name: "线索",
@@ -135,17 +140,33 @@ export default {
   },
   watch: {
     clueList(val) {
+      this.judgeShowLine(val);
       this.infoObj.clue.list = val;
     },
     contactsList(val) {
+      this.judgeShowLine(val);
       this.infoObj.contacts.list = val;
     },
     customerList(val) {
+      this.judgeShowLine(val);
       this.infoObj.customers.list = val;
     }
   },
   mounted() {},
   methods: {
+    judgeShowLine(val) {
+      if (val.length > 0) {
+        this.isHideLine = true;
+      } else {
+        if (
+          this.clueList.length === 0 &&
+          this.contactsList.length === 0 &&
+          this.customerList.length === 0
+        ) {
+          this.isHideLine = false;
+        }
+      }
+    },
     relate() {
       this.open = true;
     },
