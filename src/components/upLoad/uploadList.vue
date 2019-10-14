@@ -4,7 +4,7 @@
       <div class="title">附件</div>
       <div class="content">
         <UpLoadImages ref="imageRef" @parentImgLoad="parentImgLoad" @getImgSuccessList="getImgSuccessList"></UpLoadImages>
-        <UpLoadEnclosure ref="enclosureRef" @parentEnclosureLoad="parentEnclosureLoad"></UpLoadEnclosure>
+        <UpLoadEnclosure ref="enclosureRef" @parentEnclosureLoad="parentEnclosureLoad" @getEnclosureSuccessList="getEnclosureSuccessList"></UpLoadEnclosure>
       </div>
     </div>
 
@@ -105,6 +105,9 @@ export default {
   methods:{
     getImgSuccessList(data){
       this.$emit('getImgSuccessList',data);
+    },
+    getEnclosureSuccessList(data){
+       this.$emit('getEnclosureSuccessList',data);
     },
     parentImgLoad(data){
       this.imgPreviewList = data;

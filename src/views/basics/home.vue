@@ -60,13 +60,13 @@
                   <img :src="loadingImg('pubSea.png')" />
                   <span>公海</span>
                 </div>
-                <div>
+                <div @click="goPage('toDoList')">
                   <img :src="loadingImg('toduList.png')" />
                   <span>待办</span>
                 </div>
               </div>
               <div class="row">
-                <div>
+                <div @click="goPage('daily')">
                   <img :src="loadingImg('daily.png')" />
                   <span>日报</span>
                 </div>

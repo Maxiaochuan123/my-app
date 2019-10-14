@@ -99,12 +99,6 @@ const router = new Router({
           component: () => import("../views/clue/clue.vue")
         },
         {
-          path: "/myClue",
-          name: "myClue",
-          meta: { zIndex: 1 },
-          component: () => import("../views/clue/myClue.vue")
-        },
-        {
           path: "/clueDetails/:id/:type?",
           name: "clueDetails",
           meta: { zIndex: 1 },
@@ -116,20 +110,34 @@ const router = new Router({
           meta: { zIndex: 1 },
           component: () => import("../views/clue/editBasicsInfo.vue")
         },
+        // 待办列表
         {
-          path: "/upLoad",
-          name: "upLoad",
+          path: "/toDoList",
+          name: "toDoList",
           meta: { zIndex: 1 },
-          component: () => import("../components/upLoad/uploadList.vue")
+          component: () => import("../views/toDoList/toDoList.vue")
+        },
+        // 日报
+        {
+          path: "/daily",
+          name: "daily",
+          meta: { zIndex: 1 },
+          component: () => import("../views/daily/daily.vue")
         },
         {
-          path: "/upLoad2",
-          name: "upLoad2",
+          path: "/addDaily/:id?",
+          name: "addDaily",
           meta: { zIndex: 1 },
-          component: () => import("../components/upLoad/upLoadBasics.vue")
+          component: () => import("../views/daily/addDaily.vue")
         },
+        {
+          path: "/dailyDetails/:id/:type?",
+          name: "dailyDetails",
+          meta: { zIndex: 1 },
+          component: () => import("../views/daily/dailyDetails.vue")
+        },
+        
         // 客户
-        // 添加客户
         {
           path: "/addOrEditCustomer/:id?",
           name: "addOrEditCustomer",

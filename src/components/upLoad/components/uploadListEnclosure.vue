@@ -101,6 +101,7 @@ export default {
         });
       })
       this.$emit('parentEnclosureLoad',this.enclosureList);
+      this.$emit('getEnclosureSuccessList',{guid:this.$parent.guid,list:this.enclosureList});
       this.allUpload();
     }
   }

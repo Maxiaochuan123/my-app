@@ -46,4 +46,9 @@ export default {
   clueClose: params => post({ params, url: '/crmClew/closeClewFollowUpRecord' }),
   // 线索 删除
   clueDelete: params => post({ params, url: '/crmClew/clewDeleteByIds' }),
+
+
+  // ************************* 日报 *************************
+  //获取 评论
+  getComment: params => get({ params, url: '/workComment/queryReplyList' }),
 }
