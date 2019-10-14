@@ -4,8 +4,13 @@
  -->
 <template>
   <div class="foot-nav">
-    <div class="nav-item" v-for="(item,index) in list" :key="index" @click="navItem(item)">
-      <img :src="item.img"/>
+    <div
+      :key="index"
+      @click="navItem(item)"
+      class="nav-item"
+      v-for="(item,index) in list"
+    >
+      <img :src="item.img" />
       <div class="text">{{item.label}}</div>
     </div>
   </div>
@@ -33,9 +38,9 @@ export default {
   mounted() {},
   methods: {
     navItem(item) {
-      let { linkName, isLink,linkParams } = item;
+      let { linkName, isLink, linkParams } = item;
       if (isLink) {
-        this.goPage(linkName,linkParams);
+        this.goPage(linkName, linkParams);
       } else {
         this.$emit("footNavChange", item);
       }
@@ -51,17 +56,18 @@ export default {
   padding: 0 10px;
   flex-wrap: wrap;
   justify-content: space-around;
-  margin-top:20px;
+  margin-top: 20px;
   position: fixed;
   bottom: 0;
   height: 87px;
-  box-shadow:0px 16px 23px 0px rgba(159,159,159,1);
-  z-index:100;
+  box-shadow: 0px 16px 23px 0px rgba(159, 159, 159, 1);
+  z-index: 100;
   .nav-item {
     display: flex;
     margin: 6px 10px 6px 0;
     flex-direction: column;
     justify-content: center;
+    align-items: center;
     img {
       position: relative;
       width: 40px;

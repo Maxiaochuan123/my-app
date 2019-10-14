@@ -1,5 +1,9 @@
-/**
- * 动态引入插件js防止首页过慢
+/*
+ * @Description: 动态引入插件js防止首页过慢
+ * @Author: shenah
+ * @Date: 2019-09-29 11:23:33
+ * @LastEditors: shenah
+ * @LastEditTime: 2019-10-14 09:15:25
  */
 function asynLoading({ url, resolve, reject, target, async }) {
   let script = document.createElement("script");

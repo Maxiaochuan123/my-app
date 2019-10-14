@@ -2,11 +2,17 @@ import * as C from "../serviceUrl/customer";
 import post, { get } from "../api";
 /** 客户模块的 */
 export default {
-  // 查询客户
+  // 查询移动端客户
   queryCustomerList: params =>
     get({
       params,
       url: C.QUERY_CUSTOMER_LIST
+    }),
+  // 查询电脑端客户
+  queryCustomerListPC: params =>
+    get({
+      params,
+      url: C.QUERY_CUSTOMER_LIST_PC
     }),
   // 添加或者编辑客户
   addOrEditCustomer: params =>

@@ -1,7 +1,11 @@
-/**
- * @Description: 统一封装axios请求
+/*
+ * @Description: 封装axios
  * @Author: shenah
+ * @Date: 2019-09-25 15:57:26
+ * @LastEditors: shenah
+ * @LastEditTime: 2019-10-12 10:24:36
  */
+
 import Qs from "qs";
 import tool from "@static/js/tool";
 import axios from "axios";

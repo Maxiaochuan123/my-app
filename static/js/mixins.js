@@ -137,17 +137,31 @@ export default {
     // 加载加载图片防止打包后图片的路径不对
     loadingImg(imgName) {
       return require(`../images/${imgName}`);
-    },
+    }
   },
   filters: {
-    formatDate(timeStamp) {
+    formatDate(timeStamp, type) {
+      if (type === "date") {
+        return dayjs(timeStamp).format("YYYY-MM-DD");
+      }
       return dayjs(timeStamp).format("YYYY/MM/DD HH:mm:ss");
-    },
-    formatCurrency(money) {
-      return tool.formatCurrency(money);
     },
     formatCurrency_wan(money) {
       return tool.formatCurrency_wan(money);
+    },
+    codeInToName(value, list) {
+      // 对应的编码转化成name
+      if (!Array.isArray(list)) {
+        return "";
+      }
+      if (value !== null) {
+        const array = list.filter(item => item.value === value)[0];
+        if (array) {
+          return array.text;
+        }
+        return "";
+      }
+      return "";
     }
   }
 };
