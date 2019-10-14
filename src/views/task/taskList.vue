@@ -3,7 +3,7 @@
  * @Author: shenah
  * @Date: 2019-10-12 09:30:38
  * @LastEditors: shenah
- * @LastEditTime: 2019-10-12 17:39:26
+ * @LastEditTime: 2019-10-14 19:33:30
  -->
 
 <template>
@@ -40,37 +40,10 @@
         @refresh="refresh"
         class="list-wrap"
       >
-        <div
-          :key="index"
-          @click="toDetails(item)"
-          class="list-item"
-          v-for="(item,index) in listObj.list"
-        >
-          <div class="task-header">
-            <img
-              :src="loadingImg('selected.png')"
-              @click.stop="select(item)"
-              class="select"
-              v-if="item.status === 5"
-            />
-            <img
-              :src="loadingImg('no-selected-color.png')"
-              @click.stop="select(item)"
-              class="select"
-              v-else
-            />
-            <span class="task-header-title primary-words">{{item.name}}</span>
-            <div
-              :class="{'task-warn':item.status === 2}"
-              class="task-status"
-            >{{item.status | codeInToName(TASK_STATUS)}}</div>
-          </div>
-          <div class="creat-name regular-words">
-            <span>创建人:</span>
-            <span>{{item.createUser && item.createUser.realname}}</span>
-          </div>
-          <div class="time regular-words">{{item.stopTime | formatDate('date')}}截止</div>
-        </div>
+        <TaskItem
+          :list="listObj.list"
+          type="task"
+        ></TaskItem>
       </mu-load-more>
     </div>
   </div>
@@ -79,11 +52,12 @@
 <script>
 import { TASK_STATUS } from "@constants/dictionaries";
 import AppBar from "@components/AppBar.vue";
+import TaskItem from "./components/TaskItem.vue";
 import Api from "@api";
 import dayjs from "dayjs";
 export default {
   name: "taskList",
-  components: { AppBar },
+  components: { AppBar, TaskItem },
   data() {
     return {
       TASK_STATUS,
@@ -182,39 +156,6 @@ export default {
       background-color: #fff;
       padding: 0 15px;
       overflow: visible;
-      .list-item {
-        padding: 18px 0;
-        border-bottom: 1px solid @primary-border;
-        .task-header {
-          display: flex;
-          align-items: center;
-          .select {
-            width: 18px;
-            height: 18px;
-          }
-          .task-header-title {
-            flex: 1;
-            margin: 0 10px 0 6px;
-          }
-          .task-status {
-            text-align: right;
-            font-size: @primary-size;
-            font-weight: @primary-weight;
-            color: @regular-text;
-          }
-          .task-warn {
-            color: @primary;
-          }
-        }
-        .creat-name {
-          margin-top: 4px;
-          padding-left: 24px;
-        }
-        .time {
-          margin-top: 4px;
-          padding-left: 24px;
-        }
-      }
     }
   }
 }

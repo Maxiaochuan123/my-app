@@ -3,7 +3,7 @@
  * @Author: shenah
  * @Date: 2019-10-12 15:40:23
  * @LastEditors: shenah
- * @LastEditTime: 2019-10-14 12:26:16
+ * @LastEditTime: 2019-10-14 19:33:16
  -->
 <template>
   <div class="task-basic">
@@ -18,17 +18,25 @@
       :contactsList="$parent.details.contactsList"
       :customerList="$parent.details.customerList"
     ></RelateBusiness>
-    <div class="basic-details-item">
+    <div
+      :class="{'no-border-bottom':$parent.details.childTask && $parent.details.childTask.length > 0}"
+      class="basic-details-item"
+    >
       <div class="basic-details-item-left">
         <div class="sub-title">子任务</div>
       </div>
       <div class="basic-details-item-right">
         <mu-icon
+          @click="handleSubTask"
           color="primary"
           size="24"
           value=":iconfont icon-zirenwu"
         ></mu-icon>
       </div>
+    </div>
+    <!-- 子任务列表 -->
+    <div class="sub-task-list">
+      <TaskItem :list="$parent.details.childTask" type="subTask"></TaskItem>
     </div>
     <div class="upload-wrap no-border-bottom">
       <UploadList
@@ -42,6 +50,7 @@
 <script>
 import UploadList from "@components/upLoad/uploadList.vue";
 import RelateBusiness from "./components/RelateBusiness.vue";
+import TaskItem from "./components/TaskItem.vue";
 export default {
   name: "customerBasic",
   computed: {
@@ -50,15 +59,16 @@ export default {
       return this.$route.params.id;
     }
   },
-  components: { UploadList, RelateBusiness },
+  components: { UploadList, RelateBusiness, TaskItem },
   data() {
     return {};
   },
   props: {},
   mounted() {},
+
   methods: {
-    relate() {
-      // 关联任务
+    handleSubTask() {
+      this.goPage("addOrEditSubTask", { id: this.id });
     },
     getImgSuccessList(res) {
       // 处理上传
@@ -75,23 +85,7 @@ export default {
   .upload-wrap {
     padding: 12px 0 12px 0;
   }
-}
-.task-relate-business {
-  .header {
-    display: flex;
-    align-items: center;
-    padding: 15px;
-    .business-title {
-      display: flex;
-      justify-content: center;
-      flex: 1;
-    }
-    .close {
-      font-size: @primary-size;
-      color: @regular-text;
-      font-weight: @primary-weight;
-      text-align: right;
-    }
+  .sub-task-list {
   }
 }
 </style>

@@ -26,7 +26,10 @@
             <div class="node-right">
               <div class="name">{{item.realname}}</div>
               <div class="talk">{{item.content}}</div>
-              <div v-if="item.img.length > 0" class="show-imgs">
+              <div
+                class="show-imgs"
+                v-if="item.img.length > 0"
+              >
                 <PreviewImageBase :imagesList="item.img.map(one => one.filePath)"></PreviewImageBase>
               </div>
               <div class="sub-info">
@@ -68,78 +71,4 @@ export default {
 };
 </script>
 <style lang='less' scoped>
-/* 竖着进度条 */
-.progress-column {
-  padding: 30px 15px;
-  width: 100%;
-  background-color: #fff;
-  display: flex;
-  flex-flow: column;
-  .item {
-    position: relative;
-    display: flex;
-    flex-basis: 50%;
-    flex-shrink: 1;
-    .item-left {
-      flex-grow: 0;
-      .line {
-        position: absolute;
-        border-color: inherit;
-        background-color: @primary-border;
-        width: 1px;
-        top: 0;
-        bottom: 0;
-        left: 10px;
-      }
-      .circular {
-        position: relative;
-        width: 20px;
-        height: 20px;
-        background: url("../../static/images/time-stamp.png") no-repeat;
-        background-size: 100% 100%;
-        z-index: 100;
-      }
-    }
-    .item-right {
-      padding: 0 10px 30px;
-      .time {
-        font-size: @regular-size;
-        color: @regular-text;
-      }
-      .node {
-        margin-top: 24px;
-        display: flex;
-        .node-left {
-          width: auto;
-        }
-        .node-right {
-          flex: 1;
-          width: auto;
-          margin-left: 10px;
-          .show-imgs{
-            margin:20px 0 0 0;
-          }
-          .name {
-            font-size: @primary-size;
-            color: @primary-text;
-            font-weight: @primary-weight;
-          }
-          .talk {
-            margin-top: 4px;
-            font-size: @regular-size;
-            color: @primary-text;
-          }
-          .images {
-            margin: 20px 0 8px 0;
-          }
-          .sub-info {
-            margin-top: 4px;
-            font-size: @regular-size;
-            color: @regular-text;
-          }
-        }
-      }
-    }
-  }
-}
 </style>

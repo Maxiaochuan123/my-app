@@ -20,6 +20,12 @@ export default {
       params,
       url: C.QUERY_TASK_DETAILS_BY_ID
     }),
+  // 根据id查询任务日志
+  queryTaskRecordById: params =>
+    get({
+      params,
+      url: C.QUERY_TASK_RECORD_BY_ID
+    }),
   // 修改任务关联业务
   updateTaskRelation: params =>
     post({

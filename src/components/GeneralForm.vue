@@ -33,7 +33,7 @@
 * fieldName 字段名称 string
 * setting 设置值 string
 * relation 是自己加入的,单选下拉选择可能从接口获取
- * @Author: shenah
+ *@Author: shenah
  -->
 <template>
   <div class="general-form">
@@ -89,6 +89,18 @@
               @addressChange="addressChange"
               v-else-if="mapArr.indexOf(item.type) > -1"
             ></SelectAddress>
+            <!-- 多选 -->
+            <Multipleselecte
+              :defaultValue="form[item.fieldName]"
+              :fieldName="item.fieldName"
+              :idField="item.idField"
+              :multiple="item.multiple"
+              :name="item.name"
+              :selected="form[item.multiple]"
+              :textField="item.textField"
+              @multipleselecteChange="multipleselecteChange"
+              v-else-if="multipleArr.indexOf(item.type) > -1"
+            ></Multipleselecte>
             <!-- 上传文件  -->
             <UploadList
               @getImgSuccessList="getImgSuccessList(...arguments,item)"
@@ -111,11 +123,11 @@
               :disabled="item.readonly === 1"
               :placeholder="placeholder(item,index)"
               :prop="item.fieldName"
-              type="dateTime"
               container="bottomSheet"
+              type="dateTime"
               v-else-if="dateTimeArr.indexOf(item.type) > -1"
               v-model="form[item.fieldName]"
-              value-format="YYYY-MM-DDThh:mm:ss"
+              value-format="YYYY-MM-DD hh:mm:ss"
             ></mu-date-input>
           </mu-form-item>
           <mu-divider v-if="item.htmlHidden!==1"></mu-divider>
@@ -138,10 +150,11 @@
 <script>
 import Picker from "dm-vue-picker-h5";
 import SelectAddress from "@components/SelectAddress.vue";
+import Multipleselecte from "@components/Multipleselecte.vue";
 import UploadList from "@components/upLoad/uploadList.vue";
 export default {
   name: "GeneralForm",
-  components: { Picker, SelectAddress, UploadList },
+  components: { Picker, SelectAddress, UploadList, Multipleselecte },
   data() {
     return {
       // 输入框
@@ -156,6 +169,9 @@ export default {
       dateTimeArr: [13],
       // 文件类型
       fileArr: [8],
+      // 多选
+      multipleArr: [9],
+
       form: {},
       pickerTitle: "", // 下拉选的title
       pickerList: [], // 下拉选列表
@@ -313,7 +329,7 @@ export default {
       if (typeof options === "string") {
         this.pickerList = options.split(",").map((item, index) => {
           const [value, text = value] = item.split("^_^");
-          if (nowValue && nowValue+'' === value) {
+          if (nowValue && nowValue + "" === value) {
             this.pickerAnchor = [index];
           }
           return {
@@ -349,6 +365,13 @@ export default {
       } else {
         this.form[fieldName] = selectText;
       }
+    },
+    multipleselecteChange({ textIds, texts, ids, idsField, textsField }) {
+      // 多选框的回调
+      this.form[textsField] = texts;
+      this.form[idsField] = textIds;
+      // 这个属性并没有双向绑定
+      this.form[`${idsField}Id`] = ids;
     },
     addressChange({ value, fieldName, lng, lat, region }) {
       this.form[fieldName] = value;
