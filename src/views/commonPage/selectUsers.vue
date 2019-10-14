@@ -89,11 +89,10 @@
 <script>
 import AppBar from "@components/AppBar.vue";
 import SearchInputBar from "@components/SearchInputBar.vue";
-import IndexsList from "@components/IndexsList.vue";
 import Api from "@api";
 export default {
   name: "selectUser",
-  components: { AppBar, SearchInputBar, IndexsList },
+  components: { AppBar, SearchInputBar },
   computed: {
     // 当前客户的id
     id() {

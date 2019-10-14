@@ -3,7 +3,7 @@
  * @Author: shenah
  * @Date: 2019-10-12 15:40:23
  * @LastEditors: shenah
- * @LastEditTime: 2019-10-12 17:19:39
+ * @LastEditTime: 2019-10-14 12:26:16
  -->
 <template>
   <div class="task-basic">
@@ -13,7 +13,11 @@
         <div class="sub-title">{{$parent.details.description}}</div>
       </div>
     </div>
-    <RelateBusiness></RelateBusiness>
+    <RelateBusiness
+      :clueList="$parent.details.clueList"
+      :contactsList="$parent.details.contactsList"
+      :customerList="$parent.details.customerList"
+    ></RelateBusiness>
     <div class="basic-details-item">
       <div class="basic-details-item-left">
         <div class="sub-title">子任务</div>

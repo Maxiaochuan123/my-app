@@ -214,6 +214,13 @@ const router = new Router({
           meta: { zIndex: 1 },
           component: () => import("../views/task/taskList.vue")
         },
+        // 选择相关信息
+        {
+          path: "/selectInfo/:id/:type",
+          name: "selectInfo",
+          meta: { zIndex: 1 },
+          component: () => import("../views/task/selectInfo.vue")
+        },
         // 任务详情
         {
           path: "/taskDetails/:id",
