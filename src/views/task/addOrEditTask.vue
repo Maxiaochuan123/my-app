@@ -3,7 +3,7 @@
  * @Author: shenah
  * @Date: 2019-10-12 14:46:10
  * @LastEditors: shenah
- * @LastEditTime: 2019-10-15 15:45:19
+ * @LastEditTime: 2019-10-15 16:14:46
  -->
 
 <template>
@@ -28,6 +28,7 @@
           class="relate"
           ref="relateBusiness"
         ></RelateBusiness>
+        <SubTaskForm></SubTaskForm>
       </div>
     </div>
   </div>
@@ -39,6 +40,7 @@ import { PRIORITY } from "@constants/dictionaries.js";
 import { RELATION_BUSINESS } from "@constants/menuInfo.js";
 import GeneralForm from "@components/GeneralForm.vue";
 import RelateBusiness from "@/components/RelateBusiness/RelateBusiness.vue";
+import SubTaskForm from "./components/SubTaskForm.vue";
 import Api from "@api";
 export default {
   name: "addOrEditTask",
@@ -47,7 +49,7 @@ export default {
       return this.$route.params.id;
     }
   },
-  components: { AppBar, GeneralForm, RelateBusiness },
+  components: { AppBar, GeneralForm, RelateBusiness, SubTaskForm },
   data() {
     return {
       relateMenu: {
@@ -151,6 +153,9 @@ export default {
     this.judgeType();
   },
   methods: {
+    handleSubTask() {
+      this.goPage("addOrEditSubTask", { id: this.id });
+    },
     judgeType() {
       if (this.id) {
         this.pageTitle = "编辑任务";

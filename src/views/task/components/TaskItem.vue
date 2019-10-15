@@ -3,7 +3,7 @@
  * @Author: shenah
  * @Date: 2019-10-14 16:59:53
  * @LastEditors: shenah
- * @LastEditTime: 2019-10-14 19:34:54
+ * @LastEditTime: 2019-10-15 17:14:50
  -->
 
 <template>
@@ -103,7 +103,9 @@ export default {
     taskItemClick(row, type) {
       if (type === "subTask") {
         // 当前是子任务
-        this.goPage("addOrEditSubTask", { id: this.id, subId: row.taskId });
+        this.$emit("taskItemChange", {
+          row,
+        });
       } else {
         // 进入详情
         this.goPage("taskBasic", { id: row.taskId });

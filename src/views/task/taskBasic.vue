@@ -3,7 +3,7 @@
  * @Author: shenah
  * @Date: 2019-10-12 15:40:23
  * @LastEditors: shenah
- * @LastEditTime: 2019-10-15 15:37:12
+ * @LastEditTime: 2019-10-15 17:16:56
  -->
 <template>
   <div class="task-basic">
@@ -19,29 +19,7 @@
       @relateBusinessChange="relateBusinessChange"
       ref="relateBusiness"
     ></RelateBusiness>
-    <div
-      :class="{'no-border-bottom':$parent.details.childTask && $parent.details.childTask.length > 0}"
-      class="basic-details-item"
-    >
-      <div class="basic-details-item-left">
-        <div class="sub-title">子任务</div>
-      </div>
-      <div class="basic-details-item-right">
-        <mu-icon
-          @click="handleSubTask"
-          color="primary"
-          size="24"
-          value=":iconfont icon-zirenwu"
-        ></mu-icon>
-      </div>
-    </div>
-    <!-- 子任务列表 -->
-    <div class="sub-task-list">
-      <TaskItem
-        :list="$parent.details.childTask"
-        type="subTask"
-      ></TaskItem>
-    </div>
+    <SubTaskForm :list="childTask"></SubTaskForm>
     <div class="upload-wrap no-border-bottom">
       <UploadList
         @getImgSuccessList="getImgSuccessList"
@@ -54,7 +32,7 @@
 <script>
 import UploadList from "@components/upLoad/uploadList.vue";
 import RelateBusiness from "@/components/RelateBusiness/RelateBusiness.vue";
-import TaskItem from "./components/TaskItem.vue";
+import SubTaskForm from "./components/SubTaskForm.vue";
 import { RELATION_BUSINESS } from "@constants/menuInfo.js";
 import Api from "@api";
 export default {
@@ -65,7 +43,7 @@ export default {
       return this.$route.params.id;
     }
   },
-  components: { UploadList, RelateBusiness, TaskItem },
+  components: { UploadList, RelateBusiness, SubTaskForm },
   data() {
     return {
       relateMenu: {
@@ -74,7 +52,8 @@ export default {
         customers: { ...RELATION_BUSINESS.customers },
         contacts: { ...RELATION_BUSINESS.contacts }
       },
-      relateData: {} // 关联业务
+      relateData: {}, // 关联业务
+      childTask: [] // 子任务列表
     };
   },
   props: {},
@@ -85,6 +64,7 @@ export default {
         customers: val.customerList,
         contacts: val.contactsList
       };
+      this.childTask = val.childTask;
     }
   },
   mounted() {},
