@@ -118,6 +118,16 @@
               v-else-if="textareaArr.indexOf(item.type) > -1"
               v-model="form[item.fieldName]"
             ></mu-text-field>
+            <!-- 日期类型 -->
+            <mu-date-input
+              :disabled="item.readonly === 1"
+              :placeholder="placeholder(item,index)"
+              :prop="item.fieldName"
+              container="bottomSheet"
+              v-else-if="dateArr.indexOf(item.type) > -1"
+              v-model="form[item.fieldName]"
+              value-format="YYYY-MM-DD"
+            ></mu-date-input>
             <!-- 日期时间类型 -->
             <mu-date-input
               :disabled="item.readonly === 1"
@@ -167,6 +177,8 @@ export default {
       textareaArr: [2],
       // 日期时间
       dateTimeArr: [13],
+      // 日期
+      dateArr: [4],
       // 文件类型
       fileArr: [8],
       // 多选

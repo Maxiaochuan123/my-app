@@ -54,6 +54,13 @@ const router = new Router({
           meta: { zIndex: 1 },
           component: () => import("../views/commonPage/selectUsers.vue")
         },
+        // 选择相关信息
+        {
+          path: "/selectInfo/:id/:type/:kind",
+          name: "selectInfo",
+          meta: { zIndex: 1 },
+          component: () => import("../views/commonPage/selectInfo.vue")
+        },
         // 联系人
         {
           path: "/contacts",
@@ -136,7 +143,7 @@ const router = new Router({
           meta: { zIndex: 1 },
           component: () => import("../views/daily/dailyDetails.vue")
         },
-        
+
         // 客户
         {
           path: "/addOrEditCustomer/:id?",
@@ -221,13 +228,6 @@ const router = new Router({
           name: "taskList",
           meta: { zIndex: 1 },
           component: () => import("../views/task/taskList.vue")
-        },
-        // 选择相关信息
-        {
-          path: "/selectInfo/:id/:type",
-          name: "selectInfo",
-          meta: { zIndex: 1 },
-          component: () => import("../views/task/selectInfo.vue")
         },
         // 任务详情
         {

@@ -3,7 +3,7 @@
  * @Author: shenah
  * @Date: 2019-10-12 09:30:38
  * @LastEditors: shenah
- * @LastEditTime: 2019-10-14 19:33:30
+ * @LastEditTime: 2019-10-15 08:59:26
  -->
 
 <template>
@@ -13,6 +13,7 @@
       isDrawer
       pageTitle="任务"
       rightIcon="icon-tianjia"
+      rightLinkName="addOrEditTask"
     >
       <!-- 抽屉 -->
       <div slot="drawerContent">

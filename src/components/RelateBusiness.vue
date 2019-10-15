@@ -3,7 +3,7 @@
  * @Author: shenah
  * @Date: 2019-10-12 17:16:43
  * @LastEditors: shenah
- * @LastEditTime: 2019-10-14 19:58:22
+ * @LastEditTime: 2019-10-15 09:57:49
  -->
 
 <template>
@@ -55,7 +55,7 @@
             <div>{{item.name}} - {{one[item.showField]}}</div>
             <img
               :src="loadingImg('delete.png')"
-              @click.stop="deleteRelate(one,index,key)"
+              @click.stop="deleteRelate(item,one,index,key)"
               class="close"
             />
           </div>
@@ -82,6 +82,9 @@ export default {
   components: {},
   data() {
     return {
+      apiRequest: {
+        del: ""
+      },
       isHideLine: false,
       open: false,
       menuList: [
@@ -125,6 +128,10 @@ export default {
     };
   },
   props: {
+    module: {
+      type: String,
+      default: ""
+    },
     clueList: {
       type: Array,
       default: () => []
@@ -152,7 +159,14 @@ export default {
       this.infoObj.customers.list = val;
     }
   },
-  mounted() {},
+  mounted() {
+    if (this.module === "task") {
+      // 任务模块
+      this.apiRequest = {
+        del: "updateTaskRelation"
+      };
+    }
+  },
   methods: {
     judgeShowLine(val) {
       if (val.length > 0) {
@@ -170,7 +184,7 @@ export default {
     relate() {
       this.open = true;
     },
-    beforeSub(row, index, type) {
+    beforeSub(nowInfo, row, index, type) {
       const param = {
         taskId: this.id,
         clueIds: "",
@@ -186,20 +200,22 @@ export default {
       });
       return param;
     },
-    deleteRelate(row, index, type) {
-      this.$confirm("是否删除此客户?", "提示").then(({ result, value }) => {
-        const param = this.beforeSub(row, index, type);
-        if (result) {
-          Api.updateTaskRelation(param).then(res => {
-            this.$toast.success("删除成功");
-            this.goReplacePage("taskBasic", { id: this.id, type: this.type });
-          });
+    deleteRelate(nowInfo, row, index, type) {
+      this.$confirm(`是否删除此${nowInfo.name}?`, "提示").then(
+        ({ result, value }) => {
+          const param = this.beforeSub(nowInfo, row, index, type);
+          if (result) {
+            Api[this.apiRequest.del](param).then(res => {
+              this.$toast.success("删除成功");
+              this.goReplacePage("taskBasic", { id: this.id, type: this.type });
+            });
+          }
         }
-      });
+      );
     },
     menuClick(row) {
       const { type } = row;
-      this.goPage("selectInfo", { type, id: this.id });
+      this.goPage("selectInfo", { type, id: this.id, kind: "task" });
     }
   }
 };

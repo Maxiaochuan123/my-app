@@ -3,7 +3,7 @@
  * @Author: shenah
  * @Date: 2019-10-12 15:40:23
  * @LastEditors: shenah
- * @LastEditTime: 2019-10-14 19:33:16
+ * @LastEditTime: 2019-10-15 09:46:02
  -->
 <template>
   <div class="task-basic">
@@ -17,6 +17,7 @@
       :clueList="$parent.details.clueList"
       :contactsList="$parent.details.contactsList"
       :customerList="$parent.details.customerList"
+      module="task"
     ></RelateBusiness>
     <div
       :class="{'no-border-bottom':$parent.details.childTask && $parent.details.childTask.length > 0}"
@@ -36,7 +37,10 @@
     </div>
     <!-- 子任务列表 -->
     <div class="sub-task-list">
-      <TaskItem :list="$parent.details.childTask" type="subTask"></TaskItem>
+      <TaskItem
+        :list="$parent.details.childTask"
+        type="subTask"
+      ></TaskItem>
     </div>
     <div class="upload-wrap no-border-bottom">
       <UploadList
@@ -49,7 +53,7 @@
 
 <script>
 import UploadList from "@components/upLoad/uploadList.vue";
-import RelateBusiness from "./components/RelateBusiness.vue";
+import RelateBusiness from "@/components/RelateBusiness.vue";
 import TaskItem from "./components/TaskItem.vue";
 export default {
   name: "customerBasic",

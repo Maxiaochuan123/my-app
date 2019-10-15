@@ -1,9 +1,9 @@
 <!--
- * @Description: 选择公用信息
+ * @Description: 选择公用信息(配合关联业务使用)
  * @Author: shenah
  * @Date: 2019-10-14 09:14:34
  * @LastEditors: shenah
- * @LastEditTime: 2019-10-14 13:36:15
+ * @LastEditTime: 2019-10-15 10:05:20
  -->
 
 <template>
@@ -99,16 +99,22 @@ export default {
     // 线索clue,客户customer,联系人contacts
     type() {
       return this.$route.params.type;
+    },
+    // 哪个模块
+    kind() {
+      return this.$route.params.kind;
     }
   },
   data() {
     return {
+      apiKind: {},
       details: {}, // 详情
       info: {
         name: "",
         idField: ""
       },
       requestParams: {}, // 请求参数
+      submitDiffParams: {}, // 不同参数
       ApiMethod: "", // 查询的名字
       showList: [], // 显示的内容
       selectedList: [], // 已经选择
@@ -117,6 +123,7 @@ export default {
   },
   mounted() {
     this.judge();
+    this.judgeKindApi();
     this.queryDetails().then(() => {
       this.query();
     });
@@ -130,9 +137,21 @@ export default {
         this.loading = false;
       });
     },
+    // 判断模块的api
+    judgeKindApi() {
+      if (this.kind === "task") {
+        this.apiKind = {
+          details: "queryTaskDetailsById",
+          sub: "updateTaskRelation"
+        };
+        this.submitDiffParams = {
+          taskId: this.id
+        };
+      }
+    },
     queryDetails() {
       // 查询详情
-      return Api.queryTaskDetailsById({
+      return Api[this.apiKind.details]({
         taskId: this.id
       }).then(res => {
         const { listField } = this.info;
@@ -256,7 +275,7 @@ export default {
         .map(item => item.contactsId)
         .join(",");
       const params = {
-        taskId: this.id,
+        ...this.submitDiffParams,
         clueIds,
         customerIds,
         contactsIds,
@@ -266,7 +285,7 @@ export default {
     },
     submit() {
       const params = this.beforeSub();
-      Api.updateTaskRelation(params).then(res => {
+      Api[this.apiKind.sub](params).then(res => {
         this.$toast.success("关联成功");
         this.goBack();
       });
