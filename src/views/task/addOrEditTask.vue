@@ -3,7 +3,7 @@
  * @Author: shenah
  * @Date: 2019-10-12 14:46:10
  * @LastEditors: shenah
- * @LastEditTime: 2019-10-15 09:29:49
+ * @LastEditTime: 2019-10-15 15:45:19
  -->
 
 <template>
@@ -19,6 +19,16 @@
         :fieldList="fieldList"
         ref="generalForm"
       ></GeneralForm>
+      <!-- 子任务与关联 -->
+      <div class="relate-subtask">
+        <RelateBusiness
+          :relateData="relateData"
+          :relateMenu="relateMenu"
+          @relateBusinessChange="relateBusinessChange"
+          class="relate"
+          ref="relateBusiness"
+        ></RelateBusiness>
+      </div>
     </div>
   </div>
 </template>
@@ -26,7 +36,9 @@
 <script>
 import AppBar from "@components/AppBar.vue";
 import { PRIORITY } from "@constants/dictionaries.js";
+import { RELATION_BUSINESS } from "@constants/menuInfo.js";
 import GeneralForm from "@components/GeneralForm.vue";
+import RelateBusiness from "@/components/RelateBusiness/RelateBusiness.vue";
 import Api from "@api";
 export default {
   name: "addOrEditTask",
@@ -35,9 +47,22 @@ export default {
       return this.$route.params.id;
     }
   },
-  components: { AppBar, GeneralForm },
+  components: { AppBar, GeneralForm, RelateBusiness },
   data() {
     return {
+      relateMenu: {
+        // 菜单的相应配置
+        clues: { ...RELATION_BUSINESS.clues },
+        customers: { ...RELATION_BUSINESS.customers },
+        contacts: { ...RELATION_BUSINESS.contacts }
+      },
+      relateData: {
+        // 关联的相关数据
+        clues: [],
+        customers: [],
+        contacts: []
+      },
+      details: {},
       pageTitle: "",
       fields: [
         {
@@ -117,7 +142,8 @@ export default {
           value: ""
         }
       ],
-      fieldList: []
+      fieldList: [],
+      relateParams: {} // 关联业务相关的参数
     };
   },
   props: {},
@@ -126,12 +152,30 @@ export default {
   },
   methods: {
     judgeType() {
-      if (this.subId) {
+      if (this.id) {
         this.pageTitle = "编辑任务";
-        this.queryDetails();
+        // this.queryDetails();
       } else {
         this.fieldList = this.fields;
         this.pageTitle = "新增任务";
+      }
+    },
+    // 业务关联组件的处理
+    relateBusinessChange({ commonParam, operate }) {
+      const param = {
+        taskId: this.id,
+        ...commonParam
+      };
+      if (this.id) {
+        Api.updateTaskRelation(param).then(res => {
+          this.$toast.success("成功");
+          this.goReplacePage("taskBasic");
+          if (this.operate === "updateRelate") {
+            this.$refs.relateBusiness.$refs.selectInfo.openFullscreen = false;
+          }
+        });
+      } else {
+        this.relateParams = commonParam;
       }
     },
     save() {
@@ -166,6 +210,11 @@ export default {
   overflow-x: hidden;
   .content {
     padding-top: 44px;
+    .relate-subtask {
+      margin-top: 12px;
+      padding-left: 15px;
+      background-color: #fff;
+    }
   }
 }
 </style>
