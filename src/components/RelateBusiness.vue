@@ -128,7 +128,7 @@ export default {
     };
   },
   props: {
-    module: {
+    kind: {
       type: String,
       default: ""
     },
@@ -160,7 +160,7 @@ export default {
     }
   },
   mounted() {
-    if (this.module === "task") {
+    if (this.kind === "task") {
       // 任务模块
       this.apiRequest = {
         del: "updateTaskRelation"
@@ -215,7 +215,7 @@ export default {
     },
     menuClick(row) {
       const { type } = row;
-      this.goPage("selectInfo", { type, id: this.id, kind: "task" });
+      this.goPage("selectInfo", { type, id: this.id, kind:this.kind });
     }
   }
 };

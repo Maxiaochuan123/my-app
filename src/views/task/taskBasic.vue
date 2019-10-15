@@ -17,7 +17,7 @@
       :clueList="$parent.details.clueList"
       :contactsList="$parent.details.contactsList"
       :customerList="$parent.details.customerList"
-      module="task"
+      kind="task"
     ></RelateBusiness>
     <div
       :class="{'no-border-bottom':$parent.details.childTask && $parent.details.childTask.length > 0}"
