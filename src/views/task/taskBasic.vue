@@ -3,7 +3,7 @@
  * @Author: shenah
  * @Date: 2019-10-12 15:40:23
  * @LastEditors: shenah
- * @LastEditTime: 2019-10-15 09:46:02
+ * @LastEditTime: 2019-10-15 15:37:12
  -->
 <template>
   <div class="task-basic">
@@ -14,10 +14,10 @@
       </div>
     </div>
     <RelateBusiness
-      :clueList="$parent.details.clueList"
-      :contactsList="$parent.details.contactsList"
-      :customerList="$parent.details.customerList"
-      kind="task"
+      :relateData="relateData"
+      :relateMenu="relateMenu"
+      @relateBusinessChange="relateBusinessChange"
+      ref="relateBusiness"
     ></RelateBusiness>
     <div
       :class="{'no-border-bottom':$parent.details.childTask && $parent.details.childTask.length > 0}"
@@ -53,8 +53,10 @@
 
 <script>
 import UploadList from "@components/upLoad/uploadList.vue";
-import RelateBusiness from "@/components/RelateBusiness.vue";
+import RelateBusiness from "@/components/RelateBusiness/RelateBusiness.vue";
 import TaskItem from "./components/TaskItem.vue";
+import { RELATION_BUSINESS } from "@constants/menuInfo.js";
+import Api from "@api";
 export default {
   name: "customerBasic",
   computed: {
@@ -65,17 +67,47 @@ export default {
   },
   components: { UploadList, RelateBusiness, TaskItem },
   data() {
-    return {};
+    return {
+      relateMenu: {
+        // 菜单的相应配置
+        clues: { ...RELATION_BUSINESS.clues },
+        customers: { ...RELATION_BUSINESS.customers },
+        contacts: { ...RELATION_BUSINESS.contacts }
+      },
+      relateData: {} // 关联业务
+    };
   },
   props: {},
+  watch: {
+    "$parent.details"(val) {
+      this.relateData = {
+        clues: val.clueList,
+        customers: val.customerList,
+        contacts: val.contactsList
+      };
+    }
+  },
   mounted() {},
-
   methods: {
     handleSubTask() {
       this.goPage("addOrEditSubTask", { id: this.id });
     },
     getImgSuccessList(res) {
       // 处理上传
+    },
+    // 业务关联组件的处理
+    relateBusinessChange({ nowConfig, commonParam, operate }) {
+      const param = {
+        taskId: this.id,
+        ...commonParam
+      };
+      Api.updateTaskRelation(param).then(res => {
+        this.$toast.success("成功");
+        this.goReplacePage("taskBasic");
+        if (this.operate === "updateRelate") {
+          this.$refs.relateBusiness.$refs.selectInfo.openFullscreen = false;
+        }
+      });
     }
   }
 };

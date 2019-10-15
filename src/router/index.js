@@ -54,13 +54,6 @@ const router = new Router({
           meta: { zIndex: 1 },
           component: () => import("../views/commonPage/selectUsers.vue")
         },
-        // 选择相关信息
-        {
-          path: "/selectInfo/:id/:type/:kind",
-          name: "selectInfo",
-          meta: { zIndex: 1 },
-          component: () => import("../views/commonPage/selectInfo.vue")
-        },
         // 联系人
         {
           path: "/contacts",
