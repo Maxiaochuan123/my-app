@@ -44,12 +44,7 @@
       >{{customTitle}}</mu-button>
     </mu-appbar>
     <mu-drawer :open.sync="opeDrawer" right :docked="false">
-      <div class="drawerTitle">筛选</div>
       <slot name="drawerContent"></slot>
-      <div class="operation">
-        <mu-button class="reset" @click="resetDrawerList">重置</mu-button>
-        <mu-button color="primary">确定(5)</mu-button>
-      </div>
     </mu-drawer>
   </div>
 </template>
@@ -95,10 +90,6 @@ export default {
     },
     drawerIcon: {
       type: String
-    },
-    drawerList: {
-      type: Object,
-      default:()=> {}
     },
 
     //为 true 时 menuList 是必须的
@@ -150,11 +141,6 @@ export default {
         this.$emit("menuChange", item);
         this.menuFlag = false;
       }
-    },
-    resetDrawerList(){
-      for(let item in this.drawerList){
-        this.drawerList[item] = ''
-      }
     }
   }
 };
@@ -170,9 +156,6 @@ export default {
   .customBtn {
     color: @primary;
     font-size: @primary-size;
-    // .mu-button-wrapper{
-    //   padding-left: 0px;
-    // }
   }
   .mu-drawer{
     padding: 46px 25px;
@@ -184,17 +167,6 @@ export default {
   }
   .drawerContent{
     margin-top: 20px;
-  }
-  .operation{
-    position: absolute;
-    bottom: 46px;
-    width: 84%;
-    display: flex;
-    justify-content: space-between;
-    .reset{
-      color: @primary-text;
-      background-color: #EDEDED;
-    }
   }
 }
 </style>

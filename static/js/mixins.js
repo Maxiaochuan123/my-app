@@ -137,6 +137,23 @@ export default {
     // 加载加载图片防止打包后图片的路径不对
     loadingImg(imgName) {
       return require(`../images/${imgName}`);
+    },
+
+    // 筛选 - 多选状态
+    changeSelect(task){
+      task.state = !task.state;
+    },
+    // 筛选 - 重置
+    resetDrawerList(){
+      for(let item in this.drawerList){
+        if(Array.isArray(this.drawerList[item])){
+          for(let item2 of this.drawerList[item]){
+            item2.state = false
+          }
+        }else{
+          this.drawerList[item] = ''
+        }
+      }
     }
   },
   filters: {

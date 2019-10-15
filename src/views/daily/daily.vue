@@ -3,12 +3,12 @@
     <AppBar pageTitle="日报" isDrawer drawerIcon="icon-guolv" rightIcon="icon-tianjia" rightLinkName="addDaily" :drawerList="drawerList">
       <!-- 抽屉 -->
       <div slot="drawerContent" class="drawerContent">
+        <div class="drawerTitle">筛选</div>
         <div class="screen">
           <div class="title">搜索</div>
           <div class="screenInput">
-            <!-- <span v-show="!drawerList.value2">搜索内部联系人</span> -->
             <i class="iconfont icon-sousuo1"></i>
-            <mu-text-field class="searchInput" v-model="drawerList.value2" placeholder="Please input......"></mu-text-field>
+            <mu-text-field class="searchInput" v-model="drawerList.value2" placeholder="搜索内部联系人"></mu-text-field>
           </div>
         </div>
         <div class="screen">
@@ -16,7 +16,7 @@
           <div class="screenInput">
             <span v-show="!drawerList.value7">请选择创建时间</span>
             <i class="iconfont icon-rili"></i>
-            <mu-date-input ref="createTime" icon="today" v-model="drawerList.value7" type="date" label-float full-width container="bottomSheet"></mu-date-input>
+            <mu-date-input class="timeInput" icon="today" v-model="drawerList.value7" type="date" label-float full-width container="bottomSheet"></mu-date-input>
           </div>
         </div>
         <div class="screen">
@@ -24,10 +24,20 @@
           <div class="screenInput">
             <span v-show="!drawerList.value8">请选择截止时间</span>
             <i class="iconfont icon-rili"></i>
-            <mu-date-input ref="createTime" icon="today" v-model="drawerList.value8" type="date" label-float full-width container="bottomSheet"></mu-date-input>
+            <mu-date-input class="timeInput" icon="today" v-model="drawerList.value8" type="date" label-float full-width container="bottomSheet"></mu-date-input>
+          </div>
+        </div>
+        <div class="screen">
+          <div class="title">任务状态</div>
+          <div class="multipleSelection">
+            <div :class="[task.state ? 'activeSelect' : '']" @click="changeSelect(task)" v-for="(task,index) in drawerList.taskstateList" :key="index">{{task.title}}</div>
           </div>
         </div>
 
+        <div class="operation">
+          <mu-button class="reset" @click="resetDrawerList">重置</mu-button>
+          <mu-button color="primary">确定(5)</mu-button>
+        </div>
       </div>
     </AppBar>
     <div class="content">
@@ -47,7 +57,7 @@
               </div>
             </div>
           </div>
-          <div class="completionStatus" @click="goPage('dailyDetails', {id:1})">
+          <div class="completionstate" @click="goPage('dailyDetails', {id:1})">
             <div class="describe">
               <div>
                 <p class="title">今日重点工作及完成情况：</p>
@@ -98,6 +108,22 @@ export default {
         value2:'',
         value7:'',
         value8:'',
+        taskStateList:[{
+          title:'未完成',
+          state:false
+        },{
+          title:'待审核',
+          state:false
+        },{
+          title:'已完成',
+          state:false
+        },{
+          title:'未通过',
+          state:false
+        },{
+          title:'已关闭',
+          state:false
+        }]
       }
     }
   },
@@ -111,62 +137,6 @@ export default {
 
 <style lang="less" scoped >
   .daily{
-    .drawerContent{
-      .screen{
-        &:not(:first-child){
-          margin-top: 20px;
-        }
-        .title{
-          font-size: @primary-size;
-          color: @primary-text;
-          margin-bottom: 10px;
-        }
-        .screenInput{
-          height: 36px;
-          border-radius:6px;
-          border:1px solid #9f9f9f;
-          position: relative;
-          >span{
-            position: absolute;
-            left: 10px;
-            height: 36px;
-            line-height: 36px;
-            font-size: @regular-size;
-            color: @regular-text;
-          }
-          >i{
-            position: absolute;
-            right: 10px;
-            font-size: 24px;
-            color: @regular-text;
-          }
-          .icon-sousuo1{
-            font-size: 18px;
-            top: 2px;
-          }
-          .mu-input{
-            margin: 0;
-            padding: 0;
-            min-height: 0;
-            /deep/ .mu-input-icon{
-              display: none;
-            }
-            /deep/ .mu-text-field-input{
-              padding-left: 10px;
-            }
-            /deep/ .mu-text-field{
-              width: 96%;
-              margin: 2px 0 0 4px;
-            }
-            // /deep/ .mu-input-label{
-            //   top: -20px;
-            //   left: 10px;
-            // }
-          }
-        }
-      }
-    }
-
     .content{
       padding-top: 94px;
       /deep/ .mu-expansion-panel{
@@ -200,7 +170,7 @@ export default {
 
         .mu-expansion-panel-content{
           padding: 0 15px;
-          .completionStatus{
+          .completionstate{
             .describe>div{
               margin-top: 10px;
               .title{

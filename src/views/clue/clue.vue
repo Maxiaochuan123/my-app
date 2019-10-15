@@ -9,10 +9,40 @@
   <div class="clue">
     <AppBar pageTitle="线索" isDrawer drawerIcon="icon-guolv" rightIcon="icon-tianjia" isMenu :menuList="menuList">
       <!-- 抽屉 -->
-      <div slot="drawerContent">
-        <mu-button color="primary">
-          theme_one
-        </mu-button>
+      <div slot="drawerContent" class="drawerContent">
+        <div class="drawerTitle">筛选</div>
+        <div class="screen">
+          <div class="title">搜索</div>
+          <div class="screenInput">
+            <i class="iconfont icon-sousuo1"></i>
+            <mu-text-field class="searchInput" v-model="drawerList.value2" placeholder="搜索线索/创建人"></mu-text-field>
+          </div>
+        </div>
+        <div class="screen">
+          <div class="title">创建时间</div>
+          <div class="screenInput">
+            <span v-show="!drawerList.value7">请选择创建时间</span>
+            <i class="iconfont icon-rili"></i>
+            <mu-date-input class="timeInput" icon="today" v-model="drawerList.value7" type="date" label-float full-width container="bottomSheet"></mu-date-input>
+          </div>
+        </div>
+        <div class="screen">
+          <div class="title">线索类型</div>
+          <div class="multipleSelection">
+            <div :class="[cule.state ? 'activeSelect' : '']" @click="changeSelect(cule)" v-for="(cule,index) in drawerList.clueList" :key="index">{{cule.title}}</div>
+          </div>
+        </div>
+        <div class="screen">
+          <div class="title">线索状态</div>
+          <div class="multipleSelection">
+            <div :class="[cule.state ? 'activeSelect' : '']" @click="changeSelect(cule)" v-for="(cule,index) in drawerList.clueStateList" :key="index">{{cule.title}}</div>
+          </div>
+        </div>
+
+        <div class="operation">
+          <mu-button class="reset" @click="resetDrawerList">重置</mu-button>
+          <mu-button color="primary">确定(5)</mu-button>
+        </div>
       </div>
     </AppBar>
     <div class="content">
@@ -130,7 +160,41 @@ export default {
         title:'编辑',
       },{
         title:'删除',
-      }]
+      }],
+
+      drawerList:{
+        value2:'',
+        value7:'',
+        clueList:[{
+          title:'买车',
+          state:false
+        },{
+          title:'车贷',
+          state:false
+        },{
+          title:'车险',
+          state:false
+        }],
+        clueStateList:[{
+          title:'未跟进',
+          state:false
+        },{
+          title:'已跟进',
+          state:false
+        },{
+          title:'已关闭',
+          state:false
+        },{
+          title:'已转换为联系人',
+          state:false
+        },{
+          title:'已转换为客户',
+          state:false
+        },{
+          title:'已放入公海',
+          state:false
+        }]
+      }
     }
   },
   created(){
