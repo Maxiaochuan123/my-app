@@ -3,7 +3,7 @@
  * @Author: shenah
  * @Date: 2019-10-15 16:25:05
  * @LastEditors: shenah
- * @LastEditTime: 2019-10-15 17:22:23
+ * @LastEditTime: 2019-10-16 00:10:27
  -->
 <template>
   <div class>
@@ -17,7 +17,7 @@
       <div class="select-sub-task-body">
         <div class="select-sub-task-header">
           <div @click="closeFullscreenDialog">取消</div>
-          <div class="primary-words">新增子任务</div>
+          <div class="primary-words">{{pageTitle}}</div>
           <div
             @click="save"
             class="ok"
@@ -134,12 +134,20 @@ export default {
       if (val) {
         this.judgeType();
       } else {
+        this.$emit("addOrEditSubTaskPopChange", {
+          operate: "close"
+        });
       }
     },
     row(val) {
-      this.subId = val.taskId;
-      this.handleDetails(val);
-      this.openFullscreen = true;
+      if (JSON.stringify(val) !== "{}") {
+        this.subId = val.taskId;
+        this.handleDetails(val);
+        this.openFullscreen = true;
+      } else {
+        this.subId = "";
+        this.handleDetails(val);
+      }
     }
   },
   methods: {
@@ -152,30 +160,55 @@ export default {
       }
     },
     handleDetails(subTask) {
-      // 处理详情
-      this.fields.forEach(item => {
-        if (item.fieldName === "ownerUser") {
-          item.value = subTask.ownerUserList
-            .map(one => `${one.userId}^_^${one.realname}`)
-            .join(",");
-        } else if (item.fieldName === "ownerUserName") {
-          item.value = subTask.ownerUserList.map(one => one.realname).join(",");
-        } else if (item.fieldName === "showPriority") {
-          let objArray = PRIORITY.filter(
-            ele => ele.value === subTask.priority
-          )[0];
-          item.value = objArray.text;
-        } else {
-          item.value = subTask[item.fieldName];
-        }
-      });
+      if (JSON.stringify(subTask) !== "{}") {
+        // 处理详情
+        this.fields.forEach(item => {
+          if (item.fieldName === "ownerUser") {
+            item.value = subTask.ownerUserList
+              .map(one => `${one.userId}^_^${one.realname}`)
+              .join(",");
+          } else if (item.fieldName === "ownerUserName") {
+            item.value = subTask.ownerUserList
+              .map(one => one.realname)
+              .join(",");
+          } else if (item.fieldName === "showPriority") {
+            let objArray = PRIORITY.filter(
+              ele => ele.value === subTask.priority * 1
+            )[0];
+            item.value = objArray.text;
+          } else {
+            item.value = subTask[item.fieldName];
+          }
+        });
+      } else {
+        this.fields.forEach(item => {
+          item.value = "";
+        });
+      }
       this.fieldList = this.fields;
+    },
+    handleForm(form) {
+      // 新增或者编辑任务的时候处理子任务的form数据
+      let newForm = { ...form };
+      newForm["ownerUserList"] = newForm.ownerUser.split(",").map(item => {
+        const [userId, realname] = item.split("^_^");
+        return {
+          userId,
+          realname
+        };
+      });
+      return newForm;
     },
     save() {
       const generalFormVue = this.$refs.generalForm;
       generalFormVue.$refs.form.validate().then(result => {
         if (result) {
           if (!this.subId && !this.id) {
+            this.$emit("addOrEditSubTaskPopChange", {
+              operate: "taskAddOrEditSub",
+              row: this.handleForm(this.$refs.generalForm.form)
+            });
+            this.openFullscreen = false;
           } else {
             let params = {
               ...generalFormVue.form,
@@ -191,6 +224,7 @@ export default {
               this.$toast.success({
                 message: "保存成功"
               });
+              this.$attrs.updateDetails();
               this.openFullscreen = false;
             });
           }

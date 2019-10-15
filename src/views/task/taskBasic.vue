@@ -3,7 +3,7 @@
  * @Author: shenah
  * @Date: 2019-10-12 15:40:23
  * @LastEditors: shenah
- * @LastEditTime: 2019-10-15 17:16:56
+ * @LastEditTime: 2019-10-15 
  -->
 <template>
   <div class="task-basic">
@@ -19,7 +19,7 @@
       @relateBusinessChange="relateBusinessChange"
       ref="relateBusiness"
     ></RelateBusiness>
-    <SubTaskForm :list="childTask"></SubTaskForm>
+    <SubTaskForm :list="childTask" :updateDetails="$parent.queryDetails"></SubTaskForm>
     <div class="upload-wrap no-border-bottom">
       <UploadList
         @getImgSuccessList="getImgSuccessList"
@@ -83,7 +83,7 @@ export default {
       };
       Api.updateTaskRelation(param).then(res => {
         this.$toast.success("成功");
-        this.goReplacePage("taskBasic");
+        this.$parent.queryDetails();
         if (this.operate === "updateRelate") {
           this.$refs.relateBusiness.$refs.selectInfo.openFullscreen = false;
         }

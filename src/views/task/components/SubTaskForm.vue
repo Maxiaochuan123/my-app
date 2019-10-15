@@ -3,7 +3,7 @@
  * @Author: shenah
  * @Date: 2019-10-15 16:09:08
  * @LastEditors: shenah
- * @LastEditTime: 2019-10-15 17:18:40
+ * @LastEditTime: 2019-10-16 00:05:59
  -->
 
 <template>
@@ -34,7 +34,9 @@
     </div>
     <AddOrEditSubTaskPop
       :row="row"
+      @addOrEditSubTaskPopChange="addOrEditSubTaskPopChange"
       ref="addOrEditSubTaskPop"
+      v-bind="$attrs"
     ></AddOrEditSubTaskPop>
   </div>
 </template>
@@ -64,7 +66,17 @@ export default {
   },
   mounted() {},
   methods: {
+    addOrEditSubTaskPopChange({ operate, row }) {
+      if (operate === "close") {
+        // 关闭窗口
+        this.row = {};
+      } else if (operate === "taskAddOrEditSub") {
+        // 当在新建或者编辑任务里面的新建或者编辑子任务
+        this.childTask.push(row);
+      }
+    },
     handleSubTask() {
+      this.row = {};
       this.$refs.addOrEditSubTaskPop.openFullscreen = true;
     },
     taskItemChange({ row }) {

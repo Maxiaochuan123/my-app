@@ -3,7 +3,7 @@
  * @Author: shenah
  * @Date: 2019-10-14 16:59:53
  * @LastEditors: shenah
- * @LastEditTime: 2019-10-15 17:14:50
+ * @LastEditTime: 2019-10-16 00:05:30
  -->
 
 <template>
@@ -33,7 +33,7 @@
           class="task-status"
         >{{item.status | codeInToName(TASK_STATUS)}}</div>
       </div>
-      <div class="creat-name regular-words">
+      <div class="creat-name regular-words" v-if="type !=='subTask'">
         <span>创建人:</span>
         <span>{{item.createUser && item.createUser.realname}}</span>
       </div>
