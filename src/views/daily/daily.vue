@@ -4,6 +4,14 @@
       <!-- 抽屉 -->
       <div slot="drawerContent" class="drawerContent">
         <div class="screen">
+          <div class="title">搜索</div>
+          <div class="screenInput">
+            <!-- <span v-show="!drawerList.value2">搜索内部联系人</span> -->
+            <i class="iconfont icon-sousuo1"></i>
+            <mu-text-field class="searchInput" v-model="drawerList.value2" placeholder="Please input......"></mu-text-field>
+          </div>
+        </div>
+        <div class="screen">
           <div class="title">创建时间</div>
           <div class="screenInput">
             <span v-show="!drawerList.value7">请选择创建时间</span>
@@ -14,7 +22,7 @@
         <div class="screen">
           <div class="title">截止时间</div>
           <div class="screenInput">
-            <span v-show="!drawerList.value7">请选择截止时间</span>
+            <span v-show="!drawerList.value8">请选择截止时间</span>
             <i class="iconfont icon-rili"></i>
             <mu-date-input ref="createTime" icon="today" v-model="drawerList.value8" type="date" label-float full-width container="bottomSheet"></mu-date-input>
           </div>
@@ -87,6 +95,7 @@ export default {
     return{
       active:0,
       drawerList:{
+        value2:'',
         value7:'',
         value8:'',
       }
@@ -130,6 +139,10 @@ export default {
             right: 10px;
             font-size: 24px;
             color: @regular-text;
+          }
+          .icon-sousuo1{
+            font-size: 18px;
+            top: 2px;
           }
           .mu-input{
             margin: 0;
