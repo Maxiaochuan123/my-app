@@ -3,7 +3,7 @@
  * @Author: shenah
  * @Date: 2019-10-12 15:40:23
  * @LastEditors: shenah
- * @LastEditTime: 2019-10-15 
+ * @LastEditTime: 2019-10-16 10:50:00
  -->
 <template>
   <div class="task-basic">
@@ -19,7 +19,10 @@
       @relateBusinessChange="relateBusinessChange"
       ref="relateBusiness"
     ></RelateBusiness>
-    <SubTaskForm :list="childTask" :updateDetails="$parent.queryDetails"></SubTaskForm>
+    <SubTaskForm
+      :list="childTask"
+      :updateDetails="$parent.queryDetails"
+    ></SubTaskForm>
     <div class="upload-wrap no-border-bottom">
       <UploadList
         @getImgSuccessList="getImgSuccessList"
@@ -48,9 +51,9 @@ export default {
     return {
       relateMenu: {
         // 菜单的相应配置
-        clues: { ...RELATION_BUSINESS.clues },
-        customers: { ...RELATION_BUSINESS.customers },
-        contacts: { ...RELATION_BUSINESS.contacts }
+        clues: RELATION_BUSINESS.clues,
+        customers: RELATION_BUSINESS.customers,
+        contacts: RELATION_BUSINESS.contacts
       },
       relateData: {}, // 关联业务
       childTask: [] // 子任务列表

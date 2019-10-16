@@ -3,14 +3,14 @@
  * @Author: shenah
  * @Date: 2019-10-14 16:59:53
  * @LastEditors: shenah
- * @LastEditTime: 2019-10-16 00:05:30
+ * @LastEditTime: 2019-10-16 09:53:52
  -->
 
 <template>
   <div class="father-or-sub-list">
     <div
       :key="index"
-      @click="taskItemClick(item,type)"
+      @click="taskItemClick(item,index,type)"
       class="list-item"
       v-for="(item,index) in list"
     >
@@ -33,7 +33,10 @@
           class="task-status"
         >{{item.status | codeInToName(TASK_STATUS)}}</div>
       </div>
-      <div class="creat-name regular-words" v-if="type !=='subTask'">
+      <div
+        class="creat-name regular-words"
+        v-if="type !=='subTask'"
+      >
         <span>创建人:</span>
         <span>{{item.createUser && item.createUser.realname}}</span>
       </div>
@@ -100,11 +103,12 @@ export default {
         }
       });
     },
-    taskItemClick(row, type) {
+    taskItemClick(row, index, type) {
       if (type === "subTask") {
         // 当前是子任务
         this.$emit("taskItemChange", {
           row,
+          index
         });
       } else {
         // 进入详情

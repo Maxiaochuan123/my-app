@@ -3,7 +3,7 @@
  * @Author: shenah
  * @Date: 2019-10-15 16:25:05
  * @LastEditors: shenah
- * @LastEditTime: 2019-10-16 00:10:27
+ * @LastEditTime: 2019-10-16 11:32:01
  -->
 <template>
   <div class>
@@ -47,6 +47,7 @@ export default {
   },
   data() {
     return {
+      uid: 1, // '随机数的生成'
       openFullscreen: false, // 弹出框的显示
       pageTitle: "",
       subId: "",
@@ -110,6 +111,22 @@ export default {
           relation: "priority,priorityName"
         },
         {
+          fieldName: "priority",
+          name: "优先级id",
+          options: "",
+          type: 1,
+          htmlHidden: 1,
+          value: ""
+        },
+        {
+          fieldName: "priorityName",
+          name: "优先级名字",
+          options: "",
+          type: 1,
+          htmlHidden: 1,
+          value: ""
+        },
+        {
           fieldName: "description",
           formType: "textarea",
           isNull: 1,
@@ -140,7 +157,7 @@ export default {
       }
     },
     row(val) {
-      if (JSON.stringify(val) !== "{}") {
+      if (!this.isEmptyObj(val)) {
         this.subId = val.taskId;
         this.handleDetails(val);
         this.openFullscreen = true;
@@ -152,7 +169,7 @@ export default {
   },
   methods: {
     judgeType() {
-      if (this.subId) {
+      if (this.subId || !this.isEmptyObj(this.row)) {
         this.pageTitle = "编辑子任务";
       } else {
         this.fieldList = this.fields;
@@ -160,7 +177,7 @@ export default {
       }
     },
     handleDetails(subTask) {
-      if (JSON.stringify(subTask) !== "{}") {
+      if (!this.isEmptyObj(subTask)) {
         // 处理详情
         this.fields.forEach(item => {
           if (item.fieldName === "ownerUser") {
@@ -171,7 +188,10 @@ export default {
             item.value = subTask.ownerUserList
               .map(one => one.realname)
               .join(",");
-          } else if (item.fieldName === "showPriority") {
+          } else if (
+            item.fieldName === "showPriority" ||
+            item.fieldName === "priorityName"
+          ) {
             let objArray = PRIORITY.filter(
               ele => ele.value === subTask.priority * 1
             )[0];
@@ -205,7 +225,10 @@ export default {
         if (result) {
           if (!this.subId && !this.id) {
             this.$emit("addOrEditSubTaskPopChange", {
-              operate: "taskAddOrEditSub",
+              operate:
+                JSON.stringify(this.row) === "{}"
+                  ? "taskAddSub"
+                  : "taskEditSub",
               row: this.handleForm(this.$refs.generalForm.form)
             });
             this.openFullscreen = false;

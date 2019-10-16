@@ -3,7 +3,7 @@
  * @Author: shenah
  * @Date: 2019-10-15 16:09:08
  * @LastEditors: shenah
- * @LastEditTime: 2019-10-16 00:05:59
+ * @LastEditTime: 2019-10-16 10:00:08
  -->
 
 <template>
@@ -50,7 +50,8 @@ export default {
   data() {
     return {
       childTask: [], // 子任务列表
-      row: {} // 当前点击的子任务
+      row: {}, // 当前点击的子任务
+      index: 0 // 当前点击的子任务的数组
     };
   },
   props: {
@@ -70,17 +71,22 @@ export default {
       if (operate === "close") {
         // 关闭窗口
         this.row = {};
-      } else if (operate === "taskAddOrEditSub") {
+      } else if (operate === "taskAddSub") {
         // 当在新建或者编辑任务里面的新建或者编辑子任务
         this.childTask.push(row);
+      } else if (operate === "taskEditSub") {
+        let list = [...this.childTask];
+        list[this.index] = row;
+        this.childTask = list;
       }
     },
     handleSubTask() {
       this.row = {};
       this.$refs.addOrEditSubTaskPop.openFullscreen = true;
     },
-    taskItemChange({ row }) {
+    taskItemChange({ row, index }) {
       this.row = row;
+      this.index = index;
     }
   }
 };

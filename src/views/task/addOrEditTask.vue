@@ -3,7 +3,7 @@
  * @Author: shenah
  * @Date: 2019-10-12 14:46:10
  * @LastEditors: shenah
- * @LastEditTime: 2019-10-15 16:14:46
+ * @LastEditTime: 2019-10-16 11:26:28
  -->
 
 <template>
@@ -28,7 +28,11 @@
           class="relate"
           ref="relateBusiness"
         ></RelateBusiness>
-        <SubTaskForm></SubTaskForm>
+        <SubTaskForm
+          :list="childTask"
+          :updateDetails="queryDetails"
+          ref="subTaskForm"
+        ></SubTaskForm>
       </div>
     </div>
   </div>
@@ -52,11 +56,12 @@ export default {
   components: { AppBar, GeneralForm, RelateBusiness, SubTaskForm },
   data() {
     return {
+      childTask: [], // 子任务
       relateMenu: {
         // 菜单的相应配置
-        clues: { ...RELATION_BUSINESS.clues },
-        customers: { ...RELATION_BUSINESS.customers },
-        contacts: { ...RELATION_BUSINESS.contacts }
+        clues: RELATION_BUSINESS.clues,
+        customers: RELATION_BUSINESS.customers,
+        contacts: RELATION_BUSINESS.contacts
       },
       relateData: {
         // 关联的相关数据
@@ -64,7 +69,7 @@ export default {
         customers: [],
         contacts: []
       },
-      details: {},
+      details: {}, // 详情
       pageTitle: "",
       fields: [
         {
@@ -135,6 +140,22 @@ export default {
           relation: "priority,priorityName"
         },
         {
+          fieldName: "priority",
+          name: "优先级id",
+          options: "",
+          type: 1,
+          htmlHidden: 1,
+          value: ""
+        },
+        {
+          fieldName: "priorityName",
+          name: "优先级的名字",
+          options: "",
+          type: 1,
+          htmlHidden: 1,
+          value: ""
+        },
+        {
           fieldName: "description",
           formType: "textarea",
           isNull: 1,
@@ -159,11 +180,51 @@ export default {
     judgeType() {
       if (this.id) {
         this.pageTitle = "编辑任务";
-        // this.queryDetails();
+        this.queryDetails();
       } else {
         this.fieldList = this.fields;
         this.pageTitle = "新增任务";
       }
+    },
+    handlerDetails(data) {
+      // 处理详情
+      // 基本信息的处理
+      let priorityObj = PRIORITY.filter(
+        ele => ele.value === data.priority * 1
+      )[0];
+      this.fields.forEach(item => {
+        if (item.fieldName === "ownerUser") {
+          item.value = data.ownerUserList
+            .map(one => `${one.userId}^_^${one.realname}`)
+            .join(",");
+        } else if (item.fieldName === "ownerUserName") {
+          item.value = data.ownerUserList.map(one => one.realname).join(",");
+        } else if (
+          item.fieldName === "showPriority" ||
+          item.fieldName === "priorityName"
+        ) {
+          item.value = priorityObj.text;
+        } else {
+          item.value = data[item.fieldName];
+        }
+      });
+      // 关联业务处理
+      this.relateData = {
+        clues: data.clueList,
+        customers: data.customerList,
+        contacts: data.contactsList
+      };
+      // 子任务
+      this.childTask = data.childTask;
+      this.fieldList = this.fields;
+    },
+    queryDetails() {
+      // 查询详情
+      Api.queryTaskDetailsById({
+        taskId: this.id
+      }).then(res => {
+        this.handlerDetails(res.data);
+      });
     },
     // 业务关联组件的处理
     relateBusinessChange({ commonParam, operate }) {
@@ -174,7 +235,7 @@ export default {
       if (this.id) {
         Api.updateTaskRelation(param).then(res => {
           this.$toast.success("成功");
-          this.goReplacePage("taskBasic");
+          this.queryDetails();
           if (this.operate === "updateRelate") {
             this.$refs.relateBusiness.$refs.selectInfo.openFullscreen = false;
           }
@@ -187,22 +248,36 @@ export default {
       const generalFormVue = this.$refs.generalForm;
       generalFormVue.$refs.form.validate().then(result => {
         if (result) {
-          let params = {
-            ...generalFormVue.form,
-            pid: this.id
+          // 基本参数
+          let base = generalFormVue.form;
+          base[status] = new Date().getTime() > base.stopTime ? 2 : 1;
+          // 关联业务的参数
+          let relate = this.relateParams;
+          // 子任务的参数
+          let childTask = this.$refs.subTaskForm.childTask;
+          const params = {
+            ...base,
+            ...relate,
+            children: childTask
           };
-          if (this.subId) {
-            params = {
-              ...generalFormVue.form,
-              taskId: this.subId
-            };
-          }
-          Api.addOrEditTask(params).then(res => {
-            this.$toast.success({
-              message: "保存成功"
+          if (this.id) {
+            Api.addOrEditTask({
+              taskId: this.id,
+              ...base
+            }).then(res => {
+              this.$toast.success({
+                message: "保存成功"
+              });
+              this.goBack();
             });
-            this.goBack();
-          });
+          } else {
+            Api.addOrEditTaskChild(params).then(res => {
+              this.$toast.success({
+                message: "保存成功"
+              });
+              this.goBack();
+            });
+          }
         }
       });
     }
@@ -217,7 +292,7 @@ export default {
     padding-top: 44px;
     .relate-subtask {
       margin-top: 12px;
-      padding-left: 15px;
+      padding: 0 0 15px 15px;
       background-color: #fff;
     }
   }

@@ -8,6 +8,13 @@ export default {
       params,
       url: C.QUERY_TASK_LIST
     }),
+  // 添加或者修改任务(包含子任务)
+  addOrEditTaskChild: params =>
+    post({
+      params,
+      url: C.ADD_OR_EDIT_TASK_CHILD,
+      headers: { "Content-Type": "application/json;charset=UTF-8" }
+    }),
   // 添加或者修改任务
   addOrEditTask: params =>
     post({

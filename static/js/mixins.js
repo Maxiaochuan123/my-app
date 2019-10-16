@@ -116,7 +116,10 @@ export default {
         }
       });
     },
-
+    isEmptyObj(obj) {
+      // 是否是空对象
+      return JSON.stringify(obj) === "{}";
+    },
     closeDialog() {
       this.$refs.form.clear();
       for (let item in this.form) {
