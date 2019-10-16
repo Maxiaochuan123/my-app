@@ -3,7 +3,7 @@
  * @Author: shenah
  * @Date: 2019-10-12 09:30:38
  * @LastEditors: shenah
- * @LastEditTime: 2019-10-15 08:59:26
+ * @LastEditTime: 2019-10-16 14:37:59
  -->
 
 <template>
@@ -16,8 +16,55 @@
       rightLinkName="addOrEditTask"
     >
       <!-- 抽屉 -->
-      <div slot="drawerContent">
-        <mu-button color="primary">theme_one</mu-button>
+      <div
+        class="drawerContent"
+        slot="drawerContent"
+      >
+        <div class="drawerTitle">筛选</div>
+        <div class="screen">
+          <div class="title">创建时间</div>
+          <div class="screenInput">
+            <span v-show="!drawerList.value7">请选择创建时间</span>
+            <i class="iconfont icon-rili"></i>
+            <mu-date-input
+              class="timeInput"
+              container="bottomSheet"
+              full-width
+              icon="today"
+              label-float
+              type="date"
+              v-model="drawerList.value7"
+            ></mu-date-input>
+          </div>
+        </div>
+        <div class="screen">
+          <div class="title">结束时间</div>
+          <div class="screenInput">
+            <span v-show="!drawerList.value7">请选择结束时间</span>
+            <i class="iconfont icon-rili"></i>
+            <mu-date-input
+              class="timeInput"
+              container="bottomSheet"
+              full-width
+              icon="today"
+              label-float
+              type="date"
+              v-model="drawerList.value7"
+            ></mu-date-input>
+          </div>
+        </div>
+        <ArrSingleOrMultiple
+          :list="TASK_STATUS"
+          @ArrSingleOrMultipleChange="ArrSingleOrMultipleChange"
+          type="aa"
+        ></ArrSingleOrMultiple>
+        <div class="operation">
+          <mu-button
+            @click="resetDrawerList"
+            class="reset"
+          >重置</mu-button>
+          <mu-button color="primary">确定(5)</mu-button>
+        </div>
       </div>
     </AppBar>
     <mu-tabs
@@ -51,6 +98,7 @@
 </template>
 
 <script>
+import ArrSingleOrMultiple from "@components/ArrSingleOrMultiple.vue";
 import { TASK_STATUS } from "@constants/dictionaries";
 import AppBar from "@components/AppBar.vue";
 import TaskItem from "./components/TaskItem.vue";
@@ -58,7 +106,7 @@ import Api from "@api";
 import dayjs from "dayjs";
 export default {
   name: "taskList",
-  components: { AppBar, TaskItem },
+  components: { AppBar, TaskItem, ArrSingleOrMultiple },
   data() {
     return {
       TASK_STATUS,
@@ -72,6 +120,10 @@ export default {
         pageIndex: 1, // 页码数量
         pageSize: 15 // 1页显示的个数
       },
+      drawerList: {
+        value2: "",
+        value7: ""
+      },
       refreshing: false,
       loading: false
     };
@@ -81,6 +133,9 @@ export default {
     this.queryTasks();
   },
   methods: {
+    ArrSingleOrMultipleChange({ type, value }) {
+      console.log(111, type, value);
+    },
     queryTasks() {
       // 查询任务
       Api.queryTaskList(this.requestParams).then(res => {
