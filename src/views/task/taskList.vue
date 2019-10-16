@@ -3,7 +3,7 @@
  * @Author: shenah
  * @Date: 2019-10-12 09:30:38
  * @LastEditors: shenah
- * @LastEditTime: 2019-10-16 14:37:59
+ * @LastEditTime: 2019-10-16 14:42:09
  -->
 
 <template>
@@ -54,6 +54,7 @@
           </div>
         </div>
         <ArrSingleOrMultiple
+          title ="任务状态"
           :list="TASK_STATUS"
           @ArrSingleOrMultipleChange="ArrSingleOrMultipleChange"
           type="aa"

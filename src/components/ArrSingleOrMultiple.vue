@@ -3,13 +3,13 @@
  * @Author: shenah
  * @Date: 2019-10-16 13:19:22
  * @LastEditors: shenah
- * @LastEditTime: 2019-10-16 14:39:16
+ * @LastEditTime: 2019-10-16 14:41:31
  -->
 
 <template>
   <div class="arr-single-or-multiple">
     <div class="screen">
-      <div class="title">任务状态</div>
+      <div class="title">{{title}}</div>
       <div class="multipleSelection">
         <div
           :class="selectedClass(item)"
@@ -41,6 +41,11 @@ export default {
     this.handlerList(this.list);
   },
   props: {
+    title: {
+      // 名称
+      type: Array,
+      default: ""
+    },
     defaultValue: {
       // 默认选中的值
       type: Array,
