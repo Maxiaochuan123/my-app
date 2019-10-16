@@ -2,8 +2,8 @@
  * @Description: In User Settings Edit
  * @Author: your name
  * @Date: 2019-09-04 12:35:37
- * @LastEditTime: 2019-09-05 14:44:05
- * @LastEditors: Please set LastEditors
+ * @LastEditTime: 2019-10-16 22:28:26
+ * @LastEditors: shenah
  -->
 <!--
  * @Description: 客户详情
@@ -249,9 +249,12 @@ export default {
         });
       } else if (type === "receive") {
         this.$confirm("是否领取此客户?", "提示").then(({ result, value }) => {
-          if (result) {
-            console.log("领取");
-          }
+          Api.queryReceivePublicPoolById({
+            ids: this.id,
+            labelType: "2"
+          }).then(res => {
+            this.$toast.success("领取成功");
+          });
         });
       }
     },

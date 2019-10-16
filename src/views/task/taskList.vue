@@ -3,7 +3,7 @@
  * @Author: shenah
  * @Date: 2019-10-12 09:30:38
  * @LastEditors: shenah
- * @LastEditTime: 2019-10-16 14:56:54
+ * @LastEditTime: 2019-10-16 22:07:23
  -->
 
 <template>
@@ -16,57 +16,12 @@
       rightLinkName="addOrEditTask"
     >
       <!-- 抽屉 -->
-      <div
-        class="drawerContent"
+      <Screen
+        :drawerList="drawerList"
+        :screenApi="Api.queryTaskList"
+        @resetList="resetList"
         slot="drawerContent"
-      >
-        <div class="drawerTitle">筛选</div>
-        <div class="screen">
-          <div class="title">创建时间</div>
-          <div class="screenInput">
-            <span v-show="!drawerList.value7">请选择创建时间</span>
-            <i class="iconfont icon-rili"></i>
-            <mu-date-input
-              class="timeInput"
-              container="bottomSheet"
-              full-width
-              icon="today"
-              label-float
-              type="date"
-              v-model="drawerList.value7"
-            ></mu-date-input>
-          </div>
-        </div>
-        <div class="screen">
-          <div class="title">结束时间</div>
-          <div class="screenInput">
-            <span v-show="!drawerList.value7">请选择结束时间</span>
-            <i class="iconfont icon-rili"></i>
-            <mu-date-input
-              class="timeInput"
-              container="bottomSheet"
-              full-width
-              icon="today"
-              label-float
-              type="date"
-              v-model="drawerList.value7"
-            ></mu-date-input>
-          </div>
-        </div>
-        <ArrSingleOrMultiple
-          :list="TASK_STATUS"
-          @ArrSingleOrMultipleChange="ArrSingleOrMultipleChange"
-          title="任务状态"
-          type="aa"
-        ></ArrSingleOrMultiple>
-        <div class="operation">
-          <mu-button
-            @click="resetDrawerList"
-            class="reset"
-          >重置</mu-button>
-          <mu-button color="primary">确定(5)</mu-button>
-        </div>
-      </div>
+      ></Screen>
     </AppBar>
     <mu-tabs
       :value="active"
@@ -101,13 +56,15 @@ import ArrSingleOrMultiple from "@components/ArrSingleOrMultiple.vue";
 import { TASK_STATUS } from "@constants/dictionaries";
 import AppBar from "@components/AppBar.vue";
 import TaskItem from "./components/TaskItem.vue";
+import Screen from "@components/Screen.vue";
 import Api from "@api";
 import dayjs from "dayjs";
 export default {
   name: "taskList",
-  components: { AppBar, TaskItem, ArrSingleOrMultiple },
+  components: { AppBar, TaskItem, ArrSingleOrMultiple, Screen },
   data() {
     return {
+      Api,
       TASK_STATUS,
       active: 0,
       listObj: {}, // 列表对象
@@ -119,18 +76,54 @@ export default {
         pageIndex: 1, // 页码数量
         pageSize: 15 // 1页显示的个数
       },
-      drawerList: {
-        value2: "",
-        value7: ""
-      },
+      drawerList: {},
       loading: false
     };
   },
   props: {},
   mounted() {
+    this.initScreenList();
     this.queryTasks();
   },
   methods: {
+    initScreenList() {
+      Api.querySimpleUserByDepId({
+        needGroup: 0
+      }).then(res => {
+        this.drawerList = {
+          createUserId: {
+            fileTitle: "搜索",
+            valueField: "userId",
+            labelField: "realname",
+            type: "searchInput",
+            placeholder: "搜索内部联系人",
+            val: "",
+            searchList: res.data
+          },
+          createTime: {
+            fileTitle: "创建时间",
+            type: "date",
+            placeholder: "请选择创建时间",
+            val: ""
+          },
+          stopTime: {
+            fileTitle: "结束时间",
+            type: "date",
+            placeholder: "结束时间",
+            val: ""
+          },
+          status: {
+            defaultValue: [],
+            fileTitle: "任务状态",
+            type: "single",
+            valueField: "value",
+            labelField: "text",
+            list: this.TASK_STATUS
+          }
+        };
+      });
+    },
+    resetList(list) {},
     ArrSingleOrMultipleChange({ type, value }) {
       console.log(111, type, value);
     },

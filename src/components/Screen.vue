@@ -16,10 +16,10 @@
             <i class="iconfont icon-sousuo1"></i>
             <mu-select full-width filterable v-model="item.val" :placeholder="item.placeholder">
               <mu-option
-                v-for="(item,index) in item.searchList"
+                v-for="(one,index) in item.searchList"
                 :key="index"
-                :label="item.name"
-                :value="item.val"
+                :label="one[item.labelField]"
+                :value="one[item.valueField]"
               ></mu-option>
             </mu-select>
           </div>
