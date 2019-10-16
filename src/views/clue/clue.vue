@@ -2,8 +2,8 @@
  * @Description: In User Settings Edit
  * @Author: your name
  * @Date: 2019-09-04 10:13:29
- * @LastEditTime: 2019-09-09 18:31:40
- * @LastEditors: Please set LastEditors
+ * @LastEditTime: 2019-10-16 16:35:43
+ * @LastEditors: shenah
  -->
 <template>
   <div class="clue">
@@ -145,6 +145,7 @@ export default {
           val:''
         },
         clueList:{
+          defaultValue:['买车','车险'],
           fileTitle:'线索类型',
           type:'single',
           valueField:'title',
@@ -161,6 +162,7 @@ export default {
           }]
         },
         clueStateList:{
+          defaultValue:['未跟进','已跟进'],
           fileTitle:'线索状态',
           type:'multiple',
           valueField:'title',

@@ -6,13 +6,13 @@
 
       <div class="content">
         <div class="screen" v-for="(item,index) in drawerList" :key="index">
-          <div class="title">{{item.fileTitle}}</div>
+          <div class="title" v-if="!(item.type === 'single' || item.type === 'multiple')">{{item.fileTitle}}</div>
           <div class="screenInput" v-if="item.type === 'input'">
             <i class="iconfont icon-sousuo1"></i>
             <mu-text-field class="searchInput" v-model="item.val" :placeholder="item.placeholder"></mu-text-field>
           </div>
 
-          <div class="screenInput" v-if="item.type === 'searchInput'">
+          <div class="screenInput" v-else-if="item.type === 'searchInput'">
             <i class="iconfont icon-sousuo1"></i>
             <mu-select full-width filterable v-model="item.val" :placeholder="item.placeholder">
               <mu-option
@@ -30,15 +30,7 @@
             <i class="iconfont icon-rili"></i>
             <mu-date-input class="timeInput" icon="today" v-model="item.val" type="date" label-float full-width container="bottomSheet"></mu-date-input>
           </div>
-
-          <ArrSingleOrMultiple v-if="item.type === 'single'" @arrSingleOrMultipleChange="arrSingleOrMultipleChange" :type="index" :title="item.fileTitle" :list="item.list" :mode="item.type" :labelField="item.labelField" :valueField="item.valueField"></ArrSingleOrMultiple>
-
-          <!-- <div v-else-if="item.type === 'select'">
-            <div class="title">{{item.placeholder}}</div>
-            <div class="multipleSelection">
-              <div :class="[itemVal.state ? 'activeSelect' : '']" @click="changeSelect(itemVal)" v-for="(itemVal,index2) in item.list" :key="index2">{{itemVal.title}}</div>
-            </div>
-          </div> -->
+           <ArrSingleOrMultiple :ref="`arrSingleOrMultiple${item.type}`" v-else-if="item.type === 'single' || item.type === 'multiple'" @arrSingleOrMultipleChange="arrSingleOrMultipleChange" :type="index" :title="item.fileTitle" :list="item.list" :mode="item.type" :labelField="item.labelField" :valueField="item.valueField" :defaultValue="item.defaultValue"></ArrSingleOrMultiple>
         </div>
       </div>
 
@@ -136,22 +128,18 @@ export default {
   },
   methods:{
     arrSingleOrMultipleChange({type,value}) {
-      this.drawerList[type] = value;
-    },
-    // 筛选 - 多选状态
-    changeSelect(task){
-      task.state = !task.state;
+      this.drawerList[type] = {...this.drawerList[type],val:value,};
     },
     // 筛选 - 重置
     resetDrawerList(){
       for(let item in this.drawerList){
-        if(this.drawerList[item].hasOwnProperty('list') && Array.isArray(this.drawerList[item].list)){
-          for(let item2 of this.drawerList[item].list){
-            item2.state = false
-          }
+        const onedata = this.drawerList[item];
+        if(onedata.list){
+          this.$refs[`arrSingleOrMultiple${onedata.type}`][0].handlerList(onedata.list);
         }else{
-          this.drawerList[item].val = ''
+          onedata.val = '';
         }
+      
       }
     },
     //筛选 - 确认
@@ -163,14 +151,7 @@ export default {
     },
     getParams(){
       for(let item in this.drawerList){
-        if(this.drawerList[item].hasOwnProperty('list') && Array.isArray(this.drawerList[item].list)){
-          this.submitDrawerList[item] = []
-          for(let item2 of this.drawerList[item].list){
-            if(item2.state) this.submitDrawerList[item].push(item2.title)
-          }
-        }else{
-          this.submitDrawerList[item] = this.drawerList[item].val
-        }
+        this.submitDrawerList[item] = this.drawerList[item].val
       }
     }
   }
@@ -270,26 +251,7 @@ export default {
           top: -2px;
         }
       }
-      .multipleSelection{
-        display: flex;
-        flex-flow:row wrap;
-        justify-content: space-between;
-        align-content: space-between;
-        div{
-          height: 36px;
-          text-align: center;
-          font-size: @regular-size;
-          color: @regular-text;
-          background-color: #EDEDED;
-          border-radius: 6px;
-          padding: 8px 12px;
-          margin-bottom: 6px;
-        }
-        .activeSelect{
-          color: #fff;
-          background-color: @primary;
-        }
-      }
+      
     }
     .operation{
       // height: 20%;
