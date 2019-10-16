@@ -4,7 +4,7 @@
     <div class="content">
       <mu-list>
         <div v-for="(item,index) in list" :key="index">
-          <mu-list-item avatar button :ripple="false">
+          <mu-list-item avatar button :ripple="false" @click="goPage('selectPage',{pageTitle:item.title})">
             <mu-list-item-action>
               <mu-avatar>
                 <img :src="item.src">

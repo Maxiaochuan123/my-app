@@ -9,7 +9,7 @@
   <div class="search-bar">
     <div class="serchInput">
       <mu-icon size="16" value=":iconfont icon-sousuo"></mu-icon>
-      <mu-select full-width v-model="search.value" :placeholder="placeholderText">
+      <mu-select full-width filterable v-model="search.value" :placeholder="placeholderText">
         <mu-option
           v-for="(item,index) in searchList"
           :key="index"

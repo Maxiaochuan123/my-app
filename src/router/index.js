@@ -117,6 +117,13 @@ const router = new Router({
           meta: { zIndex: 1 },
           component: () => import("../views/toDoList/toDoList.vue")
         },
+        {
+          path: "/selectPage/:pageTitle",
+          name: "selectPage",
+          meta: { zIndex: 1 },
+          component: () => import("../views/toDoList/selectPage.vue")
+        },
+        
         // 日报
         {
           path: "/daily",

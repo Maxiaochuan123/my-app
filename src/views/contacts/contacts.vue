@@ -79,7 +79,7 @@ export default {
     };
   },
   created(){
-    this.api.getContacts({search:'',type:3}).then(res=>{
+    this.api.getContacts({type:1,teamType:1}).then(res=>{
       if(res.msg !== 'success') this.$toast.warning('联系人列表获取失败!');
       this.userList = res.data
       this.sheachList.push(res.data)
