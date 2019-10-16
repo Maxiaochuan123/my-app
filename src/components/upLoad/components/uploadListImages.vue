@@ -2,8 +2,8 @@
  * @Description: In User Settings Edit 11
  * @Author: your name
  * @Date: 2019-08-08 22:47:32
- * @LastEditTime: 2019-08-21 15:13:23
- * @LastEditors: Please set LastEditors
+ * @LastEditTime: 2019-10-16 15:25:46
+ * @LastEditors: shenah
  -->
 <template>
   <div class="imgUpload">
@@ -52,7 +52,7 @@ export default {
       const fd = new FormData();
       fd.append('file', item.file);
       fd.append('type', 'img');
-      fd.append('batchId', this.$parent.guid);
+      fd.append('batchId',this.$parent.batchId?this.$parent.batchId:this.$parent.guid);
       this.uploadHahdle(item,fd);
     },
 
@@ -66,7 +66,7 @@ export default {
         const fd = new FormData();
         fd.append('file', item.file);
         fd.append('type', 'img');
-        fd.append('batchId', this.$parent.guid);
+        fd.append('batchId', this.$parent.batchId?this.$parent.batchId:this.$parent.guid);
         this.changeImgList.push(item);
         Api.uploadFilesOrImgs(fd,item).then(res => {
           item.progress.progressNum = 100; item.progress.progressState = 1; item.progress.isNew = false;
@@ -126,7 +126,7 @@ export default {
               this.imagesList.push(...this.changeImgList);
               // tool.removeRepeat(this);
               this.imgSuccessList = [...this.imgSuccessList,...res];
-              this.$emit('getImgSuccessList',{guid:this.$parent.guid,list:this.imgSuccessList})
+              this.$emit('getImgSuccessList',{guid:this.$parent.batchId?this.$parent.batchId:this.$parent.guid,list:this.imgSuccessList})
               this.$emit('parentImgLoad',this.imagesList)
               this.changeImgList=[];
             })

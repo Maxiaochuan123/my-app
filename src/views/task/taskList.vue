@@ -3,7 +3,7 @@
  * @Author: shenah
  * @Date: 2019-10-12 09:30:38
  * @LastEditors: shenah
- * @LastEditTime: 2019-10-16 14:42:09
+ * @LastEditTime: 2019-10-16 14:56:54
  -->
 
 <template>
@@ -54,9 +54,9 @@
           </div>
         </div>
         <ArrSingleOrMultiple
-          title ="任务状态"
           :list="TASK_STATUS"
           @ArrSingleOrMultipleChange="ArrSingleOrMultipleChange"
+          title="任务状态"
           type="aa"
         ></ArrSingleOrMultiple>
         <div class="operation">
@@ -84,9 +84,7 @@
     <div class="content">
       <mu-load-more
         :loading="loading"
-        :refreshing="refreshing"
         @load="load"
-        @refresh="refresh"
         class="list-wrap"
       >
         <TaskItem
@@ -125,7 +123,6 @@ export default {
         value2: "",
         value7: ""
       },
-      refreshing: false,
       loading: false
     };
   },
@@ -137,10 +134,19 @@ export default {
     ArrSingleOrMultipleChange({ type, value }) {
       console.log(111, type, value);
     },
-    queryTasks() {
+    queryTasks(flag) {
       // 查询任务
-      Api.queryTaskList(this.requestParams).then(res => {
-        this.listObj = res.data;
+      return Api.queryTaskList(this.requestParams).then(res => {
+        let data = res.data;
+        let list = data.list;
+        if (list.length === 0 && flag) {
+          this.requestParams.pageIndex -= 1;
+        }
+        if (flag) {
+          this.listObj.list.push(...list);
+        } else {
+          this.listObj = res.data;
+        }
       });
     },
     tabChange(val) {
@@ -178,20 +184,13 @@ export default {
       // 进入详情
       this.goPage("taskBasic", { id: row.taskId });
     },
-    refresh() {
-      this.refreshing = true;
-      this.$refs.container.scrollTop = 0;
-      setTimeout(() => {
-        this.refreshing = false;
-        this.num = 10;
-      }, 2000);
-    },
     load() {
+      // 滚动加载
       this.loading = true;
-      setTimeout(() => {
+      this.requestParams.pageIndex += 1;
+      this.queryTasks(true).then(() => {
         this.loading = false;
-        this.num += 10;
-      }, 2000);
+      });
     }
   }
 };

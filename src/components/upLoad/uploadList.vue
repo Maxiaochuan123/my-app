@@ -73,6 +73,12 @@ import tools from '../../../static/js/tool'
 export default {
   name:"upLoad",
   components:{ UpLoadImages,UpLoadEnclosure,PreviewImage},
+  props:{
+    batchId:{
+      type:[String,Number],
+      default:'',
+    }
+  },
   data(){
     return{
       guid:'', // 用于文件上传的标志

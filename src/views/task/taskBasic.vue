@@ -3,7 +3,7 @@
  * @Author: shenah
  * @Date: 2019-10-12 15:40:23
  * @LastEditors: shenah
- * @LastEditTime: 2019-10-16 10:50:00
+ * @LastEditTime: 2019-10-16 15:19:44
  -->
 <template>
   <div class="task-basic">
@@ -25,6 +25,8 @@
     ></SubTaskForm>
     <div class="upload-wrap no-border-bottom">
       <UploadList
+        :batchId="$parent.details.batchId"
+        @getEnclosureSuccessList="getEnclosureSuccessList"
         @getImgSuccessList="getImgSuccessList"
         class="upload-file"
       ></UploadList>
@@ -76,7 +78,12 @@ export default {
       this.goPage("addOrEditSubTask", { id: this.id });
     },
     getImgSuccessList(res) {
-      // 处理上传
+      // 图片上传的处理
+      console.log("img", res);
+    },
+    getEnclosureSuccessList(res) {
+      // 处理文件
+      console.log("file", res);
     },
     // 业务关联组件的处理
     relateBusinessChange({ nowConfig, commonParam, operate }) {

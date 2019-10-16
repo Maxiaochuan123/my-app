@@ -3,7 +3,7 @@
  * @Author: shenah
  * @Date: 2019-10-16 13:19:22
  * @LastEditors: shenah
- * @LastEditTime: 2019-10-16 14:41:31
+ * @LastEditTime: 2019-10-16 14:45:09
  -->
 
 <template>
@@ -43,7 +43,7 @@ export default {
   props: {
     title: {
       // 名称
-      type: Array,
+      type: String,
       default: ""
     },
     defaultValue: {

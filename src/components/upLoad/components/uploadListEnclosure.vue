@@ -2,8 +2,8 @@
  * @Description: In User Settings Edit 11
  * @Author: your name
  * @Date: 2019-08-08 22:47:32
- * @LastEditTime: 2019-08-21 15:13:23
- * @LastEditors: Please set LastEditors
+ * @LastEditTime: 2019-10-16 15:25:12
+ * @LastEditors: shenah
  -->
 <template>
   <div class="enclosureUpload">
@@ -31,7 +31,7 @@ export default {
       const fd = new FormData();
       fd.append('file', item.file);
       fd.append('type', 'file');
-      fd.append('batchId', this.$parent.guid);
+      fd.append('batchId', this.$parent.batchId?this.$parent.batchId:this.$parent.guid);
       this.uploadHahdle(item,fd);
     },
     // 全部上传
@@ -43,7 +43,7 @@ export default {
             const fd = new FormData();
             fd.append('file', item.file);
             fd.append('type', 'file');
-            fd.append('batchId', this.$parent.guid);
+            fd.append('batchId', this.$parent.batchId?this.$parent.batchId:this.$parent.guid);
             this.uploadHahdle(item, fd);
           }
           // else if(item.progress.progressState == 2){
@@ -101,7 +101,7 @@ export default {
         });
       })
       this.$emit('parentEnclosureLoad',this.enclosureList);
-      this.$emit('getEnclosureSuccessList',{guid:this.$parent.guid,list:this.enclosureList});
+      this.$emit('getEnclosureSuccessList',{guid:this.$parent.batchId?this.$parent.batchId:this.$parent.guid,list:this.enclosureList});
       this.allUpload();
     }
   }
