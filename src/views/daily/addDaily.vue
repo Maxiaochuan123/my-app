@@ -43,7 +43,7 @@
           <span class="title">关联业务</span>
           <img src="../../../static/images/relation.png">
         </div> -->
-        <RelateBusiness :relateData="relateData" :relateMenu="relateMenu" ></RelateBusiness>
+        <RelateBusiness :relateData="relateData" :relateMenu="relateMenu" @relateBusinessChange="relateBusinessChange"></RelateBusiness>
       </div>
       <div class="receivePeople">
         <span class="title">接收人</span>
@@ -96,6 +96,13 @@ export default {
     },
     getEnclosureSuccessList(data){
       console.log(data)
+    },
+    relateBusinessChange({ nowConfig, commonParam, operate }){
+      const param = {
+        taskId: this.id,
+        ...commonParam
+      };
+      console.log(param)
     }
   }
 }

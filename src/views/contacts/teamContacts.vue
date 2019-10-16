@@ -7,20 +7,21 @@
  -->
 <template>
   <div class="teamContacts">
-    <AppBar  :pageTitle="title"></AppBar>
+    <AppBar pageTitle="联系人"></AppBar>
     
     <div class="content">
-      <SearchBar :list="[]" placeholderText="搜索联系人"></SearchBar>
-        <IndexsList :list="userList">
-          <div slot="row" slot-scope="{row}" class="user-index">
-            <img :src="loadingImg('defaultImg.png')" />
-            <div>
-              <span>{{row.createUserName}}</span>
-              <span>{{row.detailAddress}}</span>
-              <i class="iconfont icon-dianhua"></i>
-            </div>
+      <SearchBar :list="sheachList" placeholderText="搜索联系人"></SearchBar>
+        <IndexsList :list="userList" v-if="Object.keys(userList).length > 0">
+          <div slot="row" slot-scope="{row}" class="user-index" @click="goPage('contactsDetails',{id: row.contactsId,type:'联系人'})">
+          <img :src="loadingImg('defaultImg.png')" />
+          <div>
+            <span>{{row.name}}</span>
+            <span>{{row.remark}}</span>
+            <i class="iconfont icon-dianhua"></i>
           </div>
-        </IndexsList>
+        </div>
+      </IndexsList>
+      <Nothing words="暂无联系人" v-else></Nothing>
     </div>
   </div>
 </template>
@@ -29,23 +30,26 @@
 import AppBar from "../../components/AppBar";
 import IndexsList from "../../components/IndexsList";
 import SearchBar from "../../components/SearchBar";
-// import { mapState } from 'vuex'
+import Nothing from '../../components/Nothing'
 export default {
   components: {
     AppBar,
     IndexsList,
-    SearchBar
+    SearchBar,
+    Nothing
   },
   data() {
     return {
-      title: "联系人",
-      userList:[]
+      userList:{},
+      sheachList:[],
     };
   },
   created(){
-    // this.api.getTeamContacts({contactsId:''}).then(res=>{
-    //   this.userList = res.data
-    // })
+    this.api.getContacts({type:1,teamType:0}).then(res=>{
+      if(res.msg !== 'success') this.$toast.warning('联系人列表获取失败!');
+      this.userList = res.data
+      this.sheachList.push(res.data)
+    })
   }
   // computed:{
   //   ...mapState(['userList'])
@@ -63,13 +67,15 @@ export default {
     bottom: 0;
     
     .user-index{
-      list-style-type: none;
-      display: flex;
-      justify-content: flex-start;
-      align-items: center;
+      // display: flex;
+      // justify-content: flex-start;
+      // align-items: center;
       color: @regular-text;
       height: 66px;
       padding: 0 20px;
+      padding-top: 12px;
+      position: relative;
+      // background-color: dodgerblue;
       
       img {
         border-radius: 50%;
@@ -77,10 +83,13 @@ export default {
         height: 40px;
       }
       div {
-        width: 86%;
+        position: absolute;
+        top: 0;
+        left: 60px;
+        width: 78%;
         margin-left: 20px;
         padding: 12px 0;
-        position: relative;
+        
         display: flex;
         flex-direction: column;
         border-bottom: 1px solid @primary-border;
@@ -100,8 +109,8 @@ export default {
           font-size: 22px;
           color: @primary;
           position: absolute;
-          top: 24px;
-          right: 20px;
+          top: 18px;
+          right: 34px;
         }
         
       }
