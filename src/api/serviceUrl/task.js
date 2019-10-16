@@ -5,6 +5,8 @@
 const getApi = url => `/task${url}`;
 // 查询系统所有用户
 export const QUERY_TASK_LIST = getApi("/queryPageTask");
+// 添加任务(包含子任务)
+export const ADD_OR_EDIT_TASK_CHILD = getApi("/addTask");
 // 添加或者修改任务
 export const ADD_OR_EDIT_TASK = getApi("/addOrUpdate");
 // 根据id查询任务日志

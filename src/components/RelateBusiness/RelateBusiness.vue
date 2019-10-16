@@ -3,7 +3,7 @@
  * @Author: shenah
  * @Date: 2019-10-12 17:16:43
  * @LastEditors: shenah
- * @LastEditTime: 2019-10-15 15:44:45
+ * @LastEditTime: 2019-10-16 10:54:56
  -->
 
 <template>
@@ -112,7 +112,7 @@ export default {
     }
   },
   mounted() {
-    this.infoObj = { ...this.relateMenu };
+    this.infoObj = JSON.parse(JSON.stringify(this.relateMenu));
   },
   methods: {
     judgeShowLine(val) {
@@ -130,11 +130,11 @@ export default {
     beforeSub(nowConfig, row, index) {
       const param = {};
       Object.keys(this.infoObj).forEach((key, objIndex) => {
-        const { list, idField, subField } = this.infoObj[key];
+        const { list, idField, submitField } = this.infoObj[key];
         if (objIndex === 0) {
           this.infoObj[nowConfig.type].list.splice(index, 1);
         }
-        param[subField] = list.map(item => item[idField]).join(",");
+        param[submitField] = list.map(item => item[idField]).join(",");
       });
       return param;
     },
@@ -148,8 +148,8 @@ export default {
     deleteRelate(nowConfig, row, index) {
       this.$confirm(`是否删除此${nowConfig.name}?`, "提示").then(
         ({ result, value }) => {
-          const commonParam = this.beforeSub(nowConfig, row, index);
           if (result) {
+            const commonParam = this.beforeSub(nowConfig, row, index);
             if (this.id) {
               this.$emit("relateBusinessChange", {
                 commonParam,
@@ -162,7 +162,7 @@ export default {
     },
     menuClick(row) {
       this.open = false;
-      this.$refs.selectInfo.nowConfig = row;
+      this.$refs.selectInfo.nowConfig = this.infoObj[row.type];
       this.$refs.selectInfo.openFullscreen = true;
     },
     /**
