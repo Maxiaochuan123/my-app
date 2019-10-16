@@ -146,7 +146,9 @@ export default {
         },
         clueList:{
           fileTitle:'线索类型',
-          type:'select',
+          type:'single',
+          valueField:'title',
+          labelField:'title',
           list:[{
             title:'买车',
             state:false
@@ -160,7 +162,9 @@ export default {
         },
         clueStateList:{
           fileTitle:'线索状态',
-          type:'select',
+          type:'multiple',
+          valueField:'title',
+          labelField:'title',
           list:[{
             title:'未跟进',
             state:false

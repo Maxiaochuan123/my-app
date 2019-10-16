@@ -7,7 +7,6 @@
       <div class="content">
         <div class="screen" v-for="(item,index) in drawerList" :key="index">
           <div class="title">{{item.fileTitle}}</div>
-
           <div class="screenInput" v-if="item.type === 'input'">
             <i class="iconfont icon-sousuo1"></i>
             <mu-text-field class="searchInput" v-model="item.val" :placeholder="item.placeholder"></mu-text-field>
@@ -32,12 +31,14 @@
             <mu-date-input class="timeInput" icon="today" v-model="item.val" type="date" label-float full-width container="bottomSheet"></mu-date-input>
           </div>
 
-          <div v-else-if="item.type === 'select'">
+          <ArrSingleOrMultiple v-if="item.type === 'single'" @arrSingleOrMultipleChange="arrSingleOrMultipleChange" :type="index" :title="item.fileTitle" :list="item.list" :mode="item.type" :labelField="item.labelField" :valueField="item.valueField"></ArrSingleOrMultiple>
+
+          <!-- <div v-else-if="item.type === 'select'">
             <div class="title">{{item.placeholder}}</div>
             <div class="multipleSelection">
               <div :class="[itemVal.state ? 'activeSelect' : '']" @click="changeSelect(itemVal)" v-for="(itemVal,index2) in item.list" :key="index2">{{itemVal.title}}</div>
             </div>
-          </div>
+          </div> -->
         </div>
       </div>
 
@@ -49,6 +50,7 @@
 </template>
 
 <script>
+import ArrSingleOrMultiple from './ArrSingleOrMultiple';
 export default {
   props:{
     drawerList:{
@@ -60,6 +62,7 @@ export default {
       default: () => {}
     }
   },
+  components:{ArrSingleOrMultiple},
   data(){
     return{
       // drawerList:{
@@ -93,6 +96,8 @@ export default {
       //   clueStateList:{
       //     fileTitle:'线索状态',
       //     type:'select',
+      //     valueField:'',
+      //     labelField:'',
       //     list:[{
       //       title:'未跟进',
       //       state:false
@@ -130,6 +135,9 @@ export default {
     }
   },
   methods:{
+    arrSingleOrMultipleChange({type,value}) {
+      this.drawerList[type] = value;
+    },
     // 筛选 - 多选状态
     changeSelect(task){
       task.state = !task.state;

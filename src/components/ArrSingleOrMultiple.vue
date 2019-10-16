@@ -95,7 +95,7 @@ export default {
       });
       this.showList = list;
       this.active = arr;
-      this.$emit("ArrSingleOrMultipleChange", {
+      this.$emit("arrSingleOrMultipleChange", {
         type: this.type,
         value: arr.join(",")
       });
@@ -129,7 +129,7 @@ export default {
           );
         }
       }
-      this.$emit("ArrSingleOrMultipleChange", {
+      this.$emit("arrSingleOrMultipleChange", {
         type: this.type,
         value: this.active.join(",")
       });
