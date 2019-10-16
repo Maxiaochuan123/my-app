@@ -39,10 +39,11 @@
         <uploadList @getImgSuccessList="getImgSuccessList" @getEnclosureSuccessList="getEnclosureSuccessList"></uploadList>
         <mu-divider shallow-inset></mu-divider>
 
-        <div class="relationBusiness">
+        <!-- <div class="relationBusiness">
           <span class="title">关联业务</span>
           <img src="../../../static/images/relation.png">
-        </div>
+        </div> -->
+        <RelateBusiness :relateData="relateData" :relateMenu="relateMenu" ></RelateBusiness>
       </div>
       <div class="receivePeople">
         <span class="title">接收人</span>
@@ -55,9 +56,11 @@
 <script>
 import AppBar from '../../components/AppBar'
 import uploadList from '../../components/upLoad/uploadList'
+import RelateBusiness from "../../components/RelateBusiness/RelateBusiness";
+import { RELATION_BUSINESS } from "@constants/menuInfo.js";
 export default {
   components:{
-    AppBar, uploadList
+    AppBar, uploadList, RelateBusiness
   },
   data(){
     return{
@@ -65,6 +68,26 @@ export default {
       textareaVal2:'',
       textareaVal3:'',
       textareaVal4:'',
+      relateMenu: {
+        // 菜单的相应配置
+        clues: { ...RELATION_BUSINESS.clues },
+        customers: { ...RELATION_BUSINESS.customers },
+        contacts: { ...RELATION_BUSINESS.contacts },
+        tasks: { ...RELATION_BUSINESS.tasks },
+        visits: { ...RELATION_BUSINESS.visits },
+      },
+      relateData: {} // 关联业务
+    }
+  },
+  watch: {
+    "$parent.details"(val) {
+      this.relateData = {
+        clues: val.clueList,
+        customers: val.customerList,
+        contacts: val.contactsList,
+        tasks: val.tasksList,
+        visits: val.visitsList,
+      };
     }
   },
   methods: {

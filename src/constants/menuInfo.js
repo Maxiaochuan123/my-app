@@ -54,5 +54,29 @@ export const RELATION_BUSINESS = {
       query: "queryContactsPC"
     },
     list: []
-  }
+  },
+  tasks: {
+    name: "任务",
+    type: "tasks",
+    idField: "taskId",
+    submitField: "taskIds",
+    showField: "taskName",
+    showSubField: "post",
+    api: {
+      query: "queryTaskList"
+    },
+    list: []
+  },
+  visits: {
+    name: "拜访",
+    type: "visits",
+    idField: "visitId",
+    submitField: "visitIds",
+    showField: "visitName",
+    showSubField: "post",
+    api: {
+      query: "queryVisitList"
+    },
+    list: []
+  },
 };

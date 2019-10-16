@@ -37,5 +37,6 @@ export default {
     height: 50px;
     position: fixed;
     bottom: 0;
+    box-shadow:0px 16px 23px 0px rgba(159,159,159,1);
   }
 </style>
