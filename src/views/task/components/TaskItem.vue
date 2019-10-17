@@ -3,7 +3,7 @@
  * @Author: shenah
  * @Date: 2019-10-14 16:59:53
  * @LastEditors: shenah
- * @LastEditTime: 2019-10-16 09:53:52
+ * @LastEditTime: 2019-10-17 15:12:43
  -->
 
 <template>
@@ -28,10 +28,18 @@
           v-else
         />
         <span class="task-header-title primary-words">{{item.name}}</span>
-        <div
-          :class="{'task-warn':item.status === 2}"
-          class="task-status"
-        >{{item.status | codeInToName(TASK_STATUS)}}</div>
+        <div class="task-header-right">
+          <div
+            :class="{'task-warn':item.status === 2}"
+            class="task-status"
+          >{{item.status | codeInToName(TASK_STATUS)}}</div>
+          <img
+            :src="loadingImg('delete.png')"
+            @click.stop="deleteTask(item,index)"
+            class="close"
+            v-if="type ==='subTask'"
+          />
+        </div>
       </div>
       <div
         class="creat-name regular-words"
@@ -77,6 +85,14 @@ export default {
   },
   mounted() {},
   methods: {
+    deleteTask(row, index) {
+      // 删除任务
+      this.$emit("taskItemChange", {
+        operate: "del",
+        row,
+        index
+      });
+    },
     select(row) {
       let { status: code, taskId, stopTime } = row;
       let status = 5;
@@ -134,14 +150,24 @@ export default {
         flex: 1;
         margin: 0 10px 0 6px;
       }
-      .task-status {
-        text-align: right;
-        font-size: @primary-size;
-        font-weight: @primary-weight;
-        color: @regular-text;
-      }
-      .task-warn {
-        color: @primary;
+      .task-header-right {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        .task-warn {
+          color: @primary !important;
+        }
+        .task-status {
+          text-align: right;
+          font-size: @primary-size;
+          font-weight: @primary-weight;
+          color: @regular-text;
+        }
+        .close {
+          width: 20px;
+          height: 20px;
+          margin-left: 6px;
+        }
       }
     }
     .creat-name {

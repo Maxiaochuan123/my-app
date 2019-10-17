@@ -3,7 +3,7 @@
  * @Author: shenah
  * @Date: 2019-10-15 16:09:08
  * @LastEditors: shenah
- * @LastEditTime: 2019-10-16 10:00:08
+ * @LastEditTime: 2019-10-17 15:16:40
  -->
 
 <template>
@@ -44,6 +44,7 @@
 <script>
 import AddOrEditSubTaskPop from "./AddOrEditSubTaskPop.vue";
 import TaskItem from "./TaskItem.vue";
+import Api from "@api";
 export default {
   name: "SubTaskForm",
   components: { TaskItem, AddOrEditSubTaskPop },
@@ -84,9 +85,26 @@ export default {
       this.row = {};
       this.$refs.addOrEditSubTaskPop.openFullscreen = true;
     },
-    taskItemChange({ row, index }) {
-      this.row = row;
-      this.index = index;
+    taskItemChange({ operate, row, index }) {
+      if (operate === "del") {
+        this.$confirm("是否删除当前任务?", "提示").then(({ result, value }) => {
+          if (result) {
+            if (row.taskId) {
+              Api.deleteTask({
+                taskIds: row.taskId
+              }).then(res => {
+                this.$toast.success("删除当前子任务成功");
+                this.$attrs.updateDetails();
+              });
+            } else {
+              this.childTask.splice(index, 1);
+            }
+          }
+        });
+      } else {
+        this.row = row;
+        this.index = index;
+      }
     }
   }
 };

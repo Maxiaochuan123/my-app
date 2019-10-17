@@ -3,7 +3,7 @@
  * @Author: shenah
  * @Date: 2019-10-12 14:29:46
  * @LastEditors: shenah
- * @LastEditTime: 2019-10-17 11:28:21
+ * @LastEditTime: 2019-10-17 15:22:47
  -->
 <template>
   <div class="task-details">
@@ -212,7 +212,20 @@ export default {
       }
     },
     footNavChange(item) {
-      // todo
+      let { type, phone } = item;
+      if (type === "finish") {
+        this.$confirm("是否完成此任务?", "提示").then(({ result, value }) => {
+          if (result) {
+            Api.addOrEditTask({
+              taskId: this.id,
+              status: 5
+            }).then(res => {
+              this.$toast.success("已经完成任务");
+              this.goBack();
+            });
+          }
+        });
+      }
     }
   }
 };
