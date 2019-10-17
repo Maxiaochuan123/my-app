@@ -12,7 +12,7 @@
         <mu-icon :size="iconSize" :value="`:iconfont ${leftIcon}`"></mu-icon>
       </mu-button>
       {{pageTitle}}
-      <mu-button icon v-if="isDrawer" @click="opeDrawer = true">
+      <mu-button icon v-if="isDrawer" @click="openDrawerState">
         <mu-icon :size="iconSize" :value="`:iconfont ${drawerIcon}`"></mu-icon>
       </mu-button>
       <!-- 右侧按钮 -->
@@ -43,7 +43,7 @@
         v-if="custom"
       >{{customTitle}}</mu-button>
     </mu-appbar>
-    <mu-drawer :open.sync="opeDrawer" right :docked="false">
+    <mu-drawer :open.sync="drawerState" right :docked="false">
       <slot name="drawerContent"></slot>
     </mu-drawer>
   </div>
@@ -116,7 +116,6 @@ export default {
   },
   data() {
     return {
-      opeDrawer: false,
       menuFlag: false
     };
   },

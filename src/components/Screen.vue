@@ -14,6 +14,7 @@
 
           <div class="screenInput" v-else-if="item.type === 'searchInput'">
             <i class="iconfont icon-sousuo1"></i>
+            <div class="shanchu" v-if="item.val"><i class="iconfont icon-shanchu" @click="item.val = ''"></i></div>
             <mu-select full-width filterable v-model="item.val" :placeholder="item.placeholder">
               <mu-option
                 v-for="(one,index) in item.searchList"
@@ -148,6 +149,7 @@ export default {
       this.screenApi(this.submitDrawerList).then(res => {
         this.$emit('resetList', res.data)
       })
+      this.closeDrawerState();
     },
     getParams(){
       for(let item in this.drawerList){
@@ -206,6 +208,16 @@ export default {
         .icon-sousuo1{
           font-size: 18px;
           top: 2px;
+        }
+        .shanchu{
+          position: absolute;
+          top: 2px;
+          right: 34px;
+          z-index: 10;
+          .icon-shanchu{
+            color: @regular-text;
+            font-size: 18px;
+          }
         }
         .timeInput{
           margin: 0;

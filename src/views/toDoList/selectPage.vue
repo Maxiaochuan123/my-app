@@ -6,11 +6,11 @@
           <mu-icon size="24" :value="`:iconfont icon-fanhui`"></mu-icon>
         </mu-button>
         {{pageTitle}}
-        <mu-button icon @click="opeDrawer = true" v-if="pageTitle === '待跟进线索' || pageTitle === '分配给我的线索'">
+        <mu-button icon @click="drawerState = true" v-if="pageTitle === '待跟进线索' || pageTitle === '分配给我的线索'">
           <mu-icon size="24" :value="`:iconfont icon-guolv`"></mu-icon>
         </mu-button>
       </mu-appbar>
-      <mu-drawer :open.sync="opeDrawer" right :docked="false">
+      <mu-drawer :open.sync="drawerState" right :docked="false">
           <Screen :drawerList="drawerList" :screenApi="this.api.getClueList" @resetList="resetList"  v-if="pageTitle === '待跟进线索' || pageTitle === '分配给我的线索'"></Screen>
       </mu-drawer>
     </div>
@@ -61,7 +61,6 @@ export default {
   },
   data(){
     return{
-      opeDrawer:false,
       list:{}, //列表
       getListApi:'',
       getListParams:{},
