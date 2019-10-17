@@ -1,10 +1,12 @@
-
 <!--
- * @Description: 选择用户共用页面
+ * @Description: 分享的公用页面
  * @Author: shenah
+ * @Date: 2019-09-25 15:57:26
+ * @LastEditors: shenah
+ * @LastEditTime: 2019-10-17 11:41:45
  -->
 <template>
-  <div class="select-users">
+  <div class="select-share-users">
     <AppBar
       :isShowRightBtn="false"
       pageTitle="选择用户"
@@ -101,8 +103,6 @@ export default {
     // 从那个入口进来的
     // contactsDetailsShare => 从联系人详情的分享
     // customerDetailsShare => 从客户详情的分享
-    // commonWatersClue => 从公海线索里面点进来
-    // commonWatersCustomer => 从公海客户里面点进来
     // clue => 线索分享
     type() {
       return this.$route.params.type;
@@ -175,9 +175,6 @@ export default {
         case "contactsDetailsShare":
           shareApi = this.api.contactsShare;
           break;
-        case "commonWatersClue":
-          shareApi = Api.customerShareToUsers;
-          break;
         case "customerDetailsShare":
           shareApi = Api.customerShareToUsers;
           break;
@@ -216,7 +213,7 @@ export default {
   width: 18px;
   height: 18px;
 }
-.select-users {
+.select-share-users {
   width: 100%;
   .content {
     height: 100%;

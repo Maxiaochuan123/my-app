@@ -61,7 +61,7 @@ export default {
     btnChange(row, type) {
       if (type === "distribute") {
         // 分配
-        this.goPage("selectUsers", {
+        this.goPage("selectShareUsers", {
           id: row.leadsId,
           type: "commonWatersClue"
         });

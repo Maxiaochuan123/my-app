@@ -2,7 +2,7 @@
  * @Description: In User Settings Edit
  * @Author: your name
  * @Date: 2019-09-04 12:35:37
- * @LastEditTime: 2019-10-16 22:28:26
+ * @LastEditTime: 2019-10-17 11:43:48
  * @LastEditors: shenah
  -->
 <!--
@@ -168,7 +168,7 @@ export default {
         this.menuList = [
           {
             title: "分配",
-            linkName: "selectUsers",
+            linkName: "selectDistributeUsers",
             isLink: true,
             linkParams: {
               id: this.id,
@@ -185,7 +185,7 @@ export default {
         this.menuList = [
           {
             title: "分享",
-            linkName: "selectUsers",
+            linkName: "selectShareUsers",
             isLink: false,
             type: "share"
           },
@@ -254,6 +254,7 @@ export default {
             labelType: "2"
           }).then(res => {
             this.$toast.success("领取成功");
+            this.goBack();
           });
         });
       }

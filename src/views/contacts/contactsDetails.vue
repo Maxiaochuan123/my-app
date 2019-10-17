@@ -205,7 +205,7 @@ export default {
         case '分享':
           this.$confirm('是否分享此联系人 ?', '提示').then(res=>{
             if(res.result){
-              this.goPage('selectUsers',{id:this.$route.params.id,type:'contactsDetailsShare'})
+              this.goPage('selectShareUsers',{id:this.$route.params.id,type:'contactsDetailsShare'})
             }
           })
           break;

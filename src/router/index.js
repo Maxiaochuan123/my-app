@@ -49,10 +49,10 @@ const router = new Router({
         // 共用页面
         // 选择用户
         {
-          path: "/selectUsers/:id/:type",
-          name: "selectUsers",
+          path: "/selectShareUsers/:id/:type",
+          name: "selectShareUsers",
           meta: { zIndex: 1 },
-          component: () => import("../views/commonPage/selectUsers.vue")
+          component: () => import("../views/commonPage/selectShareUsers.vue")
         },
         // 联系人
         {
