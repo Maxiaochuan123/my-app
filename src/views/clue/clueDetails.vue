@@ -245,43 +245,21 @@ export default {
       clueDate: Date.now(),
       info:{},
       record:[],
-      menuList: [
-        {
-          title: "分享",
-          linkName: "",
-          isLink: false
-        },
-        {
-          title: "转换为联系人",
-          linkName: "",
-          isLink: false
-        },
-        {
-          title: "转换为客户",
-          linkName: "",
-          isLink: false
-        },
-        {
-          title: "放入公海",
-          linkName: "",
-          isLink: false
-        },
-        {
-          title: "关闭",
-          linkName: "",
-          isLink: false
-        },
-        {
-          title: "编辑",
-          linkName: "editBasicsInfo",
-          isLink: false
-        },
-        {
-          title: "删除",
-          linkName: "",
-          isLink: true
-        }
-      ],
+      menuList: [{
+        title:'分享',
+      },{
+        title:'转换为联系人',
+      },{
+        title:'转换为客户',
+      },{
+        title:'放入公海',
+      },{
+        title:'关闭',
+      },{
+        title:'编辑',
+      },{
+        title:'删除',
+      }],
 
       bottomList: [
         
@@ -399,7 +377,7 @@ export default {
               this.api.clueDelete({leadsIds:this.$route.params.id}).then(res=>{
                 if(res.msg === 'success'){
                   this.$toast.success('已删除!')
-                  this.getClueList();
+                  this.$router.go(-1)
                 }else{
                   this.$toast.error('删除失败!');
                 }

@@ -12,64 +12,37 @@
       <Screen slot="drawerContent" :drawerList="drawerList" @getApiParams="getApiParams"></Screen>
     </AppBar>
     <div class="content">
-    <mu-tabs :value.sync="active" @change="changeTabs" inverse color="primary" indicator-color="primary" center>
-      <mu-tab>我的线索</mu-tab>
-      <mu-tab>团队线索</mu-tab>
-    </mu-tabs>
-    <div class="myClue" v-if="active === 0">
-      <mu-list textline="two-line">
-        <div v-for="(item,index) in clueUserList" :key="index">
-          <mu-list-item v-waves>
-            <mu-list-item-content @click="goPage('clueDetails',{id:item.leadsId,type:'线索'})">
-              <mu-list-item-title>{{item.ownerUserName}}
-                <span :class="item.followup === '未跟进' ? 'nofollowUp' : ''">{{item.followup}}</span>
-              </mu-list-item-title>
-              <mu-list-item-sub-title>创建人: {{item.createUserName}}</mu-list-item-sub-title>
-              <mu-list-item-sub-title>{{item.createTime}}更新
-              </mu-list-item-sub-title>
-            </mu-list-item-content>
-            <mu-menu placement="left-start" :open.sync="item.openMenu">
-              <mu-button icon>
-                <mu-icon value=":iconfont icon-gengduovertical"></mu-icon>
-              </mu-button>
-              <mu-list slot="content">
-                <mu-list-item button v-for="(menuItem,index) in myClueMenuList" :key="index" @click="operation(item, menuItem)">
-                  <mu-list-item-title>{{menuItem.title}}</mu-list-item-title>
-                </mu-list-item>
-              </mu-list>
-            </mu-menu>
-          </mu-list-item>
-          <mu-divider shallow-inset v-show="index + 1 !== clueUserList.length"></mu-divider>
-        </div>
-      </mu-list>
-    </div>
-    <div class="teamClue" v-if="active === 1">
-      <mu-list textline="two-line">
-        <div v-for="(item,index) in clueTeamList" :key="index">
-          <mu-list-item v-waves>
-            <mu-list-item-content @click="goPage('clueDetails',{id:item.leadsId,type:'线索'})">
-              <mu-list-item-title>{{item.ownerUserName}}
-                <span :class="item.followup === '未跟进' ? 'nofollowUp' : ''">{{item.followup}}</span>
-              </mu-list-item-title>
-              <mu-list-item-sub-title>创建人: {{item.createUserName}}</mu-list-item-sub-title>
-              <mu-list-item-sub-title>{{item.createTime}}更新
-              </mu-list-item-sub-title>
-            </mu-list-item-content>
-            <mu-menu placement="left-start" :open.sync="item.openMenu">
-              <mu-button icon>
-                <mu-icon value=":iconfont icon-gengduovertical"></mu-icon>
-              </mu-button>
-              <mu-list slot="content">
-                <mu-list-item button v-for="(menuItem,index) in myClueMenuList" :key="index" @click="operation(item, menuItem)">
-                  <mu-list-item-title>{{menuItem.title}}</mu-list-item-title>
-                </mu-list-item>
-              </mu-list>
-            </mu-menu>
-          </mu-list-item>
-          <mu-divider shallow-inset v-show="index + 1 !== clueTeamList.length"></mu-divider>
-        </div>
-      </mu-list>
-    </div>
+      <mu-tabs :value.sync="tabsActive" @change="changeTabs" inverse color="primary" indicator-color="primary" center>
+        <mu-tab>我的线索</mu-tab>
+        <mu-tab>团队线索</mu-tab>
+      </mu-tabs>
+      <div class="clueList">
+        <mu-list textline="two-line">
+          <div v-for="(item,index) in clueList" :key="index">
+            <mu-list-item v-waves>
+              <mu-list-item-content @click="goPage('clueDetails',{id:item.leadsId,type:'线索'})">
+                <mu-list-item-title>{{item.ownerUserName}}
+                  <span :class="item.followup === '未跟进' ? 'nofollowUp' : ''">{{item.followup}}</span>
+                </mu-list-item-title>
+                <mu-list-item-sub-title>创建人: {{item.createUserName}}</mu-list-item-sub-title>
+                <mu-list-item-sub-title>{{item.createTime}}更新
+                </mu-list-item-sub-title>
+              </mu-list-item-content>
+              <mu-menu placement="left-start" :open.sync="item.openMenu">
+                <mu-button icon>
+                  <mu-icon value=":iconfont icon-gengduovertical"></mu-icon>
+                </mu-button>
+                <mu-list slot="content">
+                  <mu-list-item button v-for="(menuItem,index) in myClueMenuList" :key="index" @click="operation(item, menuItem)">
+                    <mu-list-item-title>{{menuItem.title}}</mu-list-item-title>
+                  </mu-list-item>
+                </mu-list>
+              </mu-menu>
+            </mu-list-item>
+            <mu-divider shallow-inset v-show="index + 1 !== clueList.length"></mu-divider>
+          </div>
+        </mu-list>
+      </div>
     </div>
   </div>
 </template>
@@ -83,9 +56,7 @@ export default {
   },
   data(){
     return{
-      active:this.$store.state.activeTabs,
-      clueUserList:[], //个人线索
-      clueTeamList:[], //团队线索
+      clueList:[], //线索列表
       menuList:[{
         title: "新建买车线索",
         linkName: "editBasicsInfo",
@@ -166,7 +137,7 @@ export default {
         clueStateList:{
           defaultValue:['未跟进','已跟进'],
           fileTitle:'线索状态',
-          mode:'multiple',
+          mode:'single',
           valueField:'title',
           labelField:'title',
           list:[{
@@ -193,40 +164,27 @@ export default {
     }
   },
   created(){
-    this.getClueList();
-    this.getTeamClueList();
+    this.getClueList(this.getParams());
   },
   methods:{
     getApiParams(data){
       let params = this.getParams();
-      this.api.getClueList({...params,...data}).then(res=>{
-        if(res.msg !== 'success') this.$toast.warning('线索列表获取失败!');
-        this.clueUserList = res.data.list
-        this.clueUserList[0].openMenu = false
-      })
+      this.getClueList({...params,...data});
     },
     changeTabs(item){
-      this.$store.commit('setActiveTabs',item)
-      this.active === 0 ? this.getClueList() : this.getTeamClueList()
+      this.storage.sessionSet('tabsActive',item);
+      this.getClueList(this.getParams());
     },
-    // 获取个人线索
-    getClueList(){
-      this.api.getClueList(this.getParams()).then(res=>{
+    // 获取线索列表
+    getClueList(params){
+      this.api.getClueList(params).then(res=>{
         if(res.msg !== 'success') this.$toast.warning('线索列表获取失败!');
-        this.clueUserList = res.data.list
-        this.clueUserList[0].openMenu = false
-      })
-    },
-    // 获取团队线索
-    getTeamClueList(){
-      this.api.getClueList(this.getParams()).then(res=>{
-        if(res.msg !== 'success') this.$toast.warning('线索列表获取失败!');
-        this.clueTeamList = res.data.list
-        this.clueTeamList[0].openMenu = false
+        this.clueList = res.data.list
+        this.clueList[0].openMenu = false
       })
     },
     getParams(){
-      if(this.active === 0){
+      if(this.tabsActive === 0){
         return {type:1,teamType:1}
       }else{
         return {type:1,teamType:0}
@@ -258,7 +216,7 @@ export default {
               this.api.clueToContact({leadsIds:item.leadsId}).then(res=>{
                 if(res.msg === 'success'){
                   this.$toast.success('已转化为联系人!');
-                  this.active === 0 ? this.getClueList() : this.getTeamClueList()
+                  this.getClueList(this.getParams());
                 }else{
                   this.$toast.error('转化为联系人失败!');
                 }
@@ -272,7 +230,7 @@ export default {
               this.api.clueToCustomer({leadsIds:item.leadsId}).then(res=>{
                 if(res.msg === 'success'){
                   this.$toast.success('已转化为客户!')
-                  this.active === 0 ? this.getClueList() : this.getTeamClueList()
+                  this.getClueList(this.getParams());
                 }else{
                   this.$toast.error('转化为客户失败!');
                 }
@@ -350,7 +308,7 @@ export default {
       height: 100%;
       overflow-y: scroll;
 
-      .myClue,.teamClue{
+      .clueList{
         background-color: #fff;
         margin-top: 12px;
       }

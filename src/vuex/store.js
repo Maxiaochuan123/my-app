@@ -15,12 +15,10 @@ export default new Vuex.Store({
     authorities: {}, // 作者的权限
     loginUser: {}, // 登录者的信息
     bottomNav: 'home', // 当前点击的底部页签
-    activeTabs: 0, // 当前点击的 tab 页签
   },
   mutations: {
     // 基础方法
     setBottomNav: (state, data) => (state.bottomNav = data),
-    setActiveTabs: (state, data) => (state.activeTabs = data),
     // 登录的基本信息
     setloginInfo: (state, data) => {
       const {accessToken,authorities,user} = data;

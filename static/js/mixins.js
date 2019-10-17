@@ -7,6 +7,9 @@ import dayjs from "dayjs";
 // 工具函数
 import tool from "./tool";
 
+// 工具函数
+import storage from "./storage";
+
 export default {
   directives: {
     waves
@@ -25,6 +28,9 @@ export default {
 
       // 侧边栏
       drawerState: false,
+      
+      // tabs 当前选中项
+      tabsActive: storage.sessionGet('tabsActive'),
 
       // 验证
       myRules: {
