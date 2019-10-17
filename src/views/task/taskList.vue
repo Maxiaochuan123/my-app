@@ -19,7 +19,7 @@
       <Screen
         :drawerList="drawerList"
         :screenApi="Api.queryTaskList"
-        @resetList="resetList"
+        @getApiParams="getApiParams"
         slot="drawerContent"
       ></Screen>
     </AppBar>
@@ -123,7 +123,7 @@ export default {
         };
       });
     },
-    resetList(list) {},
+    getApiParams(list) {},
     queryTasks(flag) {
       // 查询任务
       return Api.queryTaskList(this.requestParams).then(res => {
