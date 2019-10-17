@@ -2,7 +2,7 @@
  * @Description: In User Settings Edit
  * @Author: your name
  * @Date: 2019-09-04 10:13:29
- * @LastEditTime: 2019-10-17 11:14:41
+ * @LastEditTime: 2019-10-17 11:42:50
  * @LastEditors: shenah
  -->
 <template>
@@ -236,7 +236,7 @@ export default {
         case '分享':
           this.$confirm('是否分享此线索 ?', '提示').then(res=>{
             if(res.result){
-              this.goPage('selectUsers',{id:item.leadsId,type:'clue'})
+              this.goPage('selectShareUsers',{id:item.leadsId,type:'clue'})
             }
           })
           break;

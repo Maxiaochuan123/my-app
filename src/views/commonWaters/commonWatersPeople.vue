@@ -42,7 +42,7 @@
 
 <script>
 import Nothing from "@components/Nothing.vue";
-import Api from '@api';
+import Api from "@api";
 export default {
   name: "commonWatersPeople",
   components: { Nothing },
@@ -65,7 +65,7 @@ export default {
     btnChange(row, type) {
       if (type === "distribute") {
         // 分配
-        this.goPage("selectUsers", {
+        this.goPage("selectShareUsers", {
           id: row.customerId,
           type: "commonWatersCustomer"
         });
@@ -78,6 +78,7 @@ export default {
               labelType: "2"
             }).then(res => {
               this.$parent.queryPublicPoolCustomer();
+              this.$toast.success("成功领取客户");
             });
           }
         });

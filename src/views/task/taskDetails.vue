@@ -3,7 +3,7 @@
  * @Author: shenah
  * @Date: 2019-10-12 14:29:46
  * @LastEditors: shenah
- * @LastEditTime: 2019-10-17 10:57:32
+ * @LastEditTime: 2019-10-17 11:28:21
  -->
 <template>
   <div class="task-details">
@@ -157,7 +157,6 @@ export default {
         taskId: this.id
       }).then(res => {
         this.details = res.data || {};
-        console.log("this.details:", this.details);
       });
     },
     addBtnList() {

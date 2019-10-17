@@ -3,7 +3,7 @@
  * @Author: shenah
  * @Date: 2019-10-12 09:30:38
  * @LastEditors: shenah
- * @LastEditTime: 2019-10-16 22:07:23
+ * @LastEditTime: 2019-10-17 11:20:26
  -->
 
 <template>
@@ -115,7 +115,7 @@ export default {
           status: {
             defaultValue: [],
             fileTitle: "任务状态",
-            type: "single",
+            mode: "single",
             valueField: "value",
             labelField: "text",
             list: this.TASK_STATUS
@@ -124,9 +124,6 @@ export default {
       });
     },
     resetList(list) {},
-    ArrSingleOrMultipleChange({ type, value }) {
-      console.log(111, type, value);
-    },
     queryTasks(flag) {
       // 查询任务
       return Api.queryTaskList(this.requestParams).then(res => {

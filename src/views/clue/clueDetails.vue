@@ -333,7 +333,7 @@ export default {
         case '分享':
           this.$confirm('是否分享此线索 ?', '提示').then(res=>{
             if(res.result){
-              this.goPage('selectUsers',{id:this.$route.params.id,type:'clue'})
+              this.goPage('selectShareUsers',{id:this.$route.params.id,type:'clue'})
             }
           })
           break;
