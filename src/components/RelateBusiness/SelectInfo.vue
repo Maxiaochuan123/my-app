@@ -3,7 +3,7 @@
  * @Author: shenah
  * @Date: 2019-10-14 09:14:34
  * @LastEditors: shenah
- * @LastEditTime: 2019-10-17 10:18:59
+ * @LastEditTime: 2019-10-17 10:25:49
  -->
 
 <template>
@@ -120,6 +120,8 @@ export default {
         this.selectedList = this.nowConfig.list;
         this.noChangeList = [...this.nowConfig.list];
         this.query();
+      } else {
+        this.requestParams.pageIndex = 1;
       }
     }
   },
