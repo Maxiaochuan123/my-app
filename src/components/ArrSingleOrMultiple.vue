@@ -3,21 +3,19 @@
  * @Author: shenah
  * @Date: 2019-10-16 13:19:22
  * @LastEditors: shenah
- * @LastEditTime: 2019-10-16 14:45:09
+ * @LastEditTime: 2019-10-16 16:22:56
  -->
 
 <template>
   <div class="arr-single-or-multiple">
-    <div class="screen">
-      <div class="title">{{title}}</div>
-      <div class="multipleSelection">
-        <div
-          :class="selectedClass(item)"
-          :key="index"
-          @click="select(item)"
-          v-for="(item,index) in showList"
-        >{{item[labelField]}}</div>
-      </div>
+    <div class="title">{{title}}</div>
+    <div class="multipleSelection">
+      <div
+        :class="selectedClass(item)"
+        :key="index"
+        @click="select(item)"
+        v-for="(item,index) in showList"
+      >{{item[labelField]}}</div>
     </div>
   </div>
 </template>
@@ -29,13 +27,13 @@ export default {
   data() {
     return {
       showList: [],
-      active: [] // 当前激活的
+      active: [], // 当前激活的
     };
   },
   watch: {
     list(val) {
       this.handlerList(val);
-    }
+    },
   },
   mounted() {
     this.handlerList(this.list);
@@ -79,7 +77,7 @@ export default {
   methods: {
     handlerList(oldList) {
       let list = JSON.parse(JSON.stringify(oldList));
-      let arr = this.defaultValue;
+      let arr = JSON.parse(JSON.stringify(this.defaultValue));
       if (this.mode === "single") {
         if (arr.length > 0) {
           arr = [this.defaultValue[0]];
@@ -139,12 +137,39 @@ export default {
         return "activeSelect";
       }
       return "";
-    }
+    },
+    reset() { // 重置参数
+    },
   }
 };
 </script>
 <style lang='less' scoped>
 .arr-single-or-multiple {
   margin-top: 20px;
+  .title {
+    font-size: @primary-size;
+    color: @primary-text;
+    margin-bottom: 10px;
+  }
+  .multipleSelection {
+    display: flex;
+    flex-flow: row wrap;
+    justify-content: space-between;
+    align-content: space-between;
+    div {
+      height: 36px;
+      text-align: center;
+      font-size: @regular-size;
+      color: @regular-text;
+      background-color: #ededed;
+      border-radius: 6px;
+      padding: 8px 12px;
+      margin-bottom: 6px;
+    }
+    .activeSelect {
+      color: #fff;
+      background-color: @primary;
+    }
+  }
 }
 </style>
