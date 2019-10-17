@@ -3,8 +3,8 @@
     <div class="enclosure">
       <div class="title">附件</div>
       <div class="content">
-        <UpLoadImages ref="imageRef" :isEdit="isEdit" :noEditImgList="noEditImgList" @parentImgLoad="parentImgLoad" @getImgSuccessList="getImgSuccessList"></UpLoadImages>
-        <UpLoadEnclosure ref="enclosureRef" :isEdit="isEdit" :noEditEnclosureList="noEditEnclosureList" @parentEnclosureLoad="parentEnclosureLoad" @getEnclosureSuccessList="getEnclosureSuccessList"></UpLoadEnclosure>
+        <UpLoadImages ref="imageRef" :isEdit="isEdit" :customImgList="customImgList" @parentImgLoad="parentImgLoad" @getImgSuccessList="getImgSuccessList"></UpLoadImages>
+        <UpLoadEnclosure ref="enclosureRef" :isEdit="isEdit" :customEnclosureList="customEnclosureList" @parentEnclosureLoad="parentEnclosureLoad" @getEnclosureSuccessList="getEnclosureSuccessList"></UpLoadEnclosure>
       </div>
     </div>
 
@@ -83,11 +83,11 @@ export default {
       type: Boolean,
       default: true
     },
-    noEditImgList:{
+    customImgList:{
       type: Array,
       default: () => []
     },
-    noEditEnclosureList:{
+    customEnclosureList:{
       type: Array,
       default: () => []
     }
@@ -119,8 +119,8 @@ export default {
   },
   mounted() {
     this.guid = tools.guid();
-    this.imgPreviewList = !this.isEdit ? this.noEditImgList : [];
-    this.enclosureList = !this.isEdit ? this.noEditEnclosureList : [];
+    this.imgPreviewList = !this.isEdit ? this.customImgList : [];
+    this.enclosureList = !this.isEdit ? this.customEnclosureList : [];
   },
   methods:{
     getImgSuccessList(data){
@@ -131,15 +131,15 @@ export default {
     },
     parentImgLoad(data){
       if(!this.isEdit){
-        this.imgPreviewList = [...this.noEditImgList,...data];
+        this.imgPreviewList = [...this.customImgList,...data];
       }else{
         this.imgPreviewList = data;
       }
     },
     deleteImageItem(item){
       if(!this.isEdit){
-        let imgTempList = this.noEditImgList.filter(imgItem => imgItem.fileId !== item.fileId);
-        this.$emit('changeNoEditImgList', imgTempList)
+        let imgTempList = this.customImgList.filter(imgItem => imgItem.fileId !== item.fileId);
+        this.$emit('changecustomImgList', imgTempList)
       }
       this.$refs.imageRef.deleteImageItem(item);
     },
@@ -156,7 +156,7 @@ export default {
 
     parentEnclosureLoad(data){
       if(!this.isEdit){
-        this.enclosureList = [...this.noEditEnclosureList,...data];
+        this.enclosureList = [...this.customEnclosureList,...data];
       }else{
         this.enclosureList = data;
       }
@@ -178,8 +178,8 @@ export default {
           break;
         case '删除':
             if(!this.isEdit){
-              let editEnclosureTempList = this.noEditEnclosureList.filter(listItem => listItem.fileId !== listItem.fileId);
-              this.$emit('changeNoEditEnclosureList', editEnclosureTempList)
+              let editEnclosureTempList = this.customEnclosureList.filter(listItem => listItem.fileId !== listItem.fileId);
+              this.$emit('changecustomEnclosureList', editEnclosureTempList)
             }
             this.$refs.enclosureRef.deleteImageItem(listItem);
           break;

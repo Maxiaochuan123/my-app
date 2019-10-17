@@ -135,6 +135,7 @@ export default {
     // 获取列表
     getList(){
       this.getApi();
+      console.log(this.getListApi)
       this.getListApi(this.getListParams).then(res=>{
         if(res.msg !== 'success') this.$toast.warning('列表获取失败!');
         this.list = res.data.list;

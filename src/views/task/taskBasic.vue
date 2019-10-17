@@ -27,10 +27,10 @@
       <UploadList
         :batchId="$parent.details.batchId"
         :isEdit="false"
-        :noEditImgList="noEditImgList"
-        :noEditEnclosureList="noEditEnclosureList"
-        @changeNoEditImgList="changeNoEditImgList"
-        @changeNoEditEnclosureList="changeNoEditEnclosureList"
+        :customImgList="customImgList"
+        :customEnclosureList="customEnclosureList"
+        @changecustomImgList="changecustomImgList"
+        @changecustomEnclosureList="changecustomEnclosureList"
         @getEnclosureSuccessList="getEnclosureSuccessList"
         @getImgSuccessList="getImgSuccessList"
         class="upload-file"
@@ -65,8 +65,8 @@ export default {
       relateData: {}, // 关联业务
       childTask: [], // 子任务列表
 
-      noEditImgList:[{src: "http://192.168.0.92:6080/20191016/11113.jpg",fileId: 528, progress:{progressState:1}}],
-      noEditEnclosureList:[{src: "http://192.168.0.92:6080/20191017/11111.jpg", name:'CRM系统接口_1015.pdf', fileId: 580, progress:{progressState:1}}]
+      customImgList:[{src: "http://192.168.0.92:6080/20191016/11113.jpg",fileId: 528, progress:{progressState:1}}],
+      customEnclosureList:[{src: "http://192.168.0.92:6080/20191017/11111.jpg", name:'CRM系统接口_1015.pdf', fileId: 580, progress:{progressState:1}}]
     };
   },
   props: {},
@@ -93,12 +93,12 @@ export default {
       // 处理文件
       console.log("file", res);
     },
-    changeNoEditImgList(data){
-      this.noEditImgList = data;
+    changecustomImgList(data){
+      this.customImgList = data;
     },
-    changeNoEditEnclosureList(data){
+    changecustomEnclosureList(data){
       console.log(data)
-      this.noEditEnclosureList = data;
+      this.customEnclosureList = data;
     },
     // 业务关联组件的处理
     relateBusinessChange({ nowConfig, commonParam, operate }) {
