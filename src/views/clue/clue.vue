@@ -9,7 +9,7 @@
   <div class="clue">
     <AppBar pageTitle="线索" isDrawer drawerIcon="icon-guolv" rightIcon="icon-tianjia" isMenu :menuList="menuList">
       <!-- 抽屉 -->
-      <Screen slot="drawerContent" :drawerList="drawerList" :screenApi="this.api.getClueList" @resetList="resetList"></Screen>
+      <Screen slot="drawerContent" :drawerList="drawerList" @getApiParams="getApiParams"></Screen>
     </AppBar>
     <div class="content">
     <mu-tabs :value.sync="active" @change="changeTabs" inverse color="primary" indicator-color="primary" center>
@@ -197,8 +197,13 @@ export default {
     this.getTeamClueList();
   },
   methods:{
-    resetList(data){
-      console.log(data)
+    getApiParams(data){
+      let params = this.getParams();
+      this.api.getClueList({...params,...data}).then(res=>{
+        if(res.msg !== 'success') this.$toast.warning('线索列表获取失败!');
+        this.clueUserList = res.data.list
+        this.clueUserList[0].openMenu = false
+      })
     },
     changeTabs(item){
       this.$store.commit('setActiveTabs',item)
@@ -206,7 +211,7 @@ export default {
     },
     // 获取个人线索
     getClueList(){
-      this.api.getClueList({type:1,teamType:1}).then(res=>{
+      this.api.getClueList(this.getParams()).then(res=>{
         if(res.msg !== 'success') this.$toast.warning('线索列表获取失败!');
         this.clueUserList = res.data.list
         this.clueUserList[0].openMenu = false
@@ -214,11 +219,18 @@ export default {
     },
     // 获取团队线索
     getTeamClueList(){
-      this.api.getClueList({type:1,teamType:0}).then(res=>{
+      this.api.getClueList(this.getParams()).then(res=>{
         if(res.msg !== 'success') this.$toast.warning('线索列表获取失败!');
         this.clueTeamList = res.data.list
         this.clueTeamList[0].openMenu = false
       })
+    },
+    getParams(){
+      if(this.active === 0){
+        return {type:1,teamType:1}
+      }else{
+        return {type:1,teamType:0}
+      }
     },
     operation(item,menuItem){
       switch (menuItem.title) {

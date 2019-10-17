@@ -1,5 +1,5 @@
 <template>
- <!-- 例子: <Screen slot="drawerContent" :drawerList="drawerList" :screenApi="this.api.getClueList" @resetList="resetList"></Screen> -->
+ <!-- 例子: <Screen slot="drawerContent" :drawerList="drawerList" @getApiParams="getApiParams"></Screen> -->
 
   <div class="drawerContent">
     <div class="drawerTitle">筛选</div>
@@ -7,6 +7,7 @@
       <div class="content">
         <div class="screen" v-for="(item,index) in drawerList" :key="index">
           <div class="title" v-if="!(item.mode === 'single' || item.mode === 'multiple')">{{item.fileTitle}}</div>
+          
           <div class="screenInput" v-if="item.type === 'input'">
             <i class="iconfont icon-sousuo1"></i>
             <mu-text-field class="searchInput" v-model="item.val" :placeholder="item.placeholder"></mu-text-field>
@@ -37,7 +38,7 @@
 
       <div class="operation">
         <mu-button class="reset" @click="resetDrawerList">重置</mu-button>
-        <mu-button color="primary" @click="drawerSubmit">确定({{number}})</mu-button>
+        <mu-button color="primary" @click="drawerSubmit">确定</mu-button>
       </div>
   </div>
 </template>
@@ -48,10 +49,6 @@ export default {
   props:{
     drawerList:{
       type: Object,
-      default: () => {}
-    },
-    screenApi:{
-      type: Function,
       default: () => {}
     }
   },
@@ -112,19 +109,7 @@ export default {
       //     }]
       //   }
       // },
-      submitDrawerList:{},
-      number:0
-    }
-  },
-  watch:{
-    'drawerList':{
-      handler(newVal,oldVal){
-        this.getParams();
-        this.screenApi(this.submitDrawerList).then(res => {
-          this.number = res.data.list.length;
-        })
-      },
-      deep: true
+      submitDrawerList:{}
     }
   },
   methods:{
@@ -146,9 +131,7 @@ export default {
     //筛选 - 确认
     drawerSubmit(){
       this.getParams();
-      this.screenApi(this.submitDrawerList).then(res => {
-        this.$emit('resetList', res.data)
-      })
+      this.$emit('getApiParams', this.submitDrawerList)
       this.closeDrawerState();
     },
     getParams(){
