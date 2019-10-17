@@ -23,6 +23,9 @@ export default {
       pickerTitle: "",
       pickerList: [],
 
+      // 侧边栏
+      drawerState: false,
+
       // 验证
       myRules: {
         must: (mes, type) => this.must(mes, type),
@@ -142,37 +145,13 @@ export default {
       return require(`../images/${imgName}`);
     },
 
-    // // 筛选 - 多选状态
-    // changeSelect(task){
-    //   task.state = !task.state;
-    // },
-    // // 筛选 - 重置
-    // resetDrawerList(){
-    //   for(let item in this.drawerList){
-    //     if(Array.isArray(this.drawerList[item])){
-    //       for(let item2 of this.drawerList[item]){
-    //         item2.state = false
-    //       }
-    //     }else{
-    //       this.drawerList[item] = ''
-    //     }
-    //   }
-    // },
-    //筛选 - 确认
-    // drawerSubmit(){
-    //   let  tempList = {...this.drawerList}
-    //   for(let item in tempList){
-    //     if(Array.isArray(tempList[item])){
-    //       // console.log(tempList[item])
-    //       for(let item2 of tempList[item]){
-    //         // console.log(item2.title)
-    //         // tempList[item].values.push(item2.title)
-    //         // tempList[item].push({values:item2.title})
-    //       }
-    //     }
-    //   }
-    //   // console.log( this.drawerList)
-    // }
+    // 侧边栏
+    openDrawerState(){
+      this.drawerState = true;
+    },
+    closeDrawerState(){
+      this.$parent.$parent.drawerState = false;
+    }
   },
   filters: {
     formatDate(timeStamp, type) {
