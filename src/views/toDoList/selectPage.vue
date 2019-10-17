@@ -6,33 +6,18 @@
           <mu-icon size="24" :value="`:iconfont icon-fanhui`"></mu-icon>
         </mu-button>
         {{pageTitle}}
-        <mu-button icon @click="opeDrawer = true">
+        <mu-button icon @click="opeDrawer = true" v-if="pageTitle === '待跟进线索' || pageTitle === '分配给我的线索'">
           <mu-icon size="24" :value="`:iconfont icon-guolv`"></mu-icon>
         </mu-button>
       </mu-appbar>
       <mu-drawer :open.sync="opeDrawer" right :docked="false">
-        <!-- <div class="drawerContent"> -->
-          <!-- <div class="drawerTitle">筛选</div>
-          <div class="screen">
-            <div class="title">跟进人</div>
-            <div class="multipleSelection">
-              <div :class="[cule.state ? 'activeSelect' : '']" @click="changeSelect(cule)" v-for="(cule,index) in drawerList.followPersonList" :key="index">{{cule.title}}</div>
-            </div>
-          </div>
-          <div class="screen">
-            <div class="title">线索状态</div>
-            <div class="multipleSelection">
-              <div :class="[cule.state ? 'activeSelect' : '']" @click="changeSelect(cule)" v-for="(cule,index) in drawerList.clueStateList" :key="index">{{cule.title}}</div>
-            </div>
-          </div> -->
-          <Screen :drawerList="drawerList" :screenApi="this.api.getClueList" @resetList="resetList"></Screen>
-        <!-- </div> -->
+          <Screen :drawerList="drawerList" :screenApi="this.api.getClueList" @resetList="resetList"  v-if="pageTitle === '待跟进线索' || pageTitle === '分配给我的线索'"></Screen>
       </mu-drawer>
     </div>
 
     <div class="content">
-      <div class="myClue">
-        <mu-list textline="two-line" v-if="pageTitle === '待跟进线索' || pageTitle === '分配给我的线索'">
+      <div class="myClue" v-if="pageTitle === '待跟进线索' || pageTitle === '分配给我的线索'">
+        <mu-list textline="two-line">
           <div v-for="(item,index) in list" :key="index">
             <mu-list-item v-waves>
               <mu-list-item-content @click="goPage('clueDetails',{id:item.leadsId,type:'线索'})">
@@ -47,31 +32,19 @@
             <mu-divider shallow-inset v-show="index + 1 !== list.length"></mu-divider>
           </div>
         </mu-list>
-
-        <IndexsList
-          :list="list"
-          :listSpacing="0"
-          :tagTop="242"
-          :tagTopoffsetTop="250"
-          v-else-if="pageTitle === '分配给我的线索' && Object.keys(list).length>0"
-        >
-          <div
-            @click="toDetails(row)"
-            class="index-customer"
-            slot="row"
-            slot-scope="{row,index,total}"
-          >
-            <div class="index-customer-wrap">
-              <div class="title">
-                <span>{{row.customerName}}</span>
-                <span class="rank">{{row.customerLevel}}</span>
-              </div>
-              <div class="sub-title">{{row.detailAddress || '暂无详细地址'}}</div>
-            </div>
-            <mu-divider v-if="total-1 !== index"></mu-divider>
-          </div>
-        </IndexsList>
       </div>
+      <IndexsList :list="list" :listSpacing="0" :tagTopoffsetTop="45" v-else-if="pageTitle === '分配给我的客户' && Object.keys(list).length > 0" >
+        <div @click="toDetails(row)" class="index-customer" slot="row" slot-scope="{row,index,total}" >
+          <div class="index-customer-wrap">
+            <div class="title">
+              <span>{{row.customerName}}</span>
+              <span class="rank">{{row.customerLevel}}</span>
+            </div>
+            <div class="sub-title">{{row.detailAddress || '暂无详细地址'}}</div>
+          </div>
+          <mu-divider v-if="total-1 !== index"></mu-divider>
+        </div>
+      </IndexsList>
     </div>
   </div>
 </template>
@@ -89,7 +62,7 @@ export default {
   data(){
     return{
       opeDrawer:false,
-      list:[], //列表
+      list:{}, //列表
       getListApi:'',
       getListParams:{},
       drawerList:{
@@ -135,10 +108,13 @@ export default {
     // 获取列表
     getList(){
       this.getApi();
-      console.log(this.getListApi)
       this.getListApi(this.getListParams).then(res=>{
         if(res.msg !== 'success') this.$toast.warning('列表获取失败!');
-        this.list = res.data.list;
+        if(res.data.hasOwnProperty('list')){
+          this.list = res.data.list;
+        }else{
+          this.list = res.data;
+        }
       })
     },
     getApi(){
@@ -158,27 +134,28 @@ export default {
       }
     },
     getDrawerList(){
-      switch (this.pageTitle) {
-        case '分配给我的线索':
-          this.drawerList.clue = {
-            defaultValue:['未跟进'],
-            fileTitle:'线索状态',
-            type:'single',
-            valueField:'title',
-            labelField:'title',
-            list:[{
-              title:'未跟进',
-              state:false
-            },{
-              title:'已跟进',
-              state:false
-            }]
-          }
-          break;
+      if(this.pageTitle === '分配给我的线索'){
+        this.drawerList.clue = {
+          defaultValue:['未跟进'],
+          fileTitle:'线索状态',
+          type:'single',
+          valueField:'title',
+          labelField:'title',
+          list:[{
+            title:'未跟进',
+            state:false
+          },{
+            title:'已跟进',
+            state:false
+          }]
+        }
       }
     },
     resetList(data){
 
+    },
+    toDetails(row) {
+      this.goPage("customerBasic", { id: row.customerId });
     },
     goBack(){
       this.$router.go(-1);
