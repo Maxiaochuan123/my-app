@@ -3,7 +3,7 @@
  * @Author: shenah
  * @Date: 2019-10-12 09:30:38
  * @LastEditors: shenah
- * @LastEditTime: 2019-10-17 11:20:26
+ * @LastEditTime: 2019-10-17 14:19:39
  -->
 
 <template>
@@ -72,6 +72,8 @@ export default {
         type: 0, // 任务类型 0 全部 ,1 我发出的 ,2 我收到的 ,3 下属的任务
         search: "", // 任务名称
         status: "", // 任务状态
+        createTime: "", // 开始时间
+        stopTime: "", // 结束时间
         date: "", // 截止日期
         pageIndex: 1, // 页码数量
         pageSize: 15 // 1页显示的个数
@@ -87,43 +89,47 @@ export default {
   },
   methods: {
     initScreenList() {
-      Api.querySimpleUserByDepId({
-        needGroup: 0
-      }).then(res => {
-        this.drawerList = {
-          createUserId: {
-            fileTitle: "搜索",
-            valueField: "userId",
-            labelField: "realname",
-            type: "searchInput",
-            placeholder: "搜索内部联系人",
-            val: "",
-            searchList: res.data
-          },
-          createTime: {
-            fileTitle: "创建时间",
-            type: "date",
-            placeholder: "请选择创建时间",
-            val: ""
-          },
-          stopTime: {
-            fileTitle: "结束时间",
-            type: "date",
-            placeholder: "结束时间",
-            val: ""
-          },
-          status: {
-            defaultValue: [],
-            fileTitle: "任务状态",
-            mode: "single",
-            valueField: "value",
-            labelField: "text",
-            list: this.TASK_STATUS
-          }
-        };
-      });
+      this.drawerList = {
+        search: {
+          fileTitle: "搜索",
+          type: "input",
+          placeholder: "搜索任务名称",
+          val: ""
+        },
+        createTime: {
+          fileTitle: "创建时间",
+          type: "date",
+          placeholder: "请选择创建时间",
+          val: ""
+        },
+        stopTime: {
+          fileTitle: "结束时间",
+          type: "date",
+          placeholder: "结束时间",
+          val: ""
+        },
+        status: {
+          defaultValue: [],
+          fileTitle: "任务状态",
+          mode: "single",
+          valueField: "value",
+          labelField: "text",
+          list: this.TASK_STATUS
+        }
+      };
+      // Api.querySimpleUserByDepId({
+      //   needGroup: 0
+      // }).then(res => {
+
+      // });
     },
-    resetList(list) {},
+    resetList(requestParams) {
+      this.requestParams = {
+        ...this.requestParams,
+        ...requestParams
+      };
+      this.queryTasks();
+    },
     queryTasks(flag) {
       // 查询任务
       return Api.queryTaskList(this.requestParams).then(res => {
@@ -194,14 +200,12 @@ export default {
     top: 44px;
   }
   .content {
-    height: 100%;
     padding-top: 104px;
+    overflow: auto;
     .list-wrap {
       width: 100%;
-      height: 100%;
       background-color: #fff;
       padding: 0 15px;
-      overflow: visible;
     }
   }
 }
