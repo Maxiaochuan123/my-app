@@ -135,6 +135,8 @@ export default {
           fileTitle:'搜索',
           type:'searchInput',
           placeholder:'搜索线索',
+          valueField:'val',
+          labelField:'name',
           val:'',
           searchList:[{name:'张三',val:'zs'},{name:'李四',val:'ls'},{name:'王五',val:'ww'},{name:'牛牛',val:'nn'}]
         },

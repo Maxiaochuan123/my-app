@@ -28,7 +28,7 @@
           <div class="screenInput" v-else-if="item.type === 'date'">
             <span v-show="!item.val">{{item.placeholder}}</span>
             <i class="iconfont icon-rili"></i>
-            <mu-date-input class="timeInput" icon="today" v-model="item.val" type="date" label-float full-width container="bottomSheet"></mu-date-input>
+            <mu-date-input class="timeInput" icon="today" v-model="item.val" type="date" label-float full-width container="bottomSheet" value-format="YYYY-MM-DD"></mu-date-input>
           </div>
            <ArrSingleOrMultiple :ref="`arrSingleOrMultiple${index}`" v-else-if="item.mode === 'single' || item.mode === 'multiple'" @arrSingleOrMultipleChange="arrSingleOrMultipleChange" :type="index" :title="item.fileTitle" :list="item.list" :mode="item.mode" :labelField="item.labelField" :valueField="item.valueField" :defaultValue="item.defaultValue"></ArrSingleOrMultiple>
         </div>
