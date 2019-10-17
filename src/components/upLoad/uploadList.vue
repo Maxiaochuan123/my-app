@@ -185,10 +185,6 @@ export default {
           break;
       }
     },
-    isAssetTypeAnImage(imgName){
-      return ['png', 'jpg', 'jpeg', 'bmp', 'gif', 'webp', 'svg'].
-      indexOf(imgName.toLowerCase()) !== -1;
-    },
     closePreview2(){
       this.previewView2 = false;
     },
