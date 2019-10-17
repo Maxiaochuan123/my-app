@@ -65,7 +65,7 @@ export default {
     btnChange(row, type) {
       if (type === "distribute") {
         // 分配
-        this.goPage("selectDistributeUsers", {
+        this.goReplacePage("selectDistributeUsers", {
           id: row.customerId,
           type: "commonWatersCustomer"
         });

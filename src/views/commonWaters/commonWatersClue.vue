@@ -61,7 +61,7 @@ export default {
     btnChange(row, type) {
       if (type === "distribute") {
         // 分配
-        this.goPage("selectDistributeUsers", {
+        this.goReplacePage("selectDistributeUsers", {
           id: row.leadsId,
           type: "commonWatersClue"
         });
@@ -73,6 +73,7 @@ export default {
               ids: row.leadsId,
               labelType: "1"
             }).then(res => {
+              this.$toast.success("领取线索成功");
               this.$parent.queryPublicPoolClue();
             });
           }

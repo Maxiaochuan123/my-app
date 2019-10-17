@@ -3,7 +3,7 @@
  * @Author: shenah
  * @Date: 2019-09-25 15:57:26
  * @LastEditors: shenah
- * @LastEditTime: 2019-10-17 13:39:10
+ * @LastEditTime: 2019-10-17 15:41:39
  -->
 <template>
   <div class="select-distribute-users">
@@ -135,9 +135,9 @@ export default {
           message: "分配成功"
         });
         if (this.type === "commonWatersCustomer") {
-          this.goPage("commonWatersPeople");
+          this.goReplacePage("commonWatersPeople");
         } else {
-          this.goPage("commonWatersClue");
+          this.goReplacePage("commonWatersClue");
         }
       });
     }
