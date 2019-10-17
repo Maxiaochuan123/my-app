@@ -3,5 +3,5 @@
  * 拜访模块
  */
 const getApi = url => `/visit${url}`;
-// 查询系统所有用户
+// 查询拜访记录
 export const QUERY_VISIT_LIST = getApi("/queryPageList");
