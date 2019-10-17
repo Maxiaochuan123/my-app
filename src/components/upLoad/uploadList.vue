@@ -3,8 +3,8 @@
     <div class="enclosure">
       <div class="title">附件</div>
       <div class="content">
-        <UpLoadImages ref="imageRef" @parentImgLoad="parentImgLoad" @getImgSuccessList="getImgSuccessList"></UpLoadImages>
-        <UpLoadEnclosure ref="enclosureRef" @parentEnclosureLoad="parentEnclosureLoad" @getEnclosureSuccessList="getEnclosureSuccessList"></UpLoadEnclosure>
+        <UpLoadImages ref="imageRef" :isEdit="isEdit" :noEditImgList="noEditImgList" @parentImgLoad="parentImgLoad" @getImgSuccessList="getImgSuccessList"></UpLoadImages>
+        <UpLoadEnclosure ref="enclosureRef" :isEdit="isEdit" :noEditEnclosureList="noEditEnclosureList" @parentEnclosureLoad="parentEnclosureLoad" @getEnclosureSuccessList="getEnclosureSuccessList"></UpLoadEnclosure>
       </div>
     </div>
 
@@ -35,13 +35,14 @@
             <span>{{listItem.progress.progressNum}}%</span>
           </div>
           <div class="describe">
-            <div class="title">{{listItem.file.name}}</div>
+            <div class="title">{{isEdit ? listItem.file.name : listItem.name}}</div>
             <div class="size">{{listItem.size}}</div>
           </div>
           <mu-menu placement="left-start" :open.sync="listItem.openMenu">
             <i class="iconfont icon-gengduovertical"></i>
             <mu-list slot="content">
-              <mu-list-item button v-show="/^image/.test(listItem.file.type)" @click="operation(listItem, '查看')">
+               <!-- v-show="isEdit ? /^image/.test(listItem.file.type) : /(.*)\.(jpg|bmp|gif|jpeg|tif|png|raw)$/.test(listItem.src)" -->
+              <mu-list-item button @click="operation(listItem, '查看')">
                 <mu-list-item-title>查看</mu-list-item-title>
               </mu-list-item>
               <mu-list-item button @click="operation(listItem, '下载')">
@@ -77,6 +78,18 @@ export default {
     batchId:{
       type:[String,Number],
       default:'',
+    },
+    isEdit:{
+      type: Boolean,
+      default: true
+    },
+    noEditImgList:{
+      type: Array,
+      default: () => []
+    },
+    noEditEnclosureList:{
+      type: Array,
+      default: () => []
     }
   },
   data(){
@@ -87,7 +100,6 @@ export default {
       previewView:false, //预览视窗
       previewSrc:'', //预览图 src
       previewIndex:0, //预览图 下标
-      // openMenu:false,
 
       enclosureList:[],
       menuList:[{
@@ -107,6 +119,8 @@ export default {
   },
   mounted() {
     this.guid = tools.guid();
+    this.imgPreviewList = !this.isEdit ? this.noEditImgList : [];
+    this.enclosureList = !this.isEdit ? this.noEditEnclosureList : [];
   },
   methods:{
     getImgSuccessList(data){
@@ -116,9 +130,17 @@ export default {
        this.$emit('getEnclosureSuccessList',data);
     },
     parentImgLoad(data){
-      this.imgPreviewList = data;
+      if(!this.isEdit){
+        this.imgPreviewList = [...this.noEditImgList,...data];
+      }else{
+        this.imgPreviewList = data;
+      }
     },
     deleteImageItem(item){
+      if(!this.isEdit){
+        let imgTempList = this.noEditImgList.filter(imgItem => imgItem.fileId !== item.fileId);
+        this.$emit('changeNoEditImgList', imgTempList)
+      }
       this.$refs.imageRef.deleteImageItem(item);
     },
     // 显示查看图片 view
@@ -133,7 +155,11 @@ export default {
     },
 
     parentEnclosureLoad(data){
-      this.enclosureList = data;
+      if(!this.isEdit){
+        this.enclosureList = [...this.noEditEnclosureList,...data];
+      }else{
+        this.enclosureList = data;
+      }
     },
     operation(listItem, typeTest){
       listItem.openMenu = false;
@@ -151,9 +177,17 @@ export default {
           tool.downloadExcel(this, listItem.file, listItem.file.name)
           break;
         case '删除':
+            if(!this.isEdit){
+              let editEnclosureTempList = this.noEditEnclosureList.filter(listItem => listItem.fileId !== listItem.fileId);
+              this.$emit('changeNoEditEnclosureList', editEnclosureTempList)
+            }
             this.$refs.enclosureRef.deleteImageItem(listItem);
           break;
       }
+    },
+    isAssetTypeAnImage(imgName){
+      return ['png', 'jpg', 'jpeg', 'bmp', 'gif', 'webp', 'svg'].
+      indexOf(imgName.toLowerCase()) !== -1;
     },
     closePreview2(){
       this.previewView2 = false;

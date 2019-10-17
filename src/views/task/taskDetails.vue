@@ -152,6 +152,7 @@ export default {
         taskId: this.id
       }).then(res => {
         this.details = res.data || {};
+        console.log('this.details:',this.details)
       });
     },
     addBtnList() {

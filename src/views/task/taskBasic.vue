@@ -26,6 +26,11 @@
     <div class="upload-wrap no-border-bottom">
       <UploadList
         :batchId="$parent.details.batchId"
+        :isEdit="false"
+        :noEditImgList="noEditImgList"
+        :noEditEnclosureList="noEditEnclosureList"
+        @changeNoEditImgList="changeNoEditImgList"
+        @changeNoEditEnclosureList="changeNoEditEnclosureList"
         @getEnclosureSuccessList="getEnclosureSuccessList"
         @getImgSuccessList="getImgSuccessList"
         class="upload-file"
@@ -58,7 +63,10 @@ export default {
         contacts: RELATION_BUSINESS.contacts
       },
       relateData: {}, // 关联业务
-      childTask: [] // 子任务列表
+      childTask: [], // 子任务列表
+
+      noEditImgList:[{src: "http://192.168.0.92:6080/20191016/11113.jpg",fileId: 528, progress:{progressState:1}}],
+      noEditEnclosureList:[{src: "http://192.168.0.92:6080/20191017/11111.jpg", name:'CRM系统接口_1015.pdf', fileId: 580, progress:{progressState:1}}]
     };
   },
   props: {},
@@ -84,6 +92,13 @@ export default {
     getEnclosureSuccessList(res) {
       // 处理文件
       console.log("file", res);
+    },
+    changeNoEditImgList(data){
+      this.noEditImgList = data;
+    },
+    changeNoEditEnclosureList(data){
+      console.log(data)
+      this.noEditEnclosureList = data;
     },
     // 业务关联组件的处理
     relateBusinessChange({ nowConfig, commonParam, operate }) {

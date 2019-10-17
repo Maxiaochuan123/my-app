@@ -88,7 +88,7 @@ export default {
       }).then(res => {
         this.imagesList = this.imagesList.filter(imgItem => imgItem.fileId !== item.fileId);
         this.imgSuccessList = this.imgSuccessList.filter(imgItem => imgItem.fileId !== item.fileId);
-        this.$emit('parentImgLoad',this.imagesList)
+        this.$emit('parentImgLoad',this.imagesList);
         this.$refs.fileInput.value = '';
       })
     },
@@ -121,6 +121,7 @@ export default {
           }
         })
         this.imagesPromise.push(onePromise);
+        console.log('imagesPromise:',this.imagesPromise)
       })
        Promise.all(this.imagesPromise).then(res=> {
               this.imagesList.push(...this.changeImgList);
