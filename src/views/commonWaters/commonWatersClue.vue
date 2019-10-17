@@ -44,7 +44,7 @@
 
 <script>
 import Nothing from "@components/Nothing.vue";
-import Api from '@api';
+import Api from "@api";
 export default {
   name: "commonWatersClue",
   components: { Nothing },
@@ -61,7 +61,7 @@ export default {
     btnChange(row, type) {
       if (type === "distribute") {
         // 分配
-        this.goPage("selectShareUsers", {
+        this.goPage("selectDistributeUsers", {
           id: row.leadsId,
           type: "commonWatersClue"
         });

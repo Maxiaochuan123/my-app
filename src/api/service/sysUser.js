@@ -7,5 +7,11 @@ export default {
     get({
       params,
       url: C.QUERY_SIMPLE_USER_BY_DEP_ID
+    }),
+  // 通过用户名查询当前用户下属用户
+  querySubUserByName: params =>
+    get({
+      params,
+      url: C.QUERY_SUB_USER_BY_NAME
     })
 };

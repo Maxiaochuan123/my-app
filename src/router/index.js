@@ -47,12 +47,19 @@ const router = new Router({
           component: () => import("../views/basics/personalDetails.vue")
         },
         // 共用页面
-        // 选择用户
+        // 选择分享用户
         {
           path: "/selectShareUsers/:id/:type",
           name: "selectShareUsers",
           meta: { zIndex: 1 },
           component: () => import("../views/commonPage/selectShareUsers.vue")
+        },
+        // 选择分配用户
+        {
+          path: "/selectDistributeUsers/:id/:type",
+          name: "selectDistributeUsers",
+          meta: { zIndex: 1 },
+          component: () => import("../views/commonPage/selectDistributeUsers.vue")
         },
         // 联系人
         {
@@ -123,7 +130,7 @@ const router = new Router({
           meta: { zIndex: 1 },
           component: () => import("../views/toDoList/selectPage.vue")
         },
-        
+
         // 日报
         {
           path: "/daily",

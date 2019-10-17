@@ -1,14 +1,17 @@
 <!--
- * @Description: 分享的公用页面
+ * @Description: 公海分配页面
  * @Author: shenah
  * @Date: 2019-09-25 15:57:26
  * @LastEditors: shenah
- * @LastEditTime: 2019-10-17 12:58:53
+ * @LastEditTime: 2019-10-17 13:39:10
  -->
 <template>
-  <div class="select-share-users">
+  <div class="select-distribute-users">
     <AppBar
+      :customFnc="submit"
       :isShowRightBtn="false"
+      custom
+      customTitle="确定"
       pageTitle="选择用户"
     ></AppBar>
     <SearchInputBar
@@ -41,48 +44,13 @@
               size="40"
             >
               <img :src="item.img" />
-            </mu-avatar> -->
+            </mu-avatar>-->
             <div class="user-info">
               <div class="name">{{item.realname}}</div>
               <div class="job">{{item.post}}</div>
             </div>
           </div>
         </div>
-      </div>
-    </div>
-    <!-- 已经选择 -->
-    <div class="now-select">
-      <div class="selected">
-        <img
-          :src="loadingImg('selected.png')"
-          height="18"
-          width="18"
-        />
-        <div class="selected-text">
-          <span class="one">已经选择:</span>
-          <span>{{selectedList.length}}</span>
-        </div>
-      </div>
-      <div class="now-select-item">
-        <mu-radio
-          class="read-write"
-          label="只读"
-          v-model="permission"
-          value="0"
-        ></mu-radio>
-        <mu-radio
-          class="read-write"
-          label="读写"
-          v-model="permission"
-          value="1"
-        ></mu-radio>
-        <mu-button
-          :disabled="selectedList.length === 0"
-          @click="submit"
-          class="sure"
-          color="primary"
-          small
-        >确认</mu-button>
       </div>
     </div>
   </div>
@@ -93,17 +61,15 @@ import AppBar from "@components/AppBar.vue";
 import SearchInputBar from "@components/SearchInputBar.vue";
 import Api from "@api";
 export default {
-  name: "selectShareUsers",
+  name: "selectDistributeUsers",
   components: { AppBar, SearchInputBar },
   computed: {
-    // 当前客户的id
+    // 当前的id
     id() {
       return this.$route.params.id;
     },
-    // 从那个入口进来的
-    // contactsDetailsShare => 从联系人详情的分享
-    // customerDetailsShare => 从客户详情的分享
-    // clue => 线索分享
+    // commonWatersCustomer公海客户来的
+    // commonWatersClue 公海线索来的
     type() {
       return this.$route.params.type;
     }
@@ -111,13 +77,10 @@ export default {
   data() {
     return {
       requestParams: {
-        deptId: "",
-        search: "",
-        needGroup: 0
+        name: ""
       },
-      permission: "0", // 读写权限
       userList: [],
-      selectedList: [] // 已经选择的人数
+      active: "" // 当前选择的人
     };
   },
   mounted() {
@@ -126,67 +89,56 @@ export default {
   methods: {
     searchInputBarChange(obj) {
       const { type, value } = obj;
-      this.requestParams.search = value;
+      this.requestParams.name = value;
       this.queryUser();
     },
+    initData(list) {
+      list.forEach(item => {
+        item.flag = false;
+      });
+    },
     queryUser() {
-      Api.querySimpleUserByDepId(this.requestParams).then(res => {
-        const list = res.data.map(item => ({
-          ...item,
-          flag: false
-        }));
-        for (let i = 0; i < this.selectedList.length; i++) {
-          const one = this.selectedList[i];
-          for (let j = 0; j < list.length; j++) {
-            const two = list[j];
-            if (one.userId === two.userId) {
-              two.flag = true;
-              break;
-            }
+      Api.querySubUserByName(this.requestParams).then(res => {
+        let list = res.data;
+        this.initData(list);
+        for (let i = 0; i < list.length; i += 1) {
+          if (list[i].id === this.active * 1) {
+            list[i].flag = true;
+            break;
           }
         }
         this.userList = list;
       });
     },
     select(row) {
-      let one = row;
-      one.flag = !one.flag;
+      this.initData(this.userList);
+      row.flag = !row.flag;
       if (row.flag) {
         // 选择上了
-        this.selectedList.push(row);
+        this.active = row.id;
       } else {
         // 取消选择
-        this.selectedList = this.selectedList.filter(
-          item => item.userId !== row.userId
-        );
+        this.active = "";
       }
-    },
-    beforeSubmit() {
-      return {
-        memberIds: this.selectedList.map(item => item.userId).join(","),
-        ids: this.id,
-        permission: this.permission
-      };
     },
     submit() {
-      let params = this.beforeSubmit();
-      let shareApi;
-      switch (this.type) {
-        case "contactsDetailsShare":
-          shareApi = this.api.contactsShare;
-          break;
-        case "customerDetailsShare":
-          shareApi = Api.customerShareToUsers;
-          break;
-        case "clue":
-          shareApi = this.api.clueShare;
-          break;
-      }
-      shareApi(params).then(() => {
-        this.$toast.success({
-          message: "分享成功"
-        });
+      if (this.active === "") {
         this.goBack();
+        return;
+      }
+      Api.distributePublicPoolById({
+        ids: this.id,
+        userId: this.active,
+        labelType: this.type === "commonWatersCustomer" ? "2" : "1"
+      }).then(() => {
+        this.$toast.success({
+          message: "分配成功"
+        });
+        if (this.type === "commonWatersCustomer") {
+          this.goPage("commonWatersPeople");
+        } else {
+          this.goPage("commonWatersClue");
+        }
       });
     }
   }
@@ -213,7 +165,7 @@ export default {
   width: 18px;
   height: 18px;
 }
-.select-share-users {
+.select-distribute-users {
   width: 100%;
   .content {
     height: 100%;
@@ -256,44 +208,6 @@ export default {
           }
         }
       }
-    }
-  }
-  .now-select {
-    position: fixed;
-    bottom: 0;
-    width: 100%;
-    height: 60px;
-    padding: 0 15px;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    background-color: #fff;
-    .selected {
-      display: flex;
-      align-items: center;
-      .selected-text {
-        font-size: @primary-size;
-        color: @primary-text;
-        margin-left: 10px;
-        .one {
-          margin-right: 4px;
-        }
-      }
-    }
-    .now-select-item {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-    }
-    .read-write {
-      margin-right: 16px;
-    }
-    .sure {
-      font-size: 14px;
-      width: 58px;
-      height: 28px;
-      border-radius: 6px;
-      min-width: 0;
     }
   }
 }
