@@ -1,52 +1,16 @@
 <template>
   <div class="daily">
-    <AppBar pageTitle="日报" isDrawer drawerIcon="icon-guolv" rightIcon="icon-tianjia" rightLinkName="addDaily" :drawerList="drawerList">
+    <AppBar pageTitle="日报" isDrawer drawerIcon="icon-guolv" rightIcon="icon-tianjia" rightLinkName="addDaily">
       <!-- 抽屉 -->
-      <div slot="drawerContent" class="drawerContent">
-        <div class="drawerTitle">筛选</div>
-        <div class="screen">
-          <div class="title">搜索</div>
-          <div class="screenInput">
-            <i class="iconfont icon-sousuo1"></i>
-            <mu-text-field class="searchInput" v-model="drawerList.value2" placeholder="搜索内部联系人"></mu-text-field>
-          </div>
-        </div>
-        <div class="screen">
-          <div class="title">创建时间</div>
-          <div class="screenInput">
-            <span v-show="!drawerList.value7">请选择创建时间</span>
-            <i class="iconfont icon-rili"></i>
-            <mu-date-input class="timeInput" icon="today" v-model="drawerList.value7" type="date" label-float full-width container="bottomSheet"></mu-date-input>
-          </div>
-        </div>
-        <div class="screen">
-          <div class="title">截止时间</div>
-          <div class="screenInput">
-            <span v-show="!drawerList.value8">请选择截止时间</span>
-            <i class="iconfont icon-rili"></i>
-            <mu-date-input class="timeInput" icon="today" v-model="drawerList.value8" type="date" label-float full-width container="bottomSheet"></mu-date-input>
-          </div>
-        </div>
-        <div class="screen">
-          <div class="title">任务状态</div>
-          <div class="multipleSelection">
-            <div :class="[task.state ? 'activeSelect' : '']" @click="changeSelect(task)" v-for="(task,index) in drawerList.taskstateList" :key="index">{{task.title}}</div>
-          </div>
-        </div>
-
-        <div class="operation">
-          <mu-button class="reset" @click="resetDrawerList">重置</mu-button>
-          <mu-button color="primary">确定(5)</mu-button>
-        </div>
-      </div>
+      <Screen slot="drawerContent" :drawerList="drawerList" @getApiParams="getApiParams"></Screen>
     </AppBar>
     <div class="content">
-      <mu-tabs :value.sync="active" @change="changeTabs" inverse color="primary" indicator-color="primary" center>
+      <mu-tabs :value.sync="tabsActive" @change="changeTabs" inverse color="primary" indicator-color="primary" center>
         <mu-tab>全部</mu-tab>
         <mu-tab>我发出的</mu-tab>
         <mu-tab>我收到的</mu-tab>
       </mu-tabs>
-      <div class="myClue" v-if="active === 0">
+      <div class="myClue">
         <mu-expansion-panel :zDepth="0">
           <div slot="header">
             <div class="info">
@@ -97,40 +61,60 @@
 
 <script>
 import AppBar from '../../components/AppBar'
+import Screen from '../../components/Screen'
 export default {
   components:{
-    AppBar
+    AppBar,Screen
   },
   data(){
     return{
-      active:0,
+      dailyList:[], //日报列表
       drawerList:{
-        value2:'',
-        value7:'',
-        value8:'',
-        taskStateList:[{
-          title:'未完成',
-          state:false
-        },{
-          title:'待审核',
-          state:false
-        },{
-          title:'已完成',
-          state:false
-        },{
-          title:'未通过',
-          state:false
-        },{
-          title:'已关闭',
-          state:false
-        }]
-      }
+        value2:{
+          fileTitle:'搜索',
+          type:'searchInput',
+          placeholder:'搜索内部联系人',
+          valueField:'val',
+          labelField:'name',
+          val:'',
+          searchList:[{name:'张三',val:'zs'},{name:'李四',val:'ls'},{name:'王五',val:'ww'},{name:'牛牛',val:'nn'}]
+        },
+        value7:{
+          fileTitle:'创建时间',
+          type:'date',
+          placeholder:'请选择创建时间',
+          val:''
+        }
+      },
     }
+  },
+  created(){
+    this.getDailyList(this.getParams());
   },
   methods:{
     changeTabs(item){
-      this.$store.commit('setActiveTabs',item)
-    }
+      this.storage.sessionSet('tabsActive',item);
+      this.getDailyList(this.getParams());
+    },
+    getApiParams(data){
+      let params = this.getParams();
+      this.getDailyList({...params,...data});
+    },
+
+    // 获取日报列表
+    getDailyList(params){
+      // this.api.getDailyList(params).then(res=>{
+      //   if(res.msg !== 'success') this.$toast.warning('日报列表获取失败!');
+      //   this.clueList = res.data.list;
+      // })
+    },
+    getParams(){
+      if(this.tabsActive === 0){
+        // return {type:1,teamType:1}
+      }else{
+        // return {type:1,teamType:0}
+      }
+    },
   }
 }
 </script>

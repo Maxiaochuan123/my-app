@@ -36,8 +36,14 @@ export default {
       isHome: false
     };
   },
+  created () {
+    if(!this.storage.sessionGet('tabsActive')) this.storage.sessionSet('tabsActive',0);
+  },
   watch:{
     $route(to, from){
+      if(to.path == '/home'){
+        this.storage.sessionSet('tabsActive',0);
+      }
       if((to.path == '/home' || to.path == '/myInfo') && (from.path == '/home' || from.path == '/myInfo')){
         this.isHome = false;
       }else{

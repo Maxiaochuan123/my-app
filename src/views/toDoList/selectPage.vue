@@ -36,7 +36,7 @@
       </div>
 
       <IndexsList :list="list" :listSpacing="0" :tagTopoffsetTop="45" v-else-if="pageTitle === '分配给我的客户' && Object.keys(list).length > 0" >
-        <div @click="toDetails(row)" class="index-customer" slot="row" slot-scope="{row}" >
+        <div @click="toDetails(row)" class="index-customer" slot="row" slot-scope="{row,index,total}" >
           <div class="index-customer-wrap">
             <div class="title">
               <span>{{row.customerName}}</span>
@@ -44,11 +44,11 @@
             </div>
             <div class="sub-title">{{row.detailAddress || '暂无详细地址'}}</div>
           </div>
-          <mu-divider v-show="index + 1 !== list.length"></mu-divider>
+          <mu-divider v-show="total-1 !== index"></mu-divider>
         </div>
       </IndexsList>
 
-      <div class="father-or-sub-list" v-else-if="pageTitle === '待执行的任务'">
+      <div class="father-or-sub-list" v-else-if="pageTitle === '待执行的任务' || pageTitle === '待审核的任务'">
         <div :key="index" @click="taskItemClick(item,index,type)" class="list-item" v-for="(item,index) in list">
           <div class="task-header">
             <span class="task-header-title primary-words">{{item.name}}</span>
@@ -155,6 +155,10 @@ export default {
             this.getListParams = {type:2};
           break;
         case '待执行的任务':
+            this.getListApi = Api.queryTaskList;
+            this.getListParams = {type:0};
+          break;
+        case '待审核的任务':
             this.getListApi = Api.queryTaskList;
             this.getListParams = {type:0};
           break;

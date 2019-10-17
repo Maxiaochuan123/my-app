@@ -27,13 +27,13 @@ Vue.use(Loading);
 // fastclick.attach(document.body);
 
 import mixins from "../static/js/mixins";
-import storage from "../static/js/storage";
 Vue.mixin(mixins);
 
 import dayjs from "dayjs";
 Vue.prototype.dayjs = dayjs;
 
 Vue.config.productionTip = false;
+import storage from "../static/js/storage";
 Vue.prototype.storage = storage;
 
 import api from "./api/myApi/api";
