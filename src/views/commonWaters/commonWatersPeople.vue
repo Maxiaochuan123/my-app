@@ -42,7 +42,7 @@
 
 <script>
 import Nothing from "@components/Nothing.vue";
-
+import Api from '@api';
 export default {
   name: "commonWatersPeople",
   components: { Nothing },
@@ -73,7 +73,12 @@ export default {
         // 领取
         this.$confirm("是否领取此客户?", "提示").then(({ result, value }) => {
           if (result) {
-            console.log("领取");
+            Api.queryReceivePublicPoolById({
+              ids: row.customerId,
+              labelType: "2"
+            }).then(res => {
+              this.$parent.queryPublicPoolCustomer();
+            });
           }
         });
       }

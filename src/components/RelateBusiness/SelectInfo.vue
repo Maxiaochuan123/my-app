@@ -3,7 +3,7 @@
  * @Author: shenah
  * @Date: 2019-10-14 09:14:34
  * @LastEditors: shenah
- * @LastEditTime: 2019-10-15 15:40:41
+ * @LastEditTime: 2019-10-17 10:25:49
  -->
 
 <template>
@@ -27,13 +27,14 @@
         <SearchInputBar
           :placeholderText="`搜索${nowConfig.name}`"
           @searchInputBarChange="searchInputBarChange"
+          class="relate-business-bar"
         ></SearchInputBar>
         <div class="relate-business-list">
-          <div class="content-users">
+          <div class="wrap-more">
             <mu-load-more
               :loading="loading"
               @load="load"
-              class="list-wrap"
+              class="relate-business-list-wrap"
             >
               <div
                 :key="index"
@@ -119,6 +120,8 @@ export default {
         this.selectedList = this.nowConfig.list;
         this.noChangeList = [...this.nowConfig.list];
         this.query();
+      } else {
+        this.requestParams.pageIndex = 1;
       }
     }
   },
@@ -159,16 +162,15 @@ export default {
           ...item,
           flag: false
         }));
-        if (list.length === 0) {
-          this.requestParams.pageIndex -= 1;
-          this.showList = [];
-        } else {
-          this.judgeIsSelect(list);
-          if (flag) {
-            this.showList.push(...list);
+        this.judgeIsSelect(list);
+        if (flag) {
+          if (list.length === 0) {
+            this.requestParams.pageIndex -= 1;
           } else {
-            this.showList = list;
+            this.showList.push(...list);
           }
+        } else {
+          this.showList = list;
         }
       });
     },
@@ -207,59 +209,70 @@ export default {
 </script>
 <style lang='less'>
 .select-relate-business-dialog {
+  background-color: @auxiliary;
   .mu-dialog-body {
     height: 100%;
     .select-relate-business-body {
-      height: 100%;
       display: flex;
       flex-direction: column;
+      height: 100%;
       .select-relate-business-header {
         padding: 16px 0px;
         width: 100%;
         display: flex;
         align-items: center;
         justify-content: space-around;
+        background-color: #fff;
         .ok {
           font-size: 16px;
           color: #ff0000;
         }
       }
+      .relate-business-bar {
+        position: static !important;
+        width: 100%;
+        padding: 12px 15px;
+        background-color: #fff;
+      }
       .relate-business-list {
-        height: 100%;
-        padding-top: 60px;
-        padding-bottom: 80px;
-        .content-users {
-          width: 100%;
+        width: 100%;
+        flex: 1;
+        padding: 20px 0;
+        overflow: hidden;
+        .wrap-more {
           height: 100%;
-          background-color: #fff;
-          .index-users {
-            display: flex;
-            padding: 0 0 0 15px;
-            align-items: center;
-            .index-users-left {
-              .select {
-                width: 18px;
-                height: 18px;
-              }
-            }
-            .index-users-right {
-              flex: 1;
-              margin-left: 15px;
+          overflow: auto;
+          background-color: #fff !important;
+          .relate-business-list-wrap {
+            .index-users {
               display: flex;
+              padding: 0 0 0 15px;
               align-items: center;
-              padding: 8px 0;
-              border-bottom: 1px solid @primary-border;
-              .user-info {
-                margin-left: 12px;
-                .name {
-                  font-size: @primary-size;
-                  color: @primary-text;
-                  font-weight: @primary-weight;
+              .index-users-left {
+                .select {
+                  width: 18px;
+                  height: 18px;
                 }
-                .job {
-                  font-size: @regular-size;
-                  color: @regular-text;
-                  font-weight: @regular-weight;
+              }
+              .index-users-right {
+                flex: 1;
+                margin-left: 15px;
+                display: flex;
+                align-items: center;
+                padding: 8px 0;
+                border-bottom: 1px solid @primary-border;
+                .user-info {
+                  margin-left: 12px;
+                  .name {
+                    font-size: @primary-size;
+                    color: @primary-text;
+                    font-weight: @primary-weight;
+                  }
+                  .job {
+                    font-size: @regular-size;
+                    color: @regular-text;
+                    font-weight: @regular-weight;
+                  }
                 }
               }
             }
@@ -267,11 +280,10 @@ export default {
         }
       }
       .relate-business-now-select {
-        position: fixed;
-        bottom: 0;
         width: 100%;
         height: 60px;
         padding: 0 15px;
+        bottom: 0;
         display: flex;
         justify-content: space-between;
         align-items: center;

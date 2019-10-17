@@ -44,6 +44,7 @@
 
 <script>
 import Nothing from "@components/Nothing.vue";
+import Api from '@api';
 export default {
   name: "commonWatersClue",
   components: { Nothing },
@@ -68,7 +69,12 @@ export default {
         // 领取
         this.$confirm("是否领取此线索?", "提示").then(({ result, value }) => {
           if (result) {
-            console.log("领取");
+            Api.queryReceivePublicPoolById({
+              ids: row.leadsId,
+              labelType: "1"
+            }).then(res => {
+              this.$parent.queryPublicPoolClue();
+            });
           }
         });
       }

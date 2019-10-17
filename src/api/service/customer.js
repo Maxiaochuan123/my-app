@@ -68,5 +68,17 @@ export default {
     post({
       params,
       url: C.QUERY_CUSTOMER_PUBLIC_POOL
+    }),
+  // 线索公海或者客户公海领取
+  queryReceivePublicPoolById: params =>
+    post({
+      params,
+      url: C.QUERY_RECEIVE_PUBLIC_POOL_BY_IDS
+    }),
+  // 线索公海或客户公海分配
+  distributePublicPoolById: params =>
+    post({
+      params,
+      url: C.DISTRBUTE_PUBLIC_POOL_BY_IDS
     })
 };
