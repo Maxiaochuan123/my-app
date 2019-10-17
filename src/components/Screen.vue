@@ -6,7 +6,7 @@
 
       <div class="content">
         <div class="screen" v-for="(item,index) in drawerList" :key="index">
-          <div class="title" v-if="!(item.type === 'single' || item.type === 'multiple')">{{item.fileTitle}}</div>
+          <div class="title" v-if="!(item.mode === 'single' || item.mode === 'multiple')">{{item.fileTitle}}</div>
           <div class="screenInput" v-if="item.type === 'input'">
             <i class="iconfont icon-sousuo1"></i>
             <mu-text-field class="searchInput" v-model="item.val" :placeholder="item.placeholder"></mu-text-field>
@@ -30,7 +30,7 @@
             <i class="iconfont icon-rili"></i>
             <mu-date-input class="timeInput" icon="today" v-model="item.val" type="date" label-float full-width container="bottomSheet"></mu-date-input>
           </div>
-           <ArrSingleOrMultiple :ref="`arrSingleOrMultiple${item.type}`" v-else-if="item.type === 'single' || item.type === 'multiple'" @arrSingleOrMultipleChange="arrSingleOrMultipleChange" :type="index" :title="item.fileTitle" :list="item.list" :mode="item.type" :labelField="item.labelField" :valueField="item.valueField" :defaultValue="item.defaultValue"></ArrSingleOrMultiple>
+           <ArrSingleOrMultiple :ref="`arrSingleOrMultiple${index}`" v-else-if="item.mode === 'single' || item.mode === 'multiple'" @arrSingleOrMultipleChange="arrSingleOrMultipleChange" :type="index" :title="item.fileTitle" :list="item.list" :mode="item.mode" :labelField="item.labelField" :valueField="item.valueField" :defaultValue="item.defaultValue"></ArrSingleOrMultiple>
         </div>
       </div>
 
@@ -135,7 +135,7 @@ export default {
       for(let item in this.drawerList){
         const onedata = this.drawerList[item];
         if(onedata.list){
-          this.$refs[`arrSingleOrMultiple${onedata.type}`][0].handlerList(onedata.list);
+          this.$refs[`arrSingleOrMultiple${item}`][0].handlerList(onedata.list);
         }else{
           onedata.val = '';
         }

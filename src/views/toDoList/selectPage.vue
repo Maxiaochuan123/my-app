@@ -96,7 +96,7 @@ export default {
         followUp:{
           defaultValue:['我的'],
           fileTitle:'跟进人',
-          type:'single',
+          mode:'single',
           valueField:'title',
           labelField:'title',
           list:[{
@@ -110,7 +110,7 @@ export default {
         clue:{
           defaultValue:['今日需跟进'],
           fileTitle:'线索状态',
-          type:'single',
+          mode:'single',
           valueField:'title',
           labelField:'title',
           list:[{

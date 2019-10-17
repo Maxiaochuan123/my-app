@@ -2,7 +2,7 @@
  * @Description: In User Settings Edit
  * @Author: your name
  * @Date: 2019-09-04 10:13:29
- * @LastEditTime: 2019-10-16 16:35:43
+ * @LastEditTime: 2019-10-17 11:14:41
  * @LastEditors: shenah
  -->
 <template>
@@ -147,7 +147,7 @@ export default {
         clueList:{
           defaultValue:['买车','车险'],
           fileTitle:'线索类型',
-          type:'single',
+          mode:'single',
           valueField:'title',
           labelField:'title',
           list:[{
@@ -164,7 +164,7 @@ export default {
         clueStateList:{
           defaultValue:['未跟进','已跟进'],
           fileTitle:'线索状态',
-          type:'multiple',
+          mode:'multiple',
           valueField:'title',
           labelField:'title',
           list:[{

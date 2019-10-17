@@ -3,7 +3,7 @@
  * @Author: shenah
  * @Date: 2019-10-12 15:40:23
  * @LastEditors: shenah
- * @LastEditTime: 2019-10-16 15:19:44
+ * @LastEditTime: 2019-10-17 10:49:50
  -->
 <template>
   <div class="task-basic">
@@ -26,13 +26,11 @@
     <div class="upload-wrap no-border-bottom">
       <UploadList
         :batchId="$parent.details.batchId"
-        :isEdit="false"
-        :customImgList="customImgList"
         :customEnclosureList="customEnclosureList"
-        @changecustomImgList="changecustomImgList"
+        :customImgList="customImgList"
+        :isEdit="false"
         @changecustomEnclosureList="changecustomEnclosureList"
-        @getEnclosureSuccessList="getEnclosureSuccessList"
-        @getImgSuccessList="getImgSuccessList"
+        @changecustomImgList="changecustomImgList"
         class="upload-file"
       ></UploadList>
     </div>
@@ -65,8 +63,8 @@ export default {
       relateData: {}, // 关联业务
       childTask: [], // 子任务列表
 
-      customImgList:[{src: "http://192.168.0.92:6080/20191016/11113.jpg",fileId: 528, progress:{progressState:1}}],
-      customEnclosureList:[{src: "http://192.168.0.92:6080/20191017/11111.jpg", name:'CRM系统接口_1015.pdf', fileId: 580, progress:{progressState:1}}]
+      customImgList: [], // 图片列表,
+      customEnclosureList: [] // 文件列表
     };
   },
   props: {},
@@ -78,6 +76,15 @@ export default {
         contacts: val.contactsList
       };
       this.childTask = val.childTask;
+      this.customImgList = val.img.map(item => ({
+        ...item,
+        src: item.filePath,
+        progress: { progressState: 1 }
+      }));
+      this.customEnclosureList = val.file.map(item => ({
+        ...item,
+        progress: { progressState: 1 }
+      }));
     }
   },
   mounted() {},
@@ -85,19 +92,10 @@ export default {
     handleSubTask() {
       this.goPage("addOrEditSubTask", { id: this.id });
     },
-    getImgSuccessList(res) {
-      // 图片上传的处理
-      console.log("img", res);
-    },
-    getEnclosureSuccessList(res) {
-      // 处理文件
-      console.log("file", res);
-    },
-    changecustomImgList(data){
+    changecustomImgList(data) {
       this.customImgList = data;
     },
-    changecustomEnclosureList(data){
-      console.log(data)
+    changecustomEnclosureList(data) {
       this.customEnclosureList = data;
     },
     // 业务关联组件的处理

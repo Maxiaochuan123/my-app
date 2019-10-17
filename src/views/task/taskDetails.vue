@@ -3,7 +3,7 @@
  * @Author: shenah
  * @Date: 2019-10-12 14:29:46
  * @LastEditors: shenah
- * @LastEditTime: 2019-10-14 19:22:46
+ * @LastEditTime: 2019-10-17 10:57:32
  -->
 <template>
   <div class="task-details">
@@ -63,6 +63,7 @@
       </div>
       <mu-tabs
         :value="active"
+        @change="tabChange"
         center
         class="tabs"
         color="primary"
@@ -133,6 +134,10 @@ export default {
         this.active = "basic";
       }
     },
+    tabChange(val) {
+      this.active = val;
+      this.queryDetails();
+    },
     changeClass(row, type) {
       if (type === "status") {
         let status = row;
@@ -152,7 +157,7 @@ export default {
         taskId: this.id
       }).then(res => {
         this.details = res.data || {};
-        console.log('this.details:',this.details)
+        console.log("this.details:", this.details);
       });
     },
     addBtnList() {
