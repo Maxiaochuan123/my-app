@@ -10,47 +10,43 @@
         <mu-tab>我发出的</mu-tab>
         <mu-tab>我收到的</mu-tab>
       </mu-tabs>
-      <div class="myClue">
-        <mu-expansion-panel :zDepth="0">
+      <div class="myDaily">
+        <mu-expansion-panel :zDepth="0" expand v-for="(item,index) in dailyList" :key="index">
           <div slot="header">
             <div class="info">
-              <img src="../../../static/images/default-header.png">
+              <img :src="item.userImg">
               <div>
-                <span class="name">白吵吵</span>
-                <span class="level">销售二部/销售顾问</span>
+                <span class="name">{{item.realname}}</span>
+                <span class="level">{{item.post}}</span>
               </div>
             </div>
           </div>
-          <div class="completionstate" @click="goPage('dailyDetails', {id:1})">
+          <div class="completionstate" @click="goPage('dailyDetails', {id:item.logId})">
             <div class="describe">
               <div>
                 <p class="title">今日重点工作及完成情况：</p>
-                <p class="result">众汇CRM原型设计</p>
-              </div>
-              <div>
-                <p class="title">今日重点工作及完成情况：</p>
-                <p class="result">众汇CRM原型设计</p>
+                <div class="result">{{item.content}}</div>
               </div>
               <div>
                 <p class="title">明日工作计划：</p>
-                <p class="result">众汇CRM原型设计</p>
+                <p class="result">{{item.tomorrow}}</p>
               </div>
               <div>
                 <p class="title">工作感悟：</p>
-                <p class="result">暂无</p>
+                <p class="result">{{item.sentiment}}</p>
               </div>
               <div>
                 <p class="title">工作所需支持：</p>
-                <p class="result">暂无</p>
+                <p class="result">{{item.support}}</p>
               </div>
             </div>
             <mu-divider shallow-inset></mu-divider>
             <div class="commentBox">
               <div class="comment">
                 <img src="../../../static/images/comment.png">
-                <span>评论(2)</span>
+                <span>评论({{item.replyList[0] ? item.replyList[0].childCommentList.length : 0}})</span>
               </div>
-              <div class="dateTime">2019/7/22 17:33</div>
+              <div class="dateTime">{{item.replyList[0] ? item.replyList[0].createTime : ''}}</div>
             </div>
           </div>
         </mu-expansion-panel>
@@ -103,16 +99,19 @@ export default {
 
     // 获取日报列表
     getDailyList(params){
-      // this.api.getDailyList(params).then(res=>{
-      //   if(res.msg !== 'success') this.$toast.warning('日报列表获取失败!');
-      //   this.clueList = res.data.list;
-      // })
+      this.api.getDailyList(params).then(res=>{
+        if(res.msg !== 'success') this.$toast.warning('日报列表获取失败!');
+        this.dailyList = res.data.list;
+      })
     },
     getParams(){
+      let paging = this.paging;
       if(this.tabsActive === 0){
-        // return {type:1,teamType:1}
-      }else{
-        // return {type:1,teamType:0}
+        return {type:0,...paging}
+      }else if(this.tabsActive === 1){
+        return {type:1,...paging}
+      }else if(this.tabsActive === 2){
+        return {type:2,...paging}
       }
     },
   }
@@ -165,6 +164,8 @@ export default {
                 font-size: @primary-size;
                 color: @primary-text;
                 padding-top: 4px;
+                white-space: pre-wrap;
+                word-wrap: break-word;
               }
               &:last-child{
                 .result{
