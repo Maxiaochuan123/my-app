@@ -59,7 +59,8 @@ const router = new Router({
           path: "/selectDistributeUsers/:id/:type",
           name: "selectDistributeUsers",
           meta: { zIndex: 1 },
-          component: () => import("../views/commonPage/selectDistributeUsers.vue")
+          component: () =>
+            import("../views/commonPage/selectDistributeUsers.vue")
         },
         // 联系人
         {
@@ -258,6 +259,28 @@ const router = new Router({
               component: () => import("../views/task/taskBasic.vue")
             }
           ]
+        },
+        // 拜访模块
+        // 拜访列表
+        {
+          path: "/visitList",
+          name: "visitList",
+          meta: { zIndex: 1 },
+          component: () => import("../views/visit/visitList.vue")
+        },
+        // 新增或者编辑拜访
+        {
+          path: "/addOrEditVisit/:id?",
+          name: "addOrEditVisit",
+          meta: { zIndex: 1 },
+          component: () => import("../views/visit/addOrEditVisit.vue")
+        },
+         // 拜访详情页
+         {
+          path: "/visitDetails/:id",
+          name: "visitDetails",
+          meta: { zIndex: 1 },
+          component: () => import("../views/visit/visitDetails.vue")
         }
       ]
     }
