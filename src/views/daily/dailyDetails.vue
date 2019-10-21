@@ -4,33 +4,33 @@
     <div class="content">
       <div class="details">
         <div class="info">
-          <img src="../../../static/images/default-header.png">
+          <img :src="info.userImg">
           <div>
-            <span class="name">白吵吵</span>
-            <span class="level">销售二部/销售顾问</span>
+            <span class="name">{{info.realname}}</span>
+            <span class="level">{{info.post}}</span>
           </div>
         </div>
         <div class="completionStatus">
           <div class="describe">
             <div>
               <p class="title">今日重点工作及完成情况：</p>
-              <p class="result">众汇CRM原型设计</p>
+              <div class="result">{{info.content}}</div>
             </div>
             <div>
               <p class="title">今日重点工作及完成情况：</p>
-              <p class="result">众汇CRM原型设计</p>
+              <p class="result">{{info.tomorrow}}</p>
             </div>
             <div>
               <p class="title">明日工作计划：</p>
-              <p class="result">众汇CRM原型设计</p>
+              <p class="result">{{info.sentiment}}</p>
             </div>
             <div>
               <p class="title">工作感悟：</p>
-              <p class="result">暂无</p>
+              <p class="result">{{info.sentiment}}</p>
             </div>
             <div>
               <p class="title">工作所需支持：</p>
-              <p class="result">暂无</p>
+              <p class="result">{{info.support}}</p>
             </div>
             <div>
               <p class="title">附件</p>
@@ -52,24 +52,21 @@
             </div>
             <div>
               <div class="relation">
-                <p class="title">关联线索：</p>
+                <p class="title">关联业务：</p>
                 <div class="clue">
-                  <div>线索-陈先生</div>
-                  <div>线索-陈先生</div>
+                  <div v-for="(contacts,index) in contactsList" :key="index">联系人 - {{contacts.name}}</div>
+                  <div v-for="(customer,index) in customerList" :key="index">客户 - {{customer.name}}</div>
+                  <div v-for="(clue,index) in clueList" :key="index">线索 - {{clue.name}}</div>
+                  <div v-for="(task,index) in taskList" :key="index">任务 - {{task.name}}</div>
+                  <div v-for="(visit,index) in visitList" :key="index">拜访 - {{visit.name}}</div>
                 </div>
               </div>
             </div>
           </div>
-          <!-- <div class="reply">
-            <p class="title">批复</p>
-            <div class="replyContent">
-
-            </div>
-          </div> -->
         </div>
       </div>
 
-      <Comment @comment="comment"></Comment>
+      <Comment :typeId="$route.params.id" :realname="info.realname"></Comment>
 
     </div>
   </div>
@@ -84,6 +81,7 @@ export default {
   },
   data(){
     return{
+      info:{},
       menuList: [
         {
           title: "编辑",
@@ -98,11 +96,11 @@ export default {
       ],
     }
   },
-  // created(){
-  //   this.api.getComment({type:1,typeId:this.$route.params.typeId}).then(res=>{
-  //     console.log(res)
-  //   })
-  // },
+  created(){
+    this.api.getDailyDetails({logId:this.$route.params.id}).then(res=>{
+      this.info = res.data;
+    })
+  },
   methods:{
     menuChange(data){
       let {title} = {...data}
@@ -130,6 +128,23 @@ export default {
     comment(data){
       console.log(data)
     }
+  },
+  computed: {
+    contactsList(){
+      if(this.info.hasOwnProperty('contactsList')) return this.info.contactsList;
+    },
+    customerList(){
+      if(this.info.hasOwnProperty('customerList')) return this.info.customerList;
+    },
+    clueList(){
+      if(this.info.hasOwnProperty('clueList')) return this.info.clueList;
+    },
+    taskList(){
+      if(this.info.hasOwnProperty('taskList')) return this.info.taskList;
+    },
+    visitList(){
+      if(this.info.hasOwnProperty('visitList')) return this.info.visitList;
+    },
   }
 }
 </script>
@@ -177,6 +192,8 @@ export default {
               font-size: @primary-size;
               color: @primary-text;
               padding-top: 4px;
+              white-space: pre-wrap;
+              word-wrap: break-word;
             }
             .imgList{
               margin: 4px 0 8px;
@@ -238,6 +255,7 @@ export default {
           margin-left: 0;
         }
       }
+      
     }
     /deep/ .app-bar{
       box-shadow: 0px 2px 6px 0px #ededed;

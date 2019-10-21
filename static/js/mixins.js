@@ -32,6 +32,12 @@ export default {
       // tabs 当前选中项
       tabsActive: storage.sessionGet('tabsActive'),
 
+      // paging 分页
+      paging:{
+        pageSize: 15,
+        pageIndex: 1
+      },
+
       // 验证
       myRules: {
         must: (mes, type) => this.must(mes, type),
