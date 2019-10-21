@@ -3,17 +3,17 @@
  * @Author: shenah
  * @Date: 2019-10-21 10:26:08
  * @LastEditors: shenah
- * @LastEditTime: 2019-10-21 12:16:27
+ * @LastEditTime: 2019-10-21 13:05:23
  -->
 
 <template>
   <div class="visit-details">
     <AppBar
       :menuList="menuList"
+      :rightIcon="rightIcon"
       @menuChange="menuChange"
       isMenu
-      pageTitle="日报详情"
-      rightIcon="icon-gongduo1"
+      pageTitle="拜访详情"
     ></AppBar>
     <div class="content">
       <div class="details">
@@ -98,24 +98,31 @@ export default {
       customImgList: [], // 图片列表,
       customEnclosureList: [], // 文件列表
       details: {}, // 详情
-      menuList: [
-        {
-          title: "编辑",
-          linkName: "editBasicsInfo",
-          isLink: false
-        },
-        {
-          title: "删除",
-          linkName: "",
-          isLink: true
-        }
-      ]
+      rightIcon: "icon-gengduo1",
+      menuList: []
     };
   },
   mounted() {
+    this.addBtnList();
     this.queryDetails();
   },
   methods: {
+    addBtnList() {
+      this.menuList = [
+        {
+          title: "编辑",
+          linkName: "addOrEditVisit",
+          isLink: true,
+          type: "edit",
+          linkParams: { id: this.id }
+        },
+        {
+          title: "删除",
+          type: "del",
+          isLink: false
+        }
+      ];
+    },
     queryDetails() {
       Api.queryDetailsById({
         visitId: this.id
@@ -132,27 +139,21 @@ export default {
         }));
       });
     },
-    menuChange(data) {
-      let { title } = { ...data };
-      switch (title) {
-        case "编辑":
-          // let type = this.getType(this.info.leadsType)
-          // this.goPage('editBasicsInfo',{state:'edit',type:type,id:this.$route.params.id})
-          break;
-        case "删除":
-          this.$confirm("是否删除此线索 ?", "提示").then(res => {
-            if (res.result) {
-              // this.api.clueDelete({leadsIds:this.$route.params.id}).then(res=>{
-              //   if(res.msg === 'success'){
-              //     this.$toast.success('已删除!')
-              //     this.getClueList();
-              //   }else{
-              //     this.$toast.error('删除失败!');
-              //   }
-              // })
-            }
-          });
-          break;
+    menuChange(item) {
+      let { type } = item;
+      if (type === "del") {
+        this.$confirm("是否删除拜访?", "提示").then(({ result, value }) => {
+          if (result) {
+            Api.deleteVisits({
+              visitIds: this.id
+            }).then(res => {
+              this.$toast.success({
+                message: "删除成功"
+              });
+              this.goBack();
+            });
+          }
+        });
       }
     },
     comment(data) {

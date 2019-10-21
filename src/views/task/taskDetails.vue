@@ -3,15 +3,13 @@
  * @Author: shenah
  * @Date: 2019-10-12 14:29:46
  * @LastEditors: shenah
- * @LastEditTime: 2019-10-17 15:22:47
+ * @LastEditTime: 2019-10-21 12:32:31
  -->
 <template>
   <div class="task-details">
     <AppBar
       :menuList="menuList"
       :rightIcon="rightIcon"
-      :rightLinkName="rightLinkName"
-      :rightLinkParams="{id}"
       @menuChange="menuChange"
       isMenu
       pageTitle="任务详情"
@@ -114,7 +112,6 @@ export default {
       records: [], // 记录
       active: "basic", // 当前激活的(record=> 跟进记录,basic=> 基本信息)
       rightIcon: "icon-gengduo1",
-      rightLinkName: "addOrEditCustomer",
       menuList: [],
       contactsList: [], // 联系人列表
       bottomList: [] // 底部的按钮

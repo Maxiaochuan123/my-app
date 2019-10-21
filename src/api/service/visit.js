@@ -13,5 +13,11 @@ export default {
     get({
       params,
       url: C.QUERY_VISIT_DETAILS_BY_ID
+    }),
+  // 批量删除拜访
+  deleteVisits: params =>
+    post({
+      params,
+      url: C.DELETE_VISITS
     })
 };

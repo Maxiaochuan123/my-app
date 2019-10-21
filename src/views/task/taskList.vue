@@ -18,7 +18,6 @@
       <!-- 抽屉 -->
       <Screen
         :drawerList="drawerList"
-        :screenApi="Api.queryTaskList"
         @getApiParams="getApiParams"
         slot="drawerContent"
       ></Screen>

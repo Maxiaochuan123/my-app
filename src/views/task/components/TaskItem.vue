@@ -3,7 +3,7 @@
  * @Author: shenah
  * @Date: 2019-10-14 16:59:53
  * @LastEditors: shenah
- * @LastEditTime: 2019-10-17 15:12:43
+ * @LastEditTime: 2019-10-21 12:27:09
  -->
 
 <template>
@@ -49,11 +49,11 @@
         <span>{{item.createUser && item.createUser.realname}}</span>
       </div>
       <div class="time regular-words">{{item.stopTime | formatDate('date')}}截止</div>
+      <mu-divider
+        class="xian"
+        v-if="list.length>0"
+      ></mu-divider>
     </div>
-    <mu-divider
-      class="xian"
-      v-if="list.length>0"
-    ></mu-divider>
   </div>
 </template>
 
