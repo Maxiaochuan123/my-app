@@ -3,7 +3,7 @@
  * @Author: shenah
  * @Date: 2019-10-17 16:47:08
  * @LastEditors: shenah
- * @LastEditTime: 2019-10-17 17:34:16
+ * @LastEditTime: 2019-10-21 10:41:11
  -->
 
 <template>
@@ -29,22 +29,23 @@
       <mu-tab :value="2">我收到的</mu-tab>
     </mu-tabs>
     <div class="content">
-      <mu-expansion-panel
+      <div
         :key="index"
         :zDepth="0"
+        class="content-visit"
         v-for="(item,index) in listObj.list"
       >
-        <div slot="header">
+        <div>
           <div class="info">
             <img :src="item.userImg" />
             <div>
               <span class="name">{{item.realname}}</span>
-              <span class="level">{{item.createTime}}</span>
+              <span class="level">{{item.post}}</span>
             </div>
           </div>
         </div>
         <div
-          @click="goPage('dailyDetails', {id:1})"
+          @click="goPage('visitDetails', {id:item.visitId})"
           class="completionstate"
         >
           <div class="describe">
@@ -61,20 +62,26 @@
               <p class="result">{{item.content}}</p>
             </div>
             <div>
-              
-              <p class="result">{{item.address}}</p>
+              <p class="result">
+                <mu-icon
+                  color="#5B98D0"
+                  size="24"
+                  value=":iconfont icon-dingwei"
+                ></mu-icon>
+                <span class="address">{{item.address}}</span>
+              </p>
             </div>
           </div>
           <mu-divider shallow-inset></mu-divider>
           <div class="commentBox">
             <div class="comment">
-              <img src="../../../static/images/comment.png" />
-              <span>评论(2)</span>
+              <img :src="loadingImg('comment.png')" />
+              <span>评论({{item.replyList.length}})</span>
             </div>
-            <div class="dateTime">2019/7/22 17:33</div>
+            <div class="dateTime">{{item.createTime}}</div>
           </div>
         </div>
-      </mu-expansion-panel>
+      </div>
     </div>
   </div>
 </template>
@@ -125,11 +132,10 @@ export default {
   }
   .content {
     padding-top: 104px;
-    /deep/ .mu-expansion-panel {
-      margin-top: 12px;
-      .mu-expansion-panel-header {
-        padding: 10px 15px;
-      }
+    .content-visit {
+      background-color: #fff;
+      margin-bottom: 12px;
+      padding: 10px 15px;
       .info {
         display: flex;
         align-items: center;
@@ -153,52 +159,52 @@ export default {
           }
         }
       }
-      .mu-expansion-panel-content {
-        padding: 0 15px;
-        .completionstate {
-          .describe > div {
-            margin-top: 10px;
-            .title {
-              font-size: @regular-size;
-              color: @regular-text;
+      .completionstate {
+        .describe > div {
+          margin-top: 10px;
+          .title {
+            font-size: @regular-size;
+            color: @regular-text;
+          }
+          .result {
+            font-size: @primary-size;
+            color: @primary-text;
+            padding-top: 4px;
+            .address {
+              margin-left: 4px;
             }
+          }
+          &:last-child {
             .result {
-              font-size: @primary-size;
-              color: @primary-text;
-              padding-top: 4px;
-            }
-            &:last-child {
-              .result {
-                margin-bottom: 10px;
-              }
+              margin-bottom: 10px;
             }
           }
-          .commentBox {
+        }
+        .commentBox {
+          display: flex;
+          justify-content: space-between;
+          align-items: center;
+          padding: 12px 0;
+          .comment {
             display: flex;
-            justify-content: space-between;
             align-items: center;
-            padding: 12px 0;
-            .comment {
-              display: flex;
-              align-items: center;
-              img {
-                width: 24px;
-                height: 24px;
-              }
-              span {
-                color: @primary;
-                font-size: @regular-size;
-              }
+            img {
+              width: 24px;
+              height: 24px;
             }
-            .dateTime {
+            span {
+              color: @primary;
               font-size: @regular-size;
-              color: @regular-text;
             }
           }
+          .dateTime {
+            font-size: @regular-size;
+            color: @regular-text;
+          }
         }
-        .mu-divider.shallow-inset {
-          margin-left: 0;
-        }
+      }
+      .mu-divider.shallow-inset {
+        margin-left: 0;
       }
     }
   }

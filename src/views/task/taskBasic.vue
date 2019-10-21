@@ -3,7 +3,7 @@
  * @Author: shenah
  * @Date: 2019-10-12 15:40:23
  * @LastEditors: shenah
- * @LastEditTime: 2019-10-17 10:49:50
+ * @LastEditTime: 2019-10-21 11:51:47
  -->
 <template>
   <div class="task-basic">
@@ -28,7 +28,7 @@
         :batchId="$parent.details.batchId"
         :customEnclosureList="customEnclosureList"
         :customImgList="customImgList"
-        :isEdit="false"
+        :ishasAfferent="false"
         @changecustomEnclosureList="changecustomEnclosureList"
         @changecustomImgList="changecustomImgList"
         class="upload-file"

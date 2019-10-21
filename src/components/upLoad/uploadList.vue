@@ -9,6 +9,7 @@
           @getImgSuccessList="getImgSuccessList"
           @parentImgLoad="parentImgLoad"
           ref="imageRef"
+          v-if="isUploadImg"
         ></UpLoadImages>
         <UpLoadEnclosure
           :customEnclosureList="customEnclosureList"
@@ -16,6 +17,7 @@
           @getEnclosureSuccessList="getEnclosureSuccessList"
           @parentEnclosureLoad="parentEnclosureLoad"
           ref="enclosureRef"
+          v-if="isUploadFile"
         ></UpLoadEnclosure>
       </div>
     </div>
@@ -44,6 +46,7 @@
             :src="loadingImg('delete.png')"
             @click="deleteImageItem(item)"
             class="delete"
+            v-if="isEdit"
             v-show="item.progress.progressState == 1"
           />
           <div
@@ -90,7 +93,7 @@
             <span>{{listItem.progress.progressNum}}%</span>
           </div>
           <div class="describe">
-            <div class="title">{{isEdit ? listItem.file.name : listItem.name}}</div>
+            <div class="title">{{ishasAfferent ? listItem.file.name : listItem.name}}</div>
             <div class="size">{{listItem.size}}</div>
           </div>
           <mu-menu
@@ -100,12 +103,12 @@
             <i class="iconfont icon-gengduovertical"></i>
             <mu-list slot="content">
               <!-- v-show="isEdit ? /^image/.test(listItem.file.type) : /(.*)\.(jpg|bmp|gif|jpeg|tif|png|raw)$/.test(listItem.src)" -->
-              <mu-list-item
+              <!-- <mu-list-item
                 @click="operation(listItem, '查看')"
                 button
               >
                 <mu-list-item-title>查看</mu-list-item-title>
-              </mu-list-item>
+              </mu-list-item>-->
               <mu-list-item
                 @click="operation(listItem, '下载')"
                 button
@@ -115,6 +118,7 @@
               <mu-list-item
                 @click="operation(listItem, '删除')"
                 button
+                v-if="isEdit"
               >
                 <mu-list-item-title>删除</mu-list-item-title>
               </mu-list-item>
@@ -154,6 +158,18 @@ export default {
       default: ""
     },
     isEdit: {
+      type: Boolean,
+      default: true
+    },
+    ishasAfferent: {
+      type: Boolean,
+      default: true
+    },
+    isUploadFile: {
+      type: Boolean,
+      default: true
+    },
+    isUploadImg: {
       type: Boolean,
       default: true
     },
@@ -197,16 +213,16 @@ export default {
   },
   watch: {
     customImgList(val) {
-      this.imgPreviewList = !this.isEdit ? val : [];
+      this.imgPreviewList = val;
     },
     customEnclosureList(val) {
-      this.enclosureList = !this.isEdit ? val : [];
+      this.enclosureList = val;
     }
   },
   mounted() {
     this.guid = tools.guid();
-    this.imgPreviewList = !this.isEdit ? this.customImgList : [];
-    this.enclosureList = !this.isEdit ? this.customEnclosureList : [];
+    this.imgPreviewList = this.customImgList;
+    this.enclosureList = this.customEnclosureList;
   },
   methods: {
     getImgSuccessList(data) {
@@ -216,14 +232,14 @@ export default {
       this.$emit("getEnclosureSuccessList", data);
     },
     parentImgLoad(data) {
-      if (!this.isEdit) {
+      if (!this.ishasAfferent) {
         this.imgPreviewList = [...this.customImgList, ...data];
       } else {
         this.imgPreviewList = data;
       }
     },
     deleteImageItem(item) {
-      if (!this.isEdit) {
+      if (!this.ishasAfferent) {
         let imgTempList = this.customImgList.filter(
           imgItem => imgItem.fileId !== item.fileId
         );
@@ -243,7 +259,7 @@ export default {
     },
 
     parentEnclosureLoad(data) {
-      if (!this.isEdit) {
+      if (!this.ishasAfferent) {
         this.enclosureList = [...this.customEnclosureList, ...data];
       } else {
         this.enclosureList = data;
@@ -264,7 +280,7 @@ export default {
           tool.downloadExcel(this, listItem.file, listItem.file.name);
           break;
         case "删除":
-          if (!this.isEdit) {
+          if (!this.ishasAfferent) {
             let editEnclosureTempList = this.customEnclosureList.filter(
               listItem => listItem.fileId !== listItem.fileId
             );
@@ -427,7 +443,6 @@ export default {
 
       .enclosureList {
         width: 100%;
-        height: 40px;
         margin: 10px 0 10px;
         display: flex;
         position: relative;

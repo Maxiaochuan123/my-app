@@ -7,5 +7,11 @@ export default {
     get({
       params,
       url: C.QUERY_VISIT_LIST
+    }),
+  // 查询拜访记录
+  queryDetailsById: params =>
+    get({
+      params,
+      url: C.QUERY_VISIT_DETAILS_BY_ID
     })
 };

@@ -275,6 +275,13 @@ const router = new Router({
           meta: { zIndex: 1 },
           component: () => import("../views/visit/addOrEditVisit.vue")
         },
+         // 拜访详情页
+         {
+          path: "/visitDetails/:id",
+          name: "visitDetails",
+          meta: { zIndex: 1 },
+          component: () => import("../views/visit/visitDetails.vue")
+        }
       ]
     }
   ]
