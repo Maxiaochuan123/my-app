@@ -3,7 +3,7 @@
  * @Author: shenah
  * @Date: 2019-10-21 10:26:08
  * @LastEditors: shenah
- * @LastEditTime: 2019-10-21 13:05:23
+ * @LastEditTime: 2019-10-22 12:52:59
  -->
 
 <template>
@@ -62,16 +62,12 @@
               <mu-divider shallow-inset></mu-divider>
             </div>
           </div>
-          <!-- <div class="reply">
-            <p class="title">批复</p>
-            <div class="replyContent">
-
-            </div>
-          </div>-->
         </div>
       </div>
-
-      <Comment @comment="comment"></Comment>
+      <Comment
+        :realname="details.realname"
+        :type="1"
+      ></Comment>
     </div>
   </div>
 </template>
