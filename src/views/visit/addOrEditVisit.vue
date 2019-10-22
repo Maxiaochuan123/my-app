@@ -3,7 +3,7 @@
  * @Author: shenah
  * @Date: 2019-10-17 16:54:08
  * @LastEditors: shenah
- * @LastEditTime: 2019-10-21 17:39:06
+ * @LastEditTime: 2019-10-22 10:01:55
  -->
 
 <template>
@@ -131,6 +131,7 @@
               name="接收人"
               splitField="sendUser"
               textField="realname"
+              :isShowText="false"
             >
               <mu-icon
                 color="#FF0000"
@@ -140,7 +141,11 @@
               ></mu-icon>
             </PopSingleOrMultiple>
           </mu-form-item>
-          <MultipleShowList :list="multipleShowList"></MultipleShowList>
+          <MultipleShowList
+            :list="multipleShowList"
+            @multipleShowListChange="multipleShowListChange"
+            type="sendUser"
+          ></MultipleShowList>
         </mu-paper>
       </mu-form>
     </div>
@@ -148,10 +153,10 @@
 </template>
 
 <script>
-import PopSingleOrMultiple from "@/components/PopSingleOrMultiple.vue";
-import SelectAddress from "@/components/SelectAddress.vue";
-import MultipleShowList from "@/components/MultipleShowList.vue";
-import UploadList from "@/components/upLoad/UploadList.vue";
+import PopSingleOrMultiple from "@components/PopSingleOrMultiple.vue";
+import SelectAddress from "@components/SelectAddress.vue";
+import MultipleShowList from "@components/MultipleShowList.vue";
+import UploadList from "@components/upLoad/uploadList.vue";
 import AppBar from "@components/AppBar.vue";
 export default {
   name: "addOrEditVisit",
@@ -169,13 +174,13 @@ export default {
       pageTitle: "",
       multipleShowList: [],
       form: {
-        visitCustomer: "", // 拜访客户的拼接
+        visitCustomer: [], // 拜访客户的拼接
         visitCustomerName: "", // 拜访的名字
         visitCustomerId: "", // 拜访的id
-        visitContact: "", // 拜访联系人的拼接
+        visitContact: [], // 拜访联系人的拼接
         visitContactName: "", // 拜访联系人的名字
         visitContactId: "", // 拜访联系人的id
-        sendUser: "", // 接收人的拼接
+        sendUser: [], // 接收人的拼接
         sendUserName: "", // 接收人的名字
         sendUserId: "", // 接收人的id
         content: "", // 拜访内容
@@ -186,14 +191,11 @@ export default {
   props: {},
   watch: {
     "form.sendUser"(val) {
-      this.multipleShowList = val.split(",").map(item => {
-        let [id, text, img] = item.split("^_^");
-        return {
-          id,
-          text,
-          img
-        };
-      });
+      this.multipleShowList = val.map(item => ({
+        text: item.realname,
+        value: item.userId,
+        img: item.img
+      }));
     }
   },
   mounted() {
@@ -207,10 +209,10 @@ export default {
         this.pageTitle = "新增拜访";
       }
     },
-    PopSingleOrMultipleChange({ textIds, texts, ids, idsField, textsField }) {
+    PopSingleOrMultipleChange({ selectArr, texts, ids, idsField, textsField }) {
       // 多选框的回调
       this.form[textsField] = texts;
-      this.form[idsField] = textIds;
+      this.form[idsField] = selectArr;
       // 这个属性并没有双向绑定
       this.form[`${idsField}Id`] = ids;
     },
@@ -230,6 +232,12 @@ export default {
       this.form[fieldName] = value;
       this.form.longitude = lng;
       this.form.latitude = lat;
+    },
+    multipleShowListChange({ row, type }) {
+      this.form[type] = this.form[type].filter(
+        item => item.userId !== row.value
+      );
+      this.form[`${typeId}`] = '';
     },
     save() {}
   }
