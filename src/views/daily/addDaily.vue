@@ -45,10 +45,47 @@
         </div> -->
         <RelateBusiness :relateData="relateData" :relateMenu="relateMenu" @relateBusinessChange="relateBusinessChange" :isHideLine="true"></RelateBusiness>
       </div>
-      <div class="receivePeople">
+      <!-- <div class="receivePeople">
         <span class="title">接收人</span>
         <img src="../../../static/images/receivePeople.png">
-      </div>
+      </div> -->
+      <mu-form
+        :model="form"
+        class="mu-demo-form"
+        label-position="left"
+        label-width="100"
+      >
+      <mu-paper :z-depth="0" class="block" >
+        <mu-form-item label="接收人" prop="sendUserName" >
+          <PopSingleOrMultiple
+            :defaultValue="form.sendUserName"
+            :isShowText="false"
+            :selected="form.sendUser"
+            @PopSingleOrMultipleChange="PopSingleOrMultipleChange"
+            apiName="querySimpleUserByDepId"
+            fieldName="sendUserName"
+            idField="userId"
+            mode="multiple"
+            name="接收人"
+            splitField="sendUser"
+            textField="realname"
+          >
+            <mu-icon
+              color="#FF0000"
+              size="24"
+              slot="rightIcon"
+              value=":iconfont icon-tianjia"
+            ></mu-icon>
+          </PopSingleOrMultiple>
+        </mu-form-item>
+      
+        <MultipleShowList
+          :list="multipleShowList"
+          @multipleShowListChange="multipleShowListChange"
+          type="sendUser"
+        ></MultipleShowList>
+        </mu-paper>
+        </mu-form>
     </div>
   </div>
 </template>
@@ -57,10 +94,13 @@
 import AppBar from '../../components/AppBar'
 import uploadList from '../../components/upLoad/uploadList'
 import RelateBusiness from "../../components/RelateBusiness/RelateBusiness";
+import PopSingleOrMultiple from "../../components/PopSingleOrMultiple";
+import MultipleShowList from "../../components/MultipleShowList";
+
 import { RELATION_BUSINESS } from "@constants/menuInfo.js";
 export default {
   components:{
-    AppBar, uploadList, RelateBusiness
+    AppBar, uploadList, RelateBusiness, PopSingleOrMultiple, MultipleShowList
   },
   data(){
     return{
@@ -70,13 +110,21 @@ export default {
       textareaVal4:'',
       relateMenu: {
         // 菜单的相应配置
-        clues: { ...RELATION_BUSINESS.clues },
-        customers: { ...RELATION_BUSINESS.customers },
-        contacts: { ...RELATION_BUSINESS.contacts },
-        tasks: { ...RELATION_BUSINESS.tasks },
-        visits: { ...RELATION_BUSINESS.visits },
+        clues: RELATION_BUSINESS.clues,
+        customers: RELATION_BUSINESS.customers,
+        contacts: RELATION_BUSINESS.contacts,
+        tasks: RELATION_BUSINESS.tasks,
+        visits: RELATION_BUSINESS.visits,
       },
-      relateData: {} // 关联业务
+      relateData: {}, // 关联业务
+      form:{
+        sendUser: [], // 接收人的拼接
+        sendUserName: "", // 接收人的名字
+        sendUserId: '', //id
+      },
+      
+
+      multipleShowList: [],
     }
   },
   watch: {
@@ -88,6 +136,13 @@ export default {
         tasks: val.tasksList,
         visits: val.visitsList,
       };
+    },
+    "form.sendUser"(val) {
+      this.multipleShowList = val.map(item => ({
+        text: item.realname,
+        value: item.userId,
+        img: item.img
+      }));
     }
   },
   methods: {
@@ -103,7 +158,22 @@ export default {
         ...commonParam
       };
       console.log(param)
-    }
+    },
+    PopSingleOrMultipleChange({ selectArr, texts, ids, idsField, textsField }) {
+      // 多选框的回调
+      this.form.sendUserName = texts;
+      this.form.sendUser = selectArr;
+      // 这个属性并没有双向绑定
+      this.form.sendUserId = ids;
+    },
+    multipleShowListChange({ row, type }) {
+      this.form.sendUser = this.form.sendUser.filter(
+        item => item.userId * 1 !== row.value * 1
+      );
+      this.form.sendUserId = this.form.sendUser
+        .map(item => item.userId)
+        .join(",");
+    },
   }
 }
 </script>

@@ -57,4 +57,18 @@ export default {
   getDailyList: params => get({ params, url: '/workReport/queryPageList' }),
   //日报 详情
   getDailyDetails: params => get({ params, url: '/workReport/queryReportById' }),
+
+  // ************************* 待办 *************************
+  // 待办 统计
+  getToDuTotal: params => post({ params, url: '/crmAgenda/waitDoneNum' }),
+  // 分配给我的 线索
+  getAssignToMeClue: params => post({ params, url: '/crmAgenda/agendaHtmlLeads' }),
+  // 分配给我的 客户
+  getAssignToMeCustomer: params => post({ params, url: '/crmAgenda/agendaHtmlCustomer' }),
+  // 待执行 任务
+  getToBeExecutedTask: params => get({ params, url: '/crmAgenda/waitExecuteTask' }),
+  // 待查看 日报
+  getToBeSeenDaily: params => get({ params, url: '/crmAgenda/waitReadLog' }),
+  // 待查看 拜访
+  getToBeSeenVisit: params => get({ params, url: '/crmAgenda/waitReadVisit' }),
 }

@@ -11,7 +11,7 @@
         </mu-button>
       </mu-appbar>
       <mu-drawer :open.sync="drawerState" right :docked="false">
-          <Screen :drawerList="drawerList" @getApiParams="getApiParams"  v-if="pageTitle === '待跟进线索' || pageTitle === '分配给我的线索'"></Screen>
+          <Screen :drawerList="drawerList" @getApiParams="getApiParams"  v-if="pageTitle === '分配给我的线索'"></Screen>
       </mu-drawer>
     </div>
 
@@ -100,16 +100,13 @@ export default {
           }]
         },
         clue:{
-          defaultValue:['今日需跟进'],
+          defaultValue:['未跟进'],
           fileTitle:'线索状态',
           mode:'single',
           valueField:'title',
           labelField:'title',
           list:[{
-            title:'今日需跟进',
-            state:false
-          },{
-            title:'已逾期',
+            title:'未跟进',
             state:false
           },{
             title:'已跟进',
@@ -125,7 +122,7 @@ export default {
   },
   created(){
     this.getList();
-    this.getDrawerList();
+    // this.getDrawerList();
   },
   methods:{
     // 获取列表
@@ -158,30 +155,26 @@ export default {
             this.getListApi = Api.queryTaskList;
             this.getListParams = {type:0};
           break;
-        case '待审核的任务':
-            this.getListApi = Api.queryTaskList;
-            this.getListParams = {type:0};
-          break;
       }
     },
-    getDrawerList(){
-      if(this.pageTitle === '分配给我的线索'){
-        this.drawerList.clue = {
-          defaultValue:['未跟进'],
-          fileTitle:'线索状态',
-          type:'single',
-          valueField:'title',
-          labelField:'title',
-          list:[{
-            title:'未跟进',
-            state:false
-          },{
-            title:'已跟进',
-            state:false
-          }]
-        }
-      }
-    },
+    // getDrawerList(){
+    //   if(this.pageTitle === '分配给我的线索'){
+    //     this.drawerList.clue = {
+    //       defaultValue:['未跟进'],
+    //       fileTitle:'线索状态',
+    //       type:'single',
+    //       valueField:'title',
+    //       labelField:'title',
+    //       list:[{
+    //         title:'未跟进',
+    //         state:false
+    //       },{
+    //         title:'已跟进',
+    //         state:false
+    //       }]
+    //     }
+    //   }
+    // },
     getApiParams(data){
       this.getApi();
       this.getListApi({...this.getListParams,...data}).then(res=>{

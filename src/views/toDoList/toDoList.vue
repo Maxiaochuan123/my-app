@@ -28,9 +28,6 @@ export default {
   data(){
     return{
       list:[{
-        src:'../../../static/images/stayClue.png',
-        title:'待跟进线索',
-      },{
         src:'../../../static/images/configOrganization.png',
         title:'分配给我的线索'
       },{
@@ -40,14 +37,11 @@ export default {
         src:'../../../static/images/implement.png',
         title:'待执行的任务'
       },{
-        src:'../../../static/images/toExamine.png',
-        title:'待审核的任务'
-      },{
         src:'../../../static/images/stayDaily.png',
-        title:'待批复的日报'
+        title:'待查看的日报'
       },{
         src:'../../../static/images/stayVisit.png',
-        title:'待批复的拜访'
+        title:'待查看的拜访'
       }]
     }
   },
