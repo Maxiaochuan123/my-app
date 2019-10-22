@@ -131,7 +131,8 @@ export default {
     //筛选 - 确认
     drawerSubmit(){
       this.getParams();
-      this.$emit('getApiParams', this.submitDrawerList)
+      this.$emit('getApiParams', this.submitDrawerList);
+      this.resetDrawerList();
       this.closeDrawerState();
     },
     getParams(){

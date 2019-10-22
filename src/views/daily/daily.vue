@@ -11,45 +11,47 @@
         <mu-tab>我收到的</mu-tab>
       </mu-tabs>
       <div class="myDaily">
-        <mu-expansion-panel :zDepth="0" expand v-for="(item,index) in dailyList" :key="index">
-          <div slot="header">
-            <div class="info">
-              <img :src="item.userImg">
-              <div>
-                <span class="name">{{item.realname}}</span>
-                <span class="level">{{item.post}}</span>
+        <mu-load-more :refreshing="refreshing" @refresh="refresh" :loading="loading" @load="load">
+          <mu-expansion-panel :zDepth="0" expand v-for="(item,index) in dailyList" :key="index">
+            <div slot="header">
+              <div class="info">
+                <img :src="item.userImg">
+                <div>
+                  <span class="name">{{item.realname}}</span>
+                  <span class="level">{{item.post}}</span>
+                </div>
               </div>
             </div>
-          </div>
-          <div class="completionstate" @click="goPage('dailyDetails', {id:item.logId})">
-            <div class="describe">
-              <div>
-                <p class="title">今日重点工作及完成情况：</p>
-                <div class="result">{{item.content}}</div>
+            <div class="completionstate" @click="goPage('dailyDetails', {id:item.logId})">
+              <div class="describe">
+                <div>
+                  <p class="title">今日重点工作及完成情况：</p>
+                  <div class="result">{{item.content}}</div>
+                </div>
+                <div>
+                  <p class="title">明日工作计划：</p>
+                  <p class="result">{{item.tomorrow}}</p>
+                </div>
+                <div>
+                  <p class="title">工作感悟：</p>
+                  <p class="result">{{item.sentiment}}</p>
+                </div>
+                <div>
+                  <p class="title">工作所需支持：</p>
+                  <p class="result">{{item.support}}</p>
+                </div>
               </div>
-              <div>
-                <p class="title">明日工作计划：</p>
-                <p class="result">{{item.tomorrow}}</p>
-              </div>
-              <div>
-                <p class="title">工作感悟：</p>
-                <p class="result">{{item.sentiment}}</p>
-              </div>
-              <div>
-                <p class="title">工作所需支持：</p>
-                <p class="result">{{item.support}}</p>
+              <mu-divider shallow-inset></mu-divider>
+              <div class="commentBox">
+                <div class="comment">
+                  <img src="../../../static/images/comment.png">
+                  <span>评论({{item.replyList[0] ? item.replyList[0].childCommentList.length : 0}})</span>
+                </div>
+                <div class="dateTime">{{item.replyList[0] ? item.replyList[0].createTime : ''}}</div>
               </div>
             </div>
-            <mu-divider shallow-inset></mu-divider>
-            <div class="commentBox">
-              <div class="comment">
-                <img src="../../../static/images/comment.png">
-                <span>评论({{item.replyList[0] ? item.replyList[0].childCommentList.length : 0}})</span>
-              </div>
-              <div class="dateTime">{{item.replyList[0] ? item.replyList[0].createTime : ''}}</div>
-            </div>
-          </div>
-        </mu-expansion-panel>
+          </mu-expansion-panel>
+        </mu-load-more>
       </div>
     </div>
   </div>
@@ -66,29 +68,58 @@ export default {
     return{
       dailyList:[], //日报列表
       drawerList:{
-        value2:{
+        createUserId:{
           fileTitle:'搜索',
           type:'searchInput',
           placeholder:'搜索内部联系人',
           valueField:'val',
           labelField:'name',
           val:'',
-          searchList:[{name:'张三',val:'zs'},{name:'李四',val:'ls'},{name:'王五',val:'ww'},{name:'牛牛',val:'nn'}]
+          searchList:[]
         },
-        value7:{
+        createTime:{
           fileTitle:'创建时间',
           type:'date',
           placeholder:'请选择创建时间',
           val:''
         }
       },
+      refreshing:false,
+      loading:false,
+      loadingState: 'default'
     }
   },
   created(){
     this.getDailyList(this.getParams());
+    this.api.getContacts({type:1,teamType:1}).then(res=>{
+      if(res.msg !== 'success') this.$toast.warning('联系人列表获取失败!');
+      for(let item in res.data){
+        for(let item2 of res.data[item]){
+          this.drawerList.createUserId.searchList.push({name:item2.contactsName,val:item2.contactsId})
+        }
+      }
+    })
   },
   methods:{
+    // 下拉刷新
+    refresh(){
+      this.paging.pageIndex = 1;
+      this.refreshing = true;
+      this.loadingState = 'refresh';
+      this.getDailyList(this.getParams());
+    },
+    // 上拉加载
+    load(){
+      this.paging.pageIndex = ++this.paging.pageIndex;
+      this.loading = true;
+      this.loadingState = 'load';
+      this.getDailyList(this.getParams());
+    },
     changeTabs(item){
+      window.scrollTo(0,0);
+      this.paging.pageIndex = 1;
+      this.dailyList = [];
+
       this.storage.sessionSet('tabsActive',item);
       this.getDailyList(this.getParams());
     },
@@ -101,7 +132,11 @@ export default {
     getDailyList(params){
       this.api.getDailyList(params).then(res=>{
         if(res.msg !== 'success') this.$toast.warning('日报列表获取失败!');
-        this.dailyList = res.data.list;
+        if(this.loadingState === 'default' || this.loadingState === 'refresh'){
+          this.dailyList = res.data.list; this.refreshing = false;
+        }else{
+          this.dailyList.push(...res.data.list); this.loading = false;
+        }
       })
     },
     getParams(){
