@@ -1,6 +1,6 @@
 <template>
   <div class="upLoad">
-    <div class="enclosure">
+    <div class="enclosure" v-if="isShowAll">
       <div class="title">附件</div>
       <div class="content">
         <UpLoadImages
@@ -158,6 +158,10 @@ export default {
       default: ""
     },
     isEdit: {
+      type: Boolean,
+      default: true
+    },
+    isShowAll: {
       type: Boolean,
       default: true
     },
