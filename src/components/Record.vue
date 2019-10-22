@@ -26,12 +26,14 @@
             <div class="node-right">
               <div class="name">{{item.realname}}</div>
               <div class="talk">{{item.content}}</div>
-              <div
-                class="show-imgs"
-                v-if="item.img.length > 0"
-              >
-                <PreviewImageBase :imagesList="item.img.map(one => one.filePath)"></PreviewImageBase>
-              </div>
+              <UploadList
+                :customEnclosureList="item.file"
+                :customImgList="item.img"
+                :isEdit="false"
+                :ishasAfferent="false"
+                :isShowAll="false"
+                class="show-upload"
+              ></UploadList>
               <div class="sub-info">
                 <label>跟进类型:</label>
                 <span>{{item.category}}</span>
@@ -52,13 +54,27 @@
 </template>
 
 <script>
+import UploadList from "@components/upLoad/uploadList.vue";
 import Nothing from "@components/Nothing.vue";
 import PreviewImageBase from "@components/upLoad/components/PreviewImageBase.vue";
 export default {
   name: "Record",
-  components: { Nothing, PreviewImageBase },
+  components: { Nothing, PreviewImageBase, UploadList },
   data() {
     return {};
+  },
+  watch: {
+    record(val) {
+      val.forEach(item => {
+        item.img.forEach(one => {
+          one.src = one.filePath;
+          one.progress = { progressState: 1 };
+        });
+        item.file.forEach(one => {
+          one.progress = { progressState: 1 };
+        });
+      });
+    }
   },
   props: {
     record: {
@@ -66,7 +82,6 @@ export default {
       default: () => []
     }
   },
-  mounted() {},
   methods: {}
 };
 </script>
