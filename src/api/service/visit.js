@@ -14,6 +14,12 @@ export default {
       params,
       url: C.QUERY_VISIT_DETAILS_BY_ID
     }),
+  // 新增或者修改拜访
+  addOrEditVisit: params =>
+    post({
+      params,
+      url: C.ADD_OR_EDIT_VISIT,
+    }),
   // 批量删除拜访
   deleteVisits: params =>
     post({

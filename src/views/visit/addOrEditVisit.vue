@@ -3,7 +3,7 @@
  * @Author: shenah
  * @Date: 2019-10-17 16:54:08
  * @LastEditors: shenah
- * @LastEditTime: 2019-10-22 10:01:55
+ * @LastEditTime: 2019-10-22 11:46:52
  -->
 
 <template>
@@ -20,12 +20,29 @@
         class="mu-demo-form"
         label-position="left"
         label-width="100"
+        ref="form"
       >
         <mu-paper
           :z-depth="0"
           class="block"
         >
           <mu-form-item
+            :rules="must('拜访时间','select')"
+            label="拜访时间"
+            prop="visitTime"
+          >
+            <!-- 日期时间类型 -->
+            <mu-date-input
+              :prop="form.visitTime"
+              container="bottomSheet"
+              placeholder="请选择拜访时间"
+              type="dateTime"
+              v-model="form.visitTime"
+              value-format="YYYY-MM-DD hh:mm:ss"
+            ></mu-date-input>
+          </mu-form-item>
+          <mu-form-item
+            :rules="must('拜访客户','select')"
             label="拜访客户"
             prop="visitCustomerName"
           >
@@ -51,6 +68,7 @@
           </mu-form-item>
           <mu-divider></mu-divider>
           <mu-form-item
+            :rules="must('拜访联系人','select')"
             label="拜访联系人"
             prop="visitContactName"
           >
@@ -64,7 +82,7 @@
               mode="single"
               name="拜访联系人"
               splitField="visitContact"
-              textField="name"
+              textField="contactsName"
             >
               <mu-icon
                 color="#FF0000"
@@ -76,6 +94,7 @@
           </mu-form-item>
           <mu-divider></mu-divider>
           <mu-form-item
+            :rules="must('拜访内容')"
             class="line-feed"
             label="拜访内容"
             label-position="top"
@@ -91,6 +110,7 @@
           </mu-form-item>
           <mu-divider></mu-divider>
           <UploadList
+            :batchId="form.batchId"
             :customEnclosureList="customEnclosureList"
             :customImgList="customImgList"
             :ishasAfferent="false"
@@ -122,6 +142,7 @@
           >
             <PopSingleOrMultiple
               :defaultValue="form.sendUserName"
+              :isShowText="false"
               :selected="form.sendUser"
               @PopSingleOrMultipleChange="PopSingleOrMultipleChange"
               apiName="querySimpleUserByDepId"
@@ -131,7 +152,6 @@
               name="接收人"
               splitField="sendUser"
               textField="realname"
-              :isShowText="false"
             >
               <mu-icon
                 color="#FF0000"
@@ -158,8 +178,14 @@ import SelectAddress from "@components/SelectAddress.vue";
 import MultipleShowList from "@components/MultipleShowList.vue";
 import UploadList from "@components/upLoad/uploadList.vue";
 import AppBar from "@components/AppBar.vue";
+import Api from "@api";
 export default {
   name: "addOrEditVisit",
+  computed: {
+    id() {
+      return this.$route.params.id;
+    }
+  },
   components: {
     AppBar,
     PopSingleOrMultiple,
@@ -174,6 +200,8 @@ export default {
       pageTitle: "",
       multipleShowList: [],
       form: {
+        visitId: "", // 拜访的id
+        visitTime: "", // 拜访的时间
         visitCustomer: [], // 拜访客户的拼接
         visitCustomerName: "", // 拜访的名字
         visitCustomerId: "", // 拜访的id
@@ -205,9 +233,54 @@ export default {
     judgeType() {
       if (this.id) {
         this.pageTitle = "编辑拜访";
+        this.queryDetails();
       } else {
         this.pageTitle = "新增拜访";
       }
+    },
+    handlerDetails(details) {
+      let form = { ...details };
+      // 处理详情
+      // 拜访客户的处理
+      form.visitCustomerName = details.customerName;
+      form.visitCustomer = [
+        {
+          customerId: details.visitCustomerId,
+          customerName: details.customerName
+        }
+      ];
+      // 拜访联系人的处理
+      form.visitContactName = details.contactsName;
+      form.visitContact = [
+        {
+          contactsId: details.visitContactId,
+          contactsName: details.contactsName
+        }
+      ];
+      // 接收人的处理
+
+      form.sendUser = details.sendUserList;
+      form.sendUserId = details.sendUserIds;
+
+      // 附件的处理
+      this.customImgList = details.img.map(item => ({
+        ...item,
+        src: item.filePath,
+        progress: { progressState: 1 }
+      }));
+      this.customEnclosureList = details.file.map(item => ({
+        ...item,
+        progress: { progressState: 1 }
+      }));
+      return form;
+    },
+    queryDetails() {
+      Api.queryDetailsById({
+        visitId: this.id
+      }).then(res => {
+        let details = res.data;
+        this.form = { ...this.form, ...this.handlerDetails(details) };
+      });
     },
     PopSingleOrMultipleChange({ selectArr, texts, ids, idsField, textsField }) {
       // 多选框的回调
@@ -223,10 +296,11 @@ export default {
       this.customEnclosureList = data;
     },
     getImgSuccessList(res, row) {
-      const { fieldName } = row;
-      const { list, guid } = res;
-      this.form[fieldName] = guid;
-      console.log(1111, guid);
+      if (!this.form.batchId) {
+        const { fieldName } = row;
+        const { list, guid } = res;
+        this.form[fieldName] = guid;
+      }
     },
     addressChange({ value, fieldName, lng, lat, region }) {
       this.form[fieldName] = value;
@@ -235,11 +309,39 @@ export default {
     },
     multipleShowListChange({ row, type }) {
       this.form[type] = this.form[type].filter(
-        item => item.userId !== row.value
+        item => item.userId * 1 !== row.value * 1
       );
-      this.form[`${typeId}`] = '';
+      this.form[`${type}Ids`] = this.form[type]
+        .map(item => item.userId)
+        .join(",");
     },
-    save() {}
+    handlerParams() {
+      // 处理参数
+      let form = {};
+      if (this.id) {
+        form["visitId"] = this.id;
+      }
+      form["content"] = this.form.content;
+      form["visitTime"] = this.form.visitTime;
+      form["visitCustomerId"] = this.form.visitCustomerId;
+      form["visitContactId"] = this.form.visitContactId;
+      form["batchId"] = this.form.batchId;
+      form["sendUserIds"] = this.form.sendUserId;
+      form["address"] = this.form.address;
+      form["longitude"] = this.form.longitude;
+      form["latitude"] = this.form.latitude;
+      return form;
+    },
+    save() {
+      this.$refs.form.validate().then(result => {
+        if (result) {
+          Api.addOrEditVisit(this.handlerParams()).then(() => {
+            this.$toast.success("保存成功");
+            this.goBack();
+          });
+        }
+      });
+    }
   }
 };
 </script>

@@ -7,5 +7,7 @@ const getApi = url => `/visit${url}`;
 export const QUERY_VISIT_LIST = getApi("/queryPageList");
 // 根据id查询拜访详情
 export const QUERY_VISIT_DETAILS_BY_ID = getApi("/queryVisitById");
+// 添加或者编辑拜访
+export const ADD_OR_EDIT_VISIT = getApi("/addOrUpdate");
 // 批量删除拜访
 export const DELETE_VISITS = getApi("/deleteByIds");

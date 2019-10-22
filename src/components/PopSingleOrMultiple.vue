@@ -3,7 +3,7 @@
  * @Author: shenah
  * @Date: 2019-10-21 13:50:16
  * @LastEditors: shenah
- * @LastEditTime: 2019-10-22 09:58:57
+ * @LastEditTime: 2019-10-22 11:47:07
  -->
 
 <template>
@@ -18,8 +18,8 @@
         :rows-max="3"
         disabled
         multi-line
-        v-model="showInputValue"
         v-if="isShowText"
+        v-model="showInputValue"
       ></mu-text-field>
       <div class="right-icon">
         <slot name="rightIcon">
@@ -103,11 +103,6 @@ import Api from "@api";
 export default {
   name: "PopSingleOrMultiple",
   components: { SearchInputBar },
-  computed: {
-    showText() {
-      return this.isShowText ? this.showInputValue : "";
-    }
-  },
   data() {
     return {
       requestParams: {
@@ -202,7 +197,7 @@ export default {
           this.selectedList = [one];
         } else {
           // 证明是多选
-          this.selectedList = this.selected;
+          this.selectedList = JSON.parse(JSON.stringify(this.selected));
         }
       }
     },
@@ -288,6 +283,7 @@ export default {
         idsField: this.splitField,
         textsField: this.fieldName
       });
+      this.clearAll();
       this.openFullscreen = false;
     },
     closeFullscreenDialog() {
@@ -296,8 +292,8 @@ export default {
       this.openFullscreen = false;
     },
     clearAll() {
-      // 清空相应的东西
-      this.inputValue = "";
+      this.requestParams.search = "";
+      this.requestParams.pageIndex = 1;
     }
   }
 };
