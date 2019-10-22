@@ -8,10 +8,7 @@
 
 <template>
   <div class="pop-single-or-multiple">
-    <div
-      @click="multipleSelect"
-      class="show-content"
-    >
+    <div @click="multipleSelect" class="show-content">
       <mu-text-field
         :placeholder="`请选择${name}`"
         :prop="fieldName"
@@ -23,10 +20,7 @@
       ></mu-text-field>
       <div class="right-icon">
         <slot name="rightIcon">
-          <mu-icon
-            size="24"
-            value=":iconfont icon-rightArrow"
-          ></mu-icon>
+          <mu-icon size="24" value=":iconfont icon-rightArrow"></mu-icon>
         </slot>
       </div>
     </div>
@@ -41,10 +35,7 @@
         <div class="select-pop-single-or-multiple-header">
           <div @click="closeFullscreenDialog">取消</div>
           <div class="primary-words">{{name}}选择</div>
-          <div
-            @click="submit"
-            class="ok"
-          >确定</div>
+          <div @click="submit" class="ok">确定</div>
         </div>
         <SearchInputBar
           @searchInputBarChange="searchInputBarChange"
@@ -53,11 +44,7 @@
         ></SearchInputBar>
         <div class="content">
           <div class="content-users">
-            <mu-load-more
-              :loading="loading"
-              @load="load"
-              class="relate-business-list-wrap"
-            >
+            <mu-load-more :loading="loading" @load="load" class="relate-business-list-wrap">
               <div
                 :key="index"
                 @click="select(item)"
@@ -65,23 +52,12 @@
                 v-for="(item,index) in showList"
               >
                 <div class="index-users-left">
-                  <img
-                    :src="loadingImg('selected.png')"
-                    class="select"
-                    v-show="item.flag"
-                  />
-                  <img
-                    :src="loadingImg('no-selected.png')"
-                    class="select"
-                    v-show="!item.flag"
-                  />
+                  <img :src="loadingImg('selected.png')" class="select" v-show="item.flag" />
+                  <img :src="loadingImg('no-selected.png')" class="select" v-show="!item.flag" />
                 </div>
                 <div class="index-users-right">
-                  <mu-avatar
-                    class="user-header"
-                    size="40"
-                  >
-                    <img :src="item.img" />
+                  <mu-avatar class="user-header" size="40">
+                    <img :src="changeImg(item)" />
                   </mu-avatar>
                   <div class="user-info">
                     <div class="name">{{item[textField]}}</div>
@@ -118,6 +94,11 @@ export default {
     };
   },
   props: {
+    extraParams: {
+      // 额外的请求的参数
+      type: Object,
+      default: () => {}
+    },
     isShowText: {
       // 单选single还是多选模式multiple
       type: Boolean,
@@ -180,6 +161,13 @@ export default {
     this.showInputValue = this.defaultValue;
   },
   methods: {
+    changeImg(row) {
+      let src = row.img;
+      if (!row.img) {
+        src = this.loadingImg("default-header.png");
+      }
+      return src;
+    },
     load() {
       // 滚动加载
       this.loading = true;
@@ -266,7 +254,8 @@ export default {
       }
     },
     multipleSelect() {
-      // 点击多选框
+      // 点击多选框 extraParams
+      this.requestParams = { ...this.requestParams, ...this.extraParams };
       this.openFullscreen = true;
       this.handleSelected();
       this.query();

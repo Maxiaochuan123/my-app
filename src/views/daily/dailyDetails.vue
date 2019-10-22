@@ -63,11 +63,11 @@
               <div class="relation">
                 <p class="title">关联业务：</p>
                 <div class="clue">
-                  <div v-for="(contacts,index) in contactsList" :key="index">联系人 - {{contacts.name}}</div>
-                  <div v-for="(customer,index) in customerList" :key="index">客户 - {{customer.name}}</div>
-                  <div v-for="(clue,index) in clueList" :key="index">线索 - {{clue.name}}</div>
-                  <div v-for="(task,index) in taskList" :key="index">任务 - {{task.name}}</div>
-                  <div v-for="(visit,index) in visitList" :key="index">拜访 - {{visit.name}}</div>
+                  <div v-for="(contacts,index) in contactsList" :key="index + contacts.name">联系人 - {{contacts.name}}</div>
+                  <div v-for="(customer,index) in customerList" :key="index + customer.customerName">客户 - {{customer.customerName}}</div>
+                  <div v-for="(clue,index) in clueList" :key="index + clue.leadsName">线索 - {{clue.leadsName}}</div>
+                  <div v-for="(task,index) in taskList" :key="index + task.taskName">任务 - {{task.taskName}}</div>
+                  <div v-for="(visit,index) in visitList" :key="index + visit.visitName">拜访 - {{visit.visitName}}</div>
                 </div>
               </div>
             </div>
@@ -153,19 +153,24 @@ export default {
   },
   computed: {
     contactsList(){
-      if(this.info.hasOwnProperty('contactsList')) return this.info.contactsList;
+      // if(this.info.hasOwnProperty('contactsList')) return this.info.contactsList;
+      return this.info.hasOwnProperty('contactsList') ? this.info.contactsList : []
     },
     customerList(){
-      if(this.info.hasOwnProperty('customerList')) return this.info.customerList;
+      // if(this.info.hasOwnProperty('customerList')) return this.info.customerList;
+      return this.info.hasOwnProperty('customerList') ? this.info.customerList : []
     },
     clueList(){
-      if(this.info.hasOwnProperty('clueList')) return this.info.clueList;
+      // if(this.info.hasOwnProperty('clueList')) return this.info.clueList;
+      return this.info.hasOwnProperty('clueList') ? this.info.clueList : []
     },
     taskList(){
-      if(this.info.hasOwnProperty('taskList')) return this.info.taskList;
+      // if(this.info.hasOwnProperty('taskList')) return this.info.taskList;
+      return this.info.hasOwnProperty('taskList') ? this.info.taskList : []
     },
     visitList(){
-      if(this.info.hasOwnProperty('visitList')) return this.info.visitList;
+      // if(this.info.hasOwnProperty('visitList')) return this.info.visitList;
+      return this.info.hasOwnProperty('visitList') ? this.info.visitList : []
     },
   }
 }
