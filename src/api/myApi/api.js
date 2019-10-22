@@ -49,14 +49,18 @@ export default {
 
 
   // ************************* 日报 *************************
-  //获取 评论列表
-  getReplyList: params => get({ params, url: '/workComment/queryReplyList' }),
-  // 新增 评论
-  addReply: params => post({ params, url: '/workComment/addOrUpdate' }),
+  // 新增 日报
+  addDaily: params => post({ params, url: '/workReport/addOrUpdate' }),
   //日报 列表
   getDailyList: params => get({ params, url: '/workReport/queryPageList' }),
   //日报 详情
   getDailyDetails: params => get({ params, url: '/workReport/queryReportById' }),
+
+  // ************************* 评论 *************************
+  //获取 评论列表
+  getReplyList: params => get({ params, url: '/workComment/queryReplyList' }),
+  // 新增 评论
+  addReply: params => post({ params, url: '/workComment/addOrUpdate' }),
 
   // ************************* 待办 *************************
   // 待办 统计

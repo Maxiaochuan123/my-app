@@ -160,6 +160,11 @@ export default {
                 commonParam,
                 operate: "del"
               });
+            }else{
+              this.$emit("relateBusinessChange", {
+                commonParam,
+                operate: "addDel"
+              });
             }
           }
         }

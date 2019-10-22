@@ -1,13 +1,13 @@
 <template>
   <div class="addDaily">
-    <AppBar pageTitle="写日报"></AppBar>
+    <AppBar pageTitle="写日报" custom customTitle="保存" :customFnc="customFnc"></AppBar>
     <div class="content">
-      <div class="baseContent">
+      <div :class="['baseContent',bootomPadingStatus ? 'bootomPading' : '']">
 
         <div class="baseItem">
           <div class="title">今日重点工作及完成情况</div>
           <div class="textarea">
-            <mu-text-field v-model="textareaVal" multi-line :rows="0" full-width placeholder="请输入内容"></mu-text-field>
+            <mu-text-field v-model="content" multi-line :rows="0" full-width placeholder="请输入内容"></mu-text-field>
           </div>
         </div>
         <mu-divider shallow-inset></mu-divider>
@@ -15,7 +15,7 @@
         <div class="baseItem">
           <div class="title">明日工作计划</div>
           <div class="textarea">
-            <mu-text-field v-model="textareaVal2" multi-line :rows="0" full-width placeholder="请输入内容"></mu-text-field>
+            <mu-text-field v-model="tomorrow" multi-line :rows="0" full-width placeholder="请输入内容"></mu-text-field>
           </div>
         </div>
         <mu-divider shallow-inset></mu-divider>
@@ -23,7 +23,7 @@
         <div class="baseItem">
           <div class="title">工作感悟</div>
           <div class="textarea">
-            <mu-text-field v-model="textareaVal3" multi-line :rows="0" full-width placeholder="请输入内容"></mu-text-field>
+            <mu-text-field v-model="sentiment" multi-line :rows="0" full-width placeholder="请输入内容"></mu-text-field>
           </div>
         </div>
         <mu-divider shallow-inset></mu-divider>
@@ -31,7 +31,7 @@
         <div class="baseItem">
           <div class="title">工作所需支持</div>
           <div class="textarea">
-            <mu-text-field v-model="textareaVal4" multi-line :rows="0" full-width placeholder="请输入内容"></mu-text-field>
+            <mu-text-field v-model="support" multi-line :rows="0" full-width placeholder="请输入内容"></mu-text-field>
           </div>
         </div>
         <mu-divider shallow-inset></mu-divider>
@@ -43,7 +43,7 @@
           <span class="title">关联业务</span>
           <img src="../../../static/images/relation.png">
         </div> -->
-        <RelateBusiness :relateData="relateData" :relateMenu="relateMenu" @relateBusinessChange="relateBusinessChange" :isHideLine="true"></RelateBusiness>
+        <RelateBusiness :relatedBusinessList="relatedBusinessList" :relateMenu="relateMenu" @relateBusinessChange="relateBusinessChange" :defaultHide="true"></RelateBusiness>
       </div>
       <!-- <div class="receivePeople">
         <span class="title">接收人</span>
@@ -56,19 +56,22 @@
         label-width="100"
       >
       <mu-paper :z-depth="0" class="block" >
-        <mu-form-item label="接收人" prop="sendUserName" >
+        <mu-form-item label="接收人" prop="contactName" >
           <PopSingleOrMultiple
-            :defaultValue="form.sendUserName"
+            :defaultValue="form.contactName"
             :isShowText="false"
             :selected="form.sendUser"
             @PopSingleOrMultipleChange="PopSingleOrMultipleChange"
-            apiName="querySimpleUserByDepId"
-            fieldName="sendUserName"
-            idField="userId"
+            apiName="queryContactsPC"
+            fieldName="contactName"
+            idField="contactsId"
             mode="multiple"
             name="接收人"
             splitField="sendUser"
-            textField="realname"
+            textField="contactsName"
+            :extraParams="{
+              teamType:1
+            }"
           >
             <mu-icon
               color="#FF0000"
@@ -104,10 +107,10 @@ export default {
   },
   data(){
     return{
-      textareaVal:'',
-      textareaVal2:'',
-      textareaVal3:'',
-      textareaVal4:'',
+      content:'',
+      tomorrow:'',
+      sentiment:'',
+      support:'',
       relateMenu: {
         // 菜单的相应配置
         clues: RELATION_BUSINESS.clues,
@@ -116,12 +119,15 @@ export default {
         tasks: RELATION_BUSINESS.tasks,
         visits: RELATION_BUSINESS.visits,
       },
-      relateData: {}, // 关联业务
       form:{
         sendUser: [], // 接收人的拼接
-        sendUserName: "", // 接收人的名字
-        sendUserId: '', //id
+        contactName: "", // 接收人的名字
+        sendUserIds: '', //接收人id
       },
+      imgSuccessList:{}, //图片
+      enclosureSuccessList:{}, //附件
+      batchId:'',
+      relatedBusinessList:{}, //关联业务
       
 
       multipleShowList: [],
@@ -129,7 +135,7 @@ export default {
   },
   watch: {
     "$parent.details"(val) {
-      this.relateData = {
+      this.relatedBusinessList = {
         clues: val.clueList,
         customers: val.customerList,
         contacts: val.contactsList,
@@ -139,41 +145,64 @@ export default {
     },
     "form.sendUser"(val) {
       this.multipleShowList = val.map(item => ({
-        text: item.realname,
-        value: item.userId,
+        text: item.contactsName,
+        value: item.contactsId,
         img: item.img
       }));
     }
   },
   methods: {
+    customFnc(){
+      let params = {
+        content:this.content,
+        tomorrow:this.tomorrow,
+        sentiment:this.sentiment,
+        support:this.support,
+        sendUserIds:this.form.sendUserIds,
+        batchId: this.batchId,
+        ...this.relatedBusinessList
+      }
+      this.api.addDaily(params).then(res => {
+        if(res.msg === 'success') this.$toast.success('新增成功!');
+      })
+    },
     getImgSuccessList(data){
-      console.log(data)
+      this.batchId = data.guid;
     },
     getEnclosureSuccessList(data){
-      console.log(data)
+      this.batchId = data.guid;
     },
     relateBusinessChange({ nowConfig, commonParam, operate }){
       const param = {
-        taskId: this.id,
         ...commonParam
       };
-      console.log(param)
+      this.relatedBusinessList = param
     },
     PopSingleOrMultipleChange({ selectArr, texts, ids, idsField, textsField }) {
       // 多选框的回调
-      this.form.sendUserName = texts;
+      this.form.contactName = texts;
       this.form.sendUser = selectArr;
       // 这个属性并没有双向绑定
-      this.form.sendUserId = ids;
+      this.form.sendUserIds = ids;
     },
     multipleShowListChange({ row, type }) {
       this.form.sendUser = this.form.sendUser.filter(
         item => item.userId * 1 !== row.value * 1
       );
-      this.form.sendUserId = this.form.sendUser
+      this.form.sendUserIds = this.form.sendUser
         .map(item => item.userId)
         .join(",");
     },
+  },
+  computed:{
+    bootomPadingStatus(){
+      if(this.relatedBusinessList.clueIds || this.relatedBusinessList.contactsIds || this.relatedBusinessList.customerIds ||
+         this.relatedBusinessList.taskId || this.relatedBusinessList.taskIds || this.relatedBusinessList.visitIds){
+        return true
+      }else{
+        return false
+      }
+    }
   }
 }
 </script>
@@ -210,6 +239,9 @@ export default {
         .upLoad{
           padding: 0;
         }
+      }
+      .bootomPading{
+        padding-bottom: 10px !important;
       }
       .relationBusiness{
         display: flex;

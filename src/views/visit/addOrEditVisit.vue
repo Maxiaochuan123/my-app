@@ -83,6 +83,9 @@
               name="拜访联系人"
               splitField="visitContact"
               textField="contactsName"
+              :extraParams="{
+                teamType:1
+              }"
             >
               <mu-icon
                 color="#FF0000"
@@ -145,13 +148,16 @@
               :isShowText="false"
               :selected="form.sendUser"
               @PopSingleOrMultipleChange="PopSingleOrMultipleChange"
-              apiName="querySimpleUserByDepId"
+              apiName="queryContactsPC"
               fieldName="sendUserName"
-              idField="userId"
+              idField="contactsId"
               mode="multiple"
               name="接收人"
               splitField="sendUser"
-              textField="realname"
+              textField="contactsName"
+              :extraParams="{
+                teamType:1
+              }"
             >
               <mu-icon
                 color="#FF0000"
@@ -220,8 +226,8 @@ export default {
   watch: {
     "form.sendUser"(val) {
       this.multipleShowList = val.map(item => ({
-        text: item.realname,
-        value: item.userId,
+        text: item.contactsName,
+        value: item.contactsId,
         img: item.img
       }));
     }
