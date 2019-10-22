@@ -90,17 +90,19 @@
               v-else-if="mapArr.indexOf(item.type) > -1"
             ></SelectAddress>
             <!-- 多选 -->
-            <Multipleselecte
+            <PopSingleOrMultiple
+              :apiName="item.apiName"
               :defaultValue="form[item.fieldName]"
               :fieldName="item.fieldName"
               :idField="item.idField"
-              :multiple="item.multiple"
+              :mode="item.mode"
               :name="item.name"
-              :selected="form[item.multiple]"
+              :selected="form[item.splitField]"
+              :splitField="item.splitField"
               :textField="item.textField"
-              @multipleselecteChange="multipleselecteChange"
+              @PopSingleOrMultipleChange="PopSingleOrMultipleChange"
               v-else-if="multipleArr.indexOf(item.type) > -1"
-            ></Multipleselecte>
+            ></PopSingleOrMultiple>
             <!-- 上传文件  -->
             <UploadList
               @getImgSuccessList="getImgSuccessList(...arguments,item)"
@@ -160,11 +162,16 @@
 <script>
 import Picker from "dm-vue-picker-h5";
 import SelectAddress from "@components/SelectAddress.vue";
-import Multipleselecte from "@components/Multipleselecte.vue";
+import PopSingleOrMultiple from "@components/PopSingleOrMultiple.vue";
 import UploadList from "@components/upLoad/uploadList.vue";
 export default {
   name: "GeneralForm",
-  components: { Picker, SelectAddress, UploadList, Multipleselecte },
+  components: {
+    Picker,
+    SelectAddress,
+    UploadList,
+    PopSingleOrMultiple
+  },
   data() {
     return {
       // 输入框
@@ -382,6 +389,13 @@ export default {
       // 多选框的回调
       this.form[textsField] = texts;
       this.form[idsField] = textIds;
+      // 这个属性并没有双向绑定
+      this.form[`${idsField}Id`] = ids;
+    },
+    PopSingleOrMultipleChange({ selectArr, texts, ids, idsField, textsField }) {
+      // 多选框的回调
+      this.form[textsField] = texts;
+      this.form[idsField] = selectArr;
       // 这个属性并没有双向绑定
       this.form[`${idsField}Id`] = ids;
     },
