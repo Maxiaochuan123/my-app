@@ -103,14 +103,15 @@ export default {
   background-color: #fff;
   .clue-item {
     width: 100%;
-    padding: 12px 15px;
-    border-bottom: 1px solid @primary-border;
+    padding: 0 0 0 15px;
     .clue-item-wrap {
       width: 100%;
       height: 100%;
       display: flex;
       justify-content: space-between;
       align-items: center;
+      padding: 12px 15px 12px 0;
+      border-bottom: 1px solid @primary-border;
       .clue-left {
         width: auto;
         flex: 1;

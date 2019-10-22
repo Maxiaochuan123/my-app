@@ -132,7 +132,7 @@ export default {
   .index-customer-wrap {
     width: 100%;
     height: 100%;
-    padding-right: 24px;
+    padding: 0 24px 6px 0;
     .title {
       display: flex;
       font-size: @primary-size;

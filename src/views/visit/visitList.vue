@@ -3,7 +3,7 @@
  * @Author: shenah
  * @Date: 2019-10-17 16:47:08
  * @LastEditors: shenah
- * @LastEditTime: 2019-10-22 13:11:53
+ * @LastEditTime: 2019-10-22 16:17:23
  -->
 
 <template>
@@ -63,7 +63,7 @@
             <div class="describe">
               <div>
                 <p class="title">拜访时间：</p>
-                <p class="result">{{item.visitTime}}</p>
+                <p class="result">{{item.visitTime | emptyText('暂无拜访时间')}}</p>
               </div>
               <div>
                 <p class="title">拜访客户：</p>
@@ -80,7 +80,7 @@
                     size="24"
                     value=":iconfont icon-dingwei"
                   ></mu-icon>
-                  <span class="address">{{item.address}}</span>
+                  <span class="address">{{item.address | emptyText('暂无地址')}}</span>
                 </p>
               </div>
             </div>

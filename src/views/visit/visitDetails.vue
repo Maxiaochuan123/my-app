@@ -3,7 +3,7 @@
  * @Author: shenah
  * @Date: 2019-10-21 10:26:08
  * @LastEditors: shenah
- * @LastEditTime: 2019-10-22 12:52:59
+ * @LastEditTime: 2019-10-22 16:16:24
  -->
 
 <template>
@@ -28,7 +28,7 @@
           <div class="describe">
             <div>
               <p class="title">拜访时间：</p>
-              <p class="result">{{details.visitTime}}</p>
+              <p class="result">{{details.visitTime | emptyText('暂无拜访时间')}}</p>
             </div>
             <div>
               <p class="title">拜访客户：</p>
@@ -45,7 +45,7 @@
                   size="24"
                   value=":iconfont icon-dingwei"
                 ></mu-icon>
-                <span class="address">{{details.address}}</span>
+                <span class="address">{{details.address | emptyText('暂无地址') }}</span>
               </p>
             </div>
             <div>
@@ -59,6 +59,10 @@
                 :isUploadImg="false"
                 class="upload-file"
               ></UploadList>
+              <div
+                class="mb10"
+                v-if="customImgList.length === 0 && customEnclosureList.length === 0"
+              >暂无附件</div>
               <mu-divider shallow-inset></mu-divider>
             </div>
           </div>
