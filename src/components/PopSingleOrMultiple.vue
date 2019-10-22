@@ -3,7 +3,7 @@
  * @Author: shenah
  * @Date: 2019-10-21 13:50:16
  * @LastEditors: shenah
- * @LastEditTime: 2019-10-21 17:28:12
+ * @LastEditTime: 2019-10-22 09:58:57
  -->
 
 <template>
@@ -19,6 +19,7 @@
         disabled
         multi-line
         v-model="showInputValue"
+        v-if="isShowText"
       ></mu-text-field>
       <div class="right-icon">
         <slot name="rightIcon">
@@ -102,6 +103,11 @@ import Api from "@api";
 export default {
   name: "PopSingleOrMultiple",
   components: { SearchInputBar },
+  computed: {
+    showText() {
+      return this.isShowText ? this.showInputValue : "";
+    }
+  },
   data() {
     return {
       requestParams: {
@@ -117,6 +123,11 @@ export default {
     };
   },
   props: {
+    isShowText: {
+      // 单选single还是多选模式multiple
+      type: Boolean,
+      default: true
+    },
     mode: {
       // 单选single还是多选模式multiple
       type: String,
@@ -154,8 +165,8 @@ export default {
     },
     selected: {
       // 默认选中
-      type: String,
-      default: ""
+      type: Array,
+      default: () => []
     },
     name: {
       // 要选择的名称
@@ -187,22 +198,11 @@ export default {
       if (this.selected.length > 0) {
         if (this.mode === "single") {
           // 证明是单选
-          let [id, label] = this.selected.split(",")[0].split("^_^");
-          this.selectedList = [
-            {
-              [this.idField]: id,
-              [this.textField]: label
-            }
-          ];
+          let one = this.selected[0];
+          this.selectedList = [one];
         } else {
           // 证明是多选
-          this.selectedList = this.selected.split(",").map(item => {
-            const [id, label] = item.split("^_^");
-            return {
-              [this.idField]: id,
-              [this.textField]: label
-            };
-          });
+          this.selectedList = this.selected;
         }
       }
     },
@@ -280,22 +280,10 @@ export default {
     },
     submit() {
       let ids = this.selectedList.map(item => item[this.idField]).join(",");
-      let textIds = this.selectedList
-        .map(item => {
-          if (item.img) {
-            return `${item[this.idField]}^_^${item[this.textField]}^_^${
-              item.img
-            }`;
-          } else {
-            return `${item[this.idField]}^_^${item[this.textField]}`;
-          }
-        })
-        .join(",");
       let texts = this.selectedList.map(item => item[this.textField]).join(",");
-      //
       this.$emit("PopSingleOrMultipleChange", {
         ids,
-        textIds,
+        selectArr: this.selectedList,
         texts,
         idsField: this.splitField,
         textsField: this.fieldName
@@ -393,6 +381,7 @@ export default {
   background-color: #fff;
   .show-content {
     display: flex;
+    justify-content: flex-end;
     /deep/ .mu-form-item-content {
       align-items: center;
     }

@@ -3,7 +3,7 @@
  * @Author: shenah
  * @Date: 2019-10-21 17:18:33
  * @LastEditors: shenah
- * @LastEditTime: 2019-10-21 17:39:41
+ * @LastEditTime: 2019-10-22 09:49:41
  -->
 
 <template>
@@ -17,7 +17,12 @@
         class="item-header"
         size="48"
       >
-        <img :src="item.img" />
+        <img :src="changeImg(item)" />
+        <img
+          :src="loadingImg('delete.png')"
+          @click.stop="del(item)"
+          class="close"
+        />
       </mu-avatar>
       <div>{{item.text}}</div>
     </div>
@@ -35,10 +40,25 @@ export default {
     list: {
       type: Array,
       default: () => []
+    },
+    type: {
+      type: String,
+      default: ""
     }
   },
   mounted() {},
-  methods: {}
+  methods: {
+    changeImg(row) {
+      let src = row.img;
+      if (!row.img) {
+        src = this.loadingImg("default-header.png");
+      }
+      return src;
+    },
+    del(row) {
+      this.$emit("multipleShowListChange", {row,type:this.type});
+    }
+  }
 };
 </script>
 <style lang='less' scoped>
@@ -56,7 +76,16 @@ export default {
     font-size: @regular-size;
     color: @primary-text;
     .item-header {
+      position: relative;
       margin-bottom: 4px;
+      .close {
+        position: absolute;
+        top: -4px;
+        right: -2px;
+        z-index: 100;
+        width: 20px;
+        height: 20px;
+      }
     }
   }
 }
