@@ -43,7 +43,7 @@
           <span class="title">关联业务</span>
           <img src="../../../static/images/relation.png">
         </div> -->
-        <RelateBusiness :relateData="relateData" :relateMenu="relateMenu" @relateBusinessChange="relateBusinessChange"></RelateBusiness>
+        <RelateBusiness :relateData="relateData" :relateMenu="relateMenu" @relateBusinessChange="relateBusinessChange" :isHideLine="true"></RelateBusiness>
       </div>
       <div class="receivePeople">
         <span class="title">接收人</span>

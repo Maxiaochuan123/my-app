@@ -34,7 +34,7 @@ export default {
 
       // paging 分页
       paging:{
-        pageSize: 15,
+        pageSize: 5,
         pageIndex: 1
       },
 

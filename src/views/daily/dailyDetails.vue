@@ -32,7 +32,7 @@
               <p class="title">工作所需支持：</p>
               <p class="result">{{info.support}}</p>
             </div>
-            <div>
+            <!-- <div>
               <p class="title">附件</p>
               <div class="imgList">
                 <PreviewImageBase :imagesList="imagesList"></PreviewImageBase>
@@ -48,7 +48,17 @@
                 </div>
               </div>
               <mu-divider shallow-inset></mu-divider>
-            </div>
+            </div> -->
+            <UploadList
+              :batchId="info.batchId"
+              :customEnclosureList="customEnclosureList"
+              :customImgList="customImgList"
+              :isEdit="false"
+              :ishasAfferent="false"
+              :isUploadFile="false"
+              :isUploadImg="false"
+              class="upload-file"
+            ></UploadList>
             <div>
               <div class="relation">
                 <p class="title">关联业务：</p>
@@ -74,11 +84,11 @@
 <script>
 import AppBar from '../../components/AppBar'
 import Comment from '../../components/Comment'
-import PreviewImageBase from '../../components/upLoad/components/PreviewImageBase'
+import UploadList from '../../components/upLoad/uploadList'
 
 export default {
   components:{
-    AppBar, Comment, PreviewImageBase
+    AppBar, Comment, UploadList
   },
   data(){
     return{
@@ -95,15 +105,22 @@ export default {
           isLink: true
         }
       ],
-      imagesList:[]
+      customImgList:[],
+      customEnclosureList:[]
     }
   },
   created(){
     this.api.getDailyDetails({logId:this.$route.params.id}).then(res=>{
+      this.customImgList = res.data.img.map(item => ({
+        ...item,
+        src: item.filePath,
+        progress: { progressState: 1 }
+      }));
+      this.customEnclosureList = res.data.file.map(item => ({
+        ...item,
+        progress: { progressState: 1 }
+      }));
       this.info = res.data;
-      res.data.img.forEach(item=>{
-        this.imagesList.push(item.filePath);
-      })
     })
   },
   methods:{
