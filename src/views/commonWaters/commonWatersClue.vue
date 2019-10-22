@@ -96,6 +96,7 @@ export default {
 .common-waters-clue {
   width: 100%;
   height: 100%;
+  overflow: auto;
   background-color: #fff;
   .clue-item {
     width: 100%;

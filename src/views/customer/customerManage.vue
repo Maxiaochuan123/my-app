@@ -122,7 +122,7 @@ export default {
   }
   .content {
     height: 100%;
-    padding-top: 184px;
+    padding-top: 168px;
   }
 }
 .index-customer {

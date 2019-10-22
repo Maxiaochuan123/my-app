@@ -3,7 +3,7 @@
  * @Author: shenah
  * @Date: 2019-10-12 09:30:38
  * @LastEditors: shenah
- * @LastEditTime: 2019-10-17 15:31:02
+ * @LastEditTime: 2019-10-22 17:45:55
  -->
 
 <template>
@@ -36,16 +36,18 @@
       <mu-tab :value="1">我发出的</mu-tab>
     </mu-tabs>
     <div class="content">
-      <mu-load-more
-        :loading="loading"
-        @load="load"
-        class="list-wrap"
-      >
-        <TaskItem
-          :list="listObj.list"
-          type="task"
-        ></TaskItem>
-      </mu-load-more>
+      <div class="content-wrap">
+        <mu-load-more
+          :loading="loading"
+          @load="load"
+          class="list-wrap"
+        >
+          <TaskItem
+            :list="listObj.list"
+            type="task"
+          ></TaskItem>
+        </mu-load-more>
+      </div>
     </div>
   </div>
 </template>
@@ -200,13 +202,19 @@ export default {
     top: 44px;
   }
   .content {
+    width: 100%;
     padding-top: 104px;
     height: 100%;
-    overflow: auto;
-    .list-wrap {
+    overflow: hidden;
+    .content-wrap {
       width: 100%;
-      background-color: #fff;
-      padding: 0 15px;
+      height: 100%;
+      overflow: auto;
+      .list-wrap {
+        width: 100%;
+        background-color: #fff;
+        padding: 0 15px;
+      }
     }
   }
 }

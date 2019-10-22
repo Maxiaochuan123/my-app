@@ -3,7 +3,7 @@
  * @Author: shenah
  * @Date: 2019-10-17 16:47:08
  * @LastEditors: shenah
- * @LastEditTime: 2019-10-22 16:17:23
+ * @LastEditTime: 2019-10-22 17:26:48
  -->
 
 <template>
@@ -36,65 +36,67 @@
       <mu-tab :value="2">我收到的</mu-tab>
     </mu-tabs>
     <div class="content">
-      <mu-load-more
-        :loading="loading"
-        @load="load"
-        class="list-wrap"
-      >
-        <div
-          :key="index"
-          :zDepth="0"
-          class="content-visit"
-          v-for="(item,index) in listObj.list"
+      <div class="content-wrap">
+        <mu-load-more
+          :loading="loading"
+          @load="load"
+          class="list-wrap"
         >
-          <div>
-            <div class="info">
-              <img :src="item.userImg" />
-              <div>
-                <span class="name">{{item.realname}}</span>
-                <span class="level">{{item.post}}</span>
-              </div>
-            </div>
-          </div>
           <div
-            @click="goPage('visitDetails', {id:item.visitId})"
-            class="completionstate"
+            :key="index"
+            :zDepth="0"
+            class="content-visit"
+            v-for="(item,index) in listObj.list"
           >
-            <div class="describe">
-              <div>
-                <p class="title">拜访时间：</p>
-                <p class="result">{{item.visitTime | emptyText('暂无拜访时间')}}</p>
-              </div>
-              <div>
-                <p class="title">拜访客户：</p>
-                <p class="result">{{item.customerName}}</p>
-              </div>
-              <div>
-                <p class="title">拜访内容：</p>
-                <p class="result">{{item.content}}</p>
-              </div>
-              <div>
-                <p class="result">
-                  <mu-icon
-                    color="#5B98D0"
-                    size="24"
-                    value=":iconfont icon-dingwei"
-                  ></mu-icon>
-                  <span class="address">{{item.address | emptyText('暂无地址')}}</span>
-                </p>
+            <div>
+              <div class="info">
+                <img :src="item.userImg" />
+                <div>
+                  <span class="name">{{item.realname}}</span>
+                  <span class="level">{{item.post}}</span>
+                </div>
               </div>
             </div>
-            <mu-divider shallow-inset></mu-divider>
-            <div class="commentBox">
-              <div class="comment">
-                <img :src="loadingImg('comment.png')" />
-                <span>评论({{item.replyList.length}})</span>
+            <div
+              @click="goPage('visitDetails', {id:item.visitId})"
+              class="completionstate"
+            >
+              <div class="describe">
+                <div>
+                  <p class="title">拜访时间：</p>
+                  <p class="result">{{item.visitTime | emptyText('暂无拜访时间')}}</p>
+                </div>
+                <div>
+                  <p class="title">拜访客户：</p>
+                  <p class="result">{{item.customerName}}</p>
+                </div>
+                <div>
+                  <p class="title">拜访内容：</p>
+                  <p class="result">{{item.content}}</p>
+                </div>
+                <div>
+                  <p class="result">
+                    <mu-icon
+                      color="#5B98D0"
+                      size="24"
+                      value=":iconfont icon-dingwei"
+                    ></mu-icon>
+                    <span class="address">{{item.address | emptyText('暂无地址')}}</span>
+                  </p>
+                </div>
               </div>
-              <div class="dateTime">{{item.createTime}}</div>
+              <mu-divider shallow-inset></mu-divider>
+              <div class="commentBox">
+                <div class="comment">
+                  <img :src="loadingImg('comment.png')" />
+                  <span>评论({{item.replyList.length}})</span>
+                </div>
+                <div class="dateTime">{{item.createTime}}</div>
+              </div>
             </div>
           </div>
-        </div>
-      </mu-load-more>
+        </mu-load-more>
+      </div>
     </div>
   </div>
 </template>
@@ -208,81 +210,86 @@ export default {
   .content {
     padding-top: 104px;
     height: 100%;
-    overflow: auto;
-    .content-visit {
+    overflow: hidden;
+    .content-wrap {
       width: 100%;
-      background-color: #fff;
-      margin-bottom: 12px;
-      padding: 10px 15px;
-      .info {
-        display: flex;
-        align-items: center;
-        img {
-          width: 45px;
-          height: 45px;
-          background-color: #fff;
-        }
-        div {
+      height: 100%;
+      overflow: auto;
+      .content-visit {
+        width: 100%;
+        background-color: #fff;
+        margin-bottom: 12px;
+        padding: 10px 15px;
+        .info {
           display: flex;
-          flex-direction: column;
-          margin-left: 12px;
-          .name {
-            color: @primary-text;
-            font-size: @primary-size;
-            font-weight: @primary-weight;
-          }
-          .level {
-            color: @regular-text;
-            font-size: @regular-size;
-          }
-        }
-      }
-      .completionstate {
-        .describe > div {
-          margin-top: 10px;
-          .title {
-            font-size: @regular-size;
-            color: @regular-text;
-          }
-          .result {
-            font-size: @primary-size;
-            color: @primary-text;
-            padding-top: 4px;
-            .address {
-              margin-left: 4px;
-            }
-          }
-          &:last-child {
-            .result {
-              margin-bottom: 10px;
-            }
-          }
-        }
-        .commentBox {
-          display: flex;
-          justify-content: space-between;
           align-items: center;
-          padding: 12px 0;
-          .comment {
+          img {
+            width: 45px;
+            height: 45px;
+            background-color: #fff;
+          }
+          div {
             display: flex;
-            align-items: center;
-            img {
-              width: 24px;
-              height: 24px;
+            flex-direction: column;
+            margin-left: 12px;
+            .name {
+              color: @primary-text;
+              font-size: @primary-size;
+              font-weight: @primary-weight;
             }
-            span {
-              color: @primary;
+            .level {
+              color: @regular-text;
               font-size: @regular-size;
             }
           }
-          .dateTime {
-            font-size: @regular-size;
-            color: @regular-text;
+        }
+        .completionstate {
+          .describe > div {
+            margin-top: 10px;
+            .title {
+              font-size: @regular-size;
+              color: @regular-text;
+            }
+            .result {
+              font-size: @primary-size;
+              color: @primary-text;
+              padding-top: 4px;
+              .address {
+                margin-left: 4px;
+              }
+            }
+            &:last-child {
+              .result {
+                margin-bottom: 10px;
+              }
+            }
+          }
+          .commentBox {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 12px 0;
+            .comment {
+              display: flex;
+              align-items: center;
+              img {
+                width: 24px;
+                height: 24px;
+              }
+              span {
+                color: @primary;
+                font-size: @regular-size;
+              }
+            }
+            .dateTime {
+              font-size: @regular-size;
+              color: @regular-text;
+            }
           }
         }
-      }
-      .mu-divider.shallow-inset {
-        margin-left: 0;
+        .mu-divider.shallow-inset {
+          margin-left: 0;
+        }
       }
     }
   }

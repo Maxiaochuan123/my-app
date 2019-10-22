@@ -2,7 +2,7 @@
  * @Description: In User Settings Edit
  * @Author: your name
  * @Date: 2019-09-04 12:35:37
- * @LastEditTime: 2019-10-17 11:43:48
+ * @LastEditTime: 2019-10-22 17:14:14
  * @LastEditors: shenah
  -->
 <!--
@@ -24,55 +24,57 @@
       :class="{'common-waters-customer-content':type ==='commonWatersCustomer'}"
       class="content"
     >
-      <div class="header">
-        <div class="header-wrap">
-          <mu-avatar
-            class="header-left"
-            size="60"
-          >
-            <img :src="loadingImg('default-header.png')" />
-          </mu-avatar>
-          <div class="header-right">
-            <div class="title">{{details.customerName}}</div>
-            <div class="sub-title">{{details.detailAddress}}</div>
+      <div class="content-wrap">
+        <div class="header">
+          <div class="header-wrap">
+            <mu-avatar
+              class="header-left"
+              size="60"
+            >
+              <img :src="loadingImg('default-header.png')" />
+            </mu-avatar>
+            <div class="header-right">
+              <div class="title">{{details.customerName}}</div>
+              <div class="sub-title">{{details.detailAddress}}</div>
+            </div>
+          </div>
+          <div class="header-info">
+            <div class="header-info-item">
+              <div class="header-info-item-left">创建人</div>
+              <div class="header-info-item-right">{{details.createUserName}}</div>
+            </div>
+            <div class="header-info-item">
+              <div class="header-info-item-left">客户级别</div>
+              <div class="header-info-item-right">{{details.customerLevel}}</div>
+            </div>
+            <div class="header-info-item">
+              <div class="header-info-item-left">电话号码</div>
+              <div class="header-info-item-right">{{details.mobile}}</div>
+            </div>
           </div>
         </div>
-        <div class="header-info">
-          <div class="header-info-item">
-            <div class="header-info-item-left">创建人</div>
-            <div class="header-info-item-right">{{details.createUserName}}</div>
-          </div>
-          <div class="header-info-item">
-            <div class="header-info-item-left">客户级别</div>
-            <div class="header-info-item-right">{{details.customerLevel}}</div>
-          </div>
-          <div class="header-info-item">
-            <div class="header-info-item-left">电话号码</div>
-            <div class="header-info-item-right">{{details.mobile}}</div>
-          </div>
+        <mu-tabs
+          :value="active"
+          center
+          class="tabs"
+          color="primary"
+          indicator-color="primary"
+          inverse
+        >
+          <mu-tab
+            replace
+            to="customerRecord"
+            value="record"
+          >跟进记录</mu-tab>
+          <mu-tab
+            replace
+            to="customerBasic"
+            value="basic"
+          >基本信息</mu-tab>
+        </mu-tabs>
+        <div class="user-info">
+          <router-view></router-view>
         </div>
-      </div>
-      <mu-tabs
-        :value="active"
-        center
-        class="tabs"
-        color="primary"
-        indicator-color="primary"
-        inverse
-      >
-        <mu-tab
-          replace
-          to="customerRecord"
-          value="record"
-        >跟进记录</mu-tab>
-        <mu-tab
-          replace
-          to="customerBasic"
-          value="basic"
-        >基本信息</mu-tab>
-      </mu-tabs>
-      <div class="user-info">
-        <router-view></router-view>
       </div>
     </div>
     <FootNav
@@ -272,67 +274,73 @@ export default {
 .customerDetails {
   width: 100%;
   height: 100%;
+  overflow: hidden;
   .common-waters-customer-content {
     padding: 56px 0 12px 0 !important;
   }
   .content {
     height: 100%;
-    padding: 56px 0 120px 0;
+    padding: 56px 0 106px 0;
     border: 1px solid transparent;
-    overflow-y: auto;
-    .header {
+    overflow: hidden;
+    .content-wrap {
       width: 100%;
-      background-color: #fff;
-      padding: 0 0 0 15px;
-      .header-wrap {
-        display: flex;
+      height: 100%;
+      overflow: auto;
+      .header {
         width: 100%;
-        align-items: center;
-        padding: 20px 15px 20px 0;
-        border-bottom: 1px solid @primary-border;
-        .header-left {
-        }
-        .header-right {
-          flex: 1;
-          margin-left: 12px;
-          .title {
-            font-size: @primary-size;
-            color: @primary-text;
-            font-weight: @primary-weight;
-          }
-          .sub-title {
-            margin-top: 4px;
-            font-size: @regular-size;
-            color: @regular-text;
-            font-weight: @regular-weight;
-          }
-        }
-      }
-      .header-info {
-        width: 100%;
-        padding: 5px 15px 15px 0;
-        .header-info-item {
-          margin-top: 8px;
+        background-color: #fff;
+        padding: 0 0 0 15px;
+        .header-wrap {
           display: flex;
-          justify-content: space-between;
-          .header-info-item-left {
-            font-size: @regular-size;
-            color: @regular-text;
-            font-weight: @regular-weight;
+          width: 100%;
+          align-items: center;
+          padding: 20px 15px 20px 0;
+          border-bottom: 1px solid @primary-border;
+          .header-left {
           }
-          .header-info-item-right {
-            font-size: @regular-size;
-            color: @primary-text;
-            font-weight: @primary-weight;
+          .header-right {
+            flex: 1;
+            margin-left: 12px;
+            .title {
+              font-size: @primary-size;
+              color: @primary-text;
+              font-weight: @primary-weight;
+            }
+            .sub-title {
+              margin-top: 4px;
+              font-size: @regular-size;
+              color: @regular-text;
+              font-weight: @regular-weight;
+            }
+          }
+        }
+        .header-info {
+          width: 100%;
+          padding: 5px 15px 15px 0;
+          .header-info-item {
+            margin-top: 8px;
+            display: flex;
+            justify-content: space-between;
+            .header-info-item-left {
+              font-size: @regular-size;
+              color: @regular-text;
+              font-weight: @regular-weight;
+            }
+            .header-info-item-right {
+              font-size: @regular-size;
+              color: @primary-text;
+              font-weight: @primary-weight;
+            }
           }
         }
       }
-    }
-    .tabs {
-      margin-top: 12px;
-    }
-    .user-info {
-      margin-top: 12px;
+      .tabs {
+        margin-top: 12px;
+      }
+      .user-info {
+        margin-top: 12px;
+      }
     }
   }
 }

@@ -13,6 +13,7 @@
     <div class="content">
       <GeneralForm
         :fieldList="fieldList"
+        class="form"
         ref="generalForm"
       ></GeneralForm>
     </div>
@@ -31,7 +32,7 @@ export default {
     id() {
       return this.$route.params.id;
     },
-    type(){
+    type() {
       return this.$route.params.type;
     }
   },
@@ -82,20 +83,20 @@ export default {
   methods: {
     customFnc() {
       // 保存
-      let addFollowUpRecordApi
-      if(this.type === '联系人'){
+      let addFollowUpRecordApi;
+      if (this.type === "联系人") {
         addFollowUpRecordApi = this.api.addContactsFollowUp;
-      }else if(this.type === '线索'){
+      } else if (this.type === "线索") {
         addFollowUpRecordApi = this.api.addClueFollowUp;
-      }else{
+      } else {
         addFollowUpRecordApi = Api.addCustomerFollowUpRecord;
       }
       const generalFormVue = this.$refs.generalForm;
       generalFormVue.$refs.form.validate().then(result => {
         if (result) {
-          let params = { ...generalFormVue.form,typesId: this.id}
-          if(this.type !== '联系人' || this.type !== '线索'){
-            params.isEvent = 0
+          let params = { ...generalFormVue.form, typesId: this.id };
+          if (this.type !== "联系人" || this.type !== "线索") {
+            params.isEvent = 0;
           }
           addFollowUpRecordApi(params).then(res => {
             this.$toast.success({
@@ -111,10 +112,19 @@ export default {
 </script>
 <style lang='less' scoped>
 .write-followup {
-  height:100%;
-  overflow-x:hidden;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
   .content {
+    width: 100%;
+    height: 100%;
     padding-top: 44px;
+    overflow: hidden;
+    .form {
+      width: 100%;
+      height: 100%;
+      overflow: auto;
+    }
   }
 }
 </style>

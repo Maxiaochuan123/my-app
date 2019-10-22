@@ -3,7 +3,7 @@
  * @Author: shenah
  * @Date: 2019-10-12 14:46:10
  * @LastEditors: shenah
- * @LastEditTime: 2019-10-22 13:41:46
+ * @LastEditTime: 2019-10-22 17:29:26
  -->
 
 <template>
@@ -15,24 +15,26 @@
       customTitle="保存"
     ></AppBar>
     <div class="content">
-      <GeneralForm
-        :fieldList="fieldList"
-        ref="generalForm"
-      ></GeneralForm>
-      <!-- 子任务与关联 -->
-      <div class="relate-subtask">
-        <RelateBusiness
-          :relateData="relateData"
-          :relateMenu="relateMenu"
-          @relateBusinessChange="relateBusinessChange"
-          class="relate"
-          ref="relateBusiness"
-        ></RelateBusiness>
-        <SubTaskForm
-          :list="childTask"
-          :updateDetails="queryDetails"
-          ref="subTaskForm"
-        ></SubTaskForm>
+      <div class="content-wrap">
+        <GeneralForm
+          :fieldList="fieldList"
+          ref="generalForm"
+        ></GeneralForm>
+        <!-- 子任务与关联 -->
+        <div class="relate-subtask">
+          <RelateBusiness
+            :relateData="relateData"
+            :relateMenu="relateMenu"
+            @relateBusinessChange="relateBusinessChange"
+            class="relate"
+            ref="relateBusiness"
+          ></RelateBusiness>
+          <SubTaskForm
+            :list="childTask"
+            :updateDetails="queryDetails"
+            ref="subTaskForm"
+          ></SubTaskForm>
+        </div>
       </div>
     </div>
   </div>
@@ -286,14 +288,23 @@ export default {
 </script>
 <style lang='less' scoped>
 .add-or-edit-task {
+  width: 100%;
   height: 100%;
   overflow-x: hidden;
   .content {
+    width: 100%;
+    height: 100%;
     padding-top: 44px;
-    .relate-subtask {
-      margin-top: 12px;
-      padding: 0 0 15px 15px;
-      background-color: #fff;
+    overflow: hidden;
+    .content-wrap {
+      width: 100%;
+      height: 100%;
+      overflow: auto;
+      .relate-subtask {
+        margin-top: 12px;
+        padding: 0 0 15px 15px;
+        background-color: #fff;
+      }
     }
   }
 }
