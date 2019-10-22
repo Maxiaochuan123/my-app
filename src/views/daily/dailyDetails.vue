@@ -35,8 +35,7 @@
             <div>
               <p class="title">附件</p>
               <div class="imgList">
-                <img src="./蓝猫.jpg">
-                <img src="./蓝猫.jpg">
+                <PreviewImageBase :imagesList="imagesList"></PreviewImageBase>
               </div>
               <mu-divider shallow-inset></mu-divider>
             </div>
@@ -66,7 +65,7 @@
         </div>
       </div>
 
-      <Comment :typeId="$route.params.id" :realname="info.realname"></Comment>
+      <Comment :realname="info.realname"></Comment>
 
     </div>
   </div>
@@ -75,9 +74,11 @@
 <script>
 import AppBar from '../../components/AppBar'
 import Comment from '../../components/Comment'
+import PreviewImageBase from '../../components/upLoad/components/PreviewImageBase'
+
 export default {
   components:{
-    AppBar, Comment
+    AppBar, Comment, PreviewImageBase
   },
   data(){
     return{
@@ -94,11 +95,15 @@ export default {
           isLink: true
         }
       ],
+      imagesList:[]
     }
   },
   created(){
     this.api.getDailyDetails({logId:this.$route.params.id}).then(res=>{
       this.info = res.data;
+      res.data.img.forEach(item=>{
+        this.imagesList.push(item.filePath);
+      })
     })
   },
   methods:{

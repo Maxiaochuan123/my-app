@@ -1,6 +1,6 @@
 <template>
   <div class="comment">
-    <div class="reply">
+    <div class="reply" v-if="replyList.length > 0">
       <p class="title">批复</p>
       <div class="replyContent">
 
@@ -43,10 +43,6 @@ export default {
       type: Number,
       default: 2
     },
-    typeId:{
-      type: String,
-      default: null
-    },
     realname:{ //回复对象的姓名
       type: String,
       default: ''
@@ -67,7 +63,7 @@ export default {
     }
   },
   created(){
-    this.getReplyList()
+    this.getReplyList();
   },
   methods:{
     // 单独点击回复
@@ -102,7 +98,7 @@ export default {
     // 获取参数
     getParams(type,item){
       let params = {
-        typeId:this.typeId,
+        typeId:this.$route.params.id,
         type:this.type,
         content:this.textareaVal
       }
@@ -139,7 +135,7 @@ export default {
 
     // 获取 评论列表
     getReplyList(){
-      this.api.getReplyList({type:parseInt(this.type),typeId:this.typeId}).then(res=>{
+      this.api.getReplyList({type:parseInt(this.type),typeId:this.$route.params.id}).then(res=>{
         this.replyList = res.data;
       })
     }
