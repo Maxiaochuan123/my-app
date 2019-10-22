@@ -3,14 +3,14 @@
  * @Author: shenah
  * @Date: 2019-10-12 17:16:43
  * @LastEditors: shenah
- * @LastEditTime: 2019-10-16 10:54:56
+ * @LastEditTime: 2019-10-22 14:06:36
  -->
 
 <template>
   <div class="relate-business">
     <div
-      :class="{'no-border-bottom':isHideLine}"
-      class="basic-details-item"
+      :class="{'no-border-bottom':(defaultHide || isHideLine)}"
+      class="basic-details-item basic-details-item-other"
     >
       <div class="basic-details-item-left">
         <div class="sub-title">关联业务</div>
@@ -64,7 +64,7 @@
     </div>
     <mu-divider
       style="margin-top:12px;"
-      v-if="isHideLine"
+      v-if="!defaultHide && isHideLine"
     ></mu-divider>
     <SelectInfo
       @selectInfoChange="selectInfoChange"
@@ -92,6 +92,11 @@ export default {
     };
   },
   props: {
+    defaultHide: {
+      // 默认线的隐藏与否
+      type: Boolean,
+      default: false
+    },
     // 关联业务菜单的配置
     relateMenu: {
       type: Object,
@@ -202,6 +207,10 @@ export default {
 </script>
 <style lang='less' scoped>
 .relate-business {
+  .basic-details-item-other {
+    min-height: 44px;
+    padding: 0 15px 0 0 !important;
+  }
   .relate-list {
     padding-right: 15px;
     .relate-list-item {

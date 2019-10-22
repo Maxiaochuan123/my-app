@@ -3,7 +3,7 @@
  * @Author: shenah
  * @Date: 2019-10-12 14:46:10
  * @LastEditors: shenah
- * @LastEditTime: 2019-10-16 11:26:28
+ * @LastEditTime: 2019-10-22 13:41:46
  -->
 
 <template>
@@ -89,8 +89,10 @@ export default {
           options: "",
           type: 9,
           value: "",
-          multiple: "ownerUser",
+          apiName: "querySimpleUserByDepId",
+          splitField: "ownerUser",
           idField: "userId",
+          mode: "multiple",
           textField: "realname"
         },
         {
@@ -99,7 +101,7 @@ export default {
           options: "",
           type: 1,
           htmlHidden: 1,
-          value: ""
+          value: []
         },
         {
           fieldName: "ownerUserId",
@@ -194,9 +196,7 @@ export default {
       )[0];
       this.fields.forEach(item => {
         if (item.fieldName === "ownerUser") {
-          item.value = data.ownerUserList
-            .map(one => `${one.userId}^_^${one.realname}`)
-            .join(",");
+          item.value = data.ownerUserList;
         } else if (item.fieldName === "ownerUserName") {
           item.value = data.ownerUserList.map(one => one.realname).join(",");
         } else if (
