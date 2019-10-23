@@ -3,7 +3,7 @@
  * @Author: shenah
  * @Date: 2019-09-25 15:57:26
  * @LastEditors: shenah
- * @LastEditTime: 2019-10-17 15:41:39
+ * @LastEditTime: 2019-10-23 09:19:33
  -->
 <template>
   <div class="select-distribute-users">
@@ -167,13 +167,17 @@ export default {
 }
 .select-distribute-users {
   width: 100%;
+  height: 100%;
+  overflow: hidden;
   .content {
     height: 100%;
+    overflow: hidden;
     padding-top: 100px;
     padding-bottom: 80px;
     .content-users {
       width: 100%;
       height: 100%;
+      overflow: auto;
       background-color: #fff;
       margin-top: 20px;
       .index-users {
