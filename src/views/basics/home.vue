@@ -1,50 +1,17 @@
-<!--
- * @Description: In User Settings Edit
- * @Author: your name
- * @Date: 2019-08-25 16:21:55
- * @LastEditTime: 2019-10-23 09:37:10
- * @LastEditors: shenah
- -->
 <template>
   <div class="home">
-    <AppBar
-      :isDrawer="isDrawer"
-      :iconSize="iconSize"
-      :isMenu="isMenu"
-      :leftIcon="leftIcon"
-      :leftLinkName="leftLinkName"
-      :menuList="menuList"
-      :pageTitle="pageTitle"
-      :rightIcon="rightIcon"
-      :rightLinkName="rightLinkName"
-    >
+    <AppBar :iconSize="iconSize" :isMenu="isMenu" :leftIcon="leftIcon" :leftLinkName="leftLinkName" :menuList="menuList" :pageTitle="pageTitle" :rightIcon="rightIcon" :rightLinkName="rightLinkName">
       <!-- 抽屉 -->
       <div slot="drawerContent">
-        <mu-button
-          @click="changeTheme('theme_one')"
-          color="primary"
-        >theme_one</mu-button>
-        <mu-button
-          @click="changeTheme('theme_two')"
-          color="orange"
-        >theme_two</mu-button>
-        <mu-button
-          @click="changeTheme('theme_three')"
-          color="red"
-        >Btheme_three</mu-button>
+        <mu-button @click="changeTheme('theme_one')" color="primary" >theme_one</mu-button>
+        <mu-button @click="changeTheme('theme_two')" color="orange" >theme_two</mu-button>
+        <mu-button @click="changeTheme('theme_three')" color="red">Btheme_three</mu-button>
       </div>
     </AppBar>
 
     <div class="content">
-      <div class="content-wrap">
-        <mu-paper
-          :z-depth="0"
-          class="blockNav"
-        >
-          <mu-carousel
-            :cycle="false"
-            :hide-controls="true"
-          >
+        <mu-paper :z-depth="0" class="blockNav" >
+          <mu-carousel :cycle="false" :hide-controls="true" >
             <mu-carousel-item>
               <div class="gridNav">
                 <div class="row">
@@ -128,10 +95,7 @@
           </mu-carousel>
         </mu-paper>
 
-      <mu-paper
-        :z-depth="0"
-        class="businessSituation"
-      >
+      <mu-paper :z-depth="0" class="businessSituation" >
         <div class="titleNav">
           <div class="baseInfo">
             <span class="title">业务概况</span>
@@ -143,59 +107,40 @@
             <span :class="['personal', businessOverview.teamType === '1' ? 'active' : '']" @click="getTeamType('1',0)">个人</span>
           </div>
         </div>
-          <div
-            :key="index"
-            class="sliderBox"
-            v-for="(item,index) in businessOverview.sliderList"
-          >
-            <div class="indicator">
-              <div :style="`margin-left: calc(${item.val}% - ${item.val > 94 ? '34' : '14'}px);`">
-                <img
-                  :style="`transform:rotateY(${item.val > 94 ? '180' : '0'}deg);`"
-                  src="../../../static/images/indicator.png"
-                />
-                <span>{{item.val}}%</span>
-              </div>
+        <div :key="index" class="sliderBox" v-for="(item,index) in businessOverview.sliderList" >
+          <div class="indicator">
+            <div :style="`margin-left: calc(${item.val}% - ${item.val > 94 ? '34' : '14'}px);`">
+              <img :style="`transform:rotateY(${item.val > 94 ? '180' : '0'}deg);`" src="../../../static/images/indicator.png" />
+              <span>{{item.val}}%</span>
             </div>
-            <div class="slider">
-              <div class="bacSlider"></div>
-              <div
-                :style="`width: ${item.val}%;`"
-                class="frontSlider"
-              ></div>
+          </div>
+          <div class="slider">
+            <div class="bacSlider"></div>
+            <div :style="`width: ${item.val}%;`" class="frontSlider" ></div>
+          </div>
+          <div class="describe">
+            <div class="completed"> 已完成
+              <span>{{item.val}}{{item.title}}</span>
             </div>
-            <div class="describe">
-              <div class="completed">
-                已完成
-                <span>{{item.val}}{{item.title}}</span>
-              </div>
-              <div class="target">
-                目标
-                <span>100{{item.title}}</span>
-              </div>
-              </div>
+            <div class="target"> 目标
+              <span>100{{item.title}}</span>
             </div>
-            <div class="blockNumber">
-              <div
-                :key="index"
-                class="block"
-                v-for="(item,index) in businessOverview.blockNumberList"
-              >
-              <div>
-                <img :src="item.src" />
-                <div class="describe">
-                  <span class="number">{{item.number}}</span>
-                  <span class="title">{{item.title}}</span>
-                </div>
+            </div>
+          </div>
+          <div class="blockNumber">
+            <div :key="index" class="block" v-for="(item,index) in businessOverview.blockNumberList" >
+            <div>
+              <img :src="item.src" />
+              <div class="describe">
+                <span class="number">{{item.number}}</span>
+                <span class="title">{{item.title}}</span>
               </div>
             </div>
           </div>
+        </div>
       </mu-paper>
 
-      <mu-paper
-        :z-depth="0"
-        class="rankingList"
-      >
+      <mu-paper :z-depth="0" class="rankingList" >
         <div class="titleNav">
           <div class="baseInfo">
             <span class="title">排行榜</span>
@@ -209,35 +154,22 @@
           </div>
         </div>
         <div class="companyRanking">
-          <div
-            :key="index"
-            class="block"
-            v-for="(item,index) in rankingList.companyRankingLsit"
-          >
+          <div :key="index" class="block" v-for="(item,index) in rankingList.companyRankingLsit" >
             <div class="title">
               <img :src="item.src" />
               <span>{{item.name}}</span>
             </div>
             <div class="money">{{item.money}}万元</div>
-        </div>
-
-            <div class="completeList">
-              <span class="btn">查看完整排行榜</span>
-            </div>
           </div>
+
+          <div class="completeList">
+            <span class="btn">查看完整排行榜</span>
+          </div>
+        </div>
       </mu-paper>
       <!-- 弹出选择器 -->
-      <Picker
-        :anchor="pickerAnchor"
-        :data="pickerList"
-        :textTitle="pickerTitle"
-        @confirm="handlePickerConfirm"
-        name="name"
-        picker-class="pickerClass"
-        ref="picker"
-      ></Picker>
+      <Picker :anchor="pickerAnchor" :data="pickerList" :textTitle="pickerTitle" @confirm="pickerConfirm" name="name" picker-class="pickerClass" ref="picker" ></Picker>
     </div>
-  </div>
   </div>
 </template>
 
@@ -255,35 +187,26 @@ export default {
       leftLinkName: "contacts",
       leftIcon: "icon-lianxiren",
       iconSize: "24",
-
       pageTitle: "众汇CRM",
-
       rightIcon: "icon-tianjia",
       rightLinkName: "homeChild",
-
       isDrawer: false,
-      // drawerIcon: "icon-shangyi",
-
       isMenu: true,
-      menuList: [
-        {
-          title: "写日报",
-          linkName: "homeChild"
-        },
-        {
-          title: "写拜访",
-          linkName: "myInfoChild"
-        },
-        {
-          title: "新增客户",
-          linkName: "addOrEditCustomer",
-          isLink: true
-        },
-        {
-          title: "新增任务",
-          linkName: "link4"
-        }
-      ],
+
+      menuList: [{
+        title: "写日报",
+        linkName: "homeChild"
+      },{
+        title: "写拜访",
+        linkName: "myInfoChild"
+      },{
+        title: "新增客户",
+        linkName: "addOrEditCustomer",
+        isLink: true
+      },{
+        title: "新增任务",
+        linkName: "link4"
+      }],
       businessOverview:{
         teamType:'1', // 0:团队 1:个人
         select_1:{
@@ -291,38 +214,33 @@ export default {
           value:'',
           pickerAnchor: [4] // 下拉选默认值
         },
-        blockNumberList: [
-          {
-            src: "../../../static/images/homeClue.png",
-            number: "0",
-            title: "新增线索"
-          },
-          {
-            src: "../../../static/images/homeUser.png",
-            number: "0",
-            title: "新增客户"
-          },
-          {
-            src: "../../../static/images/homeRecord.png",
-            number: "0",
-            title: "跟进记录"
-          },
-          {
-            src: "../../../static/images/homeContacts.png",
-            number: "0",
-            title: "新增联系人"
-          }
-        ],
-        sliderList: [
-          {
-            title: "万",
-            val: 30
-          },
-          {
-            title: "单",
-            val: 60
-          }
-        ],
+        blockNumberList: [{
+          src: "../../../static/images/homeClue.png",
+          number: "0",
+          title: "新增线索"
+        },
+        {
+          src: "../../../static/images/homeUser.png",
+          number: "0",
+          title: "新增客户"
+        },
+        {
+          src: "../../../static/images/homeRecord.png",
+          number: "0",
+          title: "跟进记录"
+        },
+        {
+          src: "../../../static/images/homeContacts.png",
+          number: "0",
+          title: "新增联系人"
+        }],
+        sliderList: [{
+          title: "万",
+          val: 30
+        },{
+          title: "单",
+          val: 60
+        }],
       },
       rankingList:{
         teamType:'1', // 0:团队 1:个人
@@ -336,23 +254,19 @@ export default {
           value:'',
           pickerAnchor: [2] // 下拉选默认值
         },
-        companyRankingLsit: [
-          {
-            src: "../../../static/images/first.png",
-            name: "贵州分公司",
-            money: "486.7"
-          },
-          {
-            src: "../../../static/images/second.png",
-            name: "海南分公司",
-            money: "486.7"
-          },
-          {
-            src: "../../../static/images/third.png",
-            name: "四川分公司",
-            money: "486.7"
-          }
-        ],
+        companyRankingLsit: [{
+          src: "../../../static/images/first.png",
+          name: "贵州分公司",
+          money: "486.7"
+        },{
+          src: "../../../static/images/second.png",
+          name: "海南分公司",
+          money: "486.7"
+        },{
+          src: "../../../static/images/third.png",
+          name: "四川分公司",
+          money: "486.7"
+        }],
       },
       dataAnalysis:{},
       screenType: 0, // 0:业务概况 1:排行榜
@@ -375,6 +289,7 @@ export default {
     }
   },
   methods: {
+    // 获取首页数据
     getDataAnalysis(){
       this.api.getDataAnalysis(this.getParams()).then(res=>{
         this.dataAnalysis = res.data;
@@ -384,6 +299,7 @@ export default {
         this.businessOverview.blockNumberList[3].number = res.data.contactsCount || 0;
       })
     },
+    // 获取 API 参数
     getParams(){
       let params = {teamType:'', type:''}
       if(this.screenType === 0){
@@ -395,15 +311,7 @@ export default {
       }
       return params
     },
-    getTeamType(teamType, screenType){
-      this.screenType = screenType;
-      if(this.screenType === 0){
-        this.businessOverview.teamType = teamType;
-      }else if(this.screenType === 1){
-        this.rankingList.teamType = teamType;
-      }
-      this.getDataAnalysis();
-    },
+    // show picker
     showPicker(selectType,screenType){
       this.getPickerList(selectType);
       this.$refs.picker.show();
@@ -421,7 +329,8 @@ export default {
       this.selectType = selectType;
       this.screenType = screenType;
     },
-    handlePickerConfirm(value, column, text) {
+    // confirm picker
+    pickerConfirm(value, column, text) {
       if(this.screenType === 0){
         this.businessOverview.select_1.value = value[0];
         this.businessOverview.select_1.text = text[0];
@@ -440,6 +349,7 @@ export default {
       this.pickerAnchor = column;
       this.getDataAnalysis();
     },
+    // 获取 pickerList
     getPickerList(selectType){
       if(selectType === 0){
         this.pickerList = [{
@@ -463,7 +373,6 @@ export default {
         },{
           text:'上年',value:'lastYear'
         }]
-        // this.pickerAnchor = [4];
       }else if(selectType === 1){
         this.pickerList = [{
           text:'订单',value:'订单'
@@ -472,9 +381,20 @@ export default {
         },{
           text:'金额',value:'金额'
         }]
-        // this.pickerAnchor = [2];
       }
     },
+    // 个人 / 团队 切换
+    getTeamType(teamType, screenType){
+      this.screenType = screenType;
+      if(this.screenType === 0){
+        this.businessOverview.teamType = teamType;
+      }else if(this.screenType === 1){
+        this.rankingList.teamType = teamType;
+      }
+      this.getDataAnalysis();
+    },
+
+    // 换肤
     changeTheme(themeName) {
       let theme = {};
 
@@ -505,250 +425,245 @@ export default {
   .content {
     width: 100%;
     height: 100%;
-    overflow: hidden;
+    overflow: auto;
     padding: 54px 15px 70px;
-    .content-wrap {
-      width: 100%;
-      height: 100%;
-      overflow: auto;
-      .blockNav {
+    .blockNav {
+      border-radius: 10px;
+      .mu-carousel {
+        height: 210px;
         border-radius: 10px;
-        .mu-carousel {
-          height: 210px;
-          border-radius: 10px;
-          .mu-carousel-indicators {
-            height: 20px;
-            .mu-icon-button {
-              width: 10px;
-              height: 10px;
-            }
-            .mu-carousel-indicator-button {
-              margin: 0 5px;
-            }
-            .mu-carousel-indicator-icon {
-              width: 6px;
-              height: 6px;
-              background-color: #9f9f9f;
-            }
+        .mu-carousel-indicators {
+          height: 20px;
+          .mu-icon-button {
+            width: 10px;
+            height: 10px;
           }
-          .gridNav {
-            height: 190px;
-            display: flex;
-            flex-wrap: wrap;
-            flex-direction: column;
-            justify-content: space-between;
-            align-items: center;
-
-            .row {
-              width: 100%;
-              height: 95px;
-              display: flex;
-              justify-content: space-around;
-              align-items: center;
-
-              div {
-                height: 66px;
-                display: flex;
-                flex-direction: column;
-                justify-content: center;
-                align-items: center;
-
-                img {
-                  width: 40px;
-                  height: 40px;
-                }
-                span {
-                  font-size: 14px;
-                  font-weight: 500;
-                  color: @primary-text;
-                  padding-top: 3px;
-                }
-
-                i {
-                  font-size: 24px;
-                  height: 34px;
-                }
-              }
-            }
+          .mu-carousel-indicator-button {
+            margin: 0 5px;
           }
-        }
-      }
-      .titleNav {
-        display: flex;
-        justify-content: space-between;
-        .baseInfo {
-          .title {
-            font-size: @primary-size;
-            color: @primary-text;
-            font-weight: 600;
-          }
-          .month,
-          .money {
-            font-size: @regular-size;
-            color: @primary;
-            margin-left: 6px;
-          }
-          .money {
-            margin-left: 0px;
-          }
-        }
-        .tabBar {
-          font-size: @regular-size;
-          color: @regular-text;
-          .team {
-            margin-right: 2px;
-          }
-          .personal {
-            margin-left: 2px;
-          }
-          .active {
-            color: @primary;
-          }
-        }
-      }
-      .businessSituation,
-      .rankingList {
-        width: 100%;
-        margin-top: 12px;
-        border-radius: 10px;
-        padding: 17px 20px 3px;
-      }
-      .businessSituation {
-        .sliderBox {
-          margin-top: 10px;
-          .indicator {
-            width: 100%;
-            height: 32px;
-
-            div {
-              width: 50px;
-              height: 32px;
-              position: relative;
-              line-height: 30px;
-              color: #fff;
-              text-align: center;
-              // margin-left: calc(50% - 14px);
-              img,
-              span {
-                width: 50px;
-                height: 32px;
-                position: absolute;
-                left: 0;
-              }
-            }
-          }
-          .slider {
-            margin-top: 10px;
+          .mu-carousel-indicator-icon {
+            width: 6px;
             height: 6px;
-            position: relative;
-            div {
-              height: 6px;
-              border-radius: 10px;
-              position: absolute;
-            }
-            .bacSlider {
-              width: 100%;
-              background-color: #ededed;
-            }
-            .frontSlider {
-              // width: 50%;
-              background-color: @primary;
-            }
-          }
-          .describe {
-            margin-top: 8px;
-            display: flex;
-            justify-content: space-between;
-            font-size: @regular-size;
-            color: @primary-text;
-            .completed {
-              span {
-                color: @primary;
-                font-weight: @regular-weight;
-              }
-            }
+            background-color: #9f9f9f;
           }
         }
-
-        .blockNumber {
+        .gridNav {
+          height: 190px;
           display: flex;
           flex-wrap: wrap;
+          flex-direction: column;
           justify-content: space-between;
-          align-content: space-between;
-          margin-top: 24px;
-          .block {
-            width: 48%;
-            height: 66px;
-            box-shadow: 0px 4px 12px 0px rgba(237, 237, 237, 1);
-            border-radius: 6px;
-            margin-bottom: 14px;
-            padding: 10px 0 10px 7%;
-            > div {
+          align-items: center;
+
+          .row {
+            width: 100%;
+            height: 95px;
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+
+            div {
+              height: 66px;
               display: flex;
-              align-items: flex-end;
+              flex-direction: column;
+              justify-content: center;
+              align-items: center;
+
               img {
-                width: 30px;
-                height: 30px;
+                width: 40px;
+                height: 40px;
               }
-              .describe {
-                display: flex;
-                flex-direction: column;
-                margin-left: 9%;
-                .number {
-                  height: 26px;
-                  line-height: 26px;
-                  font-size: 20px;
-                  color: @primary-text;
-                  text-align: center;
-                  font-weight: 600;
-                }
-                .title {
-                  height: 16px;
-                  line-height: 16px;
-                  font-size: @regular-size;
-                  color: @primary-text;
-                }
+              span {
+                font-size: 14px;
+                font-weight: 500;
+                color: @primary-text;
+                padding-top: 3px;
+              }
+
+              i {
+                font-size: 24px;
+                height: 34px;
               }
             }
           }
         }
       }
-      .rankingList {
-        padding-bottom: 17px;
-        .companyRanking {
-          .block {
-            padding: 12px 0;
+    }
+    .titleNav {
+      display: flex;
+      justify-content: space-between;
+      .baseInfo {
+        .title {
+          font-size: @primary-size;
+          color: @primary-text;
+          font-weight: 600;
+        }
+        .month,
+        .money {
+          font-size: @regular-size;
+          color: @primary;
+          margin-left: 6px;
+        }
+        .money {
+          margin-left: 0px;
+        }
+      }
+      .tabBar {
+        font-size: @regular-size;
+        color: @regular-text;
+        .team {
+          margin-right: 2px;
+        }
+        .personal {
+          margin-left: 2px;
+        }
+        .active {
+          color: @primary;
+        }
+      }
+    }
+    .businessSituation,
+    .rankingList {
+      width: 100%;
+      margin-top: 12px;
+      border-radius: 10px;
+      padding: 17px 20px 3px;
+    }
+    .businessSituation {
+      .sliderBox {
+        margin-top: 10px;
+        .indicator {
+          width: 100%;
+          height: 32px;
+
+          div {
+            width: 50px;
+            height: 32px;
+            position: relative;
+            line-height: 30px;
+            color: #fff;
+            text-align: center;
+            // margin-left: calc(50% - 14px);
+            img,
+            span {
+              width: 50px;
+              height: 32px;
+              position: absolute;
+              left: 0;
+            }
+          }
+        }
+        .slider {
+          margin-top: 10px;
+          height: 6px;
+          position: relative;
+          div {
+            height: 6px;
+            border-radius: 10px;
+            position: absolute;
+          }
+          .bacSlider {
+            width: 100%;
+            background-color: #ededed;
+          }
+          .frontSlider {
+            // width: 50%;
+            background-color: @primary;
+          }
+        }
+        .describe {
+          margin-top: 8px;
+          display: flex;
+          justify-content: space-between;
+          font-size: @regular-size;
+          color: @primary-text;
+          .completed {
+            span {
+              color: @primary;
+              font-weight: @regular-weight;
+            }
+          }
+        }
+      }
+
+      .blockNumber {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: space-between;
+        align-content: space-between;
+        margin-top: 24px;
+        .block {
+          width: 48%;
+          height: 66px;
+          box-shadow: 0px 4px 12px 0px rgba(237, 237, 237, 1);
+          border-radius: 6px;
+          margin-bottom: 14px;
+          padding: 10px 0 10px 7%;
+          > div {
             display: flex;
-            justify-content: space-between;
-            align-items: center;
-            color: @primary-text;
-            font-size: @regular-size;
-            font-weight: @primary-weight;
-            border-bottom: 1px solid #f8f8f8;
-            .title {
+            align-items: flex-end;
+            img {
+              width: 30px;
+              height: 30px;
+            }
+            .describe {
               display: flex;
-              align-items: center;
-              img {
-                width: 30px;
-                height: 32px;
+              flex-direction: column;
+              margin-left: 9%;
+              .number {
+                height: 26px;
+                line-height: 26px;
+                font-size: 20px;
+                color: @primary-text;
+                text-align: center;
+                font-weight: 600;
               }
-              span {
-                margin-left: 10px;
+              .title {
+                height: 16px;
+                line-height: 16px;
+                font-size: @regular-size;
+                color: @primary-text;
               }
             }
           }
-          .completeList {
-            width: 100%;
-            margin-top: 16px;
+        }
+      }
+    }
+    .rankingList {
+      padding-bottom: 17px;
+      .companyRanking {
+        .block {
+          padding: 12px 0;
+          display: flex;
+          justify-content: space-between;
+          align-items: center;
+          color: @primary-text;
+          font-size: @regular-size;
+          font-weight: @primary-weight;
+          border-bottom: 1px solid #f8f8f8;
+          .title {
             display: flex;
-            justify-content: center;
-            .btn {
-              display: inline-block;
-              padding: 2px 10px;
-              color: @primary;
-              border: 1px solid @primary;
-              border-radius: 6px;
+            align-items: center;
+            img {
+              width: 30px;
+              height: 32px;
             }
+            span {
+              margin-left: 10px;
+            }
+          }
+        }
+        .completeList {
+          width: 100%;
+          margin-top: 16px;
+          display: flex;
+          justify-content: center;
+          .btn {
+            display: inline-block;
+            padding: 2px 10px;
+            color: @primary;
+            border: 1px solid @primary;
+            border-radius: 6px;
           }
         }
       }
