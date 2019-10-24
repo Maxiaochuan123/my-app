@@ -3,12 +3,13 @@
  * @Author: shenah
  * @Date: 2019-10-12 09:30:38
  * @LastEditors: shenah
- * @LastEditTime: 2019-10-22 17:45:55
+ * @LastEditTime: 2019-10-24 18:18:31
  -->
 
 <template>
   <div class="task-list">
     <AppBar
+      :rightIconFlag="taskRights.save"
       drawerIcon="icon-guolv"
       isDrawer
       pageTitle="任务"
@@ -53,6 +54,7 @@
 </template>
 
 <script>
+import { mapState } from "vuex";
 import ArrSingleOrMultiple from "@components/ArrSingleOrMultiple.vue";
 import { TASK_STATUS } from "@constants/dictionaries";
 import AppBar from "@components/AppBar.vue";
@@ -63,6 +65,11 @@ import dayjs from "dayjs";
 export default {
   name: "taskList",
   components: { AppBar, TaskItem, ArrSingleOrMultiple, Screen },
+  computed: {
+    ...mapState({
+      taskRights: state => state.authorities.work.task
+    })
+  },
   data() {
     return {
       Api,

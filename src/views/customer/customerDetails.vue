@@ -2,7 +2,7 @@
  * @Description: In User Settings Edit
  * @Author: your name
  * @Date: 2019-09-04 12:35:37
- * @LastEditTime: 2019-10-22 17:14:14
+ * @LastEditTime: 2019-10-24 18:15:29
  * @LastEditors: shenah
  -->
 <!--
@@ -14,8 +14,7 @@
     <AppBar
       :menuList="menuList"
       :rightIcon="rightIcon"
-      :rightLinkName="rightLinkName"
-      :rightLinkParams="{id}"
+      :rightIconFlag="rightIconFlag"
       @menuChange="menuChange"
       isMenu
       pageTitle="客户详情"
@@ -86,6 +85,7 @@
 </template>
 
 <script>
+import { mapState } from "vuex";
 import AppBar from "@components/AppBar.vue";
 import FootNav from "@components/FootNav.vue";
 import Api from "@api";
@@ -93,6 +93,10 @@ export default {
   name: "customerDetails",
   components: { AppBar, FootNav },
   computed: {
+    ...mapState({
+      customerRights: state => state.authorities.crm.customer,
+      poolRights: state => state.authorities.crm.pool
+    }),
     // 当前客户的id
     id() {
       return this.$route.params.id;
@@ -108,7 +112,7 @@ export default {
       details: {}, // 详情
       active: "basic", // 当前激活的(record=> 跟进记录,basic=> 基本信息)
       rightIcon: "icon-gengduo1",
-      rightLinkName: "addOrEditCustomer",
+      rightIconFlag: true,
       menuList: [],
       contactsList: [], // 联系人列表
       bottomList: [] // 底部的按钮
@@ -148,6 +152,17 @@ export default {
       });
     },
     addBtnList() {
+      const {
+        distribute,
+        putinpool,
+        update,
+        delete: del,
+        addrecord
+      } = this.customerRights;
+      const {
+        receive: poolReceive,
+        distribute: poolDistribute
+      } = this.poolRights;
       this.bottomList = [
         {
           img: this.loadingImg("buttom-write-follow.png"),
@@ -155,7 +170,8 @@ export default {
           linkName: "writeFollowup",
           isLink: true,
           type: "writeFollow",
-          linkParams: { id: this.id }
+          linkParams: { id: this.id },
+          flag: addrecord
         },
         {
           img: this.loadingImg("buttom-call.png"),
@@ -163,10 +179,12 @@ export default {
           linkName: "myInfoChild",
           isLink: false,
           type: "call",
-          phone: this.details.mobile
+          phone: this.details.mobile,
+          flag: true
         }
       ];
       if (this.type === "commonWatersCustomer") {
+        this.rightIconFlag = [poolDistribute, poolReceive].some(item => item);
         this.menuList = [
           {
             title: "分配",
@@ -175,38 +193,47 @@ export default {
             linkParams: {
               id: this.id,
               type: "commonWatersCustomer"
-            }
+            },
+            flag: poolDistribute
           },
           {
             title: "领取",
             isLink: false,
-            type: "receive"
+            type: "receive",
+            flag: poolReceive
           }
         ];
       } else {
+        this.rightIconFlag = [distribute, putinpool, update, del].some(
+          item => item
+        );
         this.menuList = [
           {
             title: "分享",
             linkName: "selectShareUsers",
             isLink: false,
-            type: "share"
+            type: "share",
+            flag: distribute
           },
           {
             title: "放入公海",
             isLink: false,
-            type: "putInWaters"
+            type: "putInWaters",
+            flag: putinpool
           },
           {
             title: "编辑",
             linkName: "addOrEditCustomer",
             isLink: true,
             type: "edit",
-            linkParams: { id: this.id }
+            linkParams: { id: this.id },
+            flag: update
           },
           {
             title: "删除",
             isLink: false,
-            type: "del"
+            type: "del",
+            flag: del
           }
         ];
       }

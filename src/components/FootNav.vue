@@ -4,15 +4,17 @@
  -->
 <template>
   <div class="foot-nav">
-    <div
-      :key="index"
-      @click="navItem(item)"
-      class="nav-item"
-      v-for="(item,index) in list"
-    >
-      <img :src="item.img" />
-      <div class="text">{{item.label}}</div>
-    </div>
+    <template v-for="(item,index) in list">
+      <div
+        :key="index"
+        @click="navItem(item)"
+        class="nav-item"
+        v-if="item.flag"
+      >
+        <img :src="item.img" />
+        <div class="text">{{item.label}}</div>
+      </div>
+    </template>
   </div>
 </template>
 

@@ -41,6 +41,7 @@
 </template>
 
 <script>
+import { mapState } from "vuex";
 import AppBar from "@components/AppBar.vue";
 import SearchInputBar from "@components/SearchInputBar.vue";
 import Api from "@api";
@@ -57,6 +58,11 @@ export default {
       customerList: [], // 客户列表
       clueList: [] // 线索列表
     };
+  },
+  computed: {
+    ...mapState({
+       poolRights: state => state.authorities.crm.pool
+    })
   },
   props: {},
   created() {},

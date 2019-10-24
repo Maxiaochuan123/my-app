@@ -2,48 +2,82 @@
  * @Description: In User Settings Edit
  * @Author: your name
  * @Date: 2019-08-25 11:48:12
- * @LastEditTime: 2019-09-05 11:02:41
- * @LastEditors: Please set LastEditors
+ * @LastEditTime: 2019-10-24 17:13:36
+ * @LastEditors: shenah
  -->
 <template>
   <div class="app-bar">
     <mu-appbar z-depth="0">
-      <mu-button icon slot="left" @click="leftClick()">
-        <mu-icon :size="iconSize" :value="`:iconfont ${leftIcon}`"></mu-icon>
+      <mu-button
+        @click="leftClick()"
+        icon
+        slot="left"
+      >
+        <mu-icon
+          :size="iconSize"
+          :value="`:iconfont ${leftIcon}`"
+        ></mu-icon>
       </mu-button>
       {{pageTitle}}
-      <mu-button icon v-if="isDrawer" @click="openDrawerState">
-        <mu-icon :size="iconSize" :value="`:iconfont ${drawerIcon}`"></mu-icon>
+      <mu-button
+        @click="openDrawerState"
+        icon
+        v-if="isDrawer"
+      >
+        <mu-icon
+          :size="iconSize"
+          :value="`:iconfont ${drawerIcon}`"
+        ></mu-icon>
       </mu-button>
       <!-- 右侧按钮 -->
-      <mu-menu slot="right" cover placement="bottom-end" v-if="!custom" :open.sync="menuFlag">
-        <mu-button icon @click="rightBtn()" :disabled="!isShowRightBtn">
-          <mu-icon :size="iconSize" :value="`:iconfont ${rightIcon}`"></mu-icon>
+      <mu-menu
+        :open.sync="menuFlag"
+        cover
+        placement="bottom-end"
+        slot="right"
+        v-if="!custom"
+      >
+        <mu-button
+          :disabled="!isShowRightBtn"
+          @click="rightBtn()"
+          icon
+          v-if="rightIconFlag"
+        >
+          <mu-icon
+            :size="iconSize"
+            :value="`:iconfont ${rightIcon}`"
+          ></mu-icon>
         </mu-button>
         <mu-list slot="content">
-          <mu-list-item
-            button
-            v-for="(item, index) in menuList"
-            :key="index"
-            @click="menuItem(item)"
-          >
-            <mu-list-item-content>
-              <mu-list-item-title>{{item.title}}</mu-list-item-title>
-            </mu-list-item-content>
-          </mu-list-item>
+          <template v-for="(item, index) in menuList">
+            <mu-list-item
+              :key="index"
+              @click="menuItem(item)"
+              button
+              v-if="item.flag"
+            >
+              <mu-list-item-content>
+                <mu-list-item-title>{{item.title}}</mu-list-item-title>
+              </mu-list-item-content>
+            </mu-list-item>
+          </template>
         </mu-list>
       </mu-menu>
 
       <!-- 自定义右侧按钮 -->
       <mu-button
+        @click="customFnc"
         class="customBtn"
         flat
         slot="right"
-        @click="customFnc"
         v-if="custom"
       >{{customTitle}}</mu-button>
     </mu-appbar>
-    <mu-drawer :open.sync="drawerState" right :docked="false">
+    <mu-drawer
+      :docked="false"
+      :open.sync="drawerState"
+      right
+    >
       <slot name="drawerContent"></slot>
     </mu-drawer>
   </div>
@@ -80,9 +114,13 @@ export default {
     rightLinkName: {
       type: String
     },
-    rightLinkParams:{
+    rightLinkParams: {
       type: Object,
-      default:()=> {}
+      default: () => {}
+    },
+    rightIconFlag: {
+      type: Boolean,
+      default: true
     },
     isDrawer: {
       type: Boolean,
@@ -129,7 +167,7 @@ export default {
     },
     rightBtn() {
       if (!this.isMenu) {
-        this.goPage(this.rightLinkName,this.rightLinkParams);
+        this.goPage(this.rightLinkName, this.rightLinkParams);
       }
     },
     menuItem(item) {
@@ -156,15 +194,15 @@ export default {
     color: @primary;
     font-size: @primary-size;
   }
-  .mu-drawer{
+  .mu-drawer {
     padding: 46px 25px;
   }
-  .drawerTitle{
+  .drawerTitle {
     font-size: 20px;
     font-weight: @primary-weight;
     color: @primary-text;
   }
-  .drawerContent{
+  .drawerContent {
     margin-top: 20px;
   }
 }

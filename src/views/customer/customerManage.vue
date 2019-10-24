@@ -6,6 +6,7 @@
   <div class="customer-manage">
     <AppBar
       :rightIcon="rightIcon"
+      :rightIconFlag="customerRights.save"
       :rightLinkName="rightLinkName"
       pageTitle="客户管理"
     ></AppBar>
@@ -58,6 +59,7 @@
 </template>
 
 <script>
+import { mapState } from "vuex";
 import AppBar from "@components/AppBar.vue";
 import SearchBar from "@components/SearchBar.vue";
 import IndexsList from "@components/IndexsList.vue";
@@ -67,6 +69,11 @@ import Api from "@api";
 export default {
   name: "customerManage",
   components: { AppBar, SearchBar, IndexsList, Nothing },
+  computed: {
+    ...mapState({
+      customerRights: state => state.authorities.crm.customer
+    })
+  },
   data() {
     return {
       rightIcon: "icon-tianjia",
