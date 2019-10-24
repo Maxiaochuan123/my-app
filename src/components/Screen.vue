@@ -1,5 +1,5 @@
 <template>
- <!-- 例子: <Screen slot="drawerContent" :drawerList="drawerList" @getApiParams="getApiParams"></Screen> -->
+ <!-- 例子: <Screen slot="drawerContent" :drawerList="drawerList" @getScreenParams="getScreenParams"></Screen> -->
 
   <div class="drawerContent">
     <div class="drawerTitle">筛选</div>
@@ -38,7 +38,7 @@
 
       <div class="operation">
         <mu-button class="reset" @click="resetDrawerList">重置</mu-button>
-        <mu-button color="primary" @click="drawerSubmit">确定</mu-button>
+        <mu-button class="confirm" @click="drawerSubmit">确定</mu-button>
       </div>
   </div>
 </template>
@@ -52,63 +52,11 @@ export default {
       default: () => {}
     }
   },
-  components:{ArrSingleOrMultiple},
+  components:{
+    ArrSingleOrMultiple
+  },
   data(){
     return{
-      // drawerList:{
-      //   value2:{
-      //     fileTitle:'搜索',
-      //     type:'searchInput',
-      //     placeholder:'搜索线索',
-      //     val:'',
-      //     searchList:[{name:'张三',val:'zs'},{name:'李四',val:'ls'},{name:'王五',val:'ww'},{name:'牛牛',val:'nn'}]
-      //   },
-      //   value7:{
-      //     fileTitle:'创建时间',
-      //     type:'date',
-      //     placeholder:'请选择创建时间',
-      //     val:''
-      //   },
-      //   clueList:{
-      //     fileTitle:'线索类型',
-      //     type:'select',
-      //     list:[{
-      //       title:'买车',
-      //       state:false
-      //     },{
-      //       title:'车贷',
-      //       state:false
-      //     },{
-      //       title:'车险',
-      //       state:false
-      //     }]
-      //   },
-      //   clueStateList:{
-      //     fileTitle:'线索状态',
-      //     type:'select',
-      //     valueField:'',
-      //     labelField:'',
-      //     list:[{
-      //       title:'未跟进',
-      //       state:false
-      //     },{
-      //       title:'已跟进',
-      //       state:false
-      //     },{
-      //       title:'已关闭',
-      //       state:false
-      //     },{
-      //       title:'已转换为联系人',
-      //       state:false
-      //     },{
-      //       title:'已转换为客户',
-      //       state:false
-      //     },{
-      //       title:'已放入公海',
-      //       state:false
-      //     }]
-      //   }
-      // },
       submitDrawerList:{}
     }
   },
@@ -131,8 +79,8 @@ export default {
     //筛选 - 确认
     drawerSubmit(){
       this.getParams();
-      this.$emit('getApiParams', this.submitDrawerList);
-      this.resetDrawerList();
+      this.$emit('getScreenParams', this.submitDrawerList);
+      // this.resetDrawerList();
       this.closeDrawerState();
     },
     getParams(){
@@ -159,6 +107,7 @@ export default {
       margin-top: 20px;
       background-color: #fff;
       overflow-y: scroll;
+      overflow-x: hidden;
       height: 86%;
     }
     .screen{
@@ -260,6 +209,10 @@ export default {
       .reset{
         color: @primary-text;
         background-color: #EDEDED;
+      }
+      .confirm{
+        background-color: @primary;
+        color: #fff;
       }
     }
   }

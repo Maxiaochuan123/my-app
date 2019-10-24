@@ -2,12 +2,19 @@
   <div class="addDaily">
     <AppBar pageTitle="写日报" custom customTitle="保存" :customFnc="customFnc"></AppBar>
     <div class="content">
-      <div :class="['baseContent',bootomPadingStatus ? 'bootomPading' : '']">
-
+      <div
+        :class="['baseContent',bootomPadingStatus_1 || bootomPadingStatus_2 ? 'bootomPading' : '']"
+      >
         <div class="baseItem">
           <div class="title">今日重点工作及完成情况</div>
           <div class="textarea">
-            <mu-text-field v-model="content" multi-line :rows="0" full-width placeholder="请输入内容"></mu-text-field>
+            <mu-text-field
+              v-model="form.content"
+              multi-line
+              :rows="0"
+              full-width
+              placeholder="请输入内容"
+            ></mu-text-field>
           </div>
         </div>
         <mu-divider shallow-inset></mu-divider>
@@ -15,7 +22,13 @@
         <div class="baseItem">
           <div class="title">明日工作计划</div>
           <div class="textarea">
-            <mu-text-field v-model="tomorrow" multi-line :rows="0" full-width placeholder="请输入内容"></mu-text-field>
+            <mu-text-field
+              v-model="form.tomorrow"
+              multi-line
+              :rows="0"
+              full-width
+              placeholder="请输入内容"
+            ></mu-text-field>
           </div>
         </div>
         <mu-divider shallow-inset></mu-divider>
@@ -23,7 +36,13 @@
         <div class="baseItem">
           <div class="title">工作感悟</div>
           <div class="textarea">
-            <mu-text-field v-model="sentiment" multi-line :rows="0" full-width placeholder="请输入内容"></mu-text-field>
+            <mu-text-field
+              v-model="form.sentiment"
+              multi-line
+              :rows="0"
+              full-width
+              placeholder="请输入内容"
+            ></mu-text-field>
           </div>
         </div>
         <mu-divider shallow-inset></mu-divider>
@@ -31,107 +50,124 @@
         <div class="baseItem">
           <div class="title">工作所需支持</div>
           <div class="textarea">
-            <mu-text-field v-model="support" multi-line :rows="0" full-width placeholder="请输入内容"></mu-text-field>
+            <mu-text-field
+              v-model="form.support"
+              multi-line
+              :rows="0"
+              full-width
+              placeholder="请输入内容"
+            ></mu-text-field>
           </div>
         </div>
         <mu-divider shallow-inset></mu-divider>
 
-        <uploadList @getImgSuccessList="getImgSuccessList" @getEnclosureSuccessList="getEnclosureSuccessList"></uploadList>
+        <uploadList
+          :batchId="form.batchId"
+          :customEnclosureList="customEnclosureList"
+          :customImgList="customImgList"
+          :ishasAfferent="false"
+          @changecustomEnclosureList="changecustomEnclosureList"
+          @changecustomImgList="changecustomImgList"
+          @getImgSuccessList="getImgSuccessList"
+          @getEnclosureSuccessList="getEnclosureSuccessList"
+        ></uploadList>
         <mu-divider shallow-inset></mu-divider>
 
-        <!-- <div class="relationBusiness">
-          <span class="title">关联业务</span>
-          <img src="../../../static/images/relation.png">
-        </div> -->
-        <RelateBusiness :relatedBusinessList="relatedBusinessList" :relateMenu="relateMenu" @relateBusinessChange="relateBusinessChange" :defaultHide="true"></RelateBusiness>
+        <!-- 关联业务 -->
+        <RelateBusiness
+          :relateData="relateData"
+          :relatedBusinessList="relatedBusinessList"
+          :relateMenu="relateMenu"
+          @relateBusinessChange="relateBusinessChange"
+          :defaultHide="true"
+        ></RelateBusiness>
       </div>
-      <!-- <div class="receivePeople">
-        <span class="title">接收人</span>
-        <img src="../../../static/images/receivePeople.png">
-      </div> -->
-      <mu-form
-        :model="form"
-        class="mu-demo-form"
-        label-position="left"
-        label-width="100"
-      >
-      <mu-paper :z-depth="0" class="block" >
-        <mu-form-item label="接收人" prop="contactName" >
-          <PopSingleOrMultiple
-            :defaultValue="form.contactName"
-            :isShowText="false"
-            :selected="form.sendUser"
-            @PopSingleOrMultipleChange="PopSingleOrMultipleChange"
-            apiName="queryContactsPC"
-            fieldName="contactName"
-            idField="contactsId"
-            mode="multiple"
-            name="接收人"
-            splitField="sendUser"
-            textField="contactsName"
-            :extraParams="{
+
+      <!-- 接收人 -->
+      <mu-form :model="form" class="mu-demo-form" label-position="left" label-width="100">
+        <mu-paper :z-depth="0" class="block">
+          <mu-form-item label="接收人" prop="contactName">
+            <PopSingleOrMultiple
+              :defaultValue="form.contactName"
+              :isShowText="false"
+              :selected="form.sendUser"
+              @PopSingleOrMultipleChange="PopSingleOrMultipleChange"
+              apiName="getInsideCompanyContacts"
+              fieldName="contactName"
+              idField="id"
+              mode="multiple"
+              name="接收人"
+              splitField="sendUser"
+              textField="realname"
+              :extraParams="{
               teamType:1
             }"
-          >
-            <mu-icon
-              color="#FF0000"
-              size="24"
-              slot="rightIcon"
-              value=":iconfont icon-tianjia"
-            ></mu-icon>
-          </PopSingleOrMultiple>
-        </mu-form-item>
-      
-        <MultipleShowList
-          :list="multipleShowList"
-          @multipleShowListChange="multipleShowListChange"
-          type="sendUser"
-        ></MultipleShowList>
+            >
+              <mu-icon color="#FF0000" size="24" slot="rightIcon" value=":iconfont icon-tianjia"></mu-icon>
+            </PopSingleOrMultiple>
+          </mu-form-item>
+
+          <MultipleShowList
+            :list="multipleShowList"
+            @multipleShowListChange="multipleShowListChange"
+            type="sendUser"
+          ></MultipleShowList>
         </mu-paper>
-        </mu-form>
+      </mu-form>
     </div>
   </div>
 </template>
 
 <script>
-import AppBar from '../../components/AppBar'
-import uploadList from '../../components/upLoad/uploadList'
+import AppBar from "../../components/AppBar";
+import uploadList from "../../components/upLoad/uploadList";
 import RelateBusiness from "../../components/RelateBusiness/RelateBusiness";
 import PopSingleOrMultiple from "../../components/PopSingleOrMultiple";
 import MultipleShowList from "../../components/MultipleShowList";
 
 import { RELATION_BUSINESS } from "@constants/menuInfo.js";
 export default {
-  components:{
-    AppBar, uploadList, RelateBusiness, PopSingleOrMultiple, MultipleShowList
+  components: {
+    AppBar,
+    uploadList,
+    RelateBusiness,
+    PopSingleOrMultiple,
+    MultipleShowList
   },
-  data(){
-    return{
-      content:'',
-      tomorrow:'',
-      sentiment:'',
-      support:'',
+  data() {
+    return {
       relateMenu: {
         // 菜单的相应配置
         clues: RELATION_BUSINESS.clues,
         customers: RELATION_BUSINESS.customers,
         contacts: RELATION_BUSINESS.contacts,
         tasks: RELATION_BUSINESS.tasks,
-        visits: RELATION_BUSINESS.visits,
+        visits: RELATION_BUSINESS.visits
       },
-      form:{
+      form: {
+        content: "", //今日完成情况
+        tomorrow: "", //明日工作计划
+        sentiment: "", //工作感悟
+        support: "", //工作所需支持
         sendUser: [], // 接收人的拼接
         contactName: "", // 接收人的名字
-        sendUserIds: '', //接收人id
+        sendUserIds: "", //接收人id
+        batchId: ""
       },
-      imgSuccessList:{}, //图片
-      enclosureSuccessList:{}, //附件
-      batchId:'',
-      relatedBusinessList:{}, //关联业务
-      
+      customImgList: [], // 手动传入图片
+      customEnclosureList: [], // 手动传入文件
+      relatedBusinessList: {}, //关联业务
+      relateData: {
+        // 关联的相关数据
+        clues: [],
+        customers: [],
+        contacts: [],
+        tasks: [],
+        visits: []
+      },
 
-      multipleShowList: [],
-    }
+      multipleShowList: []
+    };
   },
   watch: {
     "$parent.details"(val) {
@@ -140,43 +176,67 @@ export default {
         customers: val.customerList,
         contacts: val.contactsList,
         tasks: val.tasksList,
-        visits: val.visitsList,
+        visits: val.visitsList
       };
     },
     "form.sendUser"(val) {
       this.multipleShowList = val.map(item => ({
-        text: item.contactsName,
-        value: item.contactsId,
+        text: item.realname,
+        value: item.id,
         img: item.img
       }));
     }
   },
+  created() {
+    if (this.$route.params.state === "edit") {
+      this.api.getDailyParams({ logId: this.$route.params.id }).then(res => {
+        this.form = { ...this.form, ...this.handlerDetails(res.data) };
+      });
+    }
+  },
   methods: {
-    customFnc(){
+    customFnc() {
       let params = {
-        content:this.content,
-        tomorrow:this.tomorrow,
-        sentiment:this.sentiment,
-        support:this.support,
-        sendUserIds:this.form.sendUserIds,
-        batchId: this.batchId,
+        content: this.form.content,
+        tomorrow: this.form.tomorrow,
+        sentiment: this.form.sentiment,
+        support: this.form.support,
+        sendUserIds: this.form.sendUserIds,
+        batchId: this.form.batchId,
         ...this.relatedBusinessList
+      };
+
+      let id = this.$route.params.id;
+      if (id) {
+        params.logId = id;
       }
+
       this.api.addDaily(params).then(res => {
-        if(res.msg === 'success') this.$toast.success('新增成功!');
-      })
+        if (res.msg === "success")
+          this.$toast.success(`${id ? "编辑" : "新增"}成功!`);
+        this.goBack();
+      });
     },
-    getImgSuccessList(data){
-      this.batchId = data.guid;
+
+    // 图片 / 附件
+    getImgSuccessList(data) {
+      this.form.batchId = data.guid;
     },
-    getEnclosureSuccessList(data){
-      this.batchId = data.guid;
+    getEnclosureSuccessList(data) {
+      this.form.batchId = data.guid;
     },
-    relateBusinessChange({ nowConfig, commonParam, operate }){
+    changecustomImgList(data) {
+      this.customImgList = data;
+    },
+    changecustomEnclosureList(data) {
+      this.customEnclosureList = data;
+    },
+
+    relateBusinessChange({ nowConfig, commonParam, operate }) {
       const param = {
         ...commonParam
       };
-      this.relatedBusinessList = param
+      this.relatedBusinessList = param;
     },
     PopSingleOrMultipleChange({ selectArr, texts, ids, idsField, textsField }) {
       // 多选框的回调
@@ -187,100 +247,164 @@ export default {
     },
     multipleShowListChange({ row, type }) {
       this.form.sendUser = this.form.sendUser.filter(
-        item => item.userId * 1 !== row.value * 1
+        item => item.id * 1 !== row.value * 1
       );
-      this.form.sendUserIds = this.form.sendUser
-        .map(item => item.userId)
-        .join(",");
+      this.form.sendUserIds = this.form.sendUser.map(item => item.id).join(",");
     },
+    handlerDetails(details) {
+      let form = { ...details };
+
+      // 拜访客户的处理
+      form.visitCustomerName = details.customerName;
+      form.visitCustomer = [
+        {
+          customerId: details.visitCustomerId,
+          customerName: details.customerName
+        }
+      ];
+
+      // 拜访联系人的处理
+      form.visitContactName = details.contactsName;
+      form.visitContact = [
+        {
+          contactsId: details.visitContactId,
+          contactsName: details.contactsName
+        }
+      ];
+      // 接收人的处理
+      form.sendUser = details.sendUserList.map(item => ({
+        id: item.userId,
+        ...item
+      }));
+      form.sendUserId = details.sendUserIds;
+
+      // 附件的处理
+      this.customImgList = details.img.map(item => ({
+        ...item,
+        src: item.filePath,
+        progress: { progressState: 1 }
+      }));
+      this.customEnclosureList = details.file.map(item => ({
+        ...item,
+        progress: { progressState: 1 }
+      }));
+      // 关联业务处理
+      this.relateData = {
+        clues: details.clueList,
+        customers: details.customerList || [],
+        contacts: details.contactsList || [],
+        tasks: details.tasksList || [],
+        visits: details.visitsList || []
+      };
+      return form;
+    }
   },
-  computed:{
-    bootomPadingStatus(){
-      if(this.relatedBusinessList.clueIds || this.relatedBusinessList.contactsIds || this.relatedBusinessList.customerIds ||
-         this.relatedBusinessList.taskId || this.relatedBusinessList.taskIds || this.relatedBusinessList.visitIds){
-        return true
-      }else{
-        return false
+  computed: {
+    bootomPadingStatus_1() {
+      if (
+        this.relatedBusinessList.clueIds ||
+        this.relatedBusinessList.contactsIds ||
+        this.relatedBusinessList.customerIds ||
+        this.relatedBusinessList.taskIds ||
+        this.relatedBusinessList.visitIds
+      ) {
+        return true;
+      } else {
+        return false;
+      }
+    },
+    bootomPadingStatus_2() {
+      if (
+        this.relateData.clues ||
+        this.relateData.customers ||
+        this.relateData.contacts ||
+        this.relateData.tasks ||
+        this.relateData.visits
+      ) {
+        return true;
+      } else {
+        return false;
       }
     }
   }
-}
+};
 </script>
 
 <style lang="less" scoped>
-  .addDaily{
-    .content{
-      padding-top: 56px;
-      .baseContent{
-        padding: 0 15px;
-        background-color: #fff;
-        .baseItem{
-          padding: 12px 0;
-          .title{
-            color: @primary-text;
-            font-size: @primary-size;
-          }
-          .textarea{
-            margin-top: 4px;
-            color: @regular-text;
-            .mu-input{
-              padding: 0;
-              margin: 0;
-              min-height: 0;
-            }
-            /deep/ .mu-text-field-textarea{
-              color: @regular-text;
-            }
-            /deep/ .mu-input-line, /deep/ .mu-input-focus-line{
-              display: none;
-            }
-          }
-        }
-        .upLoad{
-          padding: 0;
-        }
-      }
-      .bootomPading{
-        padding-bottom: 10px !important;
-      }
-      .relationBusiness{
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
+.addDaily {
+  .content {
+    padding-top: 56px;
+    .baseContent {
+      padding: 0 15px;
+      background-color: #fff;
+      .baseItem {
         padding: 12px 0;
-        .title{
+        .title {
           color: @primary-text;
           font-size: @primary-size;
-        } 
-        img{
-          width: 24px;
-          height: 24px;
+        }
+        .textarea {
+          margin-top: 4px;
+          color: @regular-text;
+          .mu-input {
+            padding: 0;
+            margin: 0;
+            min-height: 0;
+          }
+          /deep/ .mu-text-field-textarea {
+            color: @regular-text;
+          }
+          /deep/ .mu-input-line,
+          /deep/ .mu-input-focus-line {
+            display: none;
+          }
         }
       }
-      .mu-divider.shallow-inset{
-        margin-left: 0;
+      .upLoad {
+        padding: 0;
       }
     }
-    .receivePeople{
+    .bootomPading {
+      padding-bottom: 10px !important;
+    }
+    .relationBusiness {
       display: flex;
       justify-content: space-between;
       align-items: center;
-      padding: 12px 15px;
-      background-color: #fff;
-      .title{
+      padding: 12px 0;
+      .title {
         color: @primary-text;
         font-size: @primary-size;
-      } 
-      img{
+      }
+      img {
         width: 24px;
         height: 24px;
       }
     }
-    .receivePeople{
-      margin-top: 12px;
-    }
-    /deep/ .app-bar{
-      box-shadow: 0px 2px 6px 0px #ededed;
+    .mu-divider.shallow-inset {
+      margin-left: 0;
     }
   }
+  .receivePeople {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 12px 15px;
+    background-color: #fff;
+    .title {
+      color: @primary-text;
+      font-size: @primary-size;
+    }
+    img {
+      width: 24px;
+      height: 24px;
+    }
+  }
+  .receivePeople {
+    margin-top: 12px;
+  }
+  /deep/ .app-bar {
+    box-shadow: 0px 2px 6px 0px #ededed;
+  }
+}
 </style>

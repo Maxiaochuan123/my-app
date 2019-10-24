@@ -13,5 +13,11 @@ export default {
     get({
       params,
       url: C.QUERY_SUB_USER_BY_NAME
+    }),
+  // 查询 公司内部个人联系人
+  getInsideCompanyContacts: params =>
+    get({
+      params,
+      url: C.GET_InsideCompany_Contacts
     })
 };

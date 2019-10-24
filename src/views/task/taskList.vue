@@ -18,7 +18,7 @@
       <!-- 抽屉 -->
       <Screen
         :drawerList="drawerList"
-        @getApiParams="getApiParams"
+        @getScreenParams="getScreenParams"
         slot="drawerContent"
       ></Screen>
     </AppBar>
@@ -122,7 +122,7 @@ export default {
 
       // });
     },
-    getApiParams(requestParams) {
+    getScreenParams(requestParams) {
       this.requestParams = {
         ...this.requestParams,
         ...requestParams

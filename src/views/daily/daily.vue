@@ -2,7 +2,7 @@
   <div class="daily">
     <AppBar pageTitle="日报" isDrawer drawerIcon="icon-guolv" rightIcon="icon-tianjia" rightLinkName="addDaily">
       <!-- 抽屉 -->
-      <Screen slot="drawerContent" :drawerList="drawerList" @getApiParams="getApiParams"></Screen>
+      <Screen ref="screen" slot="drawerContent" :drawerList="drawerList" @getScreenParams="getScreenParams"></Screen>
     </AppBar>
     <div class="content">
       <mu-tabs :value.sync="tabsActive" @change="changeTabs" inverse color="primary" indicator-color="primary" center>
@@ -11,7 +11,7 @@
         <mu-tab>我收到的</mu-tab>
       </mu-tabs>
       <div class="myDaily">
-        <mu-load-more :refreshing="refreshing" @refresh="refresh" :loading="loading" @load="load">
+        <mu-load-more :refreshing="loadUpdate.refreshing" @refresh="refresh" :loading="loadUpdate.loading" @load="load" :loaded-all="loadUpdate.loadedAll">
           <mu-expansion-panel :zDepth="0" expand v-for="(item,index) in dailyList" :key="index">
             <div slot="header">
               <div class="info">
@@ -47,7 +47,7 @@
                   <img src="../../../static/images/comment.png">
                   <span>评论({{item.replyList[0] ? item.replyList[0].childCommentList.length : 0}})</span>
                 </div>
-                <div class="dateTime">{{item.replyList[0] ? item.replyList[0].createTime : ''}}</div>
+                <div class="dateTime">{{item.replyList[0] ? item.replyList[0].updateTime : ''}}</div>
               </div>
             </div>
           </mu-expansion-panel>
@@ -83,72 +83,57 @@ export default {
           placeholder:'请选择创建时间',
           val:''
         }
-      },
-      refreshing:false,
-      loading:false,
-      loadingState: 'default'
+      }
     }
   },
   created(){
     this.getDailyList(this.getParams());
-    this.api.getContacts({type:1,teamType:1}).then(res=>{
-      if(res.msg !== 'success') this.$toast.warning('联系人列表获取失败!');
-      for(let item in res.data){
-        for(let item2 of res.data[item]){
-          this.drawerList.createUserId.searchList.push({name:item2.contactsName,val:item2.contactsId})
-        }
+    this.api.getInsideCompanyContacts().then(res => {
+      for(let item of res.data){
+        this.drawerList.createUserId.searchList.push({name:item.realname,val:item.id})
       }
     })
   },
   methods:{
-    // 下拉刷新
-    refresh(){
-      this.paging.pageIndex = 1;
-      this.refreshing = true;
-      this.loadingState = 'refresh';
-      this.getDailyList(this.getParams());
-    },
-    // 上拉加载
-    load(){
-      this.paging.pageIndex = ++this.paging.pageIndex;
-      this.loading = true;
-      this.loadingState = 'load';
-      this.getDailyList(this.getParams());
-    },
-    changeTabs(item){
-      window.scrollTo(0,0);
-      this.paging.pageIndex = 1;
-      this.dailyList = [];
-
-      this.storage.sessionSet('tabsActive',item);
-      this.getDailyList(this.getParams());
-    },
-    getApiParams(data){
-      let params = this.getParams();
-      this.getDailyList({...params,...data});
-    },
-
     // 获取日报列表
     getDailyList(params){
       this.api.getDailyList(params).then(res=>{
         if(res.msg !== 'success') this.$toast.warning('日报列表获取失败!');
-        if(this.loadingState === 'default' || this.loadingState === 'refresh'){
-          this.dailyList = res.data.list; this.refreshing = false;
+        if(this.loadUpdate.loadingState === 'default' || this.loadUpdate.loadingState === 'refresh'){
+          this.dailyList = res.data.list; this.loadUpdate.refreshing = false;
         }else{
-          this.dailyList.push(...res.data.list); this.loading = false;
+          this.dailyList.push(...res.data.list); this.loadUpdate.loading = false;
         }
+        this.loadUpdate.loadedAll = res.data.list.length === 0 ? true : false;
       })
     },
     getParams(){
-      let paging = this.paging;
       if(this.tabsActive === 0){
-        return {type:0,...paging}
+        return {type:0,...this.paging}
       }else if(this.tabsActive === 1){
-        return {type:1,...paging}
+        return {type:1,...this.paging}
       }else if(this.tabsActive === 2){
-        return {type:2,...paging}
+        return {type:2,...this.paging}
       }
     },
+    // 下拉刷新
+    refresh(){
+      this.refreshHandle();
+      this.getDailyList(this.getParams());
+    },
+    // 上拉加载
+    load(){
+      this.loadHandle();
+      this.getDailyList(this.getParams());
+    },
+    getScreenParams(data){
+      this.getApiParamsHandle();
+      this.getDailyList({...this.getParams(),...data});
+    },
+    changeTabs(item){
+      this.changeTabsHandle(item);
+      this.getDailyList(this.getParams());
+    }
   }
 }
 </script>
@@ -156,7 +141,7 @@ export default {
 <style lang="less" scoped >
   .daily{
     .content{
-      padding-top: 94px;
+      padding: 94px 0 20px;
       /deep/ .mu-expansion-panel{
         margin-top: 12px;
         .mu-expansion-panel-header{

@@ -34,8 +34,16 @@ export default {
 
       // paging 分页
       paging:{
-        pageSize: 5,
+        pageSize: 7,
         pageIndex: 1
+      },
+      
+      // 上拉加载 or 下拉刷新
+      loadUpdate:{
+        refreshing:false,
+        loading:false,
+        loadingState:'default',
+        loadedAll:false,
       },
 
       // 验证
@@ -65,6 +73,34 @@ export default {
     };
   },
   methods: {
+    // 下拉刷新 handle
+    refreshHandle(){
+      this.paging.pageIndex = 1;
+      this.loadUpdate.refreshing = true;
+      this.loadUpdate.loadingState = 'refresh';
+    },
+    // 上拉加载 handle
+    loadHandle(){
+      this.paging.pageIndex = ++this.paging.pageIndex;
+      this.loadUpdate.loading = true;
+      this.loadUpdate.loadingState = 'load';
+    },
+    // 获取筛选 handle
+    getApiParamsHandle(){
+      window.scrollTo(0,0);
+      this.loadUpdate.loadedAll = false;
+      this.paging.pageIndex = 1;
+      this.loadUpdate.loadingState = 'default';
+    },
+    // tabs切换 handle
+    changeTabsHandle(item){
+      window.scrollTo(0,0);
+      this.paging.pageIndex = 1;
+      this.list = [];
+      this.storage.sessionSet('tabsActive',item);
+      this.$refs.screen.resetDrawerList();
+    },
+
     // 返回第几页
     goBack(index = -1) {
       this.$router.go(index);

@@ -11,6 +11,10 @@
               </mu-avatar>
             </mu-list-item-action>
             <mu-list-item-title>{{item.title}}</mu-list-item-title>
+            <mu-list-item-action>
+              <mu-badge :content="item.newNumber.toString()" color="primary"></mu-badge>
+            </mu-list-item-action>
+            
           </mu-list-item>
           <mu-divider shallow-inset v-show="index + 1 !== list.length"></mu-divider>
         </div>
@@ -29,24 +33,35 @@ export default {
     return{
       list:[{
         src:'../../../static/images/configOrganization.png',
-        title:'分配给我的线索'
+        title:'分配给我的线索',
+        newNumber:0
       },{
         src:'../../../static/images/configCustomer.png',
-        title:'分配给我的客户'
+        title:'分配给我的客户',
+        newNumber:0
       },{
         src:'../../../static/images/implement.png',
-        title:'待执行的任务'
+        title:'待执行的任务',
+        newNumber:0
       },{
         src:'../../../static/images/stayDaily.png',
-        title:'待查看的日报'
+        title:'待查看的日报',
+        newNumber:0
       },{
         src:'../../../static/images/stayVisit.png',
-        title:'待查看的拜访'
+        title:'待查看的拜访',
+        newNumber:0
       }]
     }
   },
   created(){
-
+    this.api.getToDuTotal().then(res => {
+      this.list[0].newNumber = res.data.agendaLeads;
+      this.list[1].newNumber = res.data.agendaCustomer;
+      this.list[2].newNumber = res.data.waitExeTaskNum;
+      this.list[3].newNumber = res.data.waitReadLogNum;
+      this.list[4].newNumber = res.data.waitReadVisitNum;
+    })
   },
   methods:{
 

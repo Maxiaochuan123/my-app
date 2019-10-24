@@ -87,6 +87,9 @@ export default {
         height: 20px;
       }
     }
+    /deep/ .mu-avatar{
+      background-color: transparent;
+    }
   }
 }
 </style>

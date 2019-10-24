@@ -223,7 +223,7 @@
           </mu-list-item>
         </mu-list>
       </div>
-      <FootNav :list="bottomList" @footNavChange="dial(info.mobile)"></FootNav>
+      <FootNav :list="bottomList" @footNavChange="dial(info.mobile)" v-if="footNavState"></FootNav>
     </div>
   </div>
 </template>
@@ -232,6 +232,7 @@
 import AppBar from "../../components/AppBar";
 import Record from "../../components/Record";
 import FootNav from "../../components/FootNav";
+import Api from "@api";
 export default {
   components: {
     AppBar,
@@ -261,9 +262,8 @@ export default {
         title:'删除',
       }],
 
-      bottomList: [
-        
-      ]
+      bottomList: [],
+      footNavState:true
     };
   },
   created() {
@@ -285,6 +285,12 @@ export default {
           isLink: false,
           type: "call"
         })
+
+        // 公海跳转
+        if(this.$route.params.type === 'commonWatersClue'){
+          this.footNavState = false;
+          this.menuList = [{title:'分配'},{title:'领取'}];
+        }
       }else{
         this.bottomList = [{
           img: '../../../static/images/buttom-call.png',
@@ -380,6 +386,23 @@ export default {
                   this.$router.go(-1)
                 }else{
                   this.$toast.error('删除失败!');
+                }
+              })
+            }
+          })
+          break;
+        case '分配':
+          this.goPage('selectDistributeUsers',{type:'commonWatersCustomer',id:this.$route.params.id})
+          break;
+        case '领取':
+          this.$confirm('是否领取此线索 ?', '提示').then(res=>{
+            if(res.result){
+              Api.queryReceivePublicPoolById({ids:this.$route.params.id, labelType:'1'}).then(res=>{
+                if(res.msg === 'success'){
+                  this.$toast.success('领取成功!')
+                  this.$router.go(-1)
+                }else{
+                  this.$toast.error('领取失败!');
                 }
               })
             }

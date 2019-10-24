@@ -1,6 +1,6 @@
 <template>
   <div class="dailyDetails">
-    <AppBar pageTitle="日报详情" rightIcon="icon-gongduo1" isMenu :menuList="menuList" @menuChange="menuChange"></AppBar>
+    <AppBar pageTitle="日报详情" rightIcon="icon-gengduo1" isMenu :menuList="menuList" @menuChange="menuChange"></AppBar>
     <div class="content">
       <div class="details">
         <div class="info">
@@ -32,23 +32,7 @@
               <p class="title">工作所需支持：</p>
               <p class="result">{{info.support}}</p>
             </div>
-            <!-- <div>
-              <p class="title">附件</p>
-              <div class="imgList">
-                <PreviewImageBase :imagesList="imagesList"></PreviewImageBase>
-              </div>
-              <mu-divider shallow-inset></mu-divider>
-            </div>
-            <div>
-              <div class="enclosure">
-                <img src="./蓝猫.jpg">
-                <div>
-                  <span class="title">IMG_231.JPG</span>
-                  <span class="size">240KB</span>
-                </div>
-              </div>
-              <mu-divider shallow-inset></mu-divider>
-            </div> -->
+            <!-- 图片 / 附件 -->
             <UploadList
               :batchId="info.batchId"
               :customEnclosureList="customEnclosureList"
@@ -57,9 +41,9 @@
               :ishasAfferent="false"
               :isUploadFile="false"
               :isUploadImg="false"
-              class="upload-file"
-            ></UploadList>
-            <div>
+              class="upload-file">
+            </UploadList>
+            <div class="relationBox">
               <div class="relation">
                 <p class="title">关联业务：</p>
                 <div class="clue">
@@ -71,10 +55,19 @@
                 </div>
               </div>
             </div>
+            <div class="receiver">
+              <p class="title">接收人：</p>
+              <div class="imgListBox">
+                <div class="imgItem" v-for="(item, index) in info.sendUserList" :key="index">
+                  <img :src="item.img ? item.img : '../../../static/images/default-header.png'">
+                  <span class="name">{{item.realname}}</span>
+                </div>
+              </div>
+            </div>
           </div>
         </div>
       </div>
-
+      <!-- 评论 -->
       <Comment :realname="info.realname"></Comment>
 
     </div>
@@ -93,18 +86,11 @@ export default {
   data(){
     return{
       info:{},
-      menuList: [
-        {
-          title: "编辑",
-          linkName: "editBasicsInfo",
-          isLink: false
-        },
-        {
-          title: "删除",
-          linkName: "",
-          isLink: true
-        }
-      ],
+      menuList: [{
+        title: "编辑"
+      },{
+        title: "删除"
+      }],
       customImgList:[],
       customEnclosureList:[]
     }
@@ -128,48 +114,39 @@ export default {
       let {title} = {...data}
       switch (title) {
         case '编辑':
-          // let type = this.getType(this.info.leadsType)
-          // this.goPage('editBasicsInfo',{state:'edit',type:type,id:this.$route.params.id})
+          this.goPage('addDaily',{state:'edit',id:this.$route.params.id})
           break;
         case '删除':
-          this.$confirm('是否删除此线索 ?', '提示').then(res=>{
+          this.$confirm('是否删除此日报 ?', '提示').then(res=>{
             if(res.result){
-              // this.api.clueDelete({leadsIds:this.$route.params.id}).then(res=>{
-              //   if(res.msg === 'success'){
-              //     this.$toast.success('已删除!')
-              //     this.getClueList();
-              //   }else{
-              //     this.$toast.error('删除失败!');
-              //   }
-              // })
+              this.api.deleteDaily({logIds:this.$route.params.id}).then(res=>{
+                if(res.msg === 'success'){
+                  this.$toast.success('已删除!')
+                  this.$router.go(-1)
+                }else{
+                  this.$toast.error('删除失败!');
+                }
+              })
             }
           })
           break;
       }
-    },
-    comment(data){
-      console.log(data)
     }
   },
   computed: {
     contactsList(){
-      // if(this.info.hasOwnProperty('contactsList')) return this.info.contactsList;
       return this.info.hasOwnProperty('contactsList') ? this.info.contactsList : []
     },
     customerList(){
-      // if(this.info.hasOwnProperty('customerList')) return this.info.customerList;
       return this.info.hasOwnProperty('customerList') ? this.info.customerList : []
     },
     clueList(){
-      // if(this.info.hasOwnProperty('clueList')) return this.info.clueList;
       return this.info.hasOwnProperty('clueList') ? this.info.clueList : []
     },
     taskList(){
-      // if(this.info.hasOwnProperty('taskList')) return this.info.taskList;
       return this.info.hasOwnProperty('taskList') ? this.info.taskList : []
     },
     visitList(){
-      // if(this.info.hasOwnProperty('visitList')) return this.info.visitList;
       return this.info.hasOwnProperty('visitList') ? this.info.visitList : []
     },
   }
@@ -179,7 +156,7 @@ export default {
 <style lang="less" scoped>
   .dailyDetails{
     .content{
-      padding-top: 44px;
+      padding: 44px 0 70px;
       .details{
         background-color: #fff;
         margin-top: 12px;
@@ -273,6 +250,29 @@ export default {
                   color: @primary-text;
                   font-size: @regular-size;
                   background-color: #EDEDED;
+                }
+              }
+            }
+          }
+          .receiver{
+            .imgListBox{
+              display: flex;
+              flex-wrap: wrap;
+              .imgItem{
+                width: 48px;
+                margin: 16px 8px 0 0;
+                display: flex;
+                flex-direction: column;
+                justify-content: center;
+                align-items: center;
+                img{
+                  width: 48px;
+                  height: 48px;
+                }
+                span{
+                  margin-top: 4px;
+                  color: @primary-text;
+                  font-size: @regular-size;
                 }
               }
             }

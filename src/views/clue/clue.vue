@@ -9,7 +9,7 @@
   <div class="clue">
     <AppBar pageTitle="线索" isDrawer drawerIcon="icon-guolv" rightIcon="icon-tianjia" isMenu :menuList="menuList">
       <!-- 抽屉 -->
-      <Screen slot="drawerContent" :drawerList="drawerList" @getApiParams="getApiParams"></Screen>
+      <Screen ref="screen" slot="drawerContent" :drawerList="drawerList" @getScreenParams="getScreenParams"></Screen>
     </AppBar>
     <div class="content">
       <mu-tabs :value.sync="tabsActive" @change="changeTabs" inverse color="primary" indicator-color="primary" center>
@@ -17,31 +17,36 @@
         <mu-tab>团队线索</mu-tab>
       </mu-tabs>
       <div class="clueList">
-        <mu-list textline="two-line">
-          <div v-for="(item,index) in clueList" :key="index">
-            <mu-list-item v-waves>
-              <mu-list-item-content @click="goPage('clueDetails',{id:item.leadsId,type:'线索'})">
-                <mu-list-item-title>{{item.ownerUserName}}
-                  <span :class="item.followup === '未跟进' ? 'nofollowUp' : ''">{{item.followup}}</span>
-                </mu-list-item-title>
-                <mu-list-item-sub-title>创建人: {{item.createUserName}}</mu-list-item-sub-title>
-                <mu-list-item-sub-title>{{item.createTime}}更新
-                </mu-list-item-sub-title>
-              </mu-list-item-content>
-              <mu-menu placement="left-start" :open.sync="item.openMenu">
-                <mu-button icon>
-                  <mu-icon value=":iconfont icon-gengduovertical"></mu-icon>
-                </mu-button>
-                <mu-list slot="content">
-                  <mu-list-item button v-for="(menuItem,index) in myClueMenuList" :key="index" @click="operation(item, menuItem)">
-                    <mu-list-item-title>{{menuItem.title}}</mu-list-item-title>
-                  </mu-list-item>
-                </mu-list>
-              </mu-menu>
-            </mu-list-item>
-            <mu-divider shallow-inset v-show="index + 1 !== clueList.length"></mu-divider>
-          </div>
-        </mu-list>
+        <mu-load-more :refreshing="loadUpdate.refreshing" @refresh="refresh" :loading="loadUpdate.loading" @load="load" :loaded-all="loadUpdate.loadedAll">
+
+          <mu-list textline="two-line">
+            <div v-for="(item,index) in list" :key="index">
+              <mu-list-item v-waves>
+                <mu-list-item-content @click="goPage('clueDetails',{id:item.leadsId,type:'线索'})">
+                  <mu-list-item-title>{{item.ownerUserName}}
+                    <span :class="item.followup === '未跟进' ? 'nofollowUp' : ''">{{item.followup}}</span>
+                  </mu-list-item-title>
+                  <mu-list-item-sub-title>级别: {{item.leadsLevel}}</mu-list-item-sub-title>
+                  <mu-list-item-sub-title>创建人: {{item.createUserName}}</mu-list-item-sub-title>
+                  <mu-list-item-sub-title>{{item.createTime}}更新
+                  </mu-list-item-sub-title>
+                </mu-list-item-content>
+                <mu-menu placement="left-start" :open.sync="item.openMenu">
+                  <mu-button icon>
+                    <mu-icon value=":iconfont icon-gengduovertical"></mu-icon>
+                  </mu-button>
+                  <mu-list slot="content">
+                    <mu-list-item button v-for="(menuItem,index) in myClueMenuList" :key="index" @click="operation(item, menuItem)">
+                      <mu-list-item-title>{{menuItem.title}}</mu-list-item-title>
+                    </mu-list-item>
+                  </mu-list>
+                </mu-menu>
+              </mu-list-item>
+              <mu-divider shallow-inset v-show="index + 1 !== list.length"></mu-divider>
+            </div>
+          </mu-list>
+        </mu-load-more>
+
       </div>
     </div>
   </div>
@@ -56,7 +61,7 @@ export default {
   },
   data(){
     return{
-      clueList:[], //线索列表
+      list:[], //线索列表
       menuList:[{
         title: "新建买车线索",
         linkName: "editBasicsInfo",
@@ -102,40 +107,42 @@ export default {
       }],
 
       drawerList:{
-        value2:{
+        search:{
           fileTitle:'搜索',
-          type:'searchInput',
-          placeholder:'搜索线索',
+          type:'input',
+          placeholder:'线索名称,手机号,电话',
           valueField:'val',
           labelField:'name',
-          val:'',
-          searchList:[{name:'张三',val:'zs'},{name:'李四',val:'ls'},{name:'王五',val:'ww'},{name:'牛牛',val:'nn'}]
-        },
-        value7:{
-          fileTitle:'创建时间',
-          type:'date',
-          placeholder:'请选择创建时间',
           val:''
         },
-        clueList:{
-          defaultValue:['买车','车险'],
-          fileTitle:'线索类型',
+        leadsSource:{
+          defaultValue:['到店'],
+          fileTitle:'线索状态',
           mode:'single',
           valueField:'title',
           labelField:'title',
           list:[{
-            title:'买车',
+            title:'到店',
             state:false
           },{
-            title:'车贷',
+            title:'陌拜',
             state:false
           },{
-            title:'车险',
+            title:'转介绍',
+            state:false
+          },{
+            title:'线上询价',
+            state:false
+          },{
+            title:'公司资源',
+            state:false
+          },{
+            title:'个人资源',
             state:false
           }]
         },
-        clueStateList:{
-          defaultValue:['未跟进','已跟进'],
+        followup:{
+          defaultValue:['未跟进'],
           fileTitle:'线索状态',
           mode:'single',
           valueField:'title',
@@ -146,49 +153,53 @@ export default {
           },{
             title:'已跟进',
             state:false
-          },{
-            title:'已关闭',
-            state:false
-          },{
-            title:'已转换为联系人',
-            state:false
-          },{
-            title:'已转换为客户',
-            state:false
-          },{
-            title:'已放入公海',
-            state:false
           }]
         }
-      },
+      }
     }
   },
   created(){
     this.getClueList(this.getParams());
   },
   methods:{
-    getApiParams(data){
-      let params = this.getParams();
-      this.getClueList({...params,...data});
-    },
-    changeTabs(item){
-      this.storage.sessionSet('tabsActive',item);
-      this.getClueList(this.getParams());
-    },
     // 获取线索列表
     getClueList(params){
+      console.log(params)
       this.api.getClueList(params).then(res=>{
         if(res.msg !== 'success') this.$toast.warning('线索列表获取失败!');
-        this.clueList = res.data.list
-        this.clueList[0].openMenu = false
+        if(this.loadUpdate.loadingState === 'default' || this.loadUpdate.loadingState === 'refresh'){
+          this.list = res.data.list; this.loadUpdate.refreshing = false;
+        }else{
+          this.list.push(...res.data.list); this.loadUpdate.loading = false;
+        }
+        // this.list[0].openMenu = false
+        this.loadUpdate.loadedAll = res.data.list.length === 0 ? true : false;
       })
     },
     getParams(){
+      let params = {type:1,teamType:0,leadsSource:'到店',followup:'未跟进',...this.paging}
       if(this.tabsActive === 0){
-        return {type:1,teamType:1}
-      }else{
-        return {type:1,teamType:0}
+        params.teamType = 1;
       }
+      return params
+    },
+    // 下拉刷新
+    refresh(){
+      this.refreshHandle();
+      this.getClueList(this.getParams());
+    },
+    // 上拉加载
+    load(){
+      this.loadHandle();
+      this.getClueList(this.getParams());
+    },
+    getScreenParams(data){
+      this.getApiParamsHandle();
+      this.getClueList({...this.getParams(),...data});
+    },
+    changeTabs(item){
+      this.changeTabsHandle(item);
+      this.getClueList(this.getParams());
     },
     operation(item,menuItem){
       switch (menuItem.title) {
@@ -302,14 +313,9 @@ export default {
 <style scoped lang="less">
   .clue{
     .content{
-      padding-top: 98px;
-      position: fixed;
-      width: 100%;
-      height: 100%;
-      overflow-y: scroll;
+      padding: 94px 0 20px;
 
       .clueList{
-        background-color: #fff;
         margin-top: 12px;
       }
 
@@ -323,6 +329,7 @@ export default {
       .mu-list /deep/ .mu-item{
         position: relative;
         height: 106px;
+        background-color: #fff;
         .mu-item-title{
           span{
             float: right;

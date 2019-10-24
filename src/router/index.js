@@ -140,7 +140,7 @@ const router = new Router({
           component: () => import("../views/daily/daily.vue")
         },
         {
-          path: "/addDaily/:id?",
+          path: "/addDaily/:id?/:state?",
           name: "addDaily",
           meta: { zIndex: 1 },
           component: () => import("../views/daily/addDaily.vue")

@@ -8,12 +8,7 @@
 
 <template>
   <div class="add-or-edit-visit">
-    <AppBar
-      :customFnc="save"
-      :pageTitle="pageTitle"
-      custom
-      customTitle="保存"
-    ></AppBar>
+    <AppBar :customFnc="save" :pageTitle="pageTitle" custom customTitle="保存"></AppBar>
     <div class="content">
       <mu-form
         :model="form"
@@ -22,15 +17,8 @@
         label-width="100"
         ref="form"
       >
-        <mu-paper
-          :z-depth="0"
-          class="block"
-        >
-          <mu-form-item
-            :rules="must('拜访时间','select')"
-            label="拜访时间"
-            prop="visitTime"
-          >
+        <mu-paper :z-depth="0" class="block">
+          <mu-form-item :rules="must('拜访时间','select')" label="拜访时间" prop="visitTime">
             <!-- 日期时间类型 -->
             <mu-date-input
               :prop="form.visitTime"
@@ -41,11 +29,7 @@
               value-format="YYYY-MM-DD hh:mm:ss"
             ></mu-date-input>
           </mu-form-item>
-          <mu-form-item
-            :rules="must('拜访客户','select')"
-            label="拜访客户"
-            prop="visitCustomerName"
-          >
+          <mu-form-item :rules="must('拜访客户','select')" label="拜访客户" prop="visitCustomerName">
             <PopSingleOrMultiple
               :defaultValue="form.visitCustomerName"
               :selected="form.visitCustomer"
@@ -58,20 +42,11 @@
               splitField="visitCustomer"
               textField="customerName"
             >
-              <mu-icon
-                color="#FF0000"
-                size="24"
-                slot="rightIcon"
-                value=":iconfont icon-kehufenxi"
-              ></mu-icon>
+              <mu-icon color="#FF0000" size="24" slot="rightIcon" value=":iconfont icon-kehufenxi"></mu-icon>
             </PopSingleOrMultiple>
           </mu-form-item>
           <mu-divider></mu-divider>
-          <mu-form-item
-            :rules="must('拜访联系人','select')"
-            label="拜访联系人"
-            prop="visitContactName"
-          >
+          <mu-form-item :rules="must('拜访联系人','select')" label="拜访联系人" prop="visitContactName">
             <PopSingleOrMultiple
               :defaultValue="form.visitContactName"
               :selected="form.visitContact"
@@ -87,12 +62,7 @@
                 teamType:1
               }"
             >
-              <mu-icon
-                color="#FF0000"
-                size="24"
-                slot="rightIcon"
-                value=":iconfont icon-lianxiren"
-              ></mu-icon>
+              <mu-icon color="#FF0000" size="24" slot="rightIcon" value=":iconfont icon-lianxiren"></mu-icon>
             </PopSingleOrMultiple>
           </mu-form-item>
           <mu-divider></mu-divider>
@@ -124,10 +94,7 @@
           ></UploadList>
           <mu-divider></mu-divider>
           <!-- 地图类型 -->
-          <mu-form-item
-            label="地址"
-            prop="address"
-          >
+          <mu-form-item label="地址" prop="address">
             <SelectAddress
               :defaultValue="form.address"
               @addressChange="addressChange"
@@ -135,36 +102,25 @@
             ></SelectAddress>
           </mu-form-item>
         </mu-paper>
-        <mu-paper
-          :z-depth="0"
-          class="block"
-        >
-          <mu-form-item
-            label="接收人"
-            prop="sendUserName"
-          >
+        <mu-paper :z-depth="0" class="block">
+          <mu-form-item label="接收人" prop="sendUserName">
             <PopSingleOrMultiple
               :defaultValue="form.sendUserName"
               :isShowText="false"
               :selected="form.sendUser"
               @PopSingleOrMultipleChange="PopSingleOrMultipleChange"
-              apiName="queryContactsPC"
+              apiName="getInsideCompanyContacts"
               fieldName="sendUserName"
-              idField="contactsId"
+              idField="id"
               mode="multiple"
               name="接收人"
               splitField="sendUser"
-              textField="contactsName"
+              textField="realname"
               :extraParams="{
                 teamType:1
               }"
             >
-              <mu-icon
-                color="#FF0000"
-                size="24"
-                slot="rightIcon"
-                value=":iconfont icon-tianjia"
-              ></mu-icon>
+              <mu-icon color="#FF0000" size="24" slot="rightIcon" value=":iconfont icon-tianjia"></mu-icon>
             </PopSingleOrMultiple>
           </mu-form-item>
           <MultipleShowList
@@ -226,8 +182,8 @@ export default {
   watch: {
     "form.sendUser"(val) {
       this.multipleShowList = val.map(item => ({
-        text: item.contactsName,
-        value: item.contactsId,
+        text: item.realname,
+        value: item.id,
         img: item.img
       }));
     }
@@ -265,7 +221,10 @@ export default {
       ];
       // 接收人的处理
 
-      form.sendUser = details.sendUserList;
+      form.sendUser = details.sendUserList.map(item => ({
+        id: item.userId,
+        ...item
+      }));
       form.sendUserId = details.sendUserIds;
 
       // 附件的处理
@@ -315,10 +274,10 @@ export default {
     },
     multipleShowListChange({ row, type }) {
       this.form[type] = this.form[type].filter(
-        item => item.userId * 1 !== row.value * 1
+        item => item.id * 1 !== row.value * 1
       );
-      this.form[`${type}Ids`] = this.form[type]
-        .map(item => item.userId)
+      this.form[`${type}Id`] = this.form[type]
+        .map(item => item.id)
         .join(",");
     },
     handlerParams() {

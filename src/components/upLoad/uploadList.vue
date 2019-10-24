@@ -1,7 +1,7 @@
 <template>
   <div class="upLoad">
     <div class="enclosure" v-if="isShowAll">
-      <div class="title">附件</div>
+      <div :class="[isEdit ? 'title' : 'title2']">{{isEdit ? '附件' : '附件：'}}</div>
       <div class="content">
         <UpLoadImages
           :customImgList="customImgList"
@@ -139,7 +139,7 @@
         </div>
       </div>
     </div>
-    <!-- <mu-divider class="bottomDivider"></mu-divider> -->
+    <mu-divider shallow-inset v-show="!isEdit"></mu-divider>
   </div>
 </template>
 
@@ -310,8 +310,9 @@ export default {
   background-color: #fff;
   // padding: 0 16px;
   padding: 0 16px 0 0;
-  .bottomDivider {
-    width: 104%;
+
+  .mu-divider.shallow-inset{
+    margin-left: 0;
   }
 
   @keyframes animation-in {
@@ -338,6 +339,11 @@ export default {
       color: @primary-text;
       font-size: @primary-size;
       font-weight: @regular-weight;
+    }
+    // 查看详情时 title
+    .title2{
+      color: @regular-text;
+      font-size: @regular-size;
     }
     .content {
       width: 58px;

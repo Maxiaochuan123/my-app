@@ -178,7 +178,10 @@ export default {
       }
     }
     .textareaBox{
-      margin-top: 18px;
+      box-shadow: 0px 16px 23px 0px #9f9f9f;
+      position: fixed;
+      bottom: 0;
+      width: 100%;
       padding: 12px 0 12px 15px;
       background-color: #fff;
       display: flex;

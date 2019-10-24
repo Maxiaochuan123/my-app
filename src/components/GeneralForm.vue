@@ -177,7 +177,7 @@ export default {
       // 输入框
       inputArr: [0, 1, 5, 6, 7, 14, 17],
       // 单选,
-      singleArr: [3],
+      singleArr: [3,15],
       // 地图,
       mapArr: [18],
       // 文本域,

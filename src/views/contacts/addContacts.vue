@@ -97,13 +97,13 @@ export default {
             let arr = [
               {
                 fieldName: "enterprise",
-                formType: "select",
+                formType: "customer",
                 isNull: 0,
-                name: "关联客户",
+                name: "客户姓名",
                 options: this.handleCustomerData(res2.data)
                   .map(item => `${item.customerId}^_^${item.customerName}`)
                   .join(","),
-                type: 3,
+                type: 15,
                 value: '',
                 relation: "customerId,customerName"
               }

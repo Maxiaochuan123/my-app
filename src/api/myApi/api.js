@@ -1,5 +1,9 @@
 import post, { get } from "../api";
 export default {
+  // ************************* 首页-数据分析 *************************
+  // 获取数据分析
+  getDataAnalysis: params => post({ params, url: 'crmDataStatistics/queryData' }),
+
   // ************************* 联系人 *************************
   // 获取个人联系人列表
   getContacts: params => post({ params, url: '/crmContacts/queryContactsListHtml' }),
@@ -20,6 +24,8 @@ export default {
   getContactsFollowUp: params => post({ params, url: '/crmContacts/getFollowUpRecord' }),
   // 联系人 分享
   contactsShare: params => post({ params, url: '/crmContacts/addContactsToMembers' }),
+  //查询 公司内部个人联系人
+  getInsideCompanyContacts: params => get({ params, url: '/sysUser/queryUserNameByDeptId' }),
 
   // ************************* 线索 *************************
   // 线索 字段查询
@@ -51,6 +57,10 @@ export default {
   // ************************* 日报 *************************
   // 新增 日报
   addDaily: params => post({ params, url: '/workReport/addOrUpdate' }),
+  // 删除 日报
+  deleteDaily: params => post({ params, url: '/workReport/deleteByIds' }),
+  //id 查询 日报参数
+  getDailyParams: params => get({ params, url: '/workReport/queryReportById' }),
   //日报 列表
   getDailyList: params => get({ params, url: '/workReport/queryPageList' }),
   //日报 详情
@@ -66,9 +76,9 @@ export default {
   // 待办 统计
   getToDuTotal: params => post({ params, url: '/crmAgenda/waitDoneNum' }),
   // 分配给我的 线索
-  getAssignToMeClue: params => post({ params, url: '/crmAgenda/agendaHtmlLeads' }),
+  getAssignToMeClue: params => post({ params, url: '/crmAgenda/agendaLeads' }),
   // 分配给我的 客户
-  getAssignToMeCustomer: params => post({ params, url: '/crmAgenda/agendaHtmlCustomer' }),
+  getAssignToMeCustomer: params => post({ params, url: '/crmAgenda/agendaCustomer' }),
   // 待执行 任务
   getToBeExecutedTask: params => get({ params, url: '/crmAgenda/waitExecuteTask' }),
   // 待查看 日报

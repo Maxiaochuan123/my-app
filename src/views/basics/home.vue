@@ -8,9 +8,8 @@
 <template>
   <div class="home">
     <AppBar
-      :drawerIcon="drawerIcon"
-      :iconSize="iconSize"
       :isDrawer="isDrawer"
+      :iconSize="iconSize"
       :isMenu="isMenu"
       :leftIcon="leftIcon"
       :leftLinkName="leftLinkName"
@@ -135,18 +134,18 @@
         <div class="titleNav">
           <div class="baseInfo">
             <span class="title">业务概况</span>
-            <span class="month">[9月]</span>
+            <span class="month" @click="showPicker(0,0)">[{{businessOverview.select_1.text}}]<i class="iconfont icon-xiajiantou1"></i></span>
           </div>
           <div class="tabBar">
-            <span class="team active">团队</span>
+            <span :class="['team', businessOverview.teamType === '0' ? 'active' : '']" @click="getTeamType('0',0)">团队</span>
             <span>|</span>
-            <span class="personal">个人</span>
+            <span :class="['personal', businessOverview.teamType === '1' ? 'active' : '']" @click="getTeamType('1',0)">个人</span>
           </div>
         </div>
         <div
           :key="index"
           class="sliderBox"
-          v-for="(item,index) in sliderList"
+          v-for="(item,index) in businessOverview.sliderList"
         >
           <div class="indicator">
             <div :style="`margin-left: calc(${item.val}% - ${item.val > 94 ? '34' : '14'}px);`">
@@ -179,7 +178,7 @@
           <div
             :key="index"
             class="block"
-            v-for="(item,index) in blockNumberList"
+            v-for="(item,index) in businessOverview.blockNumberList"
           >
             <div>
               <img :src="item.src" />
@@ -199,20 +198,20 @@
         <div class="titleNav">
           <div class="baseInfo">
             <span class="title">排行榜</span>
-            <span class="month">[9月]</span>
-            <span class="money">[金额]</span>
+            <span class="month" @click="showPicker(0,1)">[{{rankingList.select_1.text}}] <i class="iconfont icon-xiajiantou1"></i></span>
+            <span class="money" @click="showPicker(1,1)">[{{rankingList.select_2.text}}] <i class="iconfont icon-xiajiantou1"></i></span>
           </div>
           <div class="tabBar">
-            <span class="team active">团队</span>
+            <span :class="['team', rankingList.teamType === '0' ? 'active' : '']" @click="getTeamType('0',1)">团队</span>
             <span>|</span>
-            <span class="personal">个人</span>
+            <span :class="['personal', rankingList.teamType === '1' ? 'active' : '']" @click="getTeamType('1',1)">个人</span>
           </div>
         </div>
         <div class="companyRanking">
           <div
             :key="index"
             class="block"
-            v-for="(item,index) in companyRankingLsit"
+            v-for="(item,index) in rankingList.companyRankingLsit"
           >
             <div class="title">
               <img :src="item.src" />
@@ -225,17 +224,28 @@
           </div>
         </div>
       </mu-paper>
+      <!-- 弹出选择器 -->
+      <Picker
+        :anchor="pickerAnchor"
+        :data="pickerList"
+        :textTitle="pickerTitle"
+        @confirm="handlePickerConfirm"
+        name="name"
+        picker-class="pickerClass"
+        ref="picker"
+      ></Picker>
     </div>
   </div>
 </template>
 
 <script>
 import AppBar from "../../components/AppBar";
+import Picker from "dm-vue-picker-h5";
 import Theme from "muse-ui/lib/theme";
 import myTheme from "../../../static/json/myTheme.json";
 export default {
   components: {
-    AppBar
+    AppBar,Picker
   },
   data() {
     return {
@@ -248,8 +258,8 @@ export default {
       rightIcon: "icon-tianjia",
       rightLinkName: "homeChild",
 
-      isDrawer: true,
-      drawerIcon: "icon-shouye2",
+      isDrawer: false,
+      // drawerIcon: "icon-shangyi",
 
       isMenu: true,
       menuList: [
@@ -271,59 +281,88 @@ export default {
           linkName: "link4"
         }
       ],
-      sliderList: [
-        {
-          title: "万",
-          val: 30
+      businessOverview:{
+        teamType:'1', // 0:团队 1:个人
+        select_1:{
+          text:'本月',
+          value:'',
+          pickerAnchor: [4] // 下拉选默认值
         },
-        {
-          title: "单",
-          val: 60
-        }
-      ],
+        blockNumberList: [
+          {
+            src: "../../../static/images/homeClue.png",
+            number: "0",
+            title: "新增线索"
+          },
+          {
+            src: "../../../static/images/homeUser.png",
+            number: "0",
+            title: "新增客户"
+          },
+          {
+            src: "../../../static/images/homeRecord.png",
+            number: "0",
+            title: "跟进记录"
+          },
+          {
+            src: "../../../static/images/homeContacts.png",
+            number: "0",
+            title: "新增联系人"
+          }
+        ],
+        sliderList: [
+          {
+            title: "万",
+            val: 30
+          },
+          {
+            title: "单",
+            val: 60
+          }
+        ],
+      },
+      rankingList:{
+        teamType:'1', // 0:团队 1:个人
+        select_1:{
+          text:'本月',
+          value:'',
+          pickerAnchor: [4] // 下拉选默认值
+        },
+        select_2:{
+          text:'金额',
+          value:'',
+          pickerAnchor: [2] // 下拉选默认值
+        },
+        companyRankingLsit: [
+          {
+            src: "../../../static/images/first.png",
+            name: "贵州分公司",
+            money: "486.7"
+          },
+          {
+            src: "../../../static/images/second.png",
+            name: "海南分公司",
+            money: "486.7"
+          },
+          {
+            src: "../../../static/images/third.png",
+            name: "四川分公司",
+            money: "486.7"
+          }
+        ],
+      },
+      dataAnalysis:{},
+      screenType: 0, // 0:业务概况 1:排行榜
+      selectType: 0, // 0:时间 1:其他
 
-      blockNumberList: [
-        {
-          src: "../../../static/images/homeClue.png",
-          number: "3",
-          title: "新增线索"
-        },
-        {
-          src: "../../../static/images/homeUser.png",
-          number: "3",
-          title: "新增客户"
-        },
-        {
-          src: "../../../static/images/homeRecord.png",
-          number: "3",
-          title: "跟进记录"
-        },
-        {
-          src: "../../../static/images/homeOrder.png",
-          number: "3",
-          title: "新增订单"
-        }
-      ],
-      companyRankingLsit: [
-        {
-          src: "../../../static/images/first.png",
-          name: "贵州分公司",
-          money: "486.7"
-        },
-        {
-          src: "../../../static/images/second.png",
-          name: "海南分公司",
-          money: "486.7"
-        },
-        {
-          src: "../../../static/images/third.png",
-          name: "四川分公司",
-          money: "486.7"
-        }
-      ]
+      pickerTitle: "", // 下拉选的title
+      pickerList: [], // 下拉选列表
+      pickerAnchor: [0] // 下拉选默认值
     };
   },
   created() {
+    this.getDataAnalysis(this.getParams());
+
     let activTheme = this.storage.localGet("theme");
     if (activTheme) {
       Theme.add("theme_one", activTheme, "light");
@@ -333,6 +372,106 @@ export default {
     }
   },
   methods: {
+    getDataAnalysis(){
+      this.api.getDataAnalysis(this.getParams()).then(res=>{
+        this.dataAnalysis = res.data;
+        this.businessOverview.blockNumberList[0].number = res.data.leadsCount || 0;
+        this.businessOverview.blockNumberList[1].number = res.data.customerCount || 0;
+        this.businessOverview.blockNumberList[2].number = res.data.recordCount || 0;
+        this.businessOverview.blockNumberList[3].number = res.data.contactsCount || 0;
+      })
+    },
+    getParams(){
+      let params = {teamType:'', type:''}
+      if(this.screenType === 0){
+        params.teamType = this.businessOverview.teamType;
+        params.type = this.businessOverview.select_1.value || 'month';
+      }else if(this.screenType === 1){
+        params.teamType = this.rankingList.teamType;
+        params.type = this.rankingList.select_1.value || 'month';
+      }
+      return params
+    },
+    getTeamType(teamType, screenType){
+      this.screenType = screenType;
+      if(this.screenType === 0){
+        this.businessOverview.teamType = teamType;
+      }else if(this.screenType === 1){
+        this.rankingList.teamType = teamType;
+      }
+      this.getDataAnalysis();
+    },
+    showPicker(selectType,screenType){
+      this.getPickerList(selectType);
+      this.$refs.picker.show();
+
+      if(screenType === 0){
+        this.pickerAnchor = this.businessOverview.select_1.pickerAnchor
+      }else if(screenType === 1){
+        if(selectType === 0){
+          this.pickerAnchor = this.rankingList.select_1.pickerAnchor
+        }else if(selectType === 1){
+          this.pickerAnchor = this.rankingList.select_2.pickerAnchor
+        }
+      }
+
+      this.selectType = selectType;
+      this.screenType = screenType;
+    },
+    handlePickerConfirm(value, column, text) {
+      if(this.screenType === 0){
+        this.businessOverview.select_1.value = value[0];
+        this.businessOverview.select_1.text = text[0];
+        this.businessOverview.select_1.pickerAnchor = column;
+      }else if(this.screenType === 1){
+        if(this.selectType === 0){
+          this.rankingList.select_1.value = value[0];
+          this.rankingList.select_1.text = text[0];
+          this.rankingList.select_1.pickerAnchor = column;
+        }else if(this.selectType === 1){
+          this.rankingList.select_2.value = value[0];
+          this.rankingList.select_2.text = text[0];
+          this.rankingList.select_2.pickerAnchor = column;
+        }
+      }
+      this.pickerAnchor = column;
+      this.getDataAnalysis();
+    },
+    getPickerList(selectType){
+      if(selectType === 0){
+        this.pickerList = [{
+          text:'今天',value:''
+        },{
+          text:'昨天',value:'yesterday'
+        },{
+          text:'本周',value:'week'
+        },{
+          text:'上周',value:'lastWeek'
+        },{
+          text:'本月',value:'month'
+        },{
+          text:'上月',value:'lastMonth'
+        },{
+          text:'本季度',value:'quarter'
+        },{
+          text:'上季度',value:'lastQuarter'
+        },{
+          text:'本年',value:'year'
+        },{
+          text:'上年',value:'lastYear'
+        }]
+        // this.pickerAnchor = [4];
+      }else if(selectType === 1){
+        this.pickerList = [{
+          text:'订单',value:'订单'
+        },{
+          text:'完成',value:'完成'
+        },{
+          text:'金额',value:'金额'
+        }]
+        // this.pickerAnchor = [2];
+      }
+    },
     changeTheme(themeName) {
       let theme = {};
 
@@ -526,12 +665,12 @@ export default {
         align-content: space-between;
         margin-top: 24px;
         .block {
-          width: 148px;
+          width: 48%;
           height: 66px;
           box-shadow: 0px 4px 12px 0px rgba(237, 237, 237, 1);
           border-radius: 6px;
           margin-bottom: 14px;
-          padding: 10px 24px;
+          padding: 10px 0 10px 7%;
           > div {
             display: flex;
             align-items: flex-end;
@@ -542,7 +681,7 @@ export default {
             .describe {
               display: flex;
               flex-direction: column;
-              margin-left: 12px;
+              margin-left: 9%;
               .number {
                 height: 26px;
                 line-height: 26px;

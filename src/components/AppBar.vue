@@ -157,6 +157,7 @@ export default {
     font-size: @primary-size;
   }
   .mu-drawer{
+    width: 70%;
     padding: 46px 25px;
   }
   .drawerTitle{
