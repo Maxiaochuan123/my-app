@@ -128,7 +128,6 @@
           </mu-carousel>
         </mu-paper>
 
-<<<<<<< HEAD
       <mu-paper
         :z-depth="0"
         class="businessSituation"
@@ -144,36 +143,10 @@
             <span :class="['personal', businessOverview.teamType === '1' ? 'active' : '']" @click="getTeamType('1',0)">个人</span>
           </div>
         </div>
-        <div
-          :key="index"
-          class="sliderBox"
-          v-for="(item,index) in businessOverview.sliderList"
-=======
-        <mu-paper
-          :z-depth="0"
-          class="businessSituation"
->>>>>>> 22047888c574a89ad6df7e255a1387d5bd0e0aa4
-        >
-          <div class="titleNav">
-            <div class="baseInfo">
-              <span class="title">业务概况</span>
-              <span class="month">[9月]</span>
-            </div>
-            <div class="tabBar">
-              <span class="team active">团队</span>
-              <span>|</span>
-              <span class="personal">个人</span>
-            </div>
-          </div>
           <div
             :key="index"
-<<<<<<< HEAD
-            class="block"
-            v-for="(item,index) in businessOverview.blockNumberList"
-=======
             class="sliderBox"
-            v-for="(item,index) in sliderList"
->>>>>>> 22047888c574a89ad6df7e255a1387d5bd0e0aa4
+            v-for="(item,index) in businessOverview.sliderList"
           >
             <div class="indicator">
               <div :style="`margin-left: calc(${item.val}% - ${item.val > 94 ? '34' : '14'}px);`">
@@ -200,10 +173,23 @@
                 目标
                 <span>100{{item.title}}</span>
               </div>
+              </div>
+            </div>
+            <div class="blockNumber">
+              <div
+                :key="index"
+                class="block"
+                v-for="(item,index) in businessOverview.blockNumberList"
+              >
+              <div>
+                <img :src="item.src" />
+                <div class="describe">
+                  <span class="number">{{item.number}}</span>
+                  <span class="title">{{item.title}}</span>
+                </div>
+              </div>
             </div>
           </div>
-<<<<<<< HEAD
-        </div>
       </mu-paper>
 
       <mu-paper
@@ -231,59 +217,14 @@
             <div class="title">
               <img :src="item.src" />
               <span>{{item.name}}</span>
-=======
-          <div class="blockNumber">
-            <div
-              :key="index"
-              class="block"
-              v-for="(item,index) in blockNumberList"
-            >
-              <div>
-                <img :src="item.src" />
-                <div class="describe">
-                  <span class="number">{{item.number}}</span>
-                  <span class="title">{{item.title}}</span>
-                </div>
-              </div>
             </div>
-          </div>
-        </mu-paper>
+            <div class="money">{{item.money}}万元</div>
+        </div>
 
-        <mu-paper
-          :z-depth="0"
-          class="rankingList"
-        >
-          <div class="titleNav">
-            <div class="baseInfo">
-              <span class="title">排行榜</span>
-              <span class="month">[9月]</span>
-              <span class="money">[金额]</span>
-            </div>
-            <div class="tabBar">
-              <span class="team active">团队</span>
-              <span>|</span>
-              <span class="personal">个人</span>
->>>>>>> 22047888c574a89ad6df7e255a1387d5bd0e0aa4
-            </div>
-          </div>
-          <div class="companyRanking">
-            <div
-              :key="index"
-              class="block"
-              v-for="(item,index) in companyRankingLsit"
-            >
-              <div class="title">
-                <img :src="item.src" />
-                <span>{{item.name}}</span>
-              </div>
-              <div class="money">{{item.money}}万元</div>
-            </div>
             <div class="completeList">
               <span class="btn">查看完整排行榜</span>
             </div>
           </div>
-<<<<<<< HEAD
-        </div>
       </mu-paper>
       <!-- 弹出选择器 -->
       <Picker
@@ -295,11 +236,8 @@
         picker-class="pickerClass"
         ref="picker"
       ></Picker>
-=======
-        </mu-paper>
-      </div>
->>>>>>> 22047888c574a89ad6df7e255a1387d5bd0e0aa4
     </div>
+  </div>
   </div>
 </template>
 
@@ -327,7 +265,6 @@ export default {
       // drawerIcon: "icon-shangyi",
 
       isMenu: true,
-<<<<<<< HEAD
       menuList: [
         {
           title: "写日报",
@@ -353,25 +290,6 @@ export default {
           text:'本月',
           value:'',
           pickerAnchor: [4] // 下拉选默认值
-=======
-      menuList: [],
-      sliderList: [
-        {
-          title: "万",
-          val: 30
-        },
-        {
-          title: "单",
-          val: 60
-        }
-      ],
-
-      blockNumberList: [
-        {
-          src: "../../../static/images/homeClue.png",
-          number: "3",
-          title: "新增线索"
->>>>>>> 22047888c574a89ad6df7e255a1387d5bd0e0aa4
         },
         blockNumberList: [
           {
@@ -446,12 +364,8 @@ export default {
     };
   },
   created() {
-<<<<<<< HEAD
     this.getDataAnalysis(this.getParams());
 
-=======
-    this.addMenuList();
->>>>>>> 22047888c574a89ad6df7e255a1387d5bd0e0aa4
     let activTheme = this.storage.localGet("theme");
     if (activTheme) {
       Theme.add("theme_one", activTheme, "light");
@@ -461,7 +375,6 @@ export default {
     }
   },
   methods: {
-<<<<<<< HEAD
     getDataAnalysis(){
       this.api.getDataAnalysis(this.getParams()).then(res=>{
         this.dataAnalysis = res.data;
@@ -561,43 +474,6 @@ export default {
         }]
         // this.pickerAnchor = [2];
       }
-=======
-    addMenuList() {
-      // 添加menu菜单
-      this.menuList = [
-        {
-          title: "写线索",
-          linkName: "homeChild",
-          isLink: true
-        },
-        {
-          title: "写日报",
-          linkName: "addDaily",
-          isLink: true
-        },
-        {
-          title: "写拜访",
-          linkName: "addOrEditVisit",
-          isLink: true
-        },
-        {
-          title: "新增客户",
-          linkName: "addOrEditCustomer",
-          isLink: true
-        },
-        {
-          title: "新增任务",
-          linkName: "addOrEditTask",
-          isLink: true
-        },
-        {
-          title: "新建联系人",
-          linkName: "contactsDetails",
-          linkParams: { type: "addPersonal" },
-          isLink: true
-        }
-      ];
->>>>>>> 22047888c574a89ad6df7e255a1387d5bd0e0aa4
     },
     changeTheme(themeName) {
       let theme = {};
@@ -801,12 +677,12 @@ export default {
           align-content: space-between;
           margin-top: 24px;
           .block {
-            width: 148px;
+            width: 48%;
             height: 66px;
             box-shadow: 0px 4px 12px 0px rgba(237, 237, 237, 1);
             border-radius: 6px;
             margin-bottom: 14px;
-            padding: 10px 24px;
+            padding: 10px 0 10px 7%;
             > div {
               display: flex;
               align-items: flex-end;
@@ -817,7 +693,7 @@ export default {
               .describe {
                 display: flex;
                 flex-direction: column;
-                margin-left: 12px;
+                margin-left: 9%;
                 .number {
                   height: 26px;
                   line-height: 26px;
@@ -837,29 +713,11 @@ export default {
           }
         }
       }
-<<<<<<< HEAD
-
-      .blockNumber {
-        display: flex;
-        flex-wrap: wrap;
-        justify-content: space-between;
-        align-content: space-between;
-        margin-top: 24px;
-        .block {
-          width: 48%;
-          height: 66px;
-          box-shadow: 0px 4px 12px 0px rgba(237, 237, 237, 1);
-          border-radius: 6px;
-          margin-bottom: 14px;
-          padding: 10px 0 10px 7%;
-          > div {
-=======
       .rankingList {
         padding-bottom: 17px;
         .companyRanking {
           .block {
             padding: 12px 0;
->>>>>>> 22047888c574a89ad6df7e255a1387d5bd0e0aa4
             display: flex;
             justify-content: space-between;
             align-items: center;
@@ -869,22 +727,10 @@ export default {
             border-bottom: 1px solid #f8f8f8;
             .title {
               display: flex;
-<<<<<<< HEAD
-              flex-direction: column;
-              margin-left: 9%;
-              .number {
-                height: 26px;
-                line-height: 26px;
-                font-size: 20px;
-                color: @primary-text;
-                text-align: center;
-                font-weight: 600;
-=======
               align-items: center;
               img {
                 width: 30px;
                 height: 32px;
->>>>>>> 22047888c574a89ad6df7e255a1387d5bd0e0aa4
               }
               span {
                 margin-left: 10px;

@@ -33,13 +33,8 @@ export default {
       tabsActive: storage.sessionGet("tabsActive"),
 
       // paging 分页
-<<<<<<< HEAD
       paging:{
         pageSize: 7,
-=======
-      paging: {
-        pageSize: 5,
->>>>>>> 22047888c574a89ad6df7e255a1387d5bd0e0aa4
         pageIndex: 1
       },
       
