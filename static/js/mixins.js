@@ -28,13 +28,18 @@ export default {
 
       // 侧边栏
       drawerState: false,
-      
+
       // tabs 当前选中项
-      tabsActive: storage.sessionGet('tabsActive'),
+      tabsActive: storage.sessionGet("tabsActive"),
 
       // paging 分页
+<<<<<<< HEAD
       paging:{
         pageSize: 7,
+=======
+      paging: {
+        pageSize: 5,
+>>>>>>> 22047888c574a89ad6df7e255a1387d5bd0e0aa4
         pageIndex: 1
       },
       
@@ -194,10 +199,10 @@ export default {
     },
 
     // 侧边栏
-    openDrawerState(){
+    openDrawerState() {
       this.drawerState = true;
     },
-    closeDrawerState(){
+    closeDrawerState() {
       this.$parent.$parent.drawerState = false;
     }
   },
@@ -210,6 +215,17 @@ export default {
     },
     formatCurrency_wan(money) {
       return tool.formatCurrency_wan(money);
+    },
+    emptyText(val, text) {
+      // 先判断是否为对象
+      if (!val) {
+        return text || "";
+      } else if (Array.isArray(val) && val.length === 0) {
+        return text || "";
+      } else if (JSON.parse(JSON.stringify(val)) === "{}") {
+        return text || "";
+      }
+      return val;
     },
     codeInToName(value, list) {
       // 对应的编码转化成name

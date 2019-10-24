@@ -3,13 +3,14 @@
  * @Author: shenah
  * @Date: 2019-10-17 16:54:08
  * @LastEditors: shenah
- * @LastEditTime: 2019-10-22 11:46:52
+ * @LastEditTime: 2019-10-22 17:22:23
  -->
 
 <template>
   <div class="add-or-edit-visit">
     <AppBar :customFnc="save" :pageTitle="pageTitle" custom customTitle="保存"></AppBar>
     <div class="content">
+<<<<<<< HEAD
       <mu-form
         :model="form"
         class="mu-demo-form"
@@ -59,9 +60,98 @@
               splitField="visitContact"
               textField="contactsName"
               :extraParams="{
+=======
+      <div class="content-wrap">
+        <mu-form
+          :model="form"
+          class="mu-demo-form"
+          label-position="left"
+          label-width="100"
+          ref="form"
+        >
+          <mu-paper
+            :z-depth="0"
+            class="block"
+          >
+            <mu-form-item
+              :rules="must('拜访时间','select')"
+              label="拜访时间"
+              prop="visitTime"
+            >
+              <!-- 日期时间类型 -->
+              <mu-date-input
+                :prop="form.visitTime"
+                container="bottomSheet"
+                placeholder="请选择拜访时间"
+                type="dateTime"
+                v-model="form.visitTime"
+                value-format="YYYY-MM-DD hh:mm:ss"
+              ></mu-date-input>
+            </mu-form-item>
+            <mu-form-item
+              :rules="must('拜访客户','select')"
+              label="拜访客户"
+              prop="visitCustomerName"
+            >
+              <PopSingleOrMultiple
+                :defaultValue="form.visitCustomerName"
+                :selected="form.visitCustomer"
+                @PopSingleOrMultipleChange="PopSingleOrMultipleChange"
+                apiName="queryCustomerListPC"
+                fieldName="visitCustomerName"
+                idField="customerId"
+                mode="single"
+                name="拜访客户"
+                splitField="visitCustomer"
+                textField="customerName"
+              >
+                <mu-icon
+                  color="#FF0000"
+                  size="24"
+                  slot="rightIcon"
+                  value=":iconfont icon-kehufenxi"
+                ></mu-icon>
+              </PopSingleOrMultiple>
+            </mu-form-item>
+            <mu-divider></mu-divider>
+            <mu-form-item
+              :rules="must('拜访联系人','select')"
+              label="拜访联系人"
+              prop="visitContactName"
+            >
+              <PopSingleOrMultiple
+                :defaultValue="form.visitContactName"
+                :extraParams="{
+>>>>>>> 22047888c574a89ad6df7e255a1387d5bd0e0aa4
                 teamType:1
               }"
+                :selected="form.visitContact"
+                @PopSingleOrMultipleChange="PopSingleOrMultipleChange"
+                apiName="queryContactsPC"
+                fieldName="visitContactName"
+                idField="contactsId"
+                mode="single"
+                name="拜访联系人"
+                splitField="visitContact"
+                textField="contactsName"
+              >
+                <mu-icon
+                  color="#FF0000"
+                  size="24"
+                  slot="rightIcon"
+                  value=":iconfont icon-lianxiren"
+                ></mu-icon>
+              </PopSingleOrMultiple>
+            </mu-form-item>
+            <mu-divider></mu-divider>
+            <mu-form-item
+              :rules="must('拜访内容')"
+              class="line-feed"
+              label="拜访内容"
+              label-position="top"
+              prop="content"
             >
+<<<<<<< HEAD
               <mu-icon color="#FF0000" size="24" slot="rightIcon" value=":iconfont icon-lianxiren"></mu-icon>
             </PopSingleOrMultiple>
           </mu-form-item>
@@ -130,6 +220,80 @@
           ></MultipleShowList>
         </mu-paper>
       </mu-form>
+=======
+              <mu-text-field
+                :rows="3"
+                :rows-max="5"
+                multi-line
+                placeholder="请输入拜访内容"
+                v-model="form.content"
+              ></mu-text-field>
+            </mu-form-item>
+            <mu-divider></mu-divider>
+            <UploadList
+              :batchId="form.batchId"
+              :customEnclosureList="customEnclosureList"
+              :customImgList="customImgList"
+              :ishasAfferent="false"
+              @changecustomEnclosureList="changecustomEnclosureList"
+              @changecustomImgList="changecustomImgList"
+              @getImgSuccessList="getImgSuccessList(...arguments,{fieldName:'batchId'})"
+              class="upload-file"
+            ></UploadList>
+            <mu-divider></mu-divider>
+            <!-- 地图类型 -->
+            <mu-form-item
+              label="地址"
+              prop="address"
+            >
+              <SelectAddress
+                :defaultValue="form.address"
+                @addressChange="addressChange"
+                fieldName="address"
+              ></SelectAddress>
+            </mu-form-item>
+          </mu-paper>
+          <mu-paper
+            :z-depth="0"
+            class="block"
+          >
+            <mu-form-item
+              label="接收人"
+              prop="sendUserName"
+            >
+              <PopSingleOrMultiple
+                :defaultValue="form.sendUserName"
+                :extraParams="{
+                teamType:1
+              }"
+                :isShowText="false"
+                :selected="form.sendUser"
+                @PopSingleOrMultipleChange="PopSingleOrMultipleChange"
+                apiName="queryContactsPC"
+                fieldName="sendUserName"
+                idField="contactsId"
+                mode="multiple"
+                name="接收人"
+                splitField="sendUser"
+                textField="contactsName"
+              >
+                <mu-icon
+                  color="#FF0000"
+                  size="24"
+                  slot="rightIcon"
+                  value=":iconfont icon-tianjia"
+                ></mu-icon>
+              </PopSingleOrMultiple>
+            </mu-form-item>
+            <MultipleShowList
+              :list="multipleShowList"
+              @multipleShowListChange="multipleShowListChange"
+              type="sendUser"
+            ></MultipleShowList>
+          </mu-paper>
+        </mu-form>
+      </div>
+>>>>>>> 22047888c574a89ad6df7e255a1387d5bd0e0aa4
     </div>
   </div>
 </template>
@@ -318,11 +482,16 @@ export default {
   .content {
     padding-top: 40px;
     height: 100%;
-    overflow: auto;
-    .line-feed {
-      align-items: flex-start !important;
-      .mu-form-item-content {
-        width: 100% !important;
+    overflow: hidden;
+    .content-wrap {
+      width: 100%;
+      height: 100%;
+      overflow: auto;
+      .line-feed {
+        align-items: flex-start !important;
+        .mu-form-item-content {
+          width: 100% !important;
+        }
       }
     }
   }

@@ -3,7 +3,7 @@
  * @Author: shenah
  * @Date: 2019-09-25 15:57:26
  * @LastEditors: shenah
- * @LastEditTime: 2019-10-17 12:58:53
+ * @LastEditTime: 2019-10-23 09:18:46
  -->
 <template>
   <div class="select-share-users">
@@ -41,7 +41,7 @@
               size="40"
             >
               <img :src="item.img" />
-            </mu-avatar> -->
+            </mu-avatar>-->
             <div class="user-info">
               <div class="name">{{item.realname}}</div>
               <div class="job">{{item.post}}</div>
@@ -215,13 +215,17 @@ export default {
 }
 .select-share-users {
   width: 100%;
+  height: 100%;
+  overflow: hidden;
   .content {
     height: 100%;
     padding-top: 100px;
     padding-bottom: 80px;
+    overflow: hidden;
     .content-users {
       width: 100%;
       height: 100%;
+      overflow: auto;
       background-color: #fff;
       margin-top: 20px;
       .index-users {

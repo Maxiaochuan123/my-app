@@ -3,7 +3,7 @@
  * @Author: shenah
  * @Date: 2019-10-12 14:29:46
  * @LastEditors: shenah
- * @LastEditTime: 2019-10-21 12:32:31
+ * @LastEditTime: 2019-10-22 17:44:18
  -->
 <template>
   <div class="task-details">
@@ -15,72 +15,74 @@
       pageTitle="任务详情"
     ></AppBar>
     <div class="content">
-      <div class="header">
-        <div class="header-wrap">
-          <mu-avatar
-            class="header-left"
-            size="60"
-          >
-            <img :src="details.createUser && details.createUser.img" />
-          </mu-avatar>
-          <div class="header-right">
-            <div class="title">
-              <div>{{details.name}}</div>
+      <div class="content-wrap">
+        <div class="header">
+          <div class="header-wrap">
+            <mu-avatar
+              class="header-left"
+              size="60"
+            >
+              <img :src="details.createUser && details.createUser.img" />
+            </mu-avatar>
+            <div class="header-right">
+              <div class="title">
+                <div>{{details.name}}</div>
+                <div
+                  :class="changeClass(details.status,'status')"
+                >{{details.status | codeInToName(TASK_STATUS)}}</div>
+              </div>
+              <div class="sub-title">
+                <span>开始时间:</span>
+                <span>{{details.startTime}}</span>
+              </div>
+              <div class="sub-title">
+                <span>结束时间:</span>
+                <span>{{details.stopTime}}</span>
+              </div>
+            </div>
+          </div>
+          <div class="header-info">
+            <div class="header-info-item">
+              <div class="header-info-item-left">创建人</div>
               <div
-                :class="changeClass(details.status,'status')"
-              >{{details.status | codeInToName(TASK_STATUS)}}</div>
+                class="header-info-item-right"
+              >{{details.createUser && details.createUser.realname}}</div>
             </div>
-            <div class="sub-title">
-              <span>开始时间:</span>
-              <span>{{details.startTime}}</span>
+            <div class="header-info-item">
+              <div class="header-info-item-left">执行人</div>
+              <div
+                class="header-info-item-right"
+              >{{details.ownerUserList && details.ownerUserList.map(item => item.realname).join(',')}}</div>
             </div>
-            <div class="sub-title">
-              <span>结束时间:</span>
-              <span>{{details.stopTime}}</span>
+            <div class="header-info-item">
+              <div class="header-info-item-left">优先级</div>
+              <div class="header-info-item-right">{{details.priority | codeInToName(PRIORITY)}}</div>
             </div>
           </div>
         </div>
-        <div class="header-info">
-          <div class="header-info-item">
-            <div class="header-info-item-left">创建人</div>
-            <div
-              class="header-info-item-right"
-            >{{details.createUser && details.createUser.realname}}</div>
-          </div>
-          <div class="header-info-item">
-            <div class="header-info-item-left">执行人</div>
-            <div
-              class="header-info-item-right"
-            >{{details.ownerUserList && details.ownerUserList.map(item => item.realname).join(',')}}</div>
-          </div>
-          <div class="header-info-item">
-            <div class="header-info-item-left">优先级</div>
-            <div class="header-info-item-right">{{details.priority | codeInToName(PRIORITY)}}</div>
-          </div>
+        <mu-tabs
+          :value="active"
+          @change="tabChange"
+          center
+          class="tabs"
+          color="primary"
+          indicator-color="primary"
+          inverse
+        >
+          <mu-tab
+            replace
+            to="taskRecord"
+            value="record"
+          >相关记录</mu-tab>
+          <mu-tab
+            replace
+            to="taskBasic"
+            value="basic"
+          >基本信息</mu-tab>
+        </mu-tabs>
+        <div class="user-info">
+          <router-view></router-view>
         </div>
-      </div>
-      <mu-tabs
-        :value="active"
-        @change="tabChange"
-        center
-        class="tabs"
-        color="primary"
-        indicator-color="primary"
-        inverse
-      >
-        <mu-tab
-          replace
-          to="taskRecord"
-          value="record"
-        >相关记录</mu-tab>
-        <mu-tab
-          replace
-          to="taskBasic"
-          value="basic"
-        >基本信息</mu-tab>
-      </mu-tabs>
-      <div class="user-info">
-        <router-view></router-view>
       </div>
     </div>
     <FootNav
@@ -231,70 +233,77 @@ export default {
 .task-details {
   width: 100%;
   height: 100%;
+  overflow: hidden;
   .content {
+    width: 100%;
     height: 100%;
-    padding: 56px 0 120px 0;
+    padding: 56px 0 106px 0;
     border: 1px solid transparent;
-    overflow-y: auto;
-    .header {
+    overflow: hidden;
+    .content-wrap {
       width: 100%;
-      background-color: #fff;
-      padding: 0 0 0 15px;
-      .header-wrap {
-        display: flex;
+      height: 100%;
+      overflow: auto;
+      .header {
         width: 100%;
-        align-items: center;
-        padding: 20px 15px 20px 0;
-        border-bottom: 1px solid @primary-border;
-        .header-left {
-        }
-        .header-right {
-          flex: 1;
-          margin-left: 12px;
-          .title {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            font-size: @primary-size;
-            color: @primary-text;
-            font-weight: @primary-weight;
-            .task-status {
-              color: @primary !important;
+        background-color: #fff;
+        padding: 0 0 0 15px;
+        .header-wrap {
+          display: flex;
+          width: 100%;
+          align-items: center;
+          padding: 20px 15px 20px 0;
+          border-bottom: 1px solid @primary-border;
+          .header-left {
+          }
+          .header-right {
+            flex: 1;
+            margin-left: 12px;
+            .title {
+              display: flex;
+              align-items: center;
+              justify-content: space-between;
+              font-size: @primary-size;
+              color: @primary-text;
+              font-weight: @primary-weight;
+              .task-status {
+                color: @primary !important;
+              }
+            }
+            .sub-title {
+              margin-top: 4px;
+              font-size: @regular-size;
+              color: @regular-text;
+              font-weight: @regular-weight;
             }
           }
-          .sub-title {
-            margin-top: 4px;
-            font-size: @regular-size;
-            color: @regular-text;
-            font-weight: @regular-weight;
+        }
+        .header-info {
+          width: 100%;
+          padding: 5px 15px 15px 0;
+          .header-info-item {
+            margin-top: 8px;
+            display: flex;
+            justify-content: space-between;
+            .header-info-item-left {
+              font-size: @regular-size;
+              color: @regular-text;
+              font-weight: @regular-weight;
+            }
+            .header-info-item-right {
+              font-size: @regular-size;
+              color: @primary-text;
+              font-weight: @primary-weight;
+            }
           }
         }
       }
-      .header-info {
-        width: 100%;
-        padding: 5px 15px 15px 0;
-        .header-info-item {
-          margin-top: 8px;
-          display: flex;
-          justify-content: space-between;
-          .header-info-item-left {
-            font-size: @regular-size;
-            color: @regular-text;
-            font-weight: @regular-weight;
-          }
-          .header-info-item-right {
-            font-size: @regular-size;
-            color: @primary-text;
-            font-weight: @primary-weight;
-          }
-        }
+      .tabs {
+        margin-top: 12px;
       }
-    }
-    .tabs {
-      margin-top: 12px;
-    }
-    .user-info {
-      margin-top: 12px;
+      .user-info {
+        margin-top: 12px;
+      }
     }
   }
 }

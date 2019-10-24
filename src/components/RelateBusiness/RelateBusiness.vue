@@ -3,7 +3,7 @@
  * @Author: shenah
  * @Date: 2019-10-12 17:16:43
  * @LastEditors: shenah
- * @LastEditTime: 2019-10-22 14:06:36
+ * @LastEditTime: 2019-10-23 09:39:14
  -->
 
 <template>
@@ -123,7 +123,7 @@ export default {
     judgeShowLine(val) {
       let flag = false;
       Object.keys(val).forEach(item => {
-        if (val[item].length > 0) {
+        if (val[item] && val[item].length > 0) {
           flag = true;
         }
       });
@@ -160,7 +160,7 @@ export default {
                 commonParam,
                 operate: "del"
               });
-            }else{
+            } else {
               this.$emit("relateBusinessChange", {
                 commonParam,
                 operate: "addDel"

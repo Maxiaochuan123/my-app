@@ -2,7 +2,7 @@
  * @Description: In User Settings Edit
  * @Author: your name
  * @Date: 2019-08-25 15:40:36
- * @LastEditTime: 2019-10-17 14:22:25
+ * @LastEditTime: 2019-10-23 09:05:01
  * @LastEditors: shenah
  */
 "use strict";
@@ -20,8 +20,8 @@ module.exports = {
 
     // Various Dev Server settings
     // host: 'localhost', // can be overwritten by process.env.HOST
-    host: '192.168.50.82', // can be overwritten by process.env.HOST
-    // host: "192.168.50.226", // can be overwritten by process.env.HOST
+    // host: '192.168.50.82', // can be overwritten by process.env.HOST
+    host: "192.168.50.226", // can be overwritten by process.env.HOST
     // host: "192.168.0.111", // can be overwritten by process.env.HOST
     port: 8080, // can be overwritten by process.env.PORT, if port is in use, a free one will be determined
     autoOpenBrowser: true,

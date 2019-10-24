@@ -123,6 +123,7 @@ export default {
 .common-waters {
   width: 100%;
   height: 100%;
+  overflow: hidden;
   .tabs {
     position: fixed;
     top: 104px;
@@ -130,6 +131,7 @@ export default {
   .content {
     height: 100%;
     padding-top: 172px;
+    overflow: hidden;
   }
 }
 </style>

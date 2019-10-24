@@ -13,6 +13,7 @@
     <div class="content">
       <GeneralForm
         :fieldList="fieldList"
+        class="form"
         ref="generalForm"
       ></GeneralForm>
     </div>
@@ -76,7 +77,20 @@ export default {
 </script>
 
 <style scoped lang="less">
-.content {
-  padding-top: 44px;
+.add-or-edit-customer {
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  .content {
+    width: 100%;
+    height: 100%;
+    padding-top: 44px;
+    overflow: hidden;
+    .form {
+      width: 100%;
+      height: 100%;
+      overflow: auto;
+    }
+  }
 }
 </style>
