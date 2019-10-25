@@ -3,13 +3,14 @@
  * @Author: shenah
  * @Date: 2019-10-12 14:29:46
  * @LastEditors: shenah
- * @LastEditTime: 2019-10-25 09:23:49
+ * @LastEditTime: 2019-10-25 09:43:01
  -->
 <template>
   <div class="task-details">
     <AppBar
       :menuList="menuList"
       :rightIcon="rightIcon"
+      :rightIconFlag="rightIconFlag"
       @menuChange="menuChange"
       isMenu
       pageTitle="任务详情"
@@ -114,6 +115,7 @@ export default {
     return {
       TASK_STATUS,
       PRIORITY,
+      rightIconFlag: true,
       details: {}, // 详情
       records: [], // 记录
       active: "basic", // 当前激活的(record=> 跟进记录,basic=> 基本信息)
@@ -163,7 +165,8 @@ export default {
       });
     },
     addBtnList() {
-      const { save, delete: del, update } = this.taskRights;
+      const { delete: del, update } = this.taskRights;
+      this.rightIconFlag = [update, del].some(item => item);
       this.bottomList = [
         {
           img: this.loadingImg("selected.png"),

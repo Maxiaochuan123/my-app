@@ -3,7 +3,7 @@
  * @Author: shenah
  * @Date: 2019-10-21 10:26:08
  * @LastEditors: shenah
- * @LastEditTime: 2019-10-24 18:22:43
+ * @LastEditTime: 2019-10-25 09:40:52
  -->
 
 <template>
@@ -11,6 +11,7 @@
     <AppBar
       :menuList="menuList"
       :rightIcon="rightIcon"
+      :rightIconFlag="rightIconFlag"
       @menuChange="menuChange"
       isMenu
       pageTitle="拜访详情"
@@ -97,6 +98,7 @@ export default {
   },
   data() {
     return {
+      rightIconFlag: true,
       customImgList: [], // 图片列表,
       customEnclosureList: [], // 文件列表
       details: {}, // 详情
@@ -105,11 +107,12 @@ export default {
     };
   },
   mounted() {
-    this.addBtnList();
     this.queryDetails();
   },
   methods: {
     addBtnList() {
+      let { update, delete: del } = this.details.permission;
+      this.rightIconFlag = [update, del].some(item => item);
       this.menuList = [
         {
           title: "编辑",
@@ -117,13 +120,13 @@ export default {
           isLink: true,
           type: "edit",
           linkParams: { id: this.id },
-          flag: true
+          flag: update
         },
         {
           title: "删除",
           type: "del",
           isLink: false,
-          flag: true
+          flag: del
         }
       ];
     },
@@ -141,6 +144,7 @@ export default {
           ...item,
           progress: { progressState: 1 }
         }));
+        this.addBtnList();
       });
     },
     menuChange(item) {
