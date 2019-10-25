@@ -154,6 +154,7 @@ export default {
       });
     },
     addPlugin() {
+      tools.openLoading("加载插件.....");
       // 加载插件
       this.map.plugin(
         [
@@ -163,6 +164,7 @@ export default {
           "AMap.Geolocation"
         ],
         () => {
+          tools.closeLoading();
           if (this.inputValue) {
             this.geocoderAdverseAnalysis(this.inputValue);
           } else {

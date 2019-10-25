@@ -3,7 +3,7 @@
  * @Author: shenah
  * @Date: 2019-10-17 16:54:08
  * @LastEditors: shenah
- * @LastEditTime: 2019-10-25 13:07:41
+ * @LastEditTime: 2019-10-25 13:40:55
  -->
 
 <template>
@@ -322,7 +322,7 @@ export default {
       this.form[type] = this.form[type].filter(
         item => item.id * 1 !== row.value * 1
       );
-      this.form[`${type}Ids`] = this.form[type]
+      this.form[`${type}Id`] = this.form[type]
         .map(item => item.id)
         .join(",");
     },
@@ -337,7 +337,7 @@ export default {
       form["visitCustomerId"] = this.form.visitCustomerId;
       form["visitContactId"] = this.form.visitContactId;
       form["batchId"] = this.form.batchId;
-      form["sendUserIds"] = this.form.sendUserIds;
+      form["sendUserIds"] = this.form.sendUserId;
       form["address"] = this.form.address;
       form["longitude"] = this.form.longitude;
       form["latitude"] = this.form.latitude;
