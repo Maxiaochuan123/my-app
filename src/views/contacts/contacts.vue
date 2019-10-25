@@ -9,7 +9,7 @@
 <template>
   <div class="contacts">
 
-    <AppBar pageTitle="个人联系人" rightIcon="icon-tianjia" rightLinkName="addContacts" :rightLinkParams="{type:'addPersonal'}"></AppBar>
+    <AppBar pageTitle="个人联系人" rightIcon="icon-tianjia" rightLinkName="addContacts" :rightLinkParams="{type:'addPersonal'}" :rightIconFlag="save"></AppBar>
     
     <div class="content">
 
@@ -64,6 +64,7 @@ import AppBar from "../../components/AppBar";
 import IndexsList from "../../components/IndexsList";
 import SearchBar from "../../components/SearchBar";
 import Nothing from '../../components/Nothing'
+import { mapState } from 'vuex'
 
 export default {
   components: {
@@ -77,6 +78,11 @@ export default {
       userList:{},
       sheachList:[],
     };
+  },
+  computed: {
+    ...mapState({
+      save: state => state.authorities.crm.contacts.save
+    })
   },
   created(){
     this.api.getContacts({type:1,teamType:1}).then(res=>{

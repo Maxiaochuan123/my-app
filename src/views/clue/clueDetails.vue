@@ -232,6 +232,7 @@
 import AppBar from "../../components/AppBar";
 import Record from "../../components/Record";
 import FootNav from "../../components/FootNav";
+import { mapState } from 'vuex'
 import Api from "@api";
 export default {
   components: {
@@ -246,27 +247,14 @@ export default {
       clueDate: Date.now(),
       info:{},
       record:[],
-      menuList: [{
-        title:'分享',
-      },{
-        title:'转换为联系人',
-      },{
-        title:'转换为客户',
-      },{
-        title:'放入公海',
-      },{
-        title:'关闭',
-      },{
-        title:'编辑',
-      },{
-        title:'删除',
-      }],
+      menuList: [],
 
       bottomList: [],
       footNavState:true
     };
   },
   created() {
+    this.setMenuList();
     this.api.getClueDetails({leadsId:this.$route.params.id}).then(res=>{
       if(res.msg !== 'success') this.$toast.warning('线索详情获取失败!');
       this.info = res.data;
@@ -277,13 +265,15 @@ export default {
           linkName: "writeFollowup",
           isLink: true,
           type: "writeFollow",
-          linkParams: { id: this.$route.params.id }
+          linkParams: { id: this.$route.params.id },
+          flag: true
         },{
           img: '../../../static/images/buttom-call.png',
           label: "打电话",
           linkName: "myInfoChild",
           isLink: false,
-          type: "call"
+          type: "call",
+          flag: true
         })
 
         // 公海跳转
@@ -297,7 +287,8 @@ export default {
           label: "打电话",
           linkName: "myInfoChild",
           isLink: false,
-          type: "call"
+          type: "call",
+          flag: true
         }]
       }
     })
@@ -306,7 +297,36 @@ export default {
       this.record = res.data;
     })
   },
+  computed: {
+    ...mapState({
+      leads: state => state.authorities.crm.leads
+    })
+  },
   methods: {
+    setMenuList(){
+      this.menuList = [{
+        title:'分享',
+        flag: this.leads.distribute
+      },{
+        title:'转换为联系人',
+        flag: this.leads.clewtransfercontacts
+      },{
+        title:'转换为客户',
+        flag: this.leads.clewtransferclient
+      },{
+        title:'放入公海',
+        flag: this.leads.topublicpool
+      },{
+        title:'关闭',
+        flag: true
+      },{
+        title:'编辑',
+        flag: this.leads.update
+      },{
+        title:'删除',
+        flag: this.leads.delete
+      }]
+    },
     menuChange(data){
       let {title} = {...data}
       switch (title) {

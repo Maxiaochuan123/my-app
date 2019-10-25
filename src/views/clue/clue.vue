@@ -7,7 +7,7 @@
  -->
 <template>
   <div class="clue">
-    <AppBar pageTitle="线索" isDrawer drawerIcon="icon-guolv" rightIcon="icon-tianjia" isMenu :menuList="menuList">
+    <AppBar pageTitle="线索" isDrawer drawerIcon="icon-guolv" rightIcon="icon-tianjia" :rightIconFlag="leads.save" isMenu :menuList="menuList">
       <!-- 抽屉 -->
       <Screen ref="screen" slot="drawerContent" :drawerList="drawerList" @getScreenParams="getScreenParams"></Screen>
     </AppBar>
@@ -36,9 +36,11 @@
                     <mu-icon value=":iconfont icon-gengduovertical"></mu-icon>
                   </mu-button>
                   <mu-list slot="content">
-                    <mu-list-item button v-for="(menuItem,index) in myClueMenuList" :key="index" @click="operation(item, menuItem)">
-                      <mu-list-item-title>{{menuItem.title}}</mu-list-item-title>
-                    </mu-list-item>
+                    <span v-for="(menuItem,index) in myClueMenuList" :key="index" >
+                      <mu-list-item button @click="operation(item, menuItem)" v-show="menuItem.flag">
+                        <mu-list-item-title>{{menuItem.title}}</mu-list-item-title>
+                      </mu-list-item>
+                    </span>
                   </mu-list>
                 </mu-menu>
               </mu-list-item>
@@ -55,6 +57,7 @@
 <script>
 import AppBar from '../../components/AppBar'
 import Screen from '../../components/Screen'
+import { mapState } from 'vuex'
 export default {
   components:{
     AppBar,Screen
@@ -62,49 +65,9 @@ export default {
   data(){
     return{
       list:[], //线索列表
-      menuList:[{
-        title: "新建买车线索",
-        linkName: "editBasicsInfo",
-        isLink: true,
-        linkParams: {
-          type: "6",
-          state: "add"
-        }
-      },{
-        title: "新建车贷线索",
-        linkName: "editBasicsInfo",
-        isLink: true,
-        linkParams: {
-          type: "7",
-          state: "add"
-        }
-      },{
-        title: "新建车险线索",
-        linkName: "editBasicsInfo",
-        isLink: true,
-        linkParams: {
-          type: "5",
-          state: "add"
-        }
-      }],
+      menuList:[],
 
-      myClueMenuList:[{
-        title:'分享',
-      },{
-        title:'转换为联系人',
-      },{
-        title:'转换为客户',
-      },{
-        title:'放入公海',
-      },{
-        title:'写跟进',
-      },{
-        title:'关闭',
-      },{
-        title:'编辑',
-      },{
-        title:'删除',
-      }],
+      myClueMenuList:[],
 
       drawerList:{
         search:{
@@ -159,9 +122,71 @@ export default {
     }
   },
   created(){
+    this.setMenuList();
     this.getClueList(this.getParams());
   },
+  computed: {
+    ...mapState({
+      leads: state => state.authorities.crm.leads
+    })
+  },
   methods:{
+    setMenuList(){
+      this.menuList = [{
+        title: "新建买车线索",
+        linkName: "editBasicsInfo",
+        isLink: true,
+        linkParams: {
+          type: "6",
+          state: "add"
+        },
+        flag: this.leads.save
+      },{
+        title: "新建车贷线索",
+        linkName: "editBasicsInfo",
+        isLink: true,
+        linkParams: {
+          type: "7",
+          state: "add"
+        },
+        flag: this.leads.save
+      },{
+        title: "新建车险线索",
+        linkName: "editBasicsInfo",
+        isLink: true,
+        linkParams: {
+          type: "5",
+          state: "add"
+        },
+        flag: this.leads.save
+      }],
+
+      this.myClueMenuList = [{
+        title:'分享',
+        flag: this.leads.distribute
+      },{
+        title:'转换为联系人',
+        flag: this.leads.clewtransfercontacts
+      },{
+        title:'转换为客户',
+        flag: this.leads.clewtransferclient
+      },{
+        title:'放入公海',
+        flag: this.leads.topublicpool
+      },{
+        title:'写跟进',
+        flag: true
+      },{
+        title:'关闭',
+        flag: true
+      },{
+        title:'编辑',
+        flag: this.leads.update
+      },{
+        title:'删除',
+        flag: this.leads.delete
+      }]
+    },
     // 获取线索列表
     getClueList(params){
       console.log(params)

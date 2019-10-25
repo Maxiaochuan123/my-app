@@ -271,7 +271,7 @@ export default {
     },
     operation(listItem, typeTest) {
       listItem.openMenu = false;
-
+    
       switch (typeTest) {
         case "查看":
           if (/^image/.test(listItem.file.type)) {
@@ -281,7 +281,7 @@ export default {
           }
           break;
         case "下载":
-          tool.downloadExcel(this, listItem.file, listItem.file.name);
+          this.downloadFile(listItem);
           break;
         case "删除":
           if (!this.ishasAfferent) {
@@ -293,6 +293,33 @@ export default {
           this.$refs.enclosureRef.deleteImageItem(listItem);
           break;
       }
+    },
+    // 下载文件
+    downloadFile(item){
+      let link = document.createElement("a");
+      link.href = item.filePath; //图片地址
+      link.download = item.name; //图片名
+      link.click();
+
+      //处理不同源下载
+      // tempList.forEach(item=>{
+      //   let canvas = document.createElement('canvas');
+      //   let img = document.createElement('img');
+      //   let context = canvas.getContext('2d');
+      //   img.onload = (e) => {
+      //       canvas.width = img.width;
+      //       canvas.height = img.height;
+      //       context.drawImage(img, 0, 0, img.width, img.height);
+      //       canvas.getContext('2d').drawImage(img, 0, 0, img.width, img.height);
+      //       canvas.toBlob((blob)=>{
+      //           link.href = window.URL.createObjectURL(blob);
+      //           link.download = item.name; 
+      //           link.click();  
+      //       }, "image/jpeg");
+      //   }
+      //     img.setAttribute("crossOrigin",'Anonymous');
+      //     img.src = item.src;
+      // })
     },
     closePreview2() {
       this.previewView2 = false;

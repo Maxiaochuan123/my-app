@@ -50,8 +50,8 @@
                   <div v-for="(contacts,index) in contactsList" :key="index + contacts.name">联系人 - {{contacts.name}}</div>
                   <div v-for="(customer,index) in customerList" :key="index + customer.customerName">客户 - {{customer.customerName}}</div>
                   <div v-for="(clue,index) in clueList" :key="index + clue.leadsName">线索 - {{clue.leadsName}}</div>
-                  <div v-for="(task,index) in taskList" :key="index + task.taskName">任务 - {{task.taskName}}</div>
-                  <div v-for="(visit,index) in visitList" :key="index + visit.visitName">拜访 - {{visit.visitName}}</div>
+                  <div v-for="(task,index) in taskList" :key="index + task.name">任务 - {{task.name}}</div>
+                  <div v-for="(visit,index) in visitList" :key="index + visit.customerName">拜访 - {{visit.customerName}}</div>
                 </div>
               </div>
             </div>
@@ -86,17 +86,20 @@ export default {
   data(){
     return{
       info:{},
-      menuList: [{
-        title: "编辑"
-      },{
-        title: "删除"
-      }],
+      menuList: [],
       customImgList:[],
       customEnclosureList:[]
     }
   },
   created(){
     this.api.getDailyDetails({logId:this.$route.params.id}).then(res=>{
+      this.menuList = [{
+        title: "编辑",
+        flag: res.data.permission.update
+      },{
+        title: "删除",
+        flag: res.data.permission.delete
+      }]
       this.customImgList = res.data.img.map(item => ({
         ...item,
         src: item.filePath,
