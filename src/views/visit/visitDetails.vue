@@ -3,7 +3,7 @@
  * @Author: shenah
  * @Date: 2019-10-21 10:26:08
  * @LastEditors: shenah
- * @LastEditTime: 2019-10-22 17:25:07
+ * @LastEditTime: 2019-10-24 18:22:43
  -->
 
 <template>
@@ -116,12 +116,14 @@ export default {
           linkName: "addOrEditVisit",
           isLink: true,
           type: "edit",
-          linkParams: { id: this.id }
+          linkParams: { id: this.id },
+          flag: true
         },
         {
           title: "删除",
           type: "del",
-          isLink: false
+          isLink: false,
+          flag: true
         }
       ];
     },

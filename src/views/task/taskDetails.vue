@@ -3,7 +3,7 @@
  * @Author: shenah
  * @Date: 2019-10-12 14:29:46
  * @LastEditors: shenah
- * @LastEditTime: 2019-10-22 17:44:18
+ * @LastEditTime: 2019-10-24 18:21:45
  -->
 <template>
   <div class="task-details">
@@ -93,6 +93,7 @@
 </template>
 
 <script>
+import { mapState } from "vuex";
 import { TASK_STATUS, PRIORITY } from "@constants/dictionaries";
 import AppBar from "@components/AppBar.vue";
 import FootNav from "@components/FootNav.vue";
@@ -101,6 +102,9 @@ export default {
   name: "taskDetails",
   components: { AppBar, FootNav },
   computed: {
+    ...mapState({
+      taskRights: state => state.authorities.work.task
+    }),
     // 当前任务的详情
     id() {
       return this.$route.params.id;
@@ -159,32 +163,37 @@ export default {
       });
     },
     addBtnList() {
+      const { save, delete: del, update } = this.taskRights;
       this.bottomList = [
         {
           img: this.loadingImg("selected.png"),
           label: "完成任务",
           linkName: "",
           isLink: false,
-          type: "finish"
+          type: "finish",
+          flag: true
         }
       ];
       this.menuList = [
         {
           title: "关闭",
           isLink: false,
-          type: "close"
+          type: "close",
+          flag: false
         },
         {
           title: "编辑",
           linkName: "addOrEditTask",
           isLink: true,
           type: "edit",
-          linkParams: { id: this.id }
+          linkParams: { id: this.id },
+          flag: true
         },
         {
           title: "删除",
           isLink: false,
-          type: "del"
+          type: "del",
+          flag: del
         }
       ];
     },

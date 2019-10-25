@@ -23,11 +23,13 @@
               @click="btnChange(item,'distribute')"
               class="btn"
               color="primary"
+              v-if="$parent.poolRights.distribute"
             >分配</mu-button>
             <mu-button
               @click="btnChange(item,'receive')"
               class="btn"
               color="info"
+              v-if="$parent.poolRights.receive"
             >领取</mu-button>
           </div>
         </div>
@@ -90,6 +92,7 @@ export default {
 <style let lang="less">
 .commonWatersPeople {
   .clue-right {
+    text-align: center;
     .mu-raised-button .mu-button-wrapper {
       padding: 0px !important;
     }
