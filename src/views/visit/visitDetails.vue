@@ -3,7 +3,7 @@
  * @Author: shenah
  * @Date: 2019-10-21 10:26:08
  * @LastEditors: shenah
- * @LastEditTime: 2019-10-25 09:40:52
+ * @LastEditTime: 2019-10-25 12:53:45
  -->
 
 <template>
@@ -191,6 +191,7 @@ export default {
     .content-wrap {
       width: 100%;
       height: 100%;
+      padding-bottom: 70px;
       overflow: auto;
       .details {
         background-color: #fff;

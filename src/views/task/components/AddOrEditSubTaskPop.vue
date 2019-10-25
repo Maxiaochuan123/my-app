@@ -3,7 +3,7 @@
  * @Author: shenah
  * @Date: 2019-10-15 16:25:05
  * @LastEditors: shenah
- * @LastEditTime: 2019-10-16 11:32:01
+ * @LastEditTime: 2019-10-25 13:26:32
  -->
 <template>
   <div class>
@@ -69,8 +69,10 @@ export default {
           options: "",
           type: 9,
           value: "",
-          multiple: "ownerUser",
+          apiName: "querySimpleUserByDepId",
+          splitField: "ownerUser",
           idField: "userId",
+          mode: "multiple",
           textField: "realname"
         },
         {
@@ -79,7 +81,7 @@ export default {
           options: "",
           type: 1,
           htmlHidden: 1,
-          value: ""
+          value: []
         },
         {
           fieldName: "ownerUserId",
@@ -181,9 +183,7 @@ export default {
         // 处理详情
         this.fields.forEach(item => {
           if (item.fieldName === "ownerUser") {
-            item.value = subTask.ownerUserList
-              .map(one => `${one.userId}^_^${one.realname}`)
-              .join(",");
+            item.value = subTask.ownerUserList;
           } else if (item.fieldName === "ownerUserName") {
             item.value = subTask.ownerUserList
               .map(one => one.realname)
@@ -202,7 +202,9 @@ export default {
         });
       } else {
         this.fields.forEach(item => {
-          item.value = "";
+          if (item.fieldName !== "ownerUser") {
+            item.value = "";
+          }
         });
       }
       this.fieldList = this.fields;
@@ -210,13 +212,7 @@ export default {
     handleForm(form) {
       // 新增或者编辑任务的时候处理子任务的form数据
       let newForm = { ...form };
-      newForm["ownerUserList"] = newForm.ownerUser.split(",").map(item => {
-        const [userId, realname] = item.split("^_^");
-        return {
-          userId,
-          realname
-        };
-      });
+      newForm["ownerUserList"] = newForm.ownerUser;
       return newForm;
     },
     save() {

@@ -3,7 +3,7 @@
  * @Author: shenah
  * @Date: 2019-10-17 16:54:08
  * @LastEditors: shenah
- * @LastEditTime: 2019-10-22 17:22:23
+ * @LastEditTime: 2019-10-25 13:07:41
  -->
 
 <template>
@@ -320,10 +320,10 @@ export default {
     },
     multipleShowListChange({ row, type }) {
       this.form[type] = this.form[type].filter(
-        item => item.userId * 1 !== row.value * 1
+        item => item.id * 1 !== row.value * 1
       );
       this.form[`${type}Ids`] = this.form[type]
-        .map(item => item.userId)
+        .map(item => item.id)
         .join(",");
     },
     handlerParams() {
@@ -337,7 +337,7 @@ export default {
       form["visitCustomerId"] = this.form.visitCustomerId;
       form["visitContactId"] = this.form.visitContactId;
       form["batchId"] = this.form.batchId;
-      form["sendUserIds"] = this.form.sendUserId;
+      form["sendUserIds"] = this.form.sendUserIds;
       form["address"] = this.form.address;
       form["longitude"] = this.form.longitude;
       form["latitude"] = this.form.latitude;
