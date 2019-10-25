@@ -120,6 +120,7 @@
 import AppBar from "../../components/AppBar";
 import Record from "../../components/Record";
 import FootNav from "../../components/FootNav";
+import { mapState } from 'vuex'
 export default {
   components: {
     AppBar,
@@ -132,27 +133,7 @@ export default {
       infoType: '车贷',
       info: {},
       record:[],
-      menuList: [
-        {
-          title: "分享",
-          linkName: "",
-          isLink: false
-        },
-        {
-          title: "编辑",
-          linkName: "addContacts",
-          isLink: true,
-          linkParams:{
-            type:'editPersonal',
-            id: this.$route.params.id
-          }
-        },
-        {
-          title: "删除",
-          linkName: "",
-          isLink: false
-        }
-      ],
+      menuList: [],
 
       bottomList: [
         {
@@ -161,17 +142,24 @@ export default {
           linkName: "writeFollowup",
           isLink: true,
           type: "writeFollow",
-          linkParams: { id: this.$route.params.id }
+          linkParams: { id: this.$route.params.id },
+          flag: true
         },
         {
           img: '../../../static/images/buttom-call.png',
           label: "打电话",
           linkName: "myInfoChild",
           isLink: false,
-          type: "call"
+          type: "call",
+          flag: true
         }
       ]
     };
+  },
+  computed: {
+    ...mapState({
+      contacts: state => state.authorities.crm.contacts
+    })
   },
   created(){
     this.api.getContactsDetails({contactsId:this.$route.params.id}).then(res=>{
@@ -182,8 +170,35 @@ export default {
       if(res.msg !== 'success') this.$toast.warning('跟进信息获取失败!');
       this.record = res.data;
     })
+
+    this.setMenuList();
   },
   methods:{
+    setMenuList(){
+      this.menuList = [{
+        title: "分享",
+        linkName: "",
+        isLink: false,
+        flag: this.contacts.distribute
+      },
+      {
+        title: "编辑",
+        linkName: "addContacts",
+        isLink: true,
+        linkParams:{
+          type:'editPersonal',
+          id: this.$route.params.id
+        },
+        flag: this.contacts.update
+      },
+      {
+        title: "删除",
+        linkName: "",
+        isLink: false,
+        flag: this.contacts.delete
+      }]
+      
+    },
     menuChange(data){
       let {title} = {...data};
       switch(title){

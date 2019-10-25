@@ -60,7 +60,7 @@ export const RELATION_BUSINESS = {
     type: "tasks",
     idField: "taskId",
     submitField: "taskIds",
-    showField: "taskName",
+    showField: "name",
     showSubField: "post",
     api: {
       query: "queryTaskList"
@@ -72,7 +72,7 @@ export const RELATION_BUSINESS = {
     type: "visits",
     idField: "visitId",
     submitField: "visitIds",
-    showField: "visitName",
+    showField: "customerName",
     showSubField: "post",
     api: {
       query: "queryVisitList"
