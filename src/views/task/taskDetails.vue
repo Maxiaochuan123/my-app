@@ -3,7 +3,7 @@
  * @Author: shenah
  * @Date: 2019-10-12 14:29:46
  * @LastEditors: shenah
- * @LastEditTime: 2019-10-24 18:21:45
+ * @LastEditTime: 2019-10-25 09:23:49
  -->
 <template>
   <div class="task-details">
@@ -187,7 +187,7 @@ export default {
           isLink: true,
           type: "edit",
           linkParams: { id: this.id },
-          flag: true
+          flag: update
         },
         {
           title: "删除",
