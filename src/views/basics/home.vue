@@ -195,17 +195,24 @@ export default {
 
       menuList: [{
         title: "写日报",
-        linkName: "homeChild"
+        linkName: "addDaily",
+        isLink: true,
+        flag:true
       },{
         title: "写拜访",
-        linkName: "myInfoChild"
+        linkName: "addOrEditVisit",
+        isLink: true,
+        flag:true
       },{
         title: "新增客户",
         linkName: "addOrEditCustomer",
-        isLink: true
+        isLink: true,
+        flag:true
       },{
         title: "新增任务",
-        linkName: "link4"
+        linkName: "addOrEditTask",
+        isLink: true,
+        flag:true
       }],
       businessOverview:{
         teamType:'1', // 0:团队 1:个人
