@@ -3,7 +3,7 @@
  * @Author: shenah
  * @Date: 2019-10-16 13:19:22
  * @LastEditors: shenah
- * @LastEditTime: 2019-10-16 16:22:56
+ * @LastEditTime: 2019-11-14 11:20:11
  -->
 
 <template>
@@ -11,7 +11,9 @@
     <div class="title">{{title}}</div>
     <div class="multipleSelection">
       <div
-        :class="selectedClass(item)"
+        :class="{
+          'activeSelect':selectedClass(item)
+        }"
         :key="index"
         @click="select(item)"
         v-for="(item,index) in showList"
@@ -27,13 +29,13 @@ export default {
   data() {
     return {
       showList: [],
-      active: [], // 当前激活的
+      active: [] // 当前激活的
     };
   },
   watch: {
     list(val) {
       this.handlerList(val);
-    },
+    }
   },
   mounted() {
     this.handlerList(this.list);
@@ -83,14 +85,6 @@ export default {
           arr = [this.defaultValue[0]];
         }
       }
-      list.forEach(item => {
-        item.flag = false;
-        arr.forEach(one => {
-          if (one === item[this.valueField]) {
-            item.flag = true;
-          }
-        });
-      });
       this.showList = list;
       this.active = arr;
       this.$emit("arrSingleOrMultipleChange", {
@@ -99,16 +93,11 @@ export default {
       });
     },
     select(row) {
-      row.flag = !row.flag;
+      // 证明原来已经选中了
+      let flag = this.active.indexOf(row[this.valueField]) > -1;
       if (this.mode === "single") {
         // 单选
-        if (row.flag) {
-          // 全部为false
-          this.showList.forEach(item => {
-            if (row[this.valueField] !== item[this.valueField]) {
-              item.flag = false;
-            }
-          });
+        if (!flag) {
           let arr = [];
           arr.push(row[this.valueField]);
           this.active = arr;
@@ -117,7 +106,7 @@ export default {
         }
       } else {
         // 多选
-        if (row.flag) {
+        if (!flag) {
           // 选中
           this.active.push(row[this.valueField]);
         } else {
@@ -133,13 +122,11 @@ export default {
       });
     },
     selectedClass(row) {
-      if (row.flag) {
-        return "activeSelect";
-      }
-      return "";
+      return this.active.indexOf(row[this.valueField]) > -1;
     },
-    reset() { // 重置参数
-    },
+    reset() {
+      // 重置参数
+    }
   }
 };
 </script>
