@@ -33,17 +33,17 @@ export default {
       tabsActive: storage.sessionGet("tabsActive"),
 
       // paging 分页
-      paging:{
+      paging: {
         pageSize: 7,
         pageIndex: 1
       },
-      
+
       // 上拉加载 or 下拉刷新
-      loadUpdate:{
-        refreshing:false,
-        loading:false,
-        loadingState:'default',
-        loadedAll:false,
+      loadUpdate: {
+        refreshing: false,
+        loading: false,
+        loadingState: "default",
+        loadedAll: false
       },
 
       // 验证
@@ -74,30 +74,30 @@ export default {
   },
   methods: {
     // 下拉刷新 handle
-    refreshHandle(){
+    refreshHandle() {
       this.paging.pageIndex = 1;
       this.loadUpdate.refreshing = true;
-      this.loadUpdate.loadingState = 'refresh';
+      this.loadUpdate.loadingState = "refresh";
     },
     // 上拉加载 handle
-    loadHandle(){
+    loadHandle() {
       this.paging.pageIndex = ++this.paging.pageIndex;
       this.loadUpdate.loading = true;
-      this.loadUpdate.loadingState = 'load';
+      this.loadUpdate.loadingState = "load";
     },
     // 获取筛选 handle
-    getApiParamsHandle(){
-      window.scrollTo(0,0);
+    getApiParamsHandle() {
+      window.scrollTo(0, 0);
       this.loadUpdate.loadedAll = false;
       this.paging.pageIndex = 1;
-      this.loadUpdate.loadingState = 'default';
+      this.loadUpdate.loadingState = "default";
     },
     // tabs切换 handle
-    changeTabsHandle(item){
-      window.scrollTo(0,0);
+    changeTabsHandle(item) {
+      window.scrollTo(0, 0);
       this.paging.pageIndex = 1;
       this.list = [];
-      this.storage.sessionSet('tabsActive',item);
+      this.storage.sessionSet("tabsActive", item);
       this.$refs.screen.resetDrawerList();
     },
 
@@ -123,7 +123,12 @@ export default {
     },
     // 打电话
     dial(phoneNumber) {
-      window.location.href = `tel:${phoneNumber}`;
+      let type = tool.judgeModel();
+      if (type === "iOS") {
+        window.location.href = `telprompt:${phoneNumber}`;
+      } else {
+        window.location.href = `tel:${phoneNumber}`;
+      }
     },
 
     // 非必填 验证函数
