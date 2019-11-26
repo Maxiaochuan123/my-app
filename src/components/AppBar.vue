@@ -2,7 +2,7 @@
  * @Description: In User Settings Edit
  * @Author: your name
  * @Date: 2019-08-25 11:48:12
- * @LastEditTime: 2019-10-25 09:09:18
+ * @LastEditTime: 2019-11-26 09:44:11
  * @LastEditors: shenah
  -->
 <template>
@@ -18,7 +18,7 @@
           :value="`:iconfont ${leftIcon}`"
         ></mu-icon>
       </mu-button>
-      {{pageTitle}}
+      <span class="title">{{pageTitle}}</span>
       <mu-button
         @click="openDrawerState"
         icon
@@ -186,6 +186,9 @@ export default {
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style lang="less" scoped>
 .app-bar {
+  .title{
+    font-size:18px;
+  }
   .mu-popover {
     top: 52px !important;
     right: 2px !important;

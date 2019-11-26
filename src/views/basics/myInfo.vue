@@ -94,7 +94,7 @@ export default {
       text-align: center;
       height: 74px;
       line-height: 74px;
-      font-size: @primary-size;
+      font-size: 18px;
       font-weight: 600;
       color: #fff;
     }

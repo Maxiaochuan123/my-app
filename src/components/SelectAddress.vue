@@ -137,6 +137,7 @@ export default {
     clearAll() {
       // 清空相应的东西
       this.inputValue = "";
+      this.region = "";
       if (this.nowMarker) {
         this.map.remove(this.nowMarker);
         this.nowMarker = null;

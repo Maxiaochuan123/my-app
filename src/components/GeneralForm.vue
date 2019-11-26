@@ -45,10 +45,12 @@
     >
       <mu-paper
         :z-depth="0"
-        class="block"
+        class="block pad0"
       >
         <div
+          :class="[(item.readonly === 1 &&inputArr.indexOf(item.type) > -1)?'no-can-input':'']"
           :key="index"
+          class="pl12"
           v-for="(item,index) in fieldList"
         >
           <mu-form-item
@@ -177,7 +179,7 @@ export default {
       // 输入框
       inputArr: [0, 1, 5, 6, 7, 14, 17],
       // 单选,
-      singleArr: [3,15],
+      singleArr: [3, 15],
       // 地图,
       mapArr: [18],
       // 文本域,
@@ -429,6 +431,16 @@ export default {
 }
 </style>
 <style lang='less' scoped>
+.pad0 {
+  padding: 0 !important;
+}
+.pl12 {
+  padding-left: 12px;
+}
+.no-can-input {
+  opacity: 0.76;
+  background-color: #ededed;
+}
 .upload-file {
   width: 100%;
 }
