@@ -123,12 +123,7 @@ export default {
     },
     // 打电话
     dial(phoneNumber) {
-      let type = tool.judgeModel();
-      if (type === "iOS") {
-        window.location.href = `telprompt:${phoneNumber}`;
-      } else {
-        window.location.href = `tel:${phoneNumber}`;
-      }
+      window.location.href = `tel:${phoneNumber}`;
     },
 
     // 非必填 验证函数
