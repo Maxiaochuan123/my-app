@@ -33,7 +33,7 @@
           </div>
           <div class="user-right">
             <mu-avatar size="60">
-              <img :src="loginUser.img" />
+              <img :src="loginUser.img?loginUser.img:loadingImg('default-header.png')" />
             </mu-avatar>
           </div>
         </div>
@@ -64,9 +64,7 @@
 import { mapState } from "vuex";
 export default {
   data() {
-    return {
-      
-    };
+    return {};
   },
   computed: {
     ...mapState(["loginUser"])

@@ -3,7 +3,7 @@
  * @Author: shenah
  * @Date: 2019-10-14 16:59:53
  * @LastEditors: shenah
- * @LastEditTime: 2019-10-21 12:27:09
+ * @LastEditTime: 2019-11-27 10:04:08
  -->
 
 <template>
@@ -98,7 +98,7 @@ export default {
       let status = 5;
       let isFinished = true;
       if (code === 5) {
-        let stop = dayjs(stopTime).valueOf();
+        let stop = dayjs(stopTime).toDate().setHours(23, 59, 59, 999);
         let now = new Date().getTime();
         isFinished = false;
         if (now < stop) {

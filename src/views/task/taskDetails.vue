@@ -3,7 +3,7 @@
  * @Author: shenah
  * @Date: 2019-10-12 14:29:46
  * @LastEditors: shenah
- * @LastEditTime: 2019-10-25 09:43:01
+ * @LastEditTime: 2019-11-27 10:17:53
  -->
 <template>
   <div class="task-details">
@@ -23,12 +23,13 @@
               class="header-left"
               size="60"
             >
-              <img :src="details.createUser && details.createUser.img" />
+              <img :src="details.createUser && details.createUser.img || loadingImg('default-header.png')" />
             </mu-avatar>
             <div class="header-right">
               <div class="title">
                 <div>{{details.name}}</div>
                 <div
+                  class="task-status-common"
                   :class="changeClass(details.status,'status')"
                 >{{details.status | codeInToName(TASK_STATUS)}}</div>
               </div>
@@ -278,6 +279,11 @@ export default {
               font-size: @primary-size;
               color: @primary-text;
               font-weight: @primary-weight;
+              .task-status-common{
+                width: 200px;
+                margin-left:10px;
+                text-align: right;
+              }
               .task-status {
                 color: @primary !important;
               }

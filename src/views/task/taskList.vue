@@ -3,7 +3,7 @@
  * @Author: shenah
  * @Date: 2019-10-12 09:30:38
  * @LastEditors: shenah
- * @LastEditTime: 2019-10-24 18:18:31
+ * @LastEditTime: 2019-11-27 09:21:56
  -->
 
 <template>
@@ -157,36 +157,6 @@ export default {
       this.active = val;
       this.requestParams.type = val;
       this.queryTasks();
-    },
-    select(row) {
-      let { status: code, taskId, stopTime } = row;
-      let status = 5;
-      let isFinished = true;
-      if (code === 5) {
-        let stop = dayjs(stopTime).valueOf();
-        let now = new Date().getTime();
-        isFinished = false;
-        if (now < stop) {
-          status = 1;
-        } else {
-          status = 2;
-        }
-      }
-      let title = status === 5 ? "是否已完成此任务" : "是否取消此任务的完成";
-      this.$confirm(title, "提示").then(res => {
-        if (res.result) {
-          Api.addOrEditTask({
-            taskId,
-            status
-          }).then(res => {
-            row.status = status;
-          });
-        }
-      });
-    },
-    toDetails(row) {
-      // 进入详情
-      this.goPage("taskBasic", { id: row.taskId });
     },
     load() {
       // 滚动加载

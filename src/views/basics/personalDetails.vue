@@ -13,7 +13,7 @@
         <div class="header regular-words">
           <div>头像</div>
           <mu-avatar size="48">
-            <img :src="loginUser.img" />
+            <img :src="loginUser.img?loginUser.img:loadingImg('default-header.png')" />
           </mu-avatar>
         </div>
         <div class="brief">
