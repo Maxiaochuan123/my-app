@@ -297,30 +297,30 @@ export default {
     },
     // 下载文件
     downloadFile(item){
-      // let link = document.createElement("a");
-      // link.href = item.filePath; //图片地址
-      // link.download = item.name; //图片名
-      // link.click();
+      let link = document.createElement("a");
+      link.href = item.filePath; //图片地址
+      link.download = item.name; //图片名
+      link.click();
       // this.downloadImage(item.filePath,item.name)
       // this.api.downLoad({fileId:item.fileId}).then(res=>{
       //   console.log(res)
       // })
-      Axios({
-        method: 'POST',
-        url: 'http://192.168.0.92:6080/allFile/download',
-        params: {fileId:item.fileId},
-        responseType: 'blob',
-        headers: {
-          'accessToken': this.$store.state.accessToken
-        }
-      }).then(res=>{
-          console.log(res)
-          let blob = new Blob([res.data], {type: "application/vnd.ms-excel"});
-          let url = window.URL.createObjectURL(blob);
-          window.location.href = url;
-      }).catch(err=>{
-          console.log(err)
-      })
+      // Axios({
+      //   method: 'POST',
+      //   url: 'http://192.168.0.92:6080/allFile/download',
+      //   params: {fileId:item.fileId},
+      //   responseType: 'blob',
+      //   headers: {
+      //     'accessToken': this.$store.state.accessToken
+      //   }
+      // }).then(res=>{
+      //     console.log(res)
+      //     let blob = new Blob([res.data], {type: "application/vnd.ms-excel"});
+      //     let url = window.URL.createObjectURL(blob);
+      //     window.location.href = url;
+      // }).catch(err=>{
+      //     console.log(err)
+      // })
       
     },
     downloadImage(data, filename) {
