@@ -80,9 +80,6 @@ export default {
     loginOut() {
       // 退出登录
       Api.userLoginOut().then(res => {
-        this.$toast.success({
-          message: res.msg
-        });
         this.$store.commit('setBottomNav','home')
         tool.signOut();
       });

@@ -149,6 +149,7 @@ import UpLoadEnclosure from "./components/uploadListEnclosure";
 import PreviewImage from "./components/PreviewImage";
 import tool from "./components/js/tool";
 import tools from "../../../static/js/tool";
+import Axios from "axios"
 export default {
   name: "upLoad",
   components: { UpLoadImages, UpLoadEnclosure, PreviewImage },
@@ -296,30 +297,70 @@ export default {
     },
     // 下载文件
     downloadFile(item){
-      let link = document.createElement("a");
-      link.href = item.filePath; //图片地址
-      link.download = item.name; //图片名
-      link.click();
-
-      //处理不同源下载
-      // tempList.forEach(item=>{
-      //   let canvas = document.createElement('canvas');
-      //   let img = document.createElement('img');
-      //   let context = canvas.getContext('2d');
-      //   img.onload = (e) => {
-      //       canvas.width = img.width;
-      //       canvas.height = img.height;
-      //       context.drawImage(img, 0, 0, img.width, img.height);
-      //       canvas.getContext('2d').drawImage(img, 0, 0, img.width, img.height);
-      //       canvas.toBlob((blob)=>{
-      //           link.href = window.URL.createObjectURL(blob);
-      //           link.download = item.name; 
-      //           link.click();  
-      //       }, "image/jpeg");
-      //   }
-      //     img.setAttribute("crossOrigin",'Anonymous');
-      //     img.src = item.src;
+      // let link = document.createElement("a");
+      // link.href = item.filePath; //图片地址
+      // link.download = item.name; //图片名
+      // link.click();
+      // this.downloadImage(item.filePath,item.name)
+      // this.api.downLoad({fileId:item.fileId}).then(res=>{
+      //   console.log(res)
       // })
+      Axios({
+        method: 'POST',
+        url: 'http://192.168.0.92:6080/allFile/download',
+        params: {fileId:item.fileId},
+        responseType: 'blob',
+        headers: {
+          'accessToken': this.$store.state.accessToken
+        }
+      }).then(res=>{
+          console.log(res)
+          let blob = new Blob([res.data], {type: "application/vnd.ms-excel"});
+          let url = window.URL.createObjectURL(blob);
+          window.location.href = url;
+      }).catch(err=>{
+          console.log(err)
+      })
+      
+    },
+    downloadImage(data, filename) {
+      var httpindex = data.indexOf('http')
+      if (httpindex === 0) {
+        const image = new Image()
+        // 解决跨域 canvas 污染问题
+        image.setAttribute('crossOrigin', 'anonymous')
+        image.onload = function () {
+          const canvas = document.createElement('canvas')
+          canvas.width = image.width
+          canvas.height = image.height
+          const context = canvas.getContext('2d')
+          context.drawImage(image, 0, 0, image.width, image.height)
+          const dataURL = canvas.toDataURL('image/png')
+          // 生成一个 a 标签
+          const a = document.createElement('a')
+          // 创建一个点击事件
+          const event = new MouseEvent('click')
+          // 将 a 的 download 属性设置为我们想要下载的图片的名称，若 name 不存在则使用'图片'作为默认名称
+          a.download = filename || '图片'
+          // 将生成的 URL 设置为 a.href 属性
+          var blob = dataURLtoBlob(dataURL)
+          a.href = URL.createObjectURL(blob)
+          // 触发 a 的点击事件
+          a.click();
+        }
+        image.src = data
+      } else {
+        // 生成一个 a 标签
+        const a = document.createElement('a')
+        // 创建一个点击事件
+        const event = new MouseEvent('click')
+        // 将 a 的 download 属性设置为我们想要下载的图片的名称，若 name 不存在则使用'图片'作为默认名称
+        a.download = filename || '图片'
+        // 将生成的 URL 设置为 a.href 属性
+        a.href = data
+        // 触发 a 的点击事件
+        a.click();
+      }
     },
     closePreview2() {
       this.previewView2 = false;

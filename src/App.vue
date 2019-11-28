@@ -33,13 +33,15 @@ export default {
     };
   },
   created() {
-    // new VConsole();
+    new VConsole();
     let activTheme = this.storage.localGet("theme");
     if (activTheme) {
       Theme.add("theme_one", activTheme, "light");
       Theme.use("theme_one");
     } else {
       this.storage.localSet("theme", myTheme[0]);
+      Theme.add("theme_one", myTheme[0], "light");
+      Theme.use("theme_one");
     }
   },
   mounted() {
@@ -72,5 +74,16 @@ export default {
 #app::-webkit-scrollbar {
   width: 0;
   display: none;
+}
+body{
+  padding-top: constant(safe-area-inset-top);   //为导航栏+状态栏的高度 88px            
+  padding-left: constant(safe-area-inset-left);   //如果未竖屏时为0                
+  padding-right: constant(safe-area-inset-right); //如果未竖屏时为0                
+  padding-bottom: constant(safe-area-inset-bottom);//为底下圆弧的高度 34px
+}
+@media only screen and (width: 375px) and (min-height: 690px) {
+  body {
+      height: 100vh;
+  }
 }
 </style>
