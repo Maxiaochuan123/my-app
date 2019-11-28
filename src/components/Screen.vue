@@ -95,6 +95,7 @@ export default {
 <style lang='less' scoped>
   .drawerContent{
     height: 100%;
+    pointer-events: none;
     .drawerTitle{
       font-size: 20px;
       font-weight: @primary-weight;
@@ -106,7 +107,7 @@ export default {
       height: 200px;
       margin-top: 20px;
       background-color: #fff;
-      overflow-y: scroll;
+      overflow: auto;
       overflow-x: hidden;
       height: 86%;
     }

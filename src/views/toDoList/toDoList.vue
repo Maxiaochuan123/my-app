@@ -76,6 +76,9 @@ export default {
       .mu-item{
         background-color: #fff;
       }
+      .mu-list{
+        list-style: none; 
+      }
     }
   }
 </style>

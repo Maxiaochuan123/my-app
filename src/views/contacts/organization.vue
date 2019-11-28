@@ -217,6 +217,9 @@ export default {
         padding-left: @primary-size;
         margin-bottom: 12px;
       }
+      .mu-list{
+        list-style: none; 
+      }
       .contacts{
         .shallow-inset{
           margin-left: 67px;

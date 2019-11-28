@@ -7,7 +7,7 @@
  -->
 <template>
   <div class="bottom-nav">
-    <mu-bottom-nav :value="activeNav" @change="navChange" color="primary">
+    <mu-bottom-nav :value.sync="activeNav" color="primary" @change="navChange">
       <mu-bottom-nav-item value="home" title="首页" icon=":iconfont icon-shouye" to="/home"></mu-bottom-nav-item>
       <mu-bottom-nav-item value="myInfo" title="我的" icon=":iconfont icon-wode" to="/myInfo"></mu-bottom-nav-item>
     </mu-bottom-nav>
