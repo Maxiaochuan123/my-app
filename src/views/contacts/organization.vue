@@ -152,10 +152,10 @@ export default {
     this.api.getDeptTree({type:'tree'}).then(res => {
       this.companyList = res.data;
     })
-    this.api.getDeptContacts({deptId:'',shearch:'',needGroup:0}).then(res => {
-      this.userList = res.data;
-      // this.$store.commit('setUserList',res.data)
-    })
+    // this.api.getDeptContacts({deptId:'',shearch:'',needGroup:0}).then(res => {
+    //   this.userList = res.data;
+    //   // this.$store.commit('setUserList',res.data)
+    // })
     
   },
   methods:{
