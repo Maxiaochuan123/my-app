@@ -19,7 +19,7 @@
       <mu-load-more :refreshing="loadUpdate.refreshing" @refresh="refresh" :loading="loadUpdate.loading" @load="load" :loaded-all="loadUpdate.loadedAll">
 
         <div class="myClue" v-if="pageTitle === '待跟进线索' || pageTitle === '分配给我的线索'">
-          <mu-list class="list" textline="two-line">
+          <mu-list class="list" textline="two-line" v-if="list.length">
             <div v-for="(item,index) in list" :key="index">
               <mu-list-item v-waves>
                 <mu-list-item-content @click="goPage('clueDetails',{id:item.leadsId,type:'线索'})">
