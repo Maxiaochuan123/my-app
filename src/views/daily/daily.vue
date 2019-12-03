@@ -1,7 +1,7 @@
 <template>
   <div class="daily">
     <AppBar pageTitle="日报" isDrawer drawerIcon="icon-guolv" rightIcon="icon-tianjia" rightLinkName="addDaily">
-      <!-- 抽屉 -->
+      <!-- 抽 屉 -->
       <Screen ref="screen" slot="drawerContent" :drawerList="drawerList" @getScreenParams="getScreenParams"></Screen>
     </AppBar>
     <div class="content">
