@@ -157,8 +157,7 @@ export default {
       customImgList: [], // 手动传入图片
       customEnclosureList: [], // 手动传入文件
       relatedBusinessList: {}, //关联业务
-      relateData: {
-        // 关联的相关数据
+      relateData: {// 关联的相关数据
         clues: [],
         customers: [],
         contacts: [],
