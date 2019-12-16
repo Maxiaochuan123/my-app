@@ -2,7 +2,7 @@
  * @Description: In User Settings Edit
  * @Author: your name
  * @Date: 2019-09-03 09:55:54
- * @LastEditTime: 2019-10-15 11:14:21
+ * @LastEditTime: 2019-12-16 10:54:55
  * @LastEditors: shenah
  */
 // node 加密模块
@@ -66,7 +66,8 @@ export default {
   decUserInfo() {
     let login = localStorage.getItem("login");
     if (typeof login === "string" && login !== "") {
-      return JSON.parse(this.decAse192(login, "login"));
+      return JSON.parse(login);
+      // return JSON.parse(this.decAse192(login, "login"));
     } else {
       return {};
     }

@@ -13,3 +13,9 @@ export const QUERY_FIELD_LIST = getApi("/fields/selectField");
 export const UPLOAD_FILES = getApi("/allFile/upload");
 // 删除文件
 export const DELETE_FILES = getApi("/allFile/deleteById");
+
+// 角色API
+
+const roleApi = url => `/sysRole${url}`;
+// 根据登录的token获取当前的权限
+export const GET_AUTHOR_BY_TOKEN = roleApi("/queryAuth");

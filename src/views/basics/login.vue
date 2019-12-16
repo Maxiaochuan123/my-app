@@ -28,8 +28,8 @@
                 >
                   <div class="login-input">
                     <img
-                      class="input-img"
                       :src="loadingImg('login-user.png')"
+                      class="input-img"
                     />
                     <mu-text-field
                       placeholder="请输入用户名"
@@ -46,8 +46,8 @@
                 >
                   <div class="login-input">
                     <img
-                      class="input-img"
                       :src="loadingImg('login-password.png')"
+                      class="input-img"
                     />
                     <mu-text-field
                       placeholder="请输入密码"
@@ -66,13 +66,13 @@
                 class="left"
               >
                 <img
-                  class="select"
                   :src="loadingImg('selected.png')"
+                  class="select"
                   v-show="flag"
                 />
                 <img
-                  class="select"
                   :src="loadingImg('no-selected.png')"
+                  class="select"
                   v-show="!flag"
                 />
                 <span>记住密码</span>
@@ -124,12 +124,26 @@ export default {
       this.$refs.form.validate().then(result => {
         if (result) {
           Api.userLoginIn(this.form).then(data => {
-            this.$store.commit("setloginInfo", data);
-            let unlockStr = tool.encAse192(JSON.stringify(data), "login");
-            this.storage.localSet("login", unlockStr);
-            this.goPage("home");
+            this.$store.commit("setToken", data);
+            // let unlockStr = tool.encAse192(JSON.stringify(data), "login");
+            this.storage.localSet("login", data);
+            let onePromise = this.queryUser();
+            let twoPromise = this.queryLoginRight();
+            Promise.all([onePromise, twoPromise]).then(() => {
+              this.goPage("home");
+            });
           });
         }
+      });
+    },
+    queryLoginRight() {
+      return Api.getAuthorByToken().then(res => {
+        this.$store.commit("setAuthor", res.data);
+      });
+    },
+    queryUser() {
+      return Api.getCurrentUserByToken().then(res => {
+        this.$store.commit("setUser", res.data);
       });
     },
     handlePassword(type) {

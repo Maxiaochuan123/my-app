@@ -2,6 +2,12 @@ import * as C from "../serviceUrl/sysUser";
 import post, { get } from "../api";
 /** 系统用户模块 */
 export default {
+  // 根据token获取当前登录人信息
+  getCurrentUserByToken: params =>
+    get({
+      params,
+      url: C.GET_CURRENT_USER
+    }),
   // 通过部门ID查询简单用户名
   querySimpleUserByDepId: params =>
     get({
