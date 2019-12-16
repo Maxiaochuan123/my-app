@@ -14,6 +14,12 @@ export default {
       params,
       url: C.USER_LOGIN_OUT
     }),
+  // 根据当前的token获取当前的权限
+  getAuthorByToken: params =>
+    get({
+      params,
+      url: C.GET_AUTHOR_BY_TOKEN
+    }),
   // 查询客户的字段
   queryFieldList: params =>
     post({

@@ -2,7 +2,7 @@
  * @Description: In User Settings Edit
  * @Author: your name
  * @Date: 2019-08-27 14:09:01
- * @LastEditTime: 2019-10-24 17:37:37
+ * @LastEditTime: 2019-12-16 10:23:45
  * @LastEditors: shenah
  */
 import Vue from "vue";
@@ -29,12 +29,18 @@ export default new Vuex.Store({
   mutations: {
     // 基础方法
     setBottomNav: (state, data) => (state.bottomNav = data),
-    // 登录的基本信息
-    setloginInfo: (state, data) => {
-      const { accessToken, authorities, user } = data;
+    // 登录的token
+    setToken: (state, data) => {
+      const { accessToken } = data;
       state.accessToken = accessToken;
-      state.authorities = authorities;
-      state.loginUser = user;
+    },
+    // 根据token获取当前的登录信息
+    setUser: (state, data) => {
+      state.loginUser = data;
+    },
+    // 根据token获取当前用户的权限
+    setAuthor: (state, data) => {
+      state.authorities = data;
     }
   }
 });

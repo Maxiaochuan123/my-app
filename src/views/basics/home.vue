@@ -1,134 +1,189 @@
 <template>
   <div class="home">
-    <AppBar :iconSize="iconSize" :isMenu="isMenu" :leftIcon="leftIcon" :leftLinkName="leftLinkName" :menuList="menuList" :pageTitle="pageTitle" :rightIcon="rightIcon" :rightLinkName="rightLinkName">
+    <AppBar
+      :iconSize="iconSize"
+      :isMenu="isMenu"
+      :leftIcon="leftIcon"
+      :leftLinkName="leftLinkName"
+      :menuList="menuList"
+      :pageTitle="pageTitle"
+      :rightIcon="rightIcon"
+      :rightLinkName="rightLinkName"
+    >
       <!-- 抽屉 -->
       <div slot="drawerContent">
-        <mu-button @click="changeTheme('theme_one')" color="primary" >theme_one</mu-button>
-        <mu-button @click="changeTheme('theme_two')" color="orange" >theme_two</mu-button>
-        <mu-button @click="changeTheme('theme_three')" color="red">Btheme_three</mu-button>
+        <mu-button
+          @click="changeTheme('theme_one')"
+          color="primary"
+        >theme_one</mu-button>
+        <mu-button
+          @click="changeTheme('theme_two')"
+          color="orange"
+        >theme_two</mu-button>
+        <mu-button
+          @click="changeTheme('theme_three')"
+          color="red"
+        >Btheme_three</mu-button>
       </div>
     </AppBar>
 
     <div class="content">
-        <mu-paper :z-depth="0" class="blockNav" >
-          <mu-carousel :cycle="false" :hide-controls="true" >
-            <mu-carousel-item>
-              <div class="gridNav">
-                <div class="row">
-                  <div @click="goPage('clue')">
-                    <img :src="loadingImg('clue.png')" />
-                    <span>线索</span>
-                  </div>
-                  <div @click="goPage('customerManage')">
-                    <img :src="loadingImg('customer.png')" />
-                    <span>客户</span>
-                  </div>
-                  <div @click="goPage('commonWatersClue')">
-                    <img :src="loadingImg('pubSea.png')" />
-                    <span>公海</span>
-                  </div>
-                  <div @click="goPage('toDoList')">
-                    <img :src="loadingImg('toduList.png')" />
-                    <span>待办</span>
-                  </div>
+      <mu-paper
+        :z-depth="0"
+        class="blockNav"
+      >
+        <mu-carousel
+          :cycle="false"
+          :hide-controls="true"
+        >
+          <mu-carousel-item>
+            <div class="gridNav">
+              <div class="row">
+                <div @click="goPage('clue')">
+                  <img :src="loadingImg('clue.png')" />
+                  <span>线索</span>
                 </div>
-                <div class="row">
-                  <div @click="goPage('daily')">
-                    <img :src="loadingImg('daily.png')" />
-                    <span>日报</span>
-                  </div>
-                  <div @click="goPage('visitList')">
-                    <img :src="loadingImg('visit.png')" />
-                    <span>拜访</span>
-                  </div>
-                  <div @click="goPage('taskList')">
-                    <img :src="loadingImg('task.png')" />
-                    <span>任务</span>
-                  </div>
-                  <div>
-                    <img :src="loadingImg('order.png')" />
-                    <span>订单</span>
-                  </div>
+                <div @click="goPage('customerManage')">
+                  <img :src="loadingImg('customer.png')" />
+                  <span>客户</span>
+                </div>
+                <div @click="goPage('commonWatersClue')">
+                  <img :src="loadingImg('pubSea.png')" />
+                  <span>公海</span>
+                </div>
+                <div @click="goPage('toDoList')">
+                  <img :src="loadingImg('toduList.png')" />
+                  <span>待办</span>
                 </div>
               </div>
-            </mu-carousel-item>
-            <mu-carousel-item>
-              <div class="gridNav">
-                <div class="row">
-                  <div>
-                    <img :src="loadingImg('daily.png')" />
-                    <span>考勤</span>
-                  </div>
-                  <div>
-                    <img :src="loadingImg('daily.png')" />
-                    <span>统计报表</span>
-                  </div>
-                  <div>
-                    <img :src="loadingImg('daily.png')" />
-                    <span>知识库</span>
-                  </div>
-                  <div>
-                    <img :src="loadingImg('daily.png')" />
-                    <span>查征信</span>
-                  </div>
+              <div class="row">
+                <div @click="goPage('daily')">
+                  <img :src="loadingImg('daily.png')" />
+                  <span>日报</span>
                 </div>
-                <div class="row">
-                  <div>
-                    <img :src="loadingImg('daily.png')" />
-                    <span>产品</span>
-                  </div>
-                  <div>
-                    <img :src="loadingImg('daily.png')" />
-                    <span>回款</span>
-                  </div>
-                  <div>
-                    <img :src="loadingImg('daily.png')" />
-                    <span>合同</span>
-                  </div>
-                  <div>
-                    <img :src="loadingImg('daily.png')" />
-                    <span>商机</span>
-                  </div>
+                <div @click="goPage('visitList')">
+                  <img :src="loadingImg('visit.png')" />
+                  <span>拜访</span>
+                </div>
+                <div @click="goPage('taskList')">
+                  <img :src="loadingImg('task.png')" />
+                  <span>任务</span>
+                </div>
+                <div>
+                  <img :src="loadingImg('order.png')" />
+                  <span>订单</span>
                 </div>
               </div>
-            </mu-carousel-item>
-          </mu-carousel>
-        </mu-paper>
+            </div>
+          </mu-carousel-item>
+          <mu-carousel-item>
+            <div class="gridNav">
+              <div class="row">
+                <div>
+                  <img :src="loadingImg('daily.png')" />
+                  <span>考勤</span>
+                </div>
+                <div>
+                  <img :src="loadingImg('daily.png')" />
+                  <span>统计报表</span>
+                </div>
+                <div>
+                  <img :src="loadingImg('daily.png')" />
+                  <span>知识库</span>
+                </div>
+                <div>
+                  <img :src="loadingImg('daily.png')" />
+                  <span>查征信</span>
+                </div>
+              </div>
+              <div class="row">
+                <div>
+                  <img :src="loadingImg('daily.png')" />
+                  <span>产品</span>
+                </div>
+                <div>
+                  <img :src="loadingImg('daily.png')" />
+                  <span>回款</span>
+                </div>
+                <div>
+                  <img :src="loadingImg('daily.png')" />
+                  <span>合同</span>
+                </div>
+                <div>
+                  <img :src="loadingImg('daily.png')" />
+                  <span>商机</span>
+                </div>
+              </div>
+            </div>
+          </mu-carousel-item>
+        </mu-carousel>
+      </mu-paper>
 
-      <mu-paper :z-depth="0" class="businessSituation" >
+      <mu-paper
+        :z-depth="0"
+        class="businessSituation"
+      >
         <div class="titleNav">
           <div class="baseInfo">
             <span class="title">业务概况</span>
-            <span class="month" @click="showPicker(0,0)">[{{businessOverview.select_1.text}}]<i class="iconfont icon-xiajiantou1"></i></span>
+            <span
+              @click="showPicker(0,0)"
+              class="month"
+            >
+              [{{businessOverview.select_1.text}}]
+              <i class="iconfont icon-xiajiantou1"></i>
+            </span>
           </div>
           <div class="tabBar">
-            <span :class="['team', businessOverview.teamType === '0' ? 'active' : '']" @click="getTeamType('0',0)">团队</span>
+            <span
+              :class="['team', businessOverview.teamType === '0' ? 'active' : '']"
+              @click="getTeamType('0',0)"
+            >团队</span>
             <span>|</span>
-            <span :class="['personal', businessOverview.teamType === '1' ? 'active' : '']" @click="getTeamType('1',0)">个人</span>
+            <span
+              :class="['personal', businessOverview.teamType === '1' ? 'active' : '']"
+              @click="getTeamType('1',0)"
+            >个人</span>
           </div>
         </div>
-        <div :key="index" class="sliderBox" v-for="(item,index) in businessOverview.sliderList" >
+        <div
+          :key="index"
+          class="sliderBox"
+          v-for="(item,index) in businessOverview.sliderList"
+        >
           <div class="indicator">
             <div :style="`margin-left: calc(${item.val}% - ${item.val > 94 ? '34' : '14'}px);`">
-              <img :style="`transform:rotateY(${item.val > 94 ? '180' : '0'}deg);`" src="../../../static/images/indicator.png" />
+              <img
+                :style="`transform:rotateY(${item.val > 94 ? '180' : '0'}deg);`"
+                src="../../../static/images/indicator.png"
+              />
               <span>{{item.val}}%</span>
             </div>
           </div>
           <div class="slider">
             <div class="bacSlider"></div>
-            <div :style="`width: ${item.val}%;`" class="frontSlider" ></div>
+            <div
+              :style="`width: ${item.val}%;`"
+              class="frontSlider"
+            ></div>
           </div>
           <div class="describe">
-            <div class="completed"> 已完成
+            <div class="completed">
+              已完成
               <span>{{item.val}}{{item.title}}</span>
             </div>
-            <div class="target"> 目标
+            <div class="target">
+              目标
               <span>100{{item.title}}</span>
             </div>
-            </div>
           </div>
-          <div class="blockNumber">
-            <div :key="index" class="block" v-for="(item,index) in businessOverview.blockNumberList" >
+        </div>
+        <div class="blockNumber">
+          <div
+            :key="index"
+            class="block"
+            v-for="(item,index) in businessOverview.blockNumberList"
+          >
             <div>
               <img :src="item.src" />
               <div class="describe">
@@ -140,21 +195,46 @@
         </div>
       </mu-paper>
 
-      <mu-paper :z-depth="0" class="rankingList" >
+      <mu-paper
+        :z-depth="0"
+        class="rankingList"
+      >
         <div class="titleNav">
           <div class="baseInfo">
             <span class="title">排行榜</span>
-            <span class="month" @click="showPicker(0,1)">[{{rankingList.select_1.text}}] <i class="iconfont icon-xiajiantou1"></i></span>
-            <span class="money" @click="showPicker(1,1)">[{{rankingList.select_2.text}}] <i class="iconfont icon-xiajiantou1"></i></span>
+            <span
+              @click="showPicker(0,1)"
+              class="month"
+            >
+              [{{rankingList.select_1.text}}]
+              <i class="iconfont icon-xiajiantou1"></i>
+            </span>
+            <span
+              @click="showPicker(1,1)"
+              class="money"
+            >
+              [{{rankingList.select_2.text}}]
+              <i class="iconfont icon-xiajiantou1"></i>
+            </span>
           </div>
           <div class="tabBar">
-            <span :class="['team', rankingList.teamType === '0' ? 'active' : '']" @click="getTeamType('0',1)">团队</span>
+            <span
+              :class="['team', rankingList.teamType === '0' ? 'active' : '']"
+              @click="getTeamType('0',1)"
+            >团队</span>
             <span>|</span>
-            <span :class="['personal', rankingList.teamType === '1' ? 'active' : '']" @click="getTeamType('1',1)">个人</span>
+            <span
+              :class="['personal', rankingList.teamType === '1' ? 'active' : '']"
+              @click="getTeamType('1',1)"
+            >个人</span>
           </div>
         </div>
         <div class="companyRanking">
-          <div :key="index" class="block" v-for="(item,index) in rankingList.companyRankingLsit" >
+          <div
+            :key="index"
+            class="block"
+            v-for="(item,index) in rankingList.companyRankingLsit"
+          >
             <div class="title">
               <img :src="item.src" />
               <span>{{item.name}}</span>
@@ -168,7 +248,15 @@
         </div>
       </mu-paper>
       <!-- 弹出选择器 -->
-      <Picker :anchor="pickerAnchor" :data="pickerList" :textTitle="pickerTitle" @confirm="pickerConfirm" name="name" picker-class="pickerClass" ref="picker" ></Picker>
+      <Picker
+        :anchor="pickerAnchor"
+        :data="pickerList"
+        :textTitle="pickerTitle"
+        @confirm="pickerConfirm"
+        name="name"
+        picker-class="pickerClass"
+        ref="picker"
+      ></Picker>
     </div>
   </div>
 </template>
@@ -178,9 +266,12 @@ import AppBar from "../../components/AppBar";
 import Picker from "dm-vue-picker-h5";
 import Theme from "muse-ui/lib/theme";
 import myTheme from "../../../static/json/myTheme.json";
+import Api from "@api";
+import tool from "@static/js/tool.js";
 export default {
   components: {
-    AppBar,Picker
+    AppBar,
+    Picker
   },
   data() {
     return {
@@ -193,89 +284,103 @@ export default {
       isDrawer: false,
       isMenu: true,
 
-      menuList: [{
-        title: "写日报",
-        linkName: "addDaily",
-        isLink: true,
-        flag:true
-      },{
-        title: "写拜访",
-        linkName: "addOrEditVisit",
-        isLink: true,
-        flag:true
-      },{
-        title: "新增客户",
-        linkName: "addOrEditCustomer",
-        isLink: true,
-        flag:true
-      },{
-        title: "新增任务",
-        linkName: "addOrEditTask",
-        isLink: true,
-        flag:true
-      }],
-      businessOverview:{
-        teamType:'1', // 0:团队 1:个人
-        select_1:{
-          text:'本月',
-          value:'',
+      menuList: [
+        {
+          title: "写日报",
+          linkName: "addDaily",
+          isLink: true,
+          flag: true
+        },
+        {
+          title: "写拜访",
+          linkName: "addOrEditVisit",
+          isLink: true,
+          flag: true
+        },
+        {
+          title: "新增客户",
+          linkName: "addOrEditCustomer",
+          isLink: true,
+          flag: true
+        },
+        {
+          title: "新增任务",
+          linkName: "addOrEditTask",
+          isLink: true,
+          flag: true
+        }
+      ],
+      businessOverview: {
+        teamType: "1", // 0:团队 1:个人
+        select_1: {
+          text: "本月",
+          value: "",
           pickerAnchor: [4] // 下拉选默认值
         },
-        blockNumberList: [{
-          src: "../../../static/images/homeClue.png",
-          number: "0",
-          title: "新增线索"
-        },
-        {
-          src: "../../../static/images/homeUser.png",
-          number: "0",
-          title: "新增客户"
-        },
-        {
-          src: "../../../static/images/homeRecord.png",
-          number: "0",
-          title: "跟进记录"
-        },
-        {
-          src: "../../../static/images/homeContacts.png",
-          number: "0",
-          title: "新增联系人"
-        }],
-        sliderList: [{
-          title: "万",
-          val: 30
-        },{
-          title: "单",
-          val: 60
-        }],
+        blockNumberList: [
+          {
+            src: "../../../static/images/homeClue.png",
+            number: "0",
+            title: "新增线索"
+          },
+          {
+            src: "../../../static/images/homeUser.png",
+            number: "0",
+            title: "新增客户"
+          },
+          {
+            src: "../../../static/images/homeRecord.png",
+            number: "0",
+            title: "跟进记录"
+          },
+          {
+            src: "../../../static/images/homeContacts.png",
+            number: "0",
+            title: "新增联系人"
+          }
+        ],
+        sliderList: [
+          {
+            title: "万",
+            val: 30
+          },
+          {
+            title: "单",
+            val: 60
+          }
+        ]
       },
-      rankingList:{
-        teamType:'1', // 0:团队 1:个人
-        select_1:{
-          text:'本月',
-          value:'',
+      rankingList: {
+        teamType: "1", // 0:团队 1:个人
+        select_1: {
+          text: "本月",
+          value: "",
           pickerAnchor: [4] // 下拉选默认值
         },
-        select_2:{
-          text:'金额',
-          value:'',
+        select_2: {
+          text: "金额",
+          value: "",
           pickerAnchor: [2] // 下拉选默认值
         },
-        companyRankingLsit: [{
-          src: "../../../static/images/first.png",
-          name: "贵州分公司",
-          money: "486.7"
-        },{
-          src: "../../../static/images/second.png",
-          name: "海南分公司",
-          money: "486.7"
-        },{
-          src: "../../../static/images/third.png",
-          name: "四川分公司",
-          money: "486.7"
-        }],
+        companyRankingLsit: [
+          {
+            src: "../../../static/images/first.png",
+            name: "贵州分公司",
+            money: "486.7"
+          },
+          {
+            src: "../../../static/images/second.png",
+            name: "海南分公司",
+            money: "486.7"
+          },
+          {
+            src: "../../../static/images/third.png",
+            name: "四川分公司",
+            money: "486.7"
+          }
+        ]
       },
-      dataAnalysis:{},
+      dataAnalysis: {},
       screenType: 0, // 0:业务概况 1:排行榜
       selectType: 0, // 0:时间 1:其他
 
@@ -285,8 +390,9 @@ export default {
     };
   },
   created() {
+    // 判断是否有token来进行操作
+    this.judgeUrlToken();
     this.getDataAnalysis(this.getParams());
-
     let activTheme = this.storage.localGet("theme");
     if (activTheme) {
       Theme.add("theme_one", activTheme, "light");
@@ -296,40 +402,64 @@ export default {
     }
   },
   methods: {
+    judgeUrlToken() {
+      let { token } = this.$route.query;
+      if (token) {
+        // 证明是从原生进入的
+        this.$store.commit("setToken", token);
+        this.storage.localSet("login", { accessToken: token });
+        this.queryLoginRight();
+        this.queryUser();
+      }
+    },
+    queryLoginRight() {
+      return Api.getAuthorByToken().then(res => {
+        this.$store.commit("setAuthor", res.data);
+      });
+    },
+    queryUser() {
+      return Api.getCurrentUserByToken().then(res => {
+        this.$store.commit("setUser", res.data);
+      });
+    },
     // 获取首页数据
-    getDataAnalysis(){
-      this.api.getDataAnalysis(this.getParams()).then(res=>{
+    getDataAnalysis() {
+      this.api.getDataAnalysis(this.getParams()).then(res => {
         this.dataAnalysis = res.data;
-        this.businessOverview.blockNumberList[0].number = res.data.leadsCount || 0;
-        this.businessOverview.blockNumberList[1].number = res.data.customerCount || 0;
-        this.businessOverview.blockNumberList[2].number = res.data.recordCount || 0;
-        this.businessOverview.blockNumberList[3].number = res.data.contactsCount || 0;
-      })
+        this.businessOverview.blockNumberList[0].number =
+          res.data.leadsCount || 0;
+        this.businessOverview.blockNumberList[1].number =
+          res.data.customerCount || 0;
+        this.businessOverview.blockNumberList[2].number =
+          res.data.recordCount || 0;
+        this.businessOverview.blockNumberList[3].number =
+          res.data.contactsCount || 0;
+      });
     },
     // 获取 API 参数
-    getParams(){
-      let params = {teamType:'', type:''}
-      if(this.screenType === 0){
+    getParams() {
+      let params = { teamType: "", type: "" };
+      if (this.screenType === 0) {
         params.teamType = this.businessOverview.teamType;
-        params.type = this.businessOverview.select_1.value || 'month';
-      }else if(this.screenType === 1){
+        params.type = this.businessOverview.select_1.value || "month";
+      } else if (this.screenType === 1) {
         params.teamType = this.rankingList.teamType;
-        params.type = this.rankingList.select_1.value || 'month';
+        params.type = this.rankingList.select_1.value || "month";
       }
-      return params
+      return params;
     },
     // show picker
-    showPicker(selectType,screenType){
+    showPicker(selectType, screenType) {
       this.getPickerList(selectType);
       this.$refs.picker.show();
 
-      if(screenType === 0){
-        this.pickerAnchor = this.businessOverview.select_1.pickerAnchor
-      }else if(screenType === 1){
-        if(selectType === 0){
-          this.pickerAnchor = this.rankingList.select_1.pickerAnchor
-        }else if(selectType === 1){
-          this.pickerAnchor = this.rankingList.select_2.pickerAnchor
+      if (screenType === 0) {
+        this.pickerAnchor = this.businessOverview.select_1.pickerAnchor;
+      } else if (screenType === 1) {
+        if (selectType === 0) {
+          this.pickerAnchor = this.rankingList.select_1.pickerAnchor;
+        } else if (selectType === 1) {
+          this.pickerAnchor = this.rankingList.select_2.pickerAnchor;
         }
       }
 
@@ -338,16 +468,16 @@ export default {
     },
     // confirm picker
     pickerConfirm(value, column, text) {
-      if(this.screenType === 0){
+      if (this.screenType === 0) {
         this.businessOverview.select_1.value = value[0];
         this.businessOverview.select_1.text = text[0];
         this.businessOverview.select_1.pickerAnchor = column;
-      }else if(this.screenType === 1){
-        if(this.selectType === 0){
+      } else if (this.screenType === 1) {
+        if (this.selectType === 0) {
           this.rankingList.select_1.value = value[0];
           this.rankingList.select_1.text = text[0];
           this.rankingList.select_1.pickerAnchor = column;
-        }else if(this.selectType === 1){
+        } else if (this.selectType === 1) {
           this.rankingList.select_2.value = value[0];
           this.rankingList.select_2.text = text[0];
           this.rankingList.select_2.pickerAnchor = column;
@@ -357,45 +487,73 @@ export default {
       this.getDataAnalysis();
     },
     // 获取 pickerList
-    getPickerList(selectType){
-      if(selectType === 0){
-        this.pickerList = [{
-          text:'今天',value:''
-        },{
-          text:'昨天',value:'yesterday'
-        },{
-          text:'本周',value:'week'
-        },{
-          text:'上周',value:'lastWeek'
-        },{
-          text:'本月',value:'month'
-        },{
-          text:'上月',value:'lastMonth'
-        },{
-          text:'本季度',value:'quarter'
-        },{
-          text:'上季度',value:'lastQuarter'
-        },{
-          text:'本年',value:'year'
-        },{
-          text:'上年',value:'lastYear'
-        }]
-      }else if(selectType === 1){
-        this.pickerList = [{
-          text:'订单',value:'订单'
-        },{
-          text:'完成',value:'完成'
-        },{
-          text:'金额',value:'金额'
-        }]
+    getPickerList(selectType) {
+      if (selectType === 0) {
+        this.pickerList = [
+          {
+            text: "今天",
+            value: ""
+          },
+          {
+            text: "昨天",
+            value: "yesterday"
+          },
+          {
+            text: "本周",
+            value: "week"
+          },
+          {
+            text: "上周",
+            value: "lastWeek"
+          },
+          {
+            text: "本月",
+            value: "month"
+          },
+          {
+            text: "上月",
+            value: "lastMonth"
+          },
+          {
+            text: "本季度",
+            value: "quarter"
+          },
+          {
+            text: "上季度",
+            value: "lastQuarter"
+          },
+          {
+            text: "本年",
+            value: "year"
+          },
+          {
+            text: "上年",
+            value: "lastYear"
+          }
+        ];
+      } else if (selectType === 1) {
+        this.pickerList = [
+          {
+            text: "订单",
+            value: "订单"
+          },
+          {
+            text: "完成",
+            value: "完成"
+          },
+          {
+            text: "金额",
+            value: "金额"
+          }
+        ];
       }
     },
     // 个人 / 团队 切换
-    getTeamType(teamType, screenType){
+    getTeamType(teamType, screenType) {
       this.screenType = screenType;
-      if(this.screenType === 0){
+      if (this.screenType === 0) {
         this.businessOverview.teamType = teamType;
-      }else if(this.screenType === 1){
+      } else if (this.screenType === 1) {
         this.rankingList.teamType = teamType;
       }
       this.getDataAnalysis();
