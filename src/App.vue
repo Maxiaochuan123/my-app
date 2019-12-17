@@ -2,15 +2,15 @@
  * @Description: In User Settings Edit
  * @Author: your name
  * @Date: 2019-08-25 15:40:36
- * @LastEditTime: 2019-12-16 10:10:43
+ * @LastEditTime: 2019-12-17 10:20:20
  * @LastEditors: shenah
  -->
 <template>
   <div id="app">
     <!-- <keep-alive v-if="$route.meta.keepAlive"> -->
-      <router-view/>
+    <router-view />
     <!-- </keep-alive> -->
-    
+
     <!-- <router-view v-if="!$route.meta.keepAlive"/> -->
 
     <BottomNav v-if="showBotNav" />
@@ -49,6 +49,8 @@ export default {
     const userObj = tool.decUserInfo();
     if (userObj.accessToken) {
       this.$store.commit("setToken", userObj);
+      this.queryLoginRight();
+      this.queryUser();
     }
   },
   watch: {
@@ -61,7 +63,16 @@ export default {
     }
   },
   methods: {
-   
+    queryLoginRight() {
+      return Api.getAuthorByToken().then(res => {
+        this.$store.commit("setAuthor", res.data);
+      });
+    },
+    queryUser() {
+      return Api.getCurrentUserByToken().then(res => {
+        this.$store.commit("setUser", res.data);
+      });
+    }
   }
 };
 </script>
@@ -79,15 +90,15 @@ export default {
   width: 0;
   display: none;
 }
-body{
-  padding-top: constant(safe-area-inset-top);   //为导航栏+状态栏的高度 88px            
-  padding-left: constant(safe-area-inset-left);   //如果未竖屏时为0                
-  padding-right: constant(safe-area-inset-right); //如果未竖屏时为0                
-  padding-bottom: constant(safe-area-inset-bottom);//为底下圆弧的高度 34px
+body {
+  padding-top: constant(safe-area-inset-top); //为导航栏+状态栏的高度 88px
+  padding-left: constant(safe-area-inset-left); //如果未竖屏时为0
+  padding-right: constant(safe-area-inset-right); //如果未竖屏时为0
+  padding-bottom: constant(safe-area-inset-bottom); //为底下圆弧的高度 34px
 }
 @media only screen and (width: 375px) and (min-height: 690px) {
   body {
-      height: 100vh;
+    height: 100vh;
   }
 }
 </style>

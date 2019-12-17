@@ -2,8 +2,8 @@
  * @Description: In User Settings Edit
  * @Author: your name
  * @Date: 2019-08-25 15:40:36
- * @LastEditTime: 2019-09-05 11:57:23
- * @LastEditors: Please set LastEditors
+ * @LastEditTime: 2019-12-17 10:22:09
+ * @LastEditors: shenah
  */
 import Vue from "vue";
 import App from "./App";
@@ -49,7 +49,11 @@ import AlloyFingerPlugin from "alloyfinger/vue/alloy_finger_vue";
 Vue.use(AlloyFingerPlugin, {
   AlloyFinger
 });
-
+const prefix = `${window.location.protocol}//${window.location.host}/api`;
+// const prefix = `${window.location.protocol}//${window.location.host}/mock`; // mocksever数据
+window.config = {
+  service: prefix
+};
 /* eslint-disable no-new */
 new Vue({
   el: "#app",
@@ -58,8 +62,3 @@ new Vue({
   components: { App },
   template: "<App/>"
 });
-const prefix = `${window.location.protocol}//${window.location.host}/api`;
-// const prefix = `${window.location.protocol}//${window.location.host}/mock`; // mocksever数据
-window.config = {
-  service: prefix
-};
