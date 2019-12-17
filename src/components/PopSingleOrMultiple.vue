@@ -3,7 +3,7 @@
  * @Author: shenah
  * @Date: 2019-10-21 13:50:16
  * @LastEditors: shenah
- * @LastEditTime: 2019-10-22 11:47:07
+ * @LastEditTime: 2019-12-17 14:51:25
  -->
 
 <template>
@@ -192,6 +192,7 @@ export default {
     searchInputBarChange(obj) {
       const { type, value } = obj;
       this.requestParams.search = value;
+      this.requestParams.pageIndex = 1;
       this.query();
     },
     query(flag) {
