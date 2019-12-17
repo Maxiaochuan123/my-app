@@ -2,7 +2,7 @@
  * @Description: In User Settings Edit
  * @Author: your name
  * @Date: 2019-09-04 12:35:37
- * @LastEditTime: 2019-10-24 18:15:29
+ * @LastEditTime: 2019-12-17 15:43:23
  * @LastEditors: shenah
  -->
 <!--
@@ -86,6 +86,7 @@
 
 <script>
 import { mapState } from "vuex";
+import { ENORDISABLE } from "@constants/dictionaries.js";
 import AppBar from "@components/AppBar.vue";
 import FootNav from "@components/FootNav.vue";
 import Api from "@api";
@@ -156,8 +157,8 @@ export default {
         distribute,
         putinpool,
         update,
-        delete: del,
-        addrecord
+        addrecord,
+        isStartUsing
       } = this.customerRights;
       const {
         receive: poolReceive,
@@ -204,9 +205,12 @@ export default {
           }
         ];
       } else {
-        this.rightIconFlag = [distribute, putinpool, update, del].some(
+        this.rightIconFlag = [distribute, putinpool, update, isStartUsing].some(
           item => item
         );
+        let able = ENORDISABLE.filter(
+          item => item.value !== this.details.isLock
+        )[0];
         this.menuList = [
           {
             title: "分享",
@@ -230,10 +234,10 @@ export default {
             flag: update
           },
           {
-            title: "删除",
+            title: able.text,
             isLink: false,
-            type: "del",
-            flag: del
+            type: "able",
+            flag: isStartUsing
           }
         ];
       }
@@ -283,6 +287,20 @@ export default {
             labelType: "2"
           }).then(res => {
             this.$toast.success("领取成功");
+            this.goBack();
+          });
+        });
+      } else if (type === "able") {
+        let able = ENORDISABLE.filter(
+          item => item.value !== this.details.isLock
+        )[0];
+        let tip = able && able.text;
+        this.$confirm(`是否${tip}此客户?`, "提示").then(({ result, value }) => {
+          Api.updateCustomerEnableOrDisable({
+            customerIds: this.id,
+            isLock: able.value
+          }).then(res => {
+            this.$toast.success(`${tip}成功`);
             this.goBack();
           });
         });

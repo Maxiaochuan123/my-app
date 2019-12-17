@@ -12,6 +12,8 @@ export const QUERY_CUSTOMER_LIST_PC = getApi("/queryClientListPage");
 export const ADD_OR_EDIT_CUSTOMER = getApi("/clientAddOrUpdate");
 // 根据客户id查询详情
 export const QUERY_CUSTOMER_DETAILS_BY_ID = getApi("/queryById");
+// 客户启用与停用
+export const UPDATE_CUSTOMER_ENABLE_OR_DISABLE = getApi("/isStartUsing");
 // 根据id删除客户
 export const DELETE_CUSTOMER_BY_ID = getApi("/deleteByIds");
 // 客户新增跟进记录

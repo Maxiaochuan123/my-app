@@ -3,7 +3,7 @@
  * @Author: shenah
  * @Date: 2019-09-25 15:57:26
  * @LastEditors: shenah
- * @LastEditTime: 2019-10-12 15:33:45
+ * @LastEditTime: 2019-12-17 15:54:20
  */
 
 // 跟进类型
@@ -67,5 +67,17 @@ export const PRIORITY = [
   {
     text: "高",
     value: 3
+  }
+];
+
+// 启用与禁用
+export const ENORDISABLE = [
+  {
+    text: "停用",
+    value: 1
+  },
+  {
+    text: "启用",
+    value: 0
   }
 ];
