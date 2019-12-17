@@ -67,7 +67,20 @@
             <mu-divider shallow-inset v-show="index + 1 !== groupList.length"></mu-divider>
           </div>
         </mu-list>
-        <Nothing  words="暂无子部门" v-else></Nothing>
+        <mu-list textline="two-line"  v-else>
+          <div v-for="(item ,index) in contactsList" :key="index">
+            <mu-list-item button v-waves @click="drawerContacts = false;drawerDepartment = false; goPage('personalInfo',item)">
+              <mu-avatar>
+                <img :src="loadingImg('defaultImg.png')">
+              </mu-avatar>
+              <mu-list-item-content>
+                <mu-list-item-title>{{item.realname}}</mu-list-item-title>
+                <mu-list-item-sub-title>{{item.post}}</mu-list-item-sub-title>
+              </mu-list-item-content>
+            </mu-list-item>
+            <mu-divider shallow-inset v-show="index + 1 !== contactsList.length"></mu-divider>
+          </div>
+        </mu-list>
       </mu-drawer>
 
       <!-- 子组抽屉  1-1 -->
@@ -87,7 +100,22 @@
             <mu-divider shallow-inset v-show="index + 1 !== groupList_1.length"></mu-divider>
           </div>
         </mu-list>
-        <Nothing  words="暂无子部门" v-else></Nothing>
+        <!-- <Nothing  words="暂无子部门" v-else></Nothing> -->
+        <mu-list textline="two-line"  v-else>
+          <div v-for="(item ,index) in contactsList" :key="index">
+            <mu-list-item button v-waves @click="drawerContacts = false;drawerDepartment = false; goPage('personalInfo',item)">
+              <mu-avatar>
+                <img :src="loadingImg('defaultImg.png')">
+              </mu-avatar>
+              <mu-list-item-content>
+                <mu-list-item-title>{{item.realname}}</mu-list-item-title>
+                <mu-list-item-sub-title>{{item.post}}</mu-list-item-sub-title>
+              </mu-list-item-content>
+            </mu-list-item>
+            <mu-divider shallow-inset v-show="index + 1 !== contactsList.length"></mu-divider>
+          </div>
+        </mu-list>
+        <!-- <Nothing  words="暂无联系人" v-else></Nothing> -->
       </mu-drawer>
 
       <!-- 联系人抽屉 -->
@@ -152,10 +180,10 @@ export default {
     this.api.getDeptTree({type:'tree'}).then(res => {
       this.companyList = res.data;
     })
-    // this.api.getDeptContacts({deptId:'',shearch:'',needGroup:0}).then(res => {
-    //   this.userList = res.data;
-    //   // this.$store.commit('setUserList',res.data)
-    // })
+    this.api.getDeptContacts({deptId:'',shearch:'',needGroup:0}).then(res => {
+      this.userList = res.data.list;
+      // this.$store.commit('setUserList',res.data)
+    })
     
   },
   methods:{
@@ -172,6 +200,9 @@ export default {
         if(!this.drawerGroup) this.drawerGroup_1=false;this.drawerContacts=false; this.group_1_Active=''; this.contactsActive='';
         this.groupTitleName = item.name;
         this.groupList = item.children;
+        this.api.getDeptContacts({deptId:item.id,shearch:'',needGroup:0,pageType:0}).then(res => {
+          this.contactsList = res.data;
+        })
       }else if(type === 'group_1'){
         this.drawerGroup_1 = !this.drawerGroup_1;
         if(!this.drawerGroup_1) this.drawerContacts=false;  this.contactsActive='';
@@ -180,7 +211,7 @@ export default {
       }else if(type === 'contacts'){
         this.contactsActive = index;
         this.drawerContacts = !this.drawerContacts;
-        this.api.getDeptContacts({deptId:item.id,shearch:'',needGroup:0}).then(res => {
+        this.api.getDeptContacts({deptId:item.id,shearch:'',needGroup:0,pageType:0}).then(res => {
           this.contactsList = res.data;
         })
       }
@@ -189,7 +220,7 @@ export default {
         this.group_1_Active = index;
       }
     }
-  }
+  },
 }
 </script>
 
@@ -220,18 +251,6 @@ export default {
       .mu-list{
         list-style: none; 
       }
-      .contacts{
-        .shallow-inset{
-          margin-left: 67px;
-        }
-        
-        .mu-item-title{
-          font-weight: 400;
-        }
-        .mu-item-content{
-          padding-left: 12px;
-        }
-      }
 
       .mu-drawer{
         // width: 100vw;
@@ -246,12 +265,22 @@ export default {
         }
         &.contacts{
           width: 60vw;
-          .mu-avatar{
-            background-color: transparent;
-          }
-          .mu-item-sub-title{
-            line-height: 20px;
-          }
+        }
+        .mu-avatar{
+          background-color: transparent;
+        }
+        .mu-item-sub-title{
+          line-height: 20px;
+        }
+        .shallow-inset{
+          margin-left: 67px;
+        }
+        
+        .mu-item-title{
+          font-weight: 400;
+        }
+        .mu-item-content{
+          padding-left: 12px;
         }
         .nothing{
           height: calc(100% - 72px);

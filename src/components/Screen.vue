@@ -10,10 +10,10 @@
           
           <div class="screenInput" v-if="item.type === 'input'">
             <i class="iconfont icon-sousuo1"></i>
-            <mu-text-field class="searchInput" v-model="item.val" :placeholder="item.placeholder"></mu-text-field>
+            <mu-text-field class="input" v-model="item.val" :placeholder="item.placeholder"></mu-text-field>
           </div>
 
-          <div class="screenInput" v-else-if="item.type === 'searchInput'">
+          <!-- <div class="screenInput" v-else-if="item.type === 'searchInput'">
             <i class="iconfont icon-sousuo1"></i>
             <div class="shanchu" v-if="item.val"><i class="iconfont icon-shanchu" @click="item.val = ''"></i></div>
             <mu-select full-width filterable v-model="item.val" :placeholder="item.placeholder">
@@ -24,7 +24,7 @@
                 :value="one[item.valueField]"
               ></mu-option>
             </mu-select>
-          </div>
+          </div> -->
           
 
           <div class="screenInput" v-else-if="item.type === 'date'">
@@ -95,7 +95,7 @@ export default {
 <style lang='less' scoped>
   .drawerContent{
     height: 100%;
-    pointer-events: none;
+    // pointer-events: none;
     .drawerTitle{
       font-size: 20px;
       font-weight: @primary-weight;
@@ -138,10 +138,12 @@ export default {
           right: 10px;
           font-size: 24px;
           color: @regular-text;
+          z-index: 99;
         }
         .icon-sousuo1{
           font-size: 18px;
           top: 2px;
+          display: inline-block;
         }
         .shanchu{
           position: absolute;
@@ -168,7 +170,7 @@ export default {
             margin: 2px 0 0 4px;
           }
         }
-        .searchInput{
+        .input{
           margin: 0;
           padding: 0;
           min-height: 0;

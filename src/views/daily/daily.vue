@@ -68,14 +68,13 @@ export default {
     return{
       dailyList:[], //日报列表
       drawerList:{
-        createUserId:{
+        createUserName:{
           fileTitle:'搜索',
-          type:'searchInput',
+          type:'input',
           placeholder:'搜索内部联系人',
           valueField:'val',
           labelField:'name',
           val:'',
-          searchList:[]
         },
         createTime:{
           fileTitle:'创建时间',

@@ -11,7 +11,7 @@ export default {
   getTeamContacts: params => post({ params, url: '/crmContacts/getContactsMembers' }),
   // 获取部门列表
   getDeptTree: params => get({ params, url: '/sysDept/queryDeptTree' }),
-  // 获取 - 公司 - 部门
+  // 获取 - 公司 - 部门 - 联系人
   getDeptContacts: params => get({ params, url: '/sysUser/querySimpleUserByDeptId' }),
 
   // id 查询联系人详情
