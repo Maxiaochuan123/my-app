@@ -27,6 +27,12 @@ export default {
       params,
       url: C.QUERY_CUSTOMER_DETAILS_BY_ID
     }),
+  // 客户的启用与禁用
+  updateCustomerEnableOrDisable: params =>
+    post({
+      params,
+      url: C.UPDATE_CUSTOMER_ENABLE_OR_DISABLE
+    }),
   // 根据id删除客户
   deleteCustomerById: params =>
     post({

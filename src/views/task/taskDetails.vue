@@ -3,7 +3,7 @@
  * @Author: shenah
  * @Date: 2019-10-12 14:29:46
  * @LastEditors: shenah
- * @LastEditTime: 2019-11-27 10:17:53
+ * @LastEditTime: 2019-12-17 16:10:50
  -->
 <template>
   <div class="task-details">
@@ -23,14 +23,16 @@
               class="header-left"
               size="60"
             >
-              <img :src="details.createUser && details.createUser.img || loadingImg('default-header.png')" />
+              <img
+                :src="details.createUser && details.createUser.img || loadingImg('default-header.png')"
+              />
             </mu-avatar>
             <div class="header-right">
               <div class="title">
-                <div>{{details.name}}</div>
+                <div class="title-name">{{details.name}}</div>
                 <div
-                  class="task-status-common"
                   :class="changeClass(details.status,'status')"
+                  class="task-status-common"
                 >{{details.status | codeInToName(TASK_STATUS)}}</div>
               </div>
               <div class="sub-title">
@@ -49,6 +51,10 @@
               <div
                 class="header-info-item-right"
               >{{details.createUser && details.createUser.realname}}</div>
+            </div>
+            <div class="header-info-item">
+              <div class="header-info-item-left">负责人</div>
+              <div class="header-info-item-right">{{details.leaderUserName}}</div>
             </div>
             <div class="header-info-item">
               <div class="header-info-item-left">执行人</div>
@@ -279,9 +285,12 @@ export default {
               font-size: @primary-size;
               color: @primary-text;
               font-weight: @primary-weight;
-              .task-status-common{
-                width: 200px;
-                margin-left:10px;
+              .title-name {
+                flex: 1;
+              }
+              .task-status-common {
+                width: 70px;
+                margin-left: 10px;
                 text-align: right;
               }
               .task-status {
