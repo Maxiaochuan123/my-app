@@ -3,7 +3,7 @@
  * @Author: shenah
  * @Date: 2019-10-15 16:25:05
  * @LastEditors: shenah
- * @LastEditTime: 2019-10-25 13:26:32
+ * @LastEditTime: 2019-12-17 13:43:36
  -->
 <template>
   <div class>
@@ -195,14 +195,16 @@ export default {
             let objArray = PRIORITY.filter(
               ele => ele.value === subTask.priority * 1
             )[0];
-            item.value = objArray.text;
+            item.value = objArray && objArray.text;
           } else {
             item.value = subTask[item.fieldName];
           }
         });
       } else {
         this.fields.forEach(item => {
-          if (item.fieldName !== "ownerUser") {
+          if (item.fieldName === "ownerUser") {
+            item.value = [];
+          } else {
             item.value = "";
           }
         });
@@ -234,10 +236,7 @@ export default {
               pid: this.id
             };
             if (this.subId) {
-              params = {
-                ...generalFormVue.form,
-                taskId: this.subId
-              };
+              params.taskId = this.subId;
             }
             Api.addOrEditTask(params).then(res => {
               this.$toast.success({
