@@ -3,7 +3,7 @@
  * @Author: shenah
  * @Date: 2019-10-14 16:59:53
  * @LastEditors: shenah
- * @LastEditTime: 2019-11-27 10:04:08
+ * @LastEditTime: 2019-12-17 16:20:48
  -->
 
 <template>
@@ -48,6 +48,13 @@
         <span>创建人:</span>
         <span>{{item.createUser && item.createUser.realname}}</span>
       </div>
+      <div
+        class="creat-name regular-words"
+        v-if="type ==='subTask'"
+      >
+        <span>优先级:</span>
+        <span>{{item.priority | codeInToName(PRIORITY)}}</span>
+      </div>
       <div class="time regular-words">{{item.stopTime | formatDate('date')}}截止</div>
       <mu-divider
         class="xian"
@@ -58,7 +65,7 @@
 </template>
 
 <script>
-import { TASK_STATUS } from "@constants/dictionaries";
+import { TASK_STATUS, PRIORITY } from "@constants/dictionaries";
 import dayjs from "dayjs";
 import Api from "@api";
 export default {
@@ -71,7 +78,7 @@ export default {
   },
   components: {},
   data() {
-    return { TASK_STATUS };
+    return { TASK_STATUS, PRIORITY };
   },
   props: {
     type: {
@@ -98,7 +105,9 @@ export default {
       let status = 5;
       let isFinished = true;
       if (code === 5) {
-        let stop = dayjs(stopTime).toDate().setHours(23, 59, 59, 999);
+        let stop = dayjs(stopTime)
+          .toDate()
+          .setHours(23, 59, 59, 999);
         let now = new Date().getTime();
         isFinished = false;
         if (now < stop) {
