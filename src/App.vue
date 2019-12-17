@@ -34,7 +34,7 @@ export default {
     };
   },
   created() {
-    new VConsole();
+    // new VConsole();
     let activTheme = this.storage.localGet("theme");
     if (activTheme) {
       Theme.add("theme_one", activTheme, "light");

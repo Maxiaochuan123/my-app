@@ -88,11 +88,11 @@ export default {
   },
   created(){
     this.getDailyList(this.getParams());
-    this.api.getInsideCompanyContacts().then(res => {
-      for(let item of res.data){
-        this.drawerList.createUserId.searchList.push({name:item.realname,val:item.id})
-      }
-    })
+    // this.api.getInsideCompanyContacts().then(res => {
+    //   for(let item of res.data){
+    //     this.drawerList.createUserId.searchList.push({name:item.realname,val:item.id})
+    //   }
+    // })
   },
   methods:{
     // 获取日报列表
