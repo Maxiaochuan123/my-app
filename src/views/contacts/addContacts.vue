@@ -98,7 +98,7 @@ export default {
               {
                 fieldName: "enterprise",
                 formType: "customer",
-                isNull: 0,
+                isNull: 1,
                 name: "客户姓名",
                 options: this.handleCustomerData(res2.data)
                   .map(item => `${item.customerId}^_^${item.customerName}`)
