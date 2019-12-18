@@ -3,7 +3,7 @@
  * @Author: shenah
  * @Date: 2019-10-15 16:25:05
  * @LastEditors: shenah
- * @LastEditTime: 2019-12-17 13:43:36
+ * @LastEditTime: 2019-12-18 09:44:02
  -->
 <template>
   <div class>
@@ -16,8 +16,11 @@
     >
       <div class="select-sub-task-body">
         <div class="select-sub-task-header">
-          <div @click="closeFullscreenDialog">取消</div>
-          <div class="primary-words">{{pageTitle}}</div>
+          <div
+            @click="closeFullscreenDialog"
+            class="cancel"
+          >取消</div>
+          <div class="primary-words middle-text">{{pageTitle}}</div>
           <div
             @click="save"
             class="ok"
@@ -264,12 +267,20 @@ export default {
       display: flex;
       flex-direction: column;
       .select-sub-task-header {
-        padding: 16px 0px;
+        padding: 16px 10px;
         width: 100%;
         display: flex;
         align-items: center;
-        justify-content: space-around;
+        .cancel {
+          flex: 1;
+        }
+        .middle-text {
+          flex: 1;
+          text-align: center;
+        }
         .ok {
+          flex: 1;
+          text-align: right;
           font-size: 16px;
           color: #ff0000;
         }

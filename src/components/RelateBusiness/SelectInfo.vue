@@ -3,7 +3,7 @@
  * @Author: shenah
  * @Date: 2019-10-14 09:14:34
  * @LastEditors: shenah
- * @LastEditTime: 2019-10-17 10:25:49
+ * @LastEditTime: 2019-12-18 09:40:38
  -->
 
 <template>
@@ -17,8 +17,8 @@
     >
       <div class="select-relate-business-body">
         <div class="select-relate-business-header">
-          <div @click="closeFullscreenDialog">取消</div>
-          <div class="primary-words">选择{{nowConfig.name}}</div>
+          <div class="cancel" @click="closeFullscreenDialog">取消</div>
+          <div class="primary-words middle-text">选择{{nowConfig.name}}</div>
           <div
             @click="submit"
             class="ok"
@@ -217,12 +217,24 @@ export default {
       flex-direction: column;
       height: 100%;
       .select-relate-business-header {
-        padding: 16px 0px;
+        padding: 16px 10px;
         width: 100%;
         display: flex;
         align-items: center;
-        justify-content: space-around;
         background-color: #fff;
+        .cancel {
+          flex: 1;
+        }
+        .middle-text {
+          flex: 1;
+          text-align: center;
+        }
+        .ok {
+          flex: 1;
+          text-align: right;
+          font-size: 16px;
+          color: #ff0000;
+        }
         .ok {
           font-size: 16px;
           color: #ff0000;
