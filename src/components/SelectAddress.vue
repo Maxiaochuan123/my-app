@@ -27,8 +27,8 @@
     >
       <div class="select-address-body">
         <div class="select-address-header">
-          <div @click="closeFullscreenDialog">取消</div>
-          <div class="primary-words">地址选择</div>
+          <div class="cancel" @click="closeFullscreenDialog">取消</div>
+          <div class="primary-words middle-text">地址选择</div>
           <div
             @click="submit"
             class="ok"
@@ -331,12 +331,20 @@ export default {
       display: flex;
       flex-direction: column;
       .select-address-header {
-        padding: 16px 0px;
+        padding: 16px 10px;
         width: 100%;
         display: flex;
         align-items: center;
-        justify-content: space-around;
+        .cancel{
+          flex:1;
+        }
+        .middle-text{
+          flex:1;
+          text-align:center;
+        }
         .ok {
+          flex: 1;
+          text-align: right;
           font-size: 16px;
           color: #ff0000;
         }

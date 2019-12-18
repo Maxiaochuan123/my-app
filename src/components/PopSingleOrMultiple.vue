@@ -3,7 +3,7 @@
  * @Author: shenah
  * @Date: 2019-10-21 13:50:16
  * @LastEditors: shenah
- * @LastEditTime: 2019-12-17 14:51:25
+ * @LastEditTime: 2019-12-18 09:39:25
  -->
 
 <template>
@@ -33,8 +33,8 @@
     >
       <div class="select-pop-single-or-multiple-body">
         <div class="select-pop-single-or-multiple-header">
-          <div @click="closeFullscreenDialog">取消</div>
-          <div class="primary-words">{{name}}选择</div>
+          <div class="cancel" @click="closeFullscreenDialog">取消</div>
+          <div class="primary-words middle-text">{{name}}选择</div>
           <div @click="submit" class="ok">确定</div>
         </div>
         <SearchInputBar
@@ -297,12 +297,20 @@ export default {
       display: flex;
       flex-direction: column;
       .select-pop-single-or-multiple-header {
-        padding: 16px 0px;
+        padding: 16px 10px;
         width: 100%;
         display: flex;
         align-items: center;
-        justify-content: space-around;
+        .cancel{
+          flex:1;
+        }
+        .middle-text{
+          flex:1;
+          text-align:center;
+        }
         .ok {
+          flex: 1;
+          text-align: right;
           font-size: 16px;
           color: #ff0000;
         }

@@ -2,7 +2,7 @@
  * @Description: In User Settings Edit
  * @Author: your name
  * @Date: 2019-08-25 11:48:12
- * @LastEditTime: 2019-11-26 09:44:11
+ * @LastEditTime: 2019-12-18 10:25:06
  * @LastEditors: shenah
  -->
 <template>
@@ -32,7 +32,6 @@
       <!-- 右侧按钮 -->
       <mu-menu
         :open.sync="menuFlag"
-        cover
         placement="bottom-end"
         slot="right"
         v-if="!custom"

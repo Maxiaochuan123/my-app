@@ -32,6 +32,8 @@
                       class="input-img"
                     />
                     <mu-text-field
+                      :action-click="clearUser"
+                      action-icon=":iconfont icon-cuo"
                       placeholder="请输入用户名"
                       prop="username"
                       v-model="form.username"
@@ -50,6 +52,8 @@
                       class="input-img"
                     />
                     <mu-text-field
+                      :action-click="clearPad"
+                      action-icon=":iconfont icon-cuo"
                       placeholder="请输入密码"
                       prop="password"
                       type="password"
@@ -60,7 +64,7 @@
                 <mu-divider></mu-divider>
               </mu-paper>
             </mu-form>
-            <div class="operate">
+            <!-- <div class="operate">
               <div
                 @click="handlePassword('remember')"
                 class="left"
@@ -81,7 +85,7 @@
                 @click="handlePassword('forget')"
                 class="right"
               >忘记密码?</div>
-            </div>
+            </div> -->
             <div class="login-btn-wrap">
               <mu-button
                 @click="login"
@@ -118,6 +122,12 @@ export default {
   props: {},
   mounted() {},
   methods: {
+    clearUser() {
+      this.form.username = "";
+    },
+    clearPad() {
+      this.form.password = "";
+    },
     login() {
       // 这下面的真实的请求
       let self = this;
