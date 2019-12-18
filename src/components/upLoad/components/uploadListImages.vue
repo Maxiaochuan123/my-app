@@ -26,7 +26,7 @@ export default {
       imagesPromise:[],
       changeImgList:[], // 当前改变的图片
       imagesList:[], //图片 数据集
-      minSize: 1024 * 1024, //图片容量最小值
+      minSize: 1024 * 1024 * 3, //图片容量最小值
       maxSize: 1024 * 1024 * 10, //图片容量最大值
       limitedSize:false, //是否限制图片尺寸
       // maxWidth:1000, //图片最大宽度
@@ -34,7 +34,7 @@ export default {
 
       zipBeforeSize:0, //压缩前容量
       zipAfterSize:0, //压缩后容量
-      zipRatio: .92, //压缩比 0 ~ .92 默认 .92
+      zipRatio: .5, //压缩比 0 ~ .92 默认 .92
       isDirectUpload:true, //是否直接上传
     };
   },
@@ -121,7 +121,7 @@ export default {
           }
         })
         this.imagesPromise.push(onePromise);
-        console.log('imagesPromise:',this.imagesPromise)
+        // console.log('imagesPromise:',this.imagesPromise)
       })
        Promise.all(this.imagesPromise).then(res=> {
               this.imagesList.push(...this.changeImgList);
@@ -149,10 +149,10 @@ export default {
       
       
       // 是否限制图片大小
-      
+      // console.log('beforeSize:',fileItem.size)
       if(fileItem.size >= this.maxSize){
         // let mS = tool.bytesToSize(this.maxSize)
-        alert('图片最大不能超过: 3MB');
+        this.$toast.warning('图片最大不能超过: 10MB')
         return false;
       }else{
         if(fileItem.size <= this.minSize){
@@ -163,15 +163,17 @@ export default {
       }
 
       //修复ios上传图片的时候 被旋转的问题
-      tool.rotateImg(img, canvas, ctx, width, height);
+      let imgdata = tool.rotateImg(img, canvas, ctx, width, height);
 
       // canvas 转 base64
       let base64 = canvas.toDataURL('image/jpeg', zipRatioActive);
       let file = tool.dataUrltoFile(base64, fileItem.name.split('.')[0] + ".jpeg");
+      // console.log('afterFile:',file.size)
+      // console.log('file:',file)
       // 进行上传
       let item = {
         'src':URL.createObjectURL(file),
-        'file':fileItem,
+        'file':file,
         'base64':base64,
         'blob':tool.dataURLtoBlob(base64),
         'progress':{

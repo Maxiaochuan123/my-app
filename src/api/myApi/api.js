@@ -88,5 +88,5 @@ export default {
 
   // ************************* 图片/附件下载 *************************
   // 分配给我的 客户
-  downLoad: params => post({ params, url: '/allFile/download'},{headers:{responseType: 'blob'}}),
+  downLoad: params => post({ params, url: '/allFile/download', responseType: 'blob'}),
 }

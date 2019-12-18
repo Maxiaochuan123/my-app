@@ -144,6 +144,7 @@
 </template>
 
 <script>
+import Qs from "qs";
 import UpLoadImages from "./components/uploadListImages";
 import UpLoadEnclosure from "./components/uploadListEnclosure";
 import PreviewImage from "./components/PreviewImage";
@@ -297,71 +298,102 @@ export default {
     },
     // 下载文件
     downloadFile(item){
-      let link = document.createElement("a");
-      link.href = item.filePath; //图片地址
-      link.download = item.name; //图片名
-      link.click();
-      // this.downloadImage(item.filePath,item.name)
-      // this.api.downLoad({fileId:item.fileId}).then(res=>{
-      //   console.log(res)
+      // let link = document.createElement("a");
+      // link.href = item.filePath; //图片地址
+      // link.download = item.name; //图片名
+      // link.click();
+
+      // this.api.downLoad({fileId:item.fileId}).then(res => {
+      //   // console.log(res)
+      //   console.log('res:',res)
+      // }).catch(err => {
+      //   console.log('err:',err)
+      //   // let downloadElement = document.createElement('a');
+      //   // let href = window.URL.createObjectURL(blob); //创建下载的链接
+      //   // downloadElement.href = href;
+      //   // downloadElement.download = 'xxx.xlsx'; //下载后文件名
+      //   // document.body.appendChild(downloadElement);
+      //   // downloadElement.click(); //点击下载
+      //   // document.body.removeChild(downloadElement); //下载完成移除元素
+      //   // window.URL.revokeObjectURL(href); //释放掉blob对象
+      //   // let blob = new Blob([err], {type: "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;charset=utf-8"});
+      //   // let file = new File([blob], 'a.png');
+        
+      //   // let url = window.URL.createObjectURL(blob);
+      //   // window.location.href = url;
       // })
-      // Axios({
-      //   method: 'POST',
-      //   url: 'http://192.168.0.92:6080/allFile/download',
-      //   params: {fileId:item.fileId},
-      //   responseType: 'blob',
-      //   headers: {
-      //     'accessToken': this.$store.state.accessToken
-      //   }
-      // }).then(res=>{
-      //     console.log(res)
-      //     let blob = new Blob([res.data], {type: "application/vnd.ms-excel"});
-      //     let url = window.URL.createObjectURL(blob);
-      //     window.location.href = url;
-      // }).catch(err=>{
-      //     console.log(err)
-      // })
-      
+
+      this.downBolbFile({
+        httpType :'post',
+        url:'http://192.168.50.82:8080/api/allFile/download',
+        item:item,
+         isCust:true
+      })
     },
-    downloadImage(data, filename) {
-      var httpindex = data.indexOf('http')
-      if (httpindex === 0) {
-        const image = new Image()
-        // 解决跨域 canvas 污染问题
-        image.setAttribute('crossOrigin', 'anonymous')
-        image.onload = function () {
-          const canvas = document.createElement('canvas')
-          canvas.width = image.width
-          canvas.height = image.height
-          const context = canvas.getContext('2d')
-          context.drawImage(image, 0, 0, image.width, image.height)
-          const dataURL = canvas.toDataURL('image/png')
-          // 生成一个 a 标签
-          const a = document.createElement('a')
-          // 创建一个点击事件
-          const event = new MouseEvent('click')
-          // 将 a 的 download 属性设置为我们想要下载的图片的名称，若 name 不存在则使用'图片'作为默认名称
-          a.download = filename || '图片'
-          // 将生成的 URL 设置为 a.href 属性
-          var blob = dataURLtoBlob(dataURL)
-          a.href = URL.createObjectURL(blob)
-          // 触发 a 的点击事件
-          a.click();
-        }
-        image.src = data
-      } else {
-        // 生成一个 a 标签
-        const a = document.createElement('a')
-        // 创建一个点击事件
-        const event = new MouseEvent('click')
-        // 将 a 的 download 属性设置为我们想要下载的图片的名称，若 name 不存在则使用'图片'作为默认名称
-        a.download = filename || '图片'
-        // 将生成的 URL 设置为 a.href 属性
-        a.href = data
-        // 触发 a 的点击事件
-        a.click();
-      }
-    },
+    /**
+   * 下载流的文件
+   * @param httpType 请求方式
+   * @param url 下载地址
+   * @param fileName 自定义名字
+   * @param isCust 是否用自定义命名
+   */
+  downBolbFile({
+    httpType = 'GET', url, isCust = false, fileName = '相关文档.zip', item
+  }) {
+    return new Promise((resolve, reject) => {
+      const token= this.$store.state.accessToken;
+      const http = new XMLHttpRequest();
+      let name = '';
+      http.open(httpType, url);
+      http.setRequestHeader('accessToken', token);
+      http.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+      http.responseType = 'blob';
+      http.onreadystatechange = () => {
+        if (http.readyState === 4 && http.status === 200) {
+          // 先创建读取文件的对象
+          const reader = new FileReader();
+          // 读取流中的内容
+          reader.readAsText(http.response);
+          reader.onload = () => {
+            try {
+              const text = reader.result;
+              reject(JSON.parse(text));
+            } catch (error) {
+              if (isCust) {
+                const filename = http
+                  .getResponseHeader('Content-Disposition')
+                  .split(';')[1]
+                  .split('=')[1];
+                name = filename;
+              } else {
+                name = fileName;
+              }
+              const blob = new Blob([http.response]);
+              const csvUrl = URL.createObjectURL(blob);
+              const link = document.createElement('a');
+              document.body.appendChild(link); // 创建的标签添加到body，解决Firefox下无法打开页面的问题
+              link.href = csvUrl;
+              link.target = '_blank';
+              link.id = 'linkId';
+              link.className = 'linkId';
+              link.download = decodeURI(name);
+              document.getElementById('linkId').click();
+              link.remove(); // 将a标签移除
+              resolve();
+            }
+          };
+        }
+        if (http.readyState === 4 && http.status !== 200) {
+          reject(JSON.parse(http.response));
+        }
+      };
+      let from = new FormData();
+      from.append('fileId',item.fileId);
+        http.send(Qs.stringify({
+    fileId:item.fileId
+  }));
+    });
+  },
     closePreview2() {
       this.previewView2 = false;
     },

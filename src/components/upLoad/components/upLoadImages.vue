@@ -27,7 +27,7 @@ export default {
   data() {
     return {
       imagesList:[], //图片 数据集
-      minSize: 1024 * 1024, //图片容量最小值
+      minSize: 1024 * 1024 * 3, //图片容量最小值
       maxSize: 1024 * 1024 * 10, //图片容量最大值
       limitedSize:false, //是否限制图片尺寸
       // maxWidth:1000, //图片最大宽度
@@ -35,7 +35,7 @@ export default {
 
       zipBeforeSize:0, //压缩前容量
       zipAfterSize:0, //压缩后容量
-      zipRatio: .92, //压缩比 0 ~ .92 默认 .92
+      zipRatio: .50, //压缩比 0 ~ .92 默认 .92
       
       isDirectUpload:true //是否直接上传
     };
@@ -145,7 +145,7 @@ export default {
       
       if(fileItem.size >= this.maxSize){
         // let mS = tool.bytesToSize(this.maxSize)
-        alert('图片最大不能超过: 3MB');
+        this.$toast.warning('图片最大不能超过: 10MB')
         return false;
       }else{
         if(fileItem.size <= this.minSize){
@@ -163,7 +163,7 @@ export default {
       let file = tool.dataUrltoFile(base64, fileItem.name.split('.')[0] + ".jpeg");
       this.imagesList.push({
         'src':URL.createObjectURL(file),
-        'file':fileItem,
+        'file':file,
         'base64':base64,
         'blob':tool.dataURLtoBlob(base64),
         'progress':{
