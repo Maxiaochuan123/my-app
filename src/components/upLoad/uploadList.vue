@@ -325,7 +325,7 @@ export default {
 
       this.downBolbFile({
         httpType :'post',
-        url:'http://192.168.50.82:8080/api/allFile/download',
+        url:'http://192.168.0.92:6080/allFile/download',
         item:item,
          isCust:true
       })
