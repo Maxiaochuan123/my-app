@@ -65,6 +65,7 @@
             <!-- 输入框类型 -->
             <mu-text-field
               :disabled="item.readonly === 1"
+              :maxLength="item.maxLength"
               :placeholder="placeholder(item,index)"
               :prop="item.fieldName"
               v-if="inputArr.indexOf(item.type) > -1"

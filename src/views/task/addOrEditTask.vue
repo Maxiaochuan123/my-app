@@ -2,8 +2,8 @@
  * @Description: 新增或者编辑任务
  * @Author: shenah
  * @Date: 2019-10-12 14:46:10
- * @LastEditors: shenah
- * @LastEditTime: 2019-12-17 10:17:09
+ * @LastEditors  : shenah
+ * @LastEditTime : 2019-12-19 18:08:40
  -->
 
 <template>
@@ -81,7 +81,8 @@ export default {
           name: "任务名称",
           options: "",
           type: 1,
-          value: ""
+          value: "",
+          maxLength:"30"
         },
         {
           fieldName: "leaderUserName",

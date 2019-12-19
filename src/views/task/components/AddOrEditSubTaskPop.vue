@@ -2,8 +2,8 @@
  * @Description: 新增或者编辑子任务的弹窗
  * @Author: shenah
  * @Date: 2019-10-15 16:25:05
- * @LastEditors: shenah
- * @LastEditTime: 2019-12-18 09:44:02
+ * @LastEditors  : shenah
+ * @LastEditTime : 2019-12-19 18:10:19
  -->
 <template>
   <div class>
@@ -62,7 +62,8 @@ export default {
           name: "任务名称",
           options: "",
           type: 1,
-          value: ""
+          value: "",
+          maxLength: "30"
         },
         {
           fieldName: "ownerUserName",
