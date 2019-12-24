@@ -3,7 +3,7 @@
  * @Author: shenah
  * @Date: 2019-10-12 14:46:10
  * @LastEditors  : shenah
- * @LastEditTime : 2019-12-19 18:08:40
+ * @LastEditTime : 2019-12-24 09:29:51
  -->
 
 <template>
@@ -18,6 +18,7 @@
       <div class="content-wrap">
         <GeneralForm
           :fieldList="fieldList"
+          @generalFormChange="generalFormChange"
           ref="generalForm"
         ></GeneralForm>
         <!-- 子任务与关联 -->
@@ -82,37 +83,7 @@ export default {
           options: "",
           type: 1,
           value: "",
-          maxLength:"30"
-        },
-        {
-          fieldName: "leaderUserName",
-          formType: "checkbox",
-          isNull: 1,
-          name: "负责人",
-          options: "",
-          type: 9,
-          value: "",
-          apiName: "querySimpleUserByDepId",
-          splitField: "leaderUser",
-          idField: "userId",
-          mode: "single",
-          textField: "realname"
-        },
-        {
-          fieldName: "leaderUser",
-          name: "负责人拼接",
-          options: "",
-          type: 1,
-          htmlHidden: 1,
-          value: []
-        },
-        {
-          fieldName: "leaderUserId",
-          name: "负责人id",
-          options: "",
-          type: 1,
-          htmlHidden: 1,
-          value: ""
+          maxLength: "30"
         },
         {
           fieldName: "ownerUserName",
@@ -139,6 +110,37 @@ export default {
         {
           fieldName: "ownerUserId",
           name: "执行人id",
+          options: "",
+          type: 1,
+          htmlHidden: 1,
+          value: ""
+        },
+        {
+          fieldName: "leaderUserName",
+          formType: "checkbox",
+          isNull: 1,
+          name: "负责人",
+          options: "",
+          type: 9,
+          value: "",
+          apiName: "querySimpleUserByDepId",
+          splitField: "leaderUser",
+          idField: "userId",
+          mode: "single",
+          textField: "realname",
+          firstList: [] // 优先级最高的list
+        },
+        {
+          fieldName: "leaderUser",
+          name: "负责人拼接",
+          options: "",
+          type: 1,
+          htmlHidden: 1,
+          value: []
+        },
+        {
+          fieldName: "leaderUserId",
+          name: "负责人id",
           options: "",
           type: 1,
           htmlHidden: 1,
@@ -209,6 +211,23 @@ export default {
     this.judgeType();
   },
   methods: {
+    generalFormChange({ fieldName, arr }) {
+      if (fieldName === "ownerUserName") {
+        this.fieldList.forEach(item => {
+          if (item.fieldName === "leaderUserName") {
+            item.firstList = arr;
+            item.value = '';
+          } else if (item.fieldName === "leaderUser") {
+            item.value = [];
+          } else if (item.fieldName === "leaderUserId") {
+            item.value = "";
+          }
+        });
+        this.$refs.generalForm.form.leaderUserName = '';
+        this.$refs.generalForm.form.leaderUser = [];
+        this.$refs.generalForm.form.leaderUserId = '';
+      }
+    },
     handleSubTask() {
       this.goPage("addOrEditSubTask", { id: this.id });
     },
@@ -232,16 +251,21 @@ export default {
           item.value = data.ownerUserList;
         } else if (item.fieldName === "ownerUserName") {
           item.value = data.ownerUserList.map(one => one.realname).join(",");
+        } else if (item.fieldName === "leaderUserName") {
+          item.firstList = data.ownerUserList;
+          item.value = data.leaderUserName;
         } else if (item.fieldName === "leaderUser") {
-          item.value = [{
-            userId:data.leaderUserId,
-            realname:data.leaderUserName,
-          }]
+          item.value = [
+            {
+              userId: data.leaderUserId,
+              realname: data.leaderUserName
+            }
+          ];
         } else if (
           item.fieldName === "showPriority" ||
           item.fieldName === "priorityName"
         ) {
-          item.value = priorityObj.text;
+          item.value = priorityObj && priorityObj.text;
         } else {
           item.value = data[item.fieldName];
         }

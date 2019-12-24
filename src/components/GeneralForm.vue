@@ -94,6 +94,7 @@
             ></SelectAddress>
             <!-- 多选 -->
             <PopSingleOrMultiple
+              :firstList="item.firstList"
               :apiName="item.apiName"
               :defaultValue="form[item.fieldName]"
               :fieldName="item.fieldName"
@@ -401,6 +402,10 @@ export default {
       this.form[idsField] = selectArr;
       // 这个属性并没有双向绑定
       this.form[`${idsField}Id`] = ids;
+      this.$emit('generalFormChange',{
+        fieldName:textsField,
+        arr:selectArr,
+      })
     },
     addressChange({ value, fieldName, lng, lat, region }) {
       this.form[fieldName] = value;
