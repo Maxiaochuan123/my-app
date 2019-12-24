@@ -3,7 +3,7 @@
  * @Author: shenah
  * @Date: 2019-10-21 13:50:16
  * @LastEditors  : shenah
- * @LastEditTime : 2019-12-24 09:34:50
+ * @LastEditTime : 2019-12-24 11:17:09
  -->
 
 <template>
@@ -334,6 +334,7 @@ export default {
     clearAll() {
       this.requestParams.search = "";
       this.requestParams.pageIndex = 1;
+      this.selectedList = [];
     }
   }
 };
