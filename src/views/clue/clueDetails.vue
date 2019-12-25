@@ -2,7 +2,7 @@
  * @Description: In User Settings Edit
  * @Author: your name
  * @Date: 2019-09-04 10:13:29
- * @LastEditTime : 2019-12-25 14:55:11
+ * @LastEditTime : 2019-12-25 15:08:04
  * @LastEditors  : shenah
  -->
 <template>
@@ -503,6 +503,7 @@ export default {
             font-weight: 600;
             display:flex;
             padding-bottom: 2px;
+            align-items: center;
             img{
               width: 24px;
               height: 24px;

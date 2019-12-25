@@ -2,7 +2,7 @@
  * @Description: In User Settings Edit
  * @Author: your name
  * @Date: 2019-09-04 10:13:29
- * @LastEditTime : 2019-12-25 14:49:09
+ * @LastEditTime : 2019-12-25 15:07:02
  * @LastEditors  : shenah
  -->
 <template>
@@ -372,9 +372,13 @@ export default {
         .mu-item-title{
           display: flex;
           justify-content: space-between;
+          height: auto;
+          overflow: visible;
+          white-space:normal;
           .clue-title{
             display:flex;
-            flex: 1;
+            width: auto;
+            align-items: center;
             img{
               width: 24px;
               height: 24px;
@@ -386,6 +390,7 @@ export default {
             font-size: 14px;
             color: @regular-text;
             text-align: right;
+            margin-left:10px;
           }
           .nofollowUp{
             color: @primary;
