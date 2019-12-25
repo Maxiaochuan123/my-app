@@ -2,7 +2,7 @@
  * @Description: In User Settings Edit
  * @Author: your name
  * @Date: 2019-09-04 10:13:29
- * @LastEditTime : 2019-12-25 15:08:04
+ * @LastEditTime : 2019-12-25 15:49:47
  * @LastEditors  : shenah
  -->
 <template>
@@ -22,8 +22,8 @@
           </div>
           <div class="info">
             <div class="clue-title"> 
-              <span> {{info.leadsName}}</span>
               <img :src="changeCarType(info)"/> 
+              <span> {{info.leadsName}}</span>
             </div>
             <div class="clueDate">{{info.createTime}}</div>
           </div>
@@ -507,7 +507,7 @@ export default {
             img{
               width: 24px;
               height: 24px;
-              margin-left:4px;
+              margin-right:6px;
             }
           }
           .clueDate {

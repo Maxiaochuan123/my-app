@@ -2,7 +2,7 @@
  * @Description: In User Settings Edit
  * @Author: your name
  * @Date: 2019-09-04 10:13:29
- * @LastEditTime : 2019-12-25 15:33:20
+ * @LastEditTime : 2019-12-25 15:50:02
  * @LastEditors  : shenah
  -->
 <template>
@@ -24,10 +24,12 @@
               <mu-list-item v-waves>
                 <mu-list-item-content @click="goPage('clueDetails',{id:item.leadsId,type:'线索'})">
                   <mu-list-item-title>
-                    <span class="clue-title">
-                      <span> {{item.leadsName}}</span>
-                      <img :src="changeCarType(item)"/>
-                    </span>
+                    <div class="clue-title">
+                      <div class="clue-image">
+                        <img :src="changeCarType(item)" width="24" height="24" />
+                      </div>
+                      <span class="clue-title-image"> {{item.leadsName}}</span>
+                    </div>
                     <span :class="item.followup === '未跟进' ? 'nofollowUp' : ''"  class="clue-status">{{item.followup}}</span>
                   </mu-list-item-title>
                   <mu-list-item-sub-title>级别: {{item.leadsLevel}}</mu-list-item-sub-title>
@@ -380,11 +382,21 @@ export default {
             width: 100%;
             flex: 1;
             align-items: center;
-            img{
-              width: 1.6rem;
-              height: 1.6rem;
-              margin-left:4px;
+            .clue-title-image{
+              width: 100%;
+              flex: 1;
             }
+            .clue-image{
+              margin-right:6px;
+              width: 24px;
+              height: 24px;        
+              display: inline-block;
+              img{
+                width: 100%;
+                height: 100%;
+              }
+            }
+           
           }
           .clue-status{
             width: 80px;
