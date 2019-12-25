@@ -2,7 +2,7 @@
  * @Description: In User Settings Edit
  * @Author: your name
  * @Date: 2019-09-04 10:13:29
- * @LastEditTime : 2019-12-25 15:49:47
+ * @LastEditTime : 2019-12-25 16:55:03
  * @LastEditors  : shenah
  -->
 <template>
@@ -278,12 +278,6 @@ export default {
           type: "call",
           flag: true
         })
-
-        // 公海跳转
-        if(this.$route.params.type === 'commonWatersClue'){
-          this.footNavState = false;
-          this.menuList = [{title:'分配'},{title:'领取'}];
-        }
       }else{
         this.bottomList = [{
           img: '../../../static/images/buttom-call.png',
@@ -320,28 +314,37 @@ export default {
       }
     },
     setMenuList(){
-      this.menuList = [{
-        title:'分享',
-        flag: this.leads.distribute
-      },{
-        title:'转换为联系人',
-        flag: this.leads.clewtransfercontacts
-      },{
-        title:'转换为客户',
-        flag: this.leads.clewtransferclient
-      },{
-        title:'放入公海',
-        flag: this.leads.topublicpool
-      },{
-        title:'关闭',
-        flag: true
-      },{
-        title:'编辑',
-        flag: this.leads.update
-      },{
-        title:'删除',
-        flag: this.leads.delete
-      }]
+       // 公海跳转
+      if(this.$route.params.type === 'commonWatersClue'){
+        this.footNavState = false;
+        this.menuList = [
+          {title:'分配',flag:true},
+          {title:'领取',flag:true}
+        ];
+      }else{
+          this.menuList = [{
+            title:'分享',
+            flag: this.leads.distribute
+          },{
+            title:'转换为联系人',
+            flag: this.leads.clewtransfercontacts
+          },{
+            title:'转换为客户',
+            flag: this.leads.clewtransferclient
+          },{
+            title:'放入公海',
+            flag: this.leads.topublicpool
+          },{
+            title:'关闭',
+            flag: true
+          },{
+            title:'编辑',
+            flag: this.leads.update
+          },{
+            title:'删除',
+            flag: this.leads.delete
+          }]
+      }
     },
     menuChange(data){
       let {title} = {...data}
