@@ -2,7 +2,7 @@
  * @Description: In User Settings Edit
  * @Author: your name
  * @Date: 2019-09-04 10:13:29
- * @LastEditTime : 2019-12-25 15:07:02
+ * @LastEditTime : 2019-12-25 15:33:20
  * @LastEditors  : shenah
  -->
 <template>
@@ -357,7 +357,6 @@ export default {
       .clueList{
         margin-top: 12px;
       }
-
       .mu-tabs{
         position: fixed;
         top: 44px;
@@ -367,8 +366,9 @@ export default {
       
       .mu-list /deep/ .mu-item{
         position: relative;
-        height: 106px;
+        height: auto;
         background-color: #fff;
+        padding: 10px 16px;
         .mu-item-title{
           display: flex;
           justify-content: space-between;
@@ -377,11 +377,12 @@ export default {
           white-space:normal;
           .clue-title{
             display:flex;
-            width: auto;
+            width: 100%;
+            flex: 1;
             align-items: center;
             img{
-              width: 24px;
-              height: 24px;
+              width: 1.6rem;
+              height: 1.6rem;
               margin-left:4px;
             }
           }
