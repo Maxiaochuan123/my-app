@@ -2,7 +2,7 @@
  * @Description: In User Settings Edit
  * @Author: your name
  * @Date: 2019-09-04 10:13:29
- * @LastEditTime : 2019-12-25 10:51:40
+ * @LastEditTime : 2019-12-25 14:55:11
  * @LastEditors  : shenah
  -->
 <template>
@@ -21,7 +21,10 @@
             <img :src="loadingImg('defaultImg.png')" />
           </div>
           <div class="info">
-            <div class="name"> <span>{{info.leadsName}}({{info.leadsType}})</span> </div>
+            <div class="clue-title"> 
+              <span> {{info.leadsName}}</span>
+              <img :src="changeCarType(info)"/> 
+            </div>
             <div class="clueDate">{{info.createTime}}</div>
           </div>
         </div>
@@ -303,6 +306,19 @@ export default {
     })
   },
   methods: {
+     changeCarType(row) {
+      const {leadsType} = row;
+      if(!leadsType) {
+        return '';
+      }
+      if(leadsType.indexOf('买车') > -1) {
+        return this.loadingImg('car-buy.png');
+      }else if(leadsType.indexOf('车贷') > -1) {
+        return this.loadingImg('car-loan.png');
+      }else{
+        return this.loadingImg('car-county.png');
+      }
+    },
     setMenuList(){
       this.menuList = [{
         title:'分享',
@@ -480,6 +496,18 @@ export default {
             display: flex;
             align-items: center;
             padding-bottom: 2px;
+          }
+          .clue-title{
+            color: @primary-text;
+            font-size: @primary-size;
+            font-weight: 600;
+            display:flex;
+            padding-bottom: 2px;
+            img{
+              width: 24px;
+              height: 24px;
+              margin-left:4px;
+            }
           }
           .clueDate {
             font-size: 14px;

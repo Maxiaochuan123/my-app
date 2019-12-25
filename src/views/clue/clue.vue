@@ -2,7 +2,7 @@
  * @Description: In User Settings Edit
  * @Author: your name
  * @Date: 2019-09-04 10:13:29
- * @LastEditTime : 2019-12-25 10:43:39
+ * @LastEditTime : 2019-12-25 14:49:09
  * @LastEditors  : shenah
  -->
 <template>
@@ -23,8 +23,12 @@
             <div v-for="(item,index) in list" :key="index">
               <mu-list-item v-waves>
                 <mu-list-item-content @click="goPage('clueDetails',{id:item.leadsId,type:'线索'})">
-                  <mu-list-item-title>{{item.leadsName}}({{item.leadsType}})
-                    <span :class="item.followup === '未跟进' ? 'nofollowUp' : ''">{{item.followup}}</span>
+                  <mu-list-item-title>
+                    <span class="clue-title">
+                      <span> {{item.leadsName}}</span>
+                      <img :src="changeCarType(item)"/>
+                    </span>
+                    <span :class="item.followup === '未跟进' ? 'nofollowUp' : ''"  class="clue-status">{{item.followup}}</span>
                   </mu-list-item-title>
                   <mu-list-item-sub-title>级别: {{item.leadsLevel}}</mu-list-item-sub-title>
                   <mu-list-item-sub-title>创建人: {{item.createUserName}}</mu-list-item-sub-title>
@@ -131,6 +135,16 @@ export default {
     })
   },
   methods:{
+    changeCarType(row) {
+      const {leadsType} = row;
+      if(leadsType.indexOf('买车') > -1) {
+        return this.loadingImg('car-buy.png');
+      }else if(leadsType.indexOf('车贷') > -1) {
+        return this.loadingImg('car-loan.png');
+      }else{
+        return this.loadingImg('car-county.png');
+      }
+    },
     setMenuList(){
       this.menuList = [{
         title: "新建买车线索",
@@ -356,10 +370,22 @@ export default {
         height: 106px;
         background-color: #fff;
         .mu-item-title{
-          span{
-            float: right;
+          display: flex;
+          justify-content: space-between;
+          .clue-title{
+            display:flex;
+            flex: 1;
+            img{
+              width: 24px;
+              height: 24px;
+              margin-left:4px;
+            }
+          }
+          .clue-status{
+            width: 80px;
             font-size: 14px;
             color: @regular-text;
+            text-align: right;
           }
           .nofollowUp{
             color: @primary;
