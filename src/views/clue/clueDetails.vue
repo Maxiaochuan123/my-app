@@ -2,8 +2,8 @@
  * @Description: In User Settings Edit
  * @Author: your name
  * @Date: 2019-09-04 10:13:29
- * @LastEditTime: 2019-09-09 18:31:55
- * @LastEditors: Please set LastEditors
+ * @LastEditTime : 2019-12-25 10:51:40
+ * @LastEditors  : shenah
  -->
 <template>
   <div class="clueDetails">
@@ -21,7 +21,7 @@
             <img :src="loadingImg('defaultImg.png')" />
           </div>
           <div class="info">
-            <div class="name"> <span>{{info.createUserName}}</span> </div>
+            <div class="name"> <span>{{info.leadsName}}({{info.leadsType}})</span> </div>
             <div class="clueDate">{{info.createTime}}</div>
           </div>
         </div>

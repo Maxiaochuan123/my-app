@@ -2,8 +2,8 @@
  * @Description: In User Settings Edit
  * @Author: your name
  * @Date: 2019-09-04 10:13:29
- * @LastEditTime: 2019-10-17 11:42:50
- * @LastEditors: shenah
+ * @LastEditTime : 2019-12-25 10:43:39
+ * @LastEditors  : shenah
  -->
 <template>
   <div class="clue">
@@ -23,7 +23,7 @@
             <div v-for="(item,index) in list" :key="index">
               <mu-list-item v-waves>
                 <mu-list-item-content @click="goPage('clueDetails',{id:item.leadsId,type:'线索'})">
-                  <mu-list-item-title>{{item.ownerUserName}}
+                  <mu-list-item-title>{{item.leadsName}}({{item.leadsType}})
                     <span :class="item.followup === '未跟进' ? 'nofollowUp' : ''">{{item.followup}}</span>
                   </mu-list-item-title>
                   <mu-list-item-sub-title>级别: {{item.leadsLevel}}</mu-list-item-sub-title>

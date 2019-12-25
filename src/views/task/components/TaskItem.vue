@@ -2,8 +2,8 @@
  * @Description: 父任务与子任务公用模块
  * @Author: shenah
  * @Date: 2019-10-14 16:59:53
- * @LastEditors: shenah
- * @LastEditTime: 2019-12-17 16:20:48
+ * @LastEditors  : shenah
+ * @LastEditTime : 2019-12-25 12:24:35
  -->
 
 <template>
@@ -30,9 +30,9 @@
         <span class="task-header-title primary-words">{{item.name}}</span>
         <div class="task-header-right">
           <div
-            :class="{'task-warn':item.status === 2}"
+            :class="{'task-warn':judgeDate(item) === 2}"
             class="task-status"
-          >{{item.status | codeInToName(TASK_STATUS)}}</div>
+          >{{judgeDate(item) | codeInToName(TASK_STATUS)}}</div>
           <img
             :src="loadingImg('delete.png')"
             @click.stop="deleteTask(item,index)"
@@ -100,21 +100,28 @@ export default {
         index
       });
     },
-    select(row) {
-      let { status: code, taskId, stopTime } = row;
+    judgeDate(row, flag) {
+      let { stopTime, status: code } = row;
       let status = 5;
-      let isFinished = true;
+      if (code === 5 && !flag) {
+        return status;
+      }
+      let stop = dayjs(stopTime)
+        .toDate()
+        .setHours(23, 59, 59, 999);
+      let now = new Date().getTime();
+      if (now < stop) {
+        status = 1;
+      } else {
+        status = 2;
+      }
+      return status;
+    },
+    select(row) {
+      let status = 5;
+      let { taskId, status: code } = row;
       if (code === 5) {
-        let stop = dayjs(stopTime)
-          .toDate()
-          .setHours(23, 59, 59, 999);
-        let now = new Date().getTime();
-        isFinished = false;
-        if (now < stop) {
-          status = 1;
-        } else {
-          status = 2;
-        }
+        status = this.judgeDate(row, true);
       }
       let title = status === 5 ? "是否已完成此任务" : "是否取消此任务的完成";
       this.$confirm(title, "提示").then(res => {

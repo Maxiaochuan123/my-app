@@ -88,6 +88,7 @@
         <mu-paper :z-depth="0" class="block">
           <mu-form-item label="接收人" prop="contactName">
             <PopSingleOrMultiple
+              vagueSearch="name"
               :defaultValue="form.contactName"
               :isShowText="false"
               :selected="form.sendUser"

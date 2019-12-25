@@ -3,7 +3,7 @@
  * @Author: shenah
  * @Date: 2019-10-21 13:50:16
  * @LastEditors  : shenah
- * @LastEditTime : 2019-12-24 11:17:09
+ * @LastEditTime : 2019-12-25 09:36:52
  -->
 
 <template>
@@ -110,7 +110,9 @@ export default {
   data() {
     return {
       requestParams: {
-        search: "",
+        // 有可能使用search有可能使用name
+        name: "", // 模糊搜索
+        search: "", // 模糊搜索
         pageIndex: 1,
         pageSize: 15
       },
@@ -122,6 +124,10 @@ export default {
     };
   },
   props: {
+    vagueSearch: {
+      type: String,
+      default: "search"
+    },
     firstList: {
       type: Array
     },
@@ -222,7 +228,7 @@ export default {
     },
     searchInputBarChange(obj) {
       const { type, value } = obj;
-      this.requestParams.search = value;
+      this.requestParams[this.vagueSearch] = value;
       this.requestParams.pageIndex = 1;
       this.query();
     },
@@ -332,7 +338,7 @@ export default {
       this.openFullscreen = false;
     },
     clearAll() {
-      this.requestParams.search = "";
+      this.requestParams[this.vagueSearch] = "";
       this.requestParams.pageIndex = 1;
       this.selectedList = [];
     }
