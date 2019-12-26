@@ -2,7 +2,7 @@
  * @Description: In User Settings Edit
  * @Author: your name
  * @Date: 2019-09-04 10:13:29
- * @LastEditTime : 2019-12-26 11:34:19
+ * @LastEditTime : 2019-12-26 17:21:49
  * @LastEditors  : shenah
  -->
 <template>
@@ -123,7 +123,25 @@ export default {
             title:'已跟进',
             state:false
           }]
-        }
+        },
+        leadsType:{
+          defaultValue:[],
+          fileTitle:'线索类型',
+          mode:'single',
+          valueField:'title',
+          labelField:'title',
+          list:[{
+            title:'买车线索',
+            state:false
+          },{
+            title:'车险线索',
+            state:false
+          },
+          {
+            title:'车贷线索',
+            state:false
+          }]
+        },
       }
     }
   },
