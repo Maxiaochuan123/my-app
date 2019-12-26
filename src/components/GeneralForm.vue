@@ -109,6 +109,7 @@
             ></PopSingleOrMultiple>
             <!-- 上传文件  -->
             <UploadList
+              @getEnclosureSuccessList="getEnclosureSuccessList(...arguments,item)"
               @getImgSuccessList="getImgSuccessList(...arguments,item)"
               class="upload-file"
               v-else-if="fileArr.indexOf(item.type) > -1"
@@ -420,6 +421,11 @@ export default {
       // this.from[`${fieldName}_region`] = region;
     },
     getImgSuccessList(res, row) {
+      const { fieldName } = row;
+      const { list, guid } = res;
+      this.form[fieldName] = guid;
+    },
+    getEnclosureSuccessList(res, row) {
       const { fieldName } = row;
       const { list, guid } = res;
       this.form[fieldName] = guid;
