@@ -2,7 +2,7 @@
  * @Description: In User Settings Edit
  * @Author: your name
  * @Date: 2019-09-04 10:13:29
- * @LastEditTime : 2019-12-26 10:49:06
+ * @LastEditTime : 2019-12-26 11:34:19
  * @LastEditors  : shenah
  -->
 <template>
@@ -399,7 +399,7 @@ export default {
            
           }
           .clue-status{
-            width: 80px;
+            width: 120px;
             font-size: 14px;
             color: @regular-text;
             text-align: right;
