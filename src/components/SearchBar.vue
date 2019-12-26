@@ -2,8 +2,8 @@
  * @Description: In User Settings Edit
  * @Author: your name
  * @Date: 2019-08-25 11:48:12
- * @LastEditTime: 2019-09-05 11:05:06
- * @LastEditors: Please set LastEditors
+ * @LastEditTime : 2019-12-26 15:42:57
+ * @LastEditors  : shenah
  -->
 <template>
   <div class="search-bar">
@@ -81,14 +81,14 @@ export default {
         list.forEach( item => {
           for(let item_1 in item){
             for(let item_2 in item[item_1]){
-              this.searchList.push({userName:item[item_1][item_2][this.showLabel],tag:item_1})
+              this.searchList.push({userName:item[item_1][item_2][this.showLabel],tag:item_1,ascllTag:item_1.charCodeAt()})
             }
           }
         })
       }
     },
     goTag(tag) {
-      document.querySelector(`#${tag}`).scrollIntoView(true);
+      document.querySelector(`#tag${tag.charCodeAt()}`).scrollIntoView(true);
     }
   }
 };
