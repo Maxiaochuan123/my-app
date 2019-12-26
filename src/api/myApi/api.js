@@ -2,7 +2,7 @@ import post, { get } from "../api";
 export default {
   // ************************* 首页-数据分析 *************************
   // 获取数据分析
-  getDataAnalysis: params => post({ params, url: 'crmDataStatistics/queryData' }),
+  getDataAnalysis: params => post({ params, url: '/crmDataStatistics/queryData' }),
 
   // ************************* 联系人 *************************
   // 获取个人联系人列表

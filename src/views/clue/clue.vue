@@ -2,7 +2,7 @@
  * @Description: In User Settings Edit
  * @Author: your name
  * @Date: 2019-09-04 10:13:29
- * @LastEditTime : 2019-12-25 15:50:02
+ * @LastEditTime : 2019-12-26 10:49:06
  * @LastEditors  : shenah
  -->
 <template>
@@ -86,7 +86,7 @@ export default {
         },
         leadsSource:{
           defaultValue:['到店'],
-          fileTitle:'线索状态',
+          fileTitle:'线索来源',
           mode:'single',
           valueField:'title',
           labelField:'title',

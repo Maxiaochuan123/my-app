@@ -2,7 +2,7 @@
  * @Description: In User Settings Edit
  * @Author: your name
  * @Date: 2019-09-04 10:13:29
- * @LastEditTime : 2019-12-25 16:55:03
+ * @LastEditTime : 2019-12-26 10:04:07
  * @LastEditors  : shenah
  -->
 <template>
@@ -18,11 +18,11 @@
       <mu-paper :z-depth="0" class="infoCard">
         <div class="topInfo">
           <div class="headImg">
-            <img :src="loadingImg('defaultImg.png')" />
+              <img :src="changeCarType(info)"/> 
           </div>
           <div class="info">
             <div class="clue-title"> 
-              <img :src="changeCarType(info)"/> 
+              <!-- <img :src="changeCarType(info)"/>  -->
               <span> {{info.leadsName}}</span>
             </div>
             <div class="clueDate">{{info.createTime}}</div>
