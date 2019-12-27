@@ -110,7 +110,7 @@ export default {
         this.queryList();
       } else {
         this.requestParams.teamType = 0;
-        this.words = "暂无我的客户";
+        this.words = "暂无团队客户";
         this.queryList();
       }
     },
