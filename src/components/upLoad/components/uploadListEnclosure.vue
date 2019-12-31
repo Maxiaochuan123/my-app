@@ -101,11 +101,6 @@ export default {
       const filesArr = [...files].filter( fileItem =>{
         return fileItem;
       })
-      if(num>0) {
-         this.$toast.warning({
-          message: "暂不支持apk文件上传"
-        });
-      }
       filesArr.forEach(item => {
         this.enclosureList.push({
           'dataUrl':URL.createObjectURL(item),
