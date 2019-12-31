@@ -87,7 +87,6 @@ export default {
     },
     onChange(){
       const files = this.$refs.fileInput.files;
-<<<<<<< HEAD
       // application/vnd.openxmlformats-officedocument.spreadsheetml.sheet,application/vnd.openxmlformats-officedocument.wordprocessingml.document
       // console.log(files[0])
       // if(/^image/.test(files[0].type)){
@@ -101,14 +100,6 @@ export default {
 
       const filesArr = [...files].filter( fileItem =>{
         return fileItem;
-=======
-      let num = 0;
-      const filesArr = [...files].filter( fileItem => {
-        if(fileItem.type === 'application/vnd.android.package-archive') {
-          num++;
-        }
-        return fileItem.type !== 'application/vnd.android.package-archive';
->>>>>>> master
       })
       if(num>0) {
          this.$toast.warning({
