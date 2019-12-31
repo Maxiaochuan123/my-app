@@ -28,6 +28,11 @@ export default {
   methods: {
     // 单个点击重传
     oneUpLoad(item){
+      if(/^image/.test(item.file.type)){
+        fd.append('type', 'img');
+      }else{
+        fd.append('type', 'file');
+      }
       const fd = new FormData();
       fd.append('file', item.file);
       fd.append('type', 'file');
@@ -38,7 +43,6 @@ export default {
     allUpload(){
       // if(!this.isDirectUpload){
         this.enclosureList.forEach((item,index)=>{
-          
           if(item.progress.progressState == 0){
             const fd = new FormData();
             fd.append('file', item.file);
@@ -76,14 +80,25 @@ export default {
       Api.deleteFilesOrImgs({
         id:item.fileId
       }).then(res => {
-      this.enclosureList = this.enclosureList.filter(imgItem => imgItem.fileId !== item.fileId);
-      this.$emit('parentEnclosureLoad',this.enclosureList)
-      this.$refs.fileInput.value = '';
+        this.enclosureList = this.enclosureList.filter(imgItem => imgItem.fileId !== item.fileId);
+        this.$emit('parentEnclosureLoad',this.enclosureList)
+        this.$refs.fileInput.value = '';
       })
      
     },
     onChange(){
       const files = this.$refs.fileInput.files;
+      // application/vnd.openxmlformats-officedocument.spreadsheetml.sheet,application/vnd.openxmlformats-officedocument.wordprocessingml.document
+      // console.log(files[0])
+      // if(/^image/.test(files[0].type)){
+      //   this.$toast.warning('图片请在图片区域上传')
+      //   return false;
+      // }
+      if(files[0].type !== ('application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' || 'application/vnd.openxmlformats-officedocument.wordprocessingml.document' || 'text/plain')){
+        this.$toast.warning('只允许上传文档')
+        return false;
+      }
+
       const filesArr = [...files].filter( fileItem =>{
         return fileItem;
       })

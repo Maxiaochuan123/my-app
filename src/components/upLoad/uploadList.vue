@@ -144,7 +144,6 @@
 </template>
 
 <script>
-import Qs from "qs";
 import UpLoadImages from "./components/uploadListImages";
 import UpLoadEnclosure from "./components/uploadListEnclosure";
 import PreviewImage from "./components/PreviewImage";
@@ -288,7 +287,7 @@ export default {
         case "删除":
           if (!this.ishasAfferent) {
             let editEnclosureTempList = this.customEnclosureList.filter(
-              listItem => listItem.fileId !== listItem.fileId
+              item => listItem.fileId !== item.fileId
             );
             this.$emit("changecustomEnclosureList", editEnclosureTempList);
           }
@@ -298,102 +297,14 @@ export default {
     },
     // 下载文件
     downloadFile(item){
-      // let link = document.createElement("a");
-      // link.href = item.filePath; //图片地址
-      // link.download = item.name; //图片名
-      // link.click();
-
-      // this.api.downLoad({fileId:item.fileId}).then(res => {
-      //   // console.log(res)
-      //   console.log('res:',res)
-      // }).catch(err => {
-      //   console.log('err:',err)
-      //   // let downloadElement = document.createElement('a');
-      //   // let href = window.URL.createObjectURL(blob); //创建下载的链接
-      //   // downloadElement.href = href;
-      //   // downloadElement.download = 'xxx.xlsx'; //下载后文件名
-      //   // document.body.appendChild(downloadElement);
-      //   // downloadElement.click(); //点击下载
-      //   // document.body.removeChild(downloadElement); //下载完成移除元素
-      //   // window.URL.revokeObjectURL(href); //释放掉blob对象
-      //   // let blob = new Blob([err], {type: "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;charset=utf-8"});
-      //   // let file = new File([blob], 'a.png');
-        
-      //   // let url = window.URL.createObjectURL(blob);
-      //   // window.location.href = url;
-      // })
-
-      this.downBolbFile({
-        httpType :'post',
-        url:'http://192.168.0.92:6080/allFile/download',
-        item:item,
-         isCust:true
-      })
+      this.$toast.success('Click!')
+      let link = document.createElement("a");
+      link.href = item.filePath; //地址
+      link.download = item.name; //文件名
+      link.click();
+      // window.open(item.filePath)
     },
-    /**
-   * 下载流的文件
-   * @param httpType 请求方式
-   * @param url 下载地址
-   * @param fileName 自定义名字
-   * @param isCust 是否用自定义命名
-   */
-  downBolbFile({
-    httpType = 'GET', url, isCust = false, fileName = '相关文档.zip', item
-  }) {
-    return new Promise((resolve, reject) => {
-      const token= this.$store.state.accessToken;
-      const http = new XMLHttpRequest();
-      let name = '';
-      http.open(httpType, url);
-      http.setRequestHeader('accessToken', token);
-      http.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
-      http.responseType = 'blob';
-      http.onreadystatechange = () => {
-        if (http.readyState === 4 && http.status === 200) {
-          // 先创建读取文件的对象
-          const reader = new FileReader();
-          // 读取流中的内容
-          reader.readAsText(http.response);
-          reader.onload = () => {
-            try {
-              const text = reader.result;
-              reject(JSON.parse(text));
-            } catch (error) {
-              if (isCust) {
-                const filename = http
-                  .getResponseHeader('Content-Disposition')
-                  .split(';')[1]
-                  .split('=')[1];
-                name = filename;
-              } else {
-                name = fileName;
-              }
-              const blob = new Blob([http.response]);
-              const csvUrl = URL.createObjectURL(blob);
-              const link = document.createElement('a');
-              document.body.appendChild(link); // 创建的标签添加到body，解决Firefox下无法打开页面的问题
-              link.href = csvUrl;
-              link.target = '_blank';
-              link.id = 'linkId';
-              link.className = 'linkId';
-              link.download = decodeURI(name);
-              document.getElementById('linkId').click();
-              link.remove(); // 将a标签移除
-              resolve();
-            }
-          };
-        }
-        if (http.readyState === 4 && http.status !== 200) {
-          reject(JSON.parse(http.response));
-        }
-      };
-      let from = new FormData();
-      from.append('fileId',item.fileId);
-        http.send(Qs.stringify({
-    fileId:item.fileId
-  }));
-    });
-  },
+    
     closePreview2() {
       this.previewView2 = false;
     },
