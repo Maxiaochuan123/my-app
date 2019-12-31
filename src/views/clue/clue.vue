@@ -2,8 +2,8 @@
  * @Description: In User Settings Edit
  * @Author: your name
  * @Date: 2019-09-04 10:13:29
- * @LastEditTime: 2019-10-17 11:42:50
- * @LastEditors: shenah
+ * @LastEditTime : 2019-12-26 17:21:49
+ * @LastEditors  : shenah
  -->
 <template>
   <div class="clue">
@@ -23,8 +23,14 @@
             <div v-for="(item,index) in list" :key="index">
               <mu-list-item v-waves>
                 <mu-list-item-content @click="goPage('clueDetails',{id:item.leadsId,type:'线索'})">
-                  <mu-list-item-title>{{item.ownerUserName}}
-                    <span :class="item.followup === '未跟进' ? 'nofollowUp' : ''">{{item.followup}}</span>
+                  <mu-list-item-title>
+                    <div class="clue-title">
+                      <div class="clue-image">
+                        <img :src="changeCarType(item)" width="24" height="24" />
+                      </div>
+                      <span class="clue-title-image"> {{item.leadsName}}</span>
+                    </div>
+                    <span :class="item.followup === '未跟进' ? 'nofollowUp' : ''"  class="clue-status">{{item.followup}}</span>
                   </mu-list-item-title>
                   <mu-list-item-sub-title>级别: {{item.leadsLevel}}</mu-list-item-sub-title>
                   <mu-list-item-sub-title>创建人: {{item.createUserName}}</mu-list-item-sub-title>
@@ -80,7 +86,7 @@ export default {
         },
         leadsSource:{
           defaultValue:['到店'],
-          fileTitle:'线索状态',
+          fileTitle:'线索来源',
           mode:'single',
           valueField:'title',
           labelField:'title',
@@ -117,7 +123,25 @@ export default {
             title:'已跟进',
             state:false
           }]
-        }
+        },
+        leadsType:{
+          defaultValue:[],
+          fileTitle:'线索类型',
+          mode:'single',
+          valueField:'title',
+          labelField:'title',
+          list:[{
+            title:'买车线索',
+            state:false
+          },{
+            title:'车险线索',
+            state:false
+          },
+          {
+            title:'车贷线索',
+            state:false
+          }]
+        },
       }
     }
   },
@@ -131,6 +155,16 @@ export default {
     })
   },
   methods:{
+    changeCarType(row) {
+      const {leadsType} = row;
+      if(leadsType.indexOf('买车') > -1) {
+        return this.loadingImg('car-buy.png');
+      }else if(leadsType.indexOf('车贷') > -1) {
+        return this.loadingImg('car-loan.png');
+      }else{
+        return this.loadingImg('car-county.png');
+      }
+    },
     setMenuList(){
       this.menuList = [{
         title: "新建买车线索",
@@ -343,7 +377,6 @@ export default {
       .clueList{
         margin-top: 12px;
       }
-
       .mu-tabs{
         position: fixed;
         top: 44px;
@@ -353,13 +386,42 @@ export default {
       
       .mu-list /deep/ .mu-item{
         position: relative;
-        height: 106px;
+        height: auto;
         background-color: #fff;
+        padding: 10px 16px;
         .mu-item-title{
-          span{
-            float: right;
+          display: flex;
+          justify-content: space-between;
+          height: auto;
+          overflow: visible;
+          white-space:normal;
+          .clue-title{
+            display:flex;
+            width: 100%;
+            flex: 1;
+            align-items: center;
+            .clue-title-image{
+              width: 100%;
+              flex: 1;
+            }
+            .clue-image{
+              margin-right:6px;
+              width: 24px;
+              height: 24px;        
+              display: inline-block;
+              img{
+                width: 100%;
+                height: 100%;
+              }
+            }
+           
+          }
+          .clue-status{
+            width: 120px;
             font-size: 14px;
             color: @regular-text;
+            text-align: right;
+            margin-left:10px;
           }
           .nofollowUp{
             color: @primary;

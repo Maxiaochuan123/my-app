@@ -287,7 +287,7 @@ export default {
         case "删除":
           if (!this.ishasAfferent) {
             let editEnclosureTempList = this.customEnclosureList.filter(
-              item => listItem.fileId !== item.fileId
+              item => item.fileId !== listItem.fileId
             );
             this.$emit("changecustomEnclosureList", editEnclosureTempList);
           }

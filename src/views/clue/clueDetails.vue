@@ -2,8 +2,8 @@
  * @Description: In User Settings Edit
  * @Author: your name
  * @Date: 2019-09-04 10:13:29
- * @LastEditTime: 2019-09-09 18:31:55
- * @LastEditors: Please set LastEditors
+ * @LastEditTime : 2019-12-26 10:04:07
+ * @LastEditors  : shenah
  -->
 <template>
   <div class="clueDetails">
@@ -18,10 +18,13 @@
       <mu-paper :z-depth="0" class="infoCard">
         <div class="topInfo">
           <div class="headImg">
-            <img :src="loadingImg('defaultImg.png')" />
+              <img :src="changeCarType(info)"/> 
           </div>
           <div class="info">
-            <div class="name"> <span>{{info.createUserName}}</span> </div>
+            <div class="clue-title"> 
+              <!-- <img :src="changeCarType(info)"/>  -->
+              <span> {{info.leadsName}}</span>
+            </div>
             <div class="clueDate">{{info.createTime}}</div>
           </div>
         </div>
@@ -275,12 +278,6 @@ export default {
           type: "call",
           flag: true
         })
-
-        // 公海跳转
-        if(this.$route.params.type === 'commonWatersClue'){
-          this.footNavState = false;
-          this.menuList = [{title:'分配'},{title:'领取'}];
-        }
       }else{
         this.bottomList = [{
           img: '../../../static/images/buttom-call.png',
@@ -303,29 +300,51 @@ export default {
     })
   },
   methods: {
+     changeCarType(row) {
+      const {leadsType} = row;
+      if(!leadsType) {
+        return '';
+      }
+      if(leadsType.indexOf('买车') > -1) {
+        return this.loadingImg('car-buy.png');
+      }else if(leadsType.indexOf('车贷') > -1) {
+        return this.loadingImg('car-loan.png');
+      }else{
+        return this.loadingImg('car-county.png');
+      }
+    },
     setMenuList(){
-      this.menuList = [{
-        title:'分享',
-        flag: this.leads.distribute
-      },{
-        title:'转换为联系人',
-        flag: this.leads.clewtransfercontacts
-      },{
-        title:'转换为客户',
-        flag: this.leads.clewtransferclient
-      },{
-        title:'放入公海',
-        flag: this.leads.topublicpool
-      },{
-        title:'关闭',
-        flag: true
-      },{
-        title:'编辑',
-        flag: this.leads.update
-      },{
-        title:'删除',
-        flag: this.leads.delete
-      }]
+       // 公海跳转
+      if(this.$route.params.type === 'commonWatersClue'){
+        this.footNavState = false;
+        this.menuList = [
+          {title:'分配',flag:true},
+          {title:'领取',flag:true}
+        ];
+      }else{
+          this.menuList = [{
+            title:'分享',
+            flag: this.leads.distribute
+          },{
+            title:'转换为联系人',
+            flag: this.leads.clewtransfercontacts
+          },{
+            title:'转换为客户',
+            flag: this.leads.clewtransferclient
+          },{
+            title:'放入公海',
+            flag: this.leads.topublicpool
+          },{
+            title:'关闭',
+            flag: true
+          },{
+            title:'编辑',
+            flag: this.leads.update
+          },{
+            title:'删除',
+            flag: this.leads.delete
+          }]
+      }
     },
     menuChange(data){
       let {title} = {...data}
@@ -480,6 +499,19 @@ export default {
             display: flex;
             align-items: center;
             padding-bottom: 2px;
+          }
+          .clue-title{
+            color: @primary-text;
+            font-size: @primary-size;
+            font-weight: 600;
+            display:flex;
+            padding-bottom: 2px;
+            align-items: center;
+            img{
+              width: 24px;
+              height: 24px;
+              margin-right:6px;
+            }
           }
           .clueDate {
             font-size: 14px;

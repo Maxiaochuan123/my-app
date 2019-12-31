@@ -85,7 +85,8 @@ export default {
       requestParams: {
         // 列表请求的参数
         search: "",
-        type: 2 // 1代表团队客户,2代表我的客户
+        type: 2, // 1代表团队客户,2代表我的客户
+        teamType:1, // 0代表团队,1代表个人
       }
     };
   },
@@ -104,12 +105,12 @@ export default {
     },
     tabChange(val) {
       if (val === "my") {
-        this.requestParams.type = 2;
+        this.requestParams.teamType = 1;
         this.words = "暂无我的客户";
         this.queryList();
       } else {
-        this.requestParams.type = 1;
-        this.words = "暂无我的客户";
+        this.requestParams.teamType = 0;
+        this.words = "暂无团队客户";
         this.queryList();
       }
     },

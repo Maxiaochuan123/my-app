@@ -2,8 +2,8 @@
  * @Description: In User Settings Edit
  * @Author: your name
  * @Date: 2019-08-25 21:24:42
- * @LastEditTime: 2019-09-09 18:25:09
- * @LastEditors: Please set LastEditors
+ * @LastEditTime : 2019-12-25 13:38:20
+ * @LastEditors  : shenah
  -->
 <template>
   <div class="indexs-list" :style="`margin-top:${listSpacing}px;`" @scroll.passive="handleScroll($event)">
@@ -12,7 +12,7 @@
       <ul class="singer-ul" :style="`padding-bottom:${listSpacing}px;`" ref="singerUl">
 
         <li v-for="(item, index) in listTemp" :key="index" class="singer-ul-li">
-          <div class="singer-tag" :id="item.tag">{{item.tag}}</div>
+          <div class="singer-tag" :id="item.ascllTag">{{item.tag}}</div>
           <ul>
             <li  v-for="(fitem, findex) in item.data" :key="findex">
                 <slot name="row" :row="fitem" :index="findex" :total="item.data.length"></slot>
@@ -96,6 +96,7 @@ export default {
       this.userTopTag = this.sortList[0]
       this.listTemp = this.sortList.map(item => ({
         tag:item,
+        ascllTag:`tag${item.charCodeAt()}`,
         data:res[item]
       }))
     },
@@ -103,7 +104,7 @@ export default {
     jumpTag(i) {
       this.userTopTag = i;
       this.currentSort = i;
-      document.querySelector(`#${i}`).scrollIntoView(true);
+      document.querySelector(`#tag${i.charCodeAt()}`).scrollIntoView(true);
     }
   }
 };

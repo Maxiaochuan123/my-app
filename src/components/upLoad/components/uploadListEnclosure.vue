@@ -2,8 +2,8 @@
  * @Description: In User Settings Edit 11
  * @Author: your name
  * @Date: 2019-08-08 22:47:32
- * @LastEditTime: 2019-10-21 11:34:59
- * @LastEditors: shenah
+ * @LastEditTime : 2019-12-26 11:31:19
+ * @LastEditors  : shenah
  -->
 <template>
   <div class="enclosureUpload">
@@ -74,7 +74,6 @@ export default {
         item.progress.isProgress=false;
       })
     },
-
     // 删除文件
     deleteImageItem(item){
       Api.deleteFilesOrImgs({
@@ -88,6 +87,7 @@ export default {
     },
     onChange(){
       const files = this.$refs.fileInput.files;
+<<<<<<< HEAD
       // application/vnd.openxmlformats-officedocument.spreadsheetml.sheet,application/vnd.openxmlformats-officedocument.wordprocessingml.document
       // console.log(files[0])
       // if(/^image/.test(files[0].type)){
@@ -101,7 +101,20 @@ export default {
 
       const filesArr = [...files].filter( fileItem =>{
         return fileItem;
+=======
+      let num = 0;
+      const filesArr = [...files].filter( fileItem => {
+        if(fileItem.type === 'application/vnd.android.package-archive') {
+          num++;
+        }
+        return fileItem.type !== 'application/vnd.android.package-archive';
+>>>>>>> master
       })
+      if(num>0) {
+         this.$toast.warning({
+          message: "暂不支持apk文件上传"
+        });
+      }
       filesArr.forEach(item => {
         this.enclosureList.push({
           'dataUrl':URL.createObjectURL(item),

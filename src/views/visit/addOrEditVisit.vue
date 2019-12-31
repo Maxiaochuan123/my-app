@@ -2,8 +2,8 @@
  * @Description: 新增或者编辑拜访
  * @Author: shenah
  * @Date: 2019-10-17 16:54:08
- * @LastEditors: shenah
- * @LastEditTime: 2019-10-25 13:40:55
+ * @LastEditors  : shenah
+ * @LastEditTime : 2019-12-25 10:27:42
  -->
 
 <template>
@@ -35,11 +35,12 @@
               <!-- 日期时间类型 -->
               <mu-date-input
                 :prop="form.visitTime"
+                clock-type="24hr"
                 container="bottomSheet"
                 placeholder="请选择拜访时间"
                 type="dateTime"
                 v-model="form.visitTime"
-                value-format="YYYY-MM-DD hh:mm:ss"
+                value-format="YYYY-MM-DD HH:mm:ss"
               ></mu-date-input>
             </mu-form-item>
             <mu-form-item
@@ -159,6 +160,7 @@
                 name="接收人"
                 splitField="sendUser"
                 textField="realname"
+                vagueSearch="name"
               >
                 <mu-icon
                   color="#FF0000"
@@ -322,9 +324,7 @@ export default {
       this.form[type] = this.form[type].filter(
         item => item.id * 1 !== row.value * 1
       );
-      this.form[`${type}Id`] = this.form[type]
-        .map(item => item.id)
-        .join(",");
+      this.form[`${type}Id`] = this.form[type].map(item => item.id).join(",");
     },
     handlerParams() {
       // 处理参数

@@ -50,7 +50,7 @@
         <div
           :class="[(item.readonly === 1 &&inputArr.indexOf(item.type) > -1)?'no-can-input':'']"
           :key="index"
-          class="pl12"
+          class="p15"
           v-for="(item,index) in fieldList"
         >
           <mu-form-item
@@ -65,6 +65,7 @@
             <!-- 输入框类型 -->
             <mu-text-field
               :disabled="item.readonly === 1"
+              :maxLength="item.maxLength"
               :placeholder="placeholder(item,index)"
               :prop="item.fieldName"
               v-if="inputArr.indexOf(item.type) > -1"
@@ -96,6 +97,7 @@
               :apiName="item.apiName"
               :defaultValue="form[item.fieldName]"
               :fieldName="item.fieldName"
+              :firstList="item.firstList"
               :idField="item.idField"
               :mode="item.mode"
               :name="item.name"
@@ -107,6 +109,7 @@
             ></PopSingleOrMultiple>
             <!-- 上传文件  -->
             <UploadList
+              @getEnclosureSuccessList="getEnclosureSuccessList(...arguments,item)"
               @getImgSuccessList="getImgSuccessList(...arguments,item)"
               class="upload-file"
               v-else-if="fileArr.indexOf(item.type) > -1"
@@ -137,11 +140,12 @@
               :disabled="item.readonly === 1"
               :placeholder="placeholder(item,index)"
               :prop="item.fieldName"
+              clock-type="24hr"
               container="bottomSheet"
               type="dateTime"
               v-else-if="dateTimeArr.indexOf(item.type) > -1"
               v-model="form[item.fieldName]"
-              value-format="YYYY-MM-DD hh:mm:ss"
+              value-format="YYYY-MM-DD HH:mm:ss"
             ></mu-date-input>
           </mu-form-item>
           <mu-divider v-if="item.htmlHidden!==1"></mu-divider>
@@ -400,6 +404,10 @@ export default {
       this.form[idsField] = selectArr;
       // 这个属性并没有双向绑定
       this.form[`${idsField}Id`] = ids;
+      this.$emit("generalFormChange", {
+        fieldName: textsField,
+        arr: selectArr
+      });
     },
     addressChange({ value, fieldName, lng, lat, region }) {
       this.form[fieldName] = value;
@@ -413,6 +421,11 @@ export default {
       // this.from[`${fieldName}_region`] = region;
     },
     getImgSuccessList(res, row) {
+      const { fieldName } = row;
+      const { list, guid } = res;
+      this.form[fieldName] = guid;
+    },
+    getEnclosureSuccessList(res, row) {
       const { fieldName } = row;
       const { list, guid } = res;
       this.form[fieldName] = guid;
@@ -434,8 +447,8 @@ export default {
 .pad0 {
   padding: 0 !important;
 }
-.pl12 {
-  padding-left: 12px;
+.p15 {
+  padding: 0 15px;
 }
 .no-can-input {
   opacity: 0.76;

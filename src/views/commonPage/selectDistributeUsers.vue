@@ -2,8 +2,8 @@
  * @Description: 公海分配页面
  * @Author: shenah
  * @Date: 2019-09-25 15:57:26
- * @LastEditors: shenah
- * @LastEditTime: 2019-10-23 09:19:33
+ * @LastEditors  : shenah
+ * @LastEditTime : 2019-12-19 17:42:08
  -->
 <template>
   <div class="select-distribute-users">
@@ -20,37 +20,43 @@
     ></SearchInputBar>
     <div class="content">
       <div class="content-users">
-        <div
-          :key="index"
-          @click="select(item)"
-          class="index-users"
-          v-for="(item,index) in userList"
+        <mu-load-more
+          :loading="loading"
+          @load="load"
+          class="relate-business-list-wrap"
         >
-          <div class="index-users-left">
-            <img
-              :src="loadingImg('selected.png')"
-              class="select"
-              v-show="item.flag"
-            />
-            <img
-              :src="loadingImg('no-selected.png')"
-              class="select"
-              v-show="!item.flag"
-            />
-          </div>
-          <div class="index-users-right">
-            <!-- <mu-avatar
+          <div
+            :key="index"
+            @click="select(item)"
+            class="index-users"
+            v-for="(item,index) in userList"
+          >
+            <div class="index-users-left">
+              <img
+                :src="loadingImg('selected.png')"
+                class="select"
+                v-show="item.flag"
+              />
+              <img
+                :src="loadingImg('no-selected.png')"
+                class="select"
+                v-show="!item.flag"
+              />
+            </div>
+            <div class="index-users-right">
+              <!-- <mu-avatar
               class="user-header"
               size="40"
             >
               <img :src="item.img" />
-            </mu-avatar>-->
-            <div class="user-info">
-              <div class="name">{{item.realname}}</div>
-              <div class="job">{{item.post}}</div>
+              </mu-avatar>-->
+              <div class="user-info">
+                <div class="name">{{item.realname}}</div>
+                <div class="job">{{item.post}}</div>
+              </div>
             </div>
           </div>
-        </div>
+        </mu-load-more>
       </div>
     </div>
   </div>
@@ -76,8 +82,11 @@ export default {
   },
   data() {
     return {
+      loading: false,
       requestParams: {
-        name: ""
+        name: "",
+        pageIndex: 1,
+        pageSize: 15
       },
       userList: [],
       active: "" // 当前选择的人
@@ -87,8 +96,17 @@ export default {
     this.queryUser();
   },
   methods: {
+    load() {
+      // 滚动加载
+      this.loading = true;
+      this.requestParams.pageIndex += 1;
+      this.queryUser(true).then(() => {
+        this.loading = false;
+      });
+    },
     searchInputBarChange(obj) {
       const { type, value } = obj;
+      this.requestParams.pageIndex = 1;
       this.requestParams.name = value;
       this.queryUser();
     },
@@ -97,9 +115,9 @@ export default {
         item.flag = false;
       });
     },
-    queryUser() {
-      Api.querySubUserByName(this.requestParams).then(res => {
-        let list = res.data;
+    queryUser(flag) {
+      return Api.querySubUserByName(this.requestParams).then(res => {
+        let list = res.data.list;
         this.initData(list);
         for (let i = 0; i < list.length; i += 1) {
           if (list[i].id === this.active * 1) {
@@ -107,7 +125,15 @@ export default {
             break;
           }
         }
-        this.userList = list;
+        if (flag) {
+          if (list.length === 0) {
+            this.requestParams.pageIndex -= 1;
+          } else {
+            this.userList.push(...list);
+          }
+        } else {
+          this.userList = list;
+        }
       });
     },
     select(row) {

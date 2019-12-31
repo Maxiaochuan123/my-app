@@ -2,13 +2,16 @@
  * @Description: 弹窗式的单选或者多选框
  * @Author: shenah
  * @Date: 2019-10-21 13:50:16
- * @LastEditors: shenah
- * @LastEditTime: 2019-12-18 09:39:25
+ * @LastEditors  : shenah
+ * @LastEditTime : 2019-12-25 09:36:52
  -->
 
 <template>
   <div class="pop-single-or-multiple">
-    <div @click="multipleSelect" class="show-content">
+    <div
+      @click="multipleSelect"
+      class="show-content"
+    >
       <mu-text-field
         :placeholder="`请选择${name}`"
         :prop="fieldName"
@@ -20,7 +23,10 @@
       ></mu-text-field>
       <div class="right-icon">
         <slot name="rightIcon">
-          <mu-icon size="24" value=":iconfont icon-rightArrow"></mu-icon>
+          <mu-icon
+            size="24"
+            value=":iconfont icon-rightArrow"
+          ></mu-icon>
         </slot>
       </div>
     </div>
@@ -33,18 +39,29 @@
     >
       <div class="select-pop-single-or-multiple-body">
         <div class="select-pop-single-or-multiple-header">
-          <div class="cancel" @click="closeFullscreenDialog">取消</div>
+          <div
+            @click="closeFullscreenDialog"
+            class="cancel"
+          >取消</div>
           <div class="primary-words middle-text">{{name}}选择</div>
-          <div @click="submit" class="ok">确定</div>
+          <div
+            @click="submit"
+            class="ok"
+          >确定</div>
         </div>
         <SearchInputBar
           @searchInputBarChange="searchInputBarChange"
           class="relate-business-bar"
           placeholderText="搜索"
+          v-show="!Array.isArray(firstList)"
         ></SearchInputBar>
         <div class="content">
           <div class="content-users">
-            <mu-load-more :loading="loading" @load="load" class="relate-business-list-wrap">
+            <mu-load-more
+              :loading="loading"
+              @load="load"
+              class="relate-business-list-wrap"
+            >
               <div
                 :key="index"
                 @click="select(item)"
@@ -52,11 +69,22 @@
                 v-for="(item,index) in showList"
               >
                 <div class="index-users-left">
-                  <img :src="loadingImg('selected.png')" class="select" v-show="item.flag" />
-                  <img :src="loadingImg('no-selected.png')" class="select" v-show="!item.flag" />
+                  <img
+                    :src="loadingImg('selected.png')"
+                    class="select"
+                    v-show="item.flag"
+                  />
+                  <img
+                    :src="loadingImg('no-selected.png')"
+                    class="select"
+                    v-show="!item.flag"
+                  />
                 </div>
                 <div class="index-users-right">
-                  <mu-avatar class="user-header" size="40">
+                  <mu-avatar
+                    class="user-header"
+                    size="40"
+                  >
                     <img :src="changeImg(item)" />
                   </mu-avatar>
                   <div class="user-info">
@@ -82,7 +110,9 @@ export default {
   data() {
     return {
       requestParams: {
-        search: "",
+        // 有可能使用search有可能使用name
+        name: "", // 模糊搜索
+        search: "", // 模糊搜索
         pageIndex: 1,
         pageSize: 15
       },
@@ -94,6 +124,13 @@ export default {
     };
   },
   props: {
+    vagueSearch: {
+      type: String,
+      default: "search"
+    },
+    firstList: {
+      type: Array
+    },
     extraParams: {
       // 额外的请求的参数
       type: Object,
@@ -191,14 +228,13 @@ export default {
     },
     searchInputBarChange(obj) {
       const { type, value } = obj;
-      this.requestParams.search = value;
+      this.requestParams[this.vagueSearch] = value;
       this.requestParams.pageIndex = 1;
       this.query();
     },
     query(flag) {
-      return Api[this.apiName](this.requestParams).then(res => {
-        let list = res.data.list ? res.data.list : res.data;
-        list = list.map(item => ({
+      if (Array.isArray(this.firstList)) {
+        let list = this.firstList.map(item => ({
           ...item,
           flag: false
         }));
@@ -212,16 +248,36 @@ export default {
             }
           }
         }
-        if (flag) {
-          if (list.length === 0) {
-            this.requestParams.pageIndex -= 1;
-          } else {
-            this.showList.push(...list);
+        this.showList = list;
+        return Promise.resolve();
+      } else {
+        return Api[this.apiName](this.requestParams).then(res => {
+          let list = res.data.list ? res.data.list : res.data;
+          list = list.map(item => ({
+            ...item,
+            flag: false
+          }));
+          for (let i = 0; i < this.selectedList.length; i++) {
+            const one = this.selectedList[i];
+            for (let j = 0; j < list.length; j++) {
+              const two = list[j];
+              if (one[this.idField] * 1 === two[this.idField] * 1) {
+                two.flag = true;
+                break;
+              }
+            }
           }
-        } else {
-          this.showList = list;
-        }
-      });
+          if (flag) {
+            if (list.length === 0) {
+              this.requestParams.pageIndex -= 1;
+            } else {
+              this.showList.push(...list);
+            }
+          } else {
+            this.showList = list;
+          }
+        });
+      }
     },
     select(row) {
       row.flag = !row.flag;
@@ -282,8 +338,9 @@ export default {
       this.openFullscreen = false;
     },
     clearAll() {
-      this.requestParams.search = "";
+      this.requestParams[this.vagueSearch] = "";
       this.requestParams.pageIndex = 1;
+      this.selectedList = [];
     }
   }
 };
@@ -301,12 +358,12 @@ export default {
         width: 100%;
         display: flex;
         align-items: center;
-        .cancel{
-          flex:1;
+        .cancel {
+          flex: 1;
         }
-        .middle-text{
-          flex:1;
-          text-align:center;
+        .middle-text {
+          flex: 1;
+          text-align: center;
         }
         .ok {
           flex: 1;
