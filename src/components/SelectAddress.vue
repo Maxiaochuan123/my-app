@@ -27,7 +27,10 @@
     >
       <div class="select-address-body">
         <div class="select-address-header">
-          <div class="cancel" @click="closeFullscreenDialog">取消</div>
+          <div
+            @click="closeFullscreenDialog"
+            class="cancel"
+          >取消</div>
           <div class="primary-words middle-text">地址选择</div>
           <div
             @click="submit"
@@ -233,17 +236,17 @@ export default {
           // 第一步通过关键字获取到的信息点位
           // 第二步,如果第一步没有获取到点位再以PlaceSearch来获取到定位,只要第一个
           if (selectLocation) {
-            this.region = district; // 记住省市区
-            this.addMarker(selectLocation); // 添加点位
+            // this.region = district; // 记住省市区
+            // this.addMarker(selectLocation); // 添加点位
             this.geocoderAnalysis(selectLocation);
           } else if (status === "complete" && list.length > 0) {
             // 只取第一个
             const [first] = list;
             const { location } = first;
-            const { lng, lat } = location;
-            this.region = district; // 记住省市区
-            this.addMarker(location); // 添加点位
-            this.setMapCenter(location); // 设置中心点的坐标
+            // const { lng, lat } = location;
+            // this.region = district; // 记住省市区
+            // this.addMarker(location); // 添加点位
+            // this.setMapCenter(location); // 设置中心点的坐标
             this.geocoderAnalysis(location);
           } else {
             this.$toast.info({
@@ -311,7 +314,7 @@ export default {
         if (status === "complete" && result.regeocode) {
           let address = result.regeocode.formattedAddress;
           this.inputValue = address;
-          this.setMapCenter(lnglat);
+          this.geocoderAdverseAnalysis(address);
         } else {
           this.$toast.info({
             message: "根据经纬度查询地址失败"
@@ -335,12 +338,12 @@ export default {
         width: 100%;
         display: flex;
         align-items: center;
-        .cancel{
-          flex:1;
+        .cancel {
+          flex: 1;
         }
-        .middle-text{
-          flex:1;
-          text-align:center;
+        .middle-text {
+          flex: 1;
+          text-align: center;
         }
         .ok {
           flex: 1;
