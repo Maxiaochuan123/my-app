@@ -93,7 +93,8 @@ export default {
       //   this.$toast.warning('图片请在图片区域上传')
       //   return false;
       // }
-      if(files[0].type !== ('application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' || 'application/vnd.openxmlformats-officedocument.wordprocessingml.document' || 'text/plain')){
+      let typeWhiteList = ['application/vnd.openxmlformats-officedocument.spreadsheetml.sheet', 'application/vnd.openxmlformats-officedocument.wordprocessingml.document', 'text/plain']
+      if(!typeWhiteList.includes(files[0].type)){
         this.$toast.warning('只允许上传文档')
         return false;
       }

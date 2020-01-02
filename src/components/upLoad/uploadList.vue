@@ -297,12 +297,11 @@ export default {
     },
     // 下载文件
     downloadFile(item){
-      this.$toast.success('Click!')
-      let link = document.createElement("a");
-      link.href = item.filePath; //地址
-      link.download = item.name; //文件名
-      link.click();
-      // window.open(item.filePath)
+      // let link = document.createElement("a");
+      // link.href = item.filePath; //地址
+      // link.download = item.name; //文件名
+      // link.click();
+      window.open(item.filePath)
     },
     
     closePreview2() {
