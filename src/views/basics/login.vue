@@ -113,8 +113,8 @@ export default {
     return {
       flag: false, // 是否记住密码
       form: {
-        username: "admin", // 用户名
-        password: "123456", // 密码
+        username: "", // 用户名
+        password: "", // 密码
         source: tool.judgeModel() //  Web,Android,iOS
       }
     };

@@ -2,7 +2,7 @@
  * @Description: In User Settings Edit
  * @Author: your name
  * @Date: 2019-08-25 15:40:36
- * @LastEditTime : 2019-12-18 11:17:08
+ * @LastEditTime : 2020-01-02 09:42:07
  * @LastEditors  : shenah
  -->
 <template>
@@ -34,7 +34,7 @@ export default {
     };
   },
   created() {
-    new VConsole();
+    // new VConsole();
     let activTheme = this.storage.localGet("theme");
     if (activTheme) {
       Theme.add("theme_one", activTheme, "light");
