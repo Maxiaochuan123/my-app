@@ -2,8 +2,8 @@
  * @Description: 关联业务组件
  * @Author: shenah
  * @Date: 2019-10-12 17:16:43
- * @LastEditors: shenah
- * @LastEditTime: 2019-10-23 09:39:14
+ * @LastEditors  : shenah
+ * @LastEditTime : 2020-01-02 16:47:28
  -->
 
 <template>
@@ -21,7 +21,6 @@
       >
         <mu-menu
           :open="open"
-          cover
         >
           <mu-icon
             color="primary"
