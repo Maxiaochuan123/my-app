@@ -37,7 +37,7 @@
     </div>
     <Nothing
       v-else
-      words="暂无公海线索"
+      words="暂无公海客户"
     ></Nothing>
   </div>
 </template>
