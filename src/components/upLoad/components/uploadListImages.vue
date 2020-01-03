@@ -98,6 +98,7 @@ export default {
       const filesArr =  [...files].filter( fileItem =>{
         if(/^image/.test(fileItem.type)) return fileItem;
       })
+
       this.imagesPromise = [];
       filesArr.forEach(fileItem => {
         let onePromise = new Promise((resolve,reject) => {

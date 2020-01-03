@@ -205,7 +205,17 @@ export default {
         batchId: this.form.batchId,
         ...this.relatedBusinessList
       };
-
+      let tag = 0;
+      for(let item in params){
+        if(!params[item]){
+          tag ++;
+        }
+      }
+      if(tag > 5){
+        this.$toast.warning('您并未填写内容'); 
+        return false;
+      }
+      
       let id = this.$route.params.id;
       if (id) {
         params.logId = id;

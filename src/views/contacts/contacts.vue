@@ -113,6 +113,9 @@ export default {
       .shallow-inset{
         margin-left: 72px;
       }
+      .mu-divider{
+        width: 75%;
+      }
     }
 
     .user-index{
@@ -135,7 +138,7 @@ export default {
         position: absolute;
         top: 0;
         left: 60px;
-        width: 78%;
+        width: 70%;
         margin-left: 20px;
         padding: 12px 0;
         
@@ -159,7 +162,7 @@ export default {
           color: @primary;
           position: absolute;
           top: 18px;
-          right: 34px;
+          right: 0;
         }
         
       }

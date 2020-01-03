@@ -12,9 +12,9 @@
     <div class="content">
       <SearchBar :list="userList" placeholderText="搜索联系人" :isGoPage="true" pageLinkName="personalInfo"></SearchBar>
       <!-- 公司列表 -->
-      <mu-paper :z-depth="0">
+      <!-- <mu-paper :z-depth="0">
         <div class="listTitle">成都众汇车服集团有限公司</div>
-      </mu-paper>
+      </mu-paper> -->
       <mu-paper :z-depth="0">
         <mu-list>
           <div v-for="(item ,index) in companyList" :key="index">
@@ -273,7 +273,7 @@ export default {
           line-height: 20px;
         }
         .shallow-inset{
-          margin-left: 67px;
+          margin-left: 20px;
         }
         
         .mu-item-title{

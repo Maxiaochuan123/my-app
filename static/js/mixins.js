@@ -46,6 +46,8 @@ export default {
         loadedAll: false
       },
 
+      screenData:{}, //筛选数据
+
       // 验证
       myRules: {
         must: (mes, type) => this.must(mes, type),

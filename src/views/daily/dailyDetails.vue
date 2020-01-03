@@ -93,6 +93,7 @@ export default {
   },
   created(){
     this.api.getDailyDetails({logId:this.$route.params.id}).then(res=>{
+      console.log('permission:',res.data.permission)
       this.menuList = [{
         title: "编辑",
         flag: res.data.permission.update

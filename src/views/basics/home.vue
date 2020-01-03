@@ -69,14 +69,14 @@
                   <img :src="loadingImg('task.png')" />
                   <span>任务</span>
                 </div>
-                <div>
+                <div class="order">
                   <img :src="loadingImg('order.png')" />
                   <span>订单</span>
                 </div>
               </div>
             </div>
           </mu-carousel-item>
-          <mu-carousel-item>
+          <!-- <mu-carousel-item>
             <div class="gridNav">
               <div class="row">
                 <div>
@@ -115,7 +115,7 @@
                 </div>
               </div>
             </div>
-          </mu-carousel-item>
+          </mu-carousel-item> -->
         </mu-carousel>
       </mu-paper>
 
@@ -146,7 +146,7 @@
             >个人</span>
           </div>
         </div>
-        <div
+        <!-- <div
           :key="index"
           class="sliderBox"
           v-for="(item,index) in businessOverview.sliderList"
@@ -177,7 +177,7 @@
               <span>100{{item.title}}</span>
             </div>
           </div>
-        </div>
+        </div> -->
         <div class="blockNumber">
           <div
             :key="index"
@@ -195,7 +195,7 @@
         </div>
       </mu-paper>
 
-      <mu-paper
+      <!-- <mu-paper
         :z-depth="0"
         class="rankingList"
       >
@@ -246,7 +246,7 @@
             <span class="btn">查看完整排行榜</span>
           </div>
         </div>
-      </mu-paper>
+      </mu-paper> -->
       <!-- 弹出选择器 -->
       <Picker
         :anchor="pickerAnchor"
@@ -836,6 +836,11 @@ export default {
   }
   /deep/ .app-bar {
     box-shadow: 0px 2px 6px 0px #ededed;
+  }
+  .order{
+    img{
+      filter: grayscale(1);
+    }
   }
 }
 </style>

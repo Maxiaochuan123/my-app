@@ -123,9 +123,10 @@ export default {
     // 上拉加载
     load(){
       this.loadHandle();
-      this.getDailyList(this.getParams());
+      this.getDailyList({...this.getParams(), ...this.screenData});
     },
     getScreenParams(data){
+      this.screenData = data;
       this.getApiParamsHandle();
       this.getDailyList({...this.getParams(),...data});
     },

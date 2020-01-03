@@ -69,7 +69,7 @@
               :placeholder="placeholder(item,index)"
               :prop="item.fieldName"
               v-if="inputArr.indexOf(item.type) > -1"
-              v-model="form[item.fieldName]"
+              v-model.trim="form[item.fieldName]"
             ></mu-text-field>
             <!-- 单选类型 -->
             <div
