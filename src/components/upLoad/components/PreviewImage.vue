@@ -86,9 +86,9 @@ export default {
       this.getZoom(e)
     },
     setActiveImg(index){
+      this.resetPosition();
       this.currentPreviewSrc = this.imagesList[index].src;
       this.currentPreviewIndex = index;
-      this.resetPosition()
     },
     resetPosition(){
       this.$nextTick(()=>{
@@ -189,6 +189,7 @@ export default {
     },
     // 关闭查看图片 view
     closePreview(){
+      this.resetPosition();
       this.$emit('closePreview', false);
       this.transform.init();
     }

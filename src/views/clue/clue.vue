@@ -151,7 +151,8 @@ export default {
   },
   computed: {
     ...mapState({
-      leads: state => state.authorities.crm.leads
+      leads: state => state.authorities.crm.leads,
+      supportBusinessType: state => state.loginUser.supportBusinessType
     })
   },
   methods:{
@@ -174,7 +175,7 @@ export default {
           type: "6",
           state: "add"
         },
-        flag: this.leads.save
+        flag: this.supportBusinessType[2]
       },{
         title: "新建车贷线索",
         linkName: "editBasicsInfo",
@@ -183,7 +184,7 @@ export default {
           type: "7",
           state: "add"
         },
-        flag: this.leads.save
+        flag: this.supportBusinessType[1]
       },{
         title: "新建车险线索",
         linkName: "editBasicsInfo",
@@ -192,7 +193,7 @@ export default {
           type: "5",
           state: "add"
         },
-        flag: this.leads.save
+        flag: this.supportBusinessType[3]
       }],
 
       this.myClueMenuList = [{
@@ -250,9 +251,10 @@ export default {
     // 上拉加载
     load(){
       this.loadHandle();
-      this.getClueList(this.getParams());
+      this.getClueList({...this.getParams(), ...this.screenData});
     },
     getScreenParams(data){
+      this.screenData = data;
       this.getApiParamsHandle();
       this.getClueList({...this.getParams(),...data});
     },
