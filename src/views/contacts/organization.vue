@@ -204,11 +204,13 @@ export default {
           this.contactsList = res.data;
         })
       }else if(type === 'group_1'){
+        if(this.drawerContacts) this.drawerContacts = false;
         this.drawerGroup_1 = !this.drawerGroup_1;
         if(!this.drawerGroup_1) this.drawerContacts=false;  this.contactsActive='';
         this.groupTitleName_1 = item.name;
         this.groupList_1 = item.children;
       }else if(type === 'contacts'){
+        if(this.drawerGroup_1) this.drawerGroup_1 = false;
         this.contactsActive = index;
         this.drawerContacts = !this.drawerContacts;
         this.api.getDeptContacts({deptId:item.id,shearch:'',needGroup:0,pageType:0}).then(res => {
@@ -217,6 +219,7 @@ export default {
       }
 
       if(type === 'group_1' || type === 'contacts'){
+        if(item.drawerContacts) this.drawerContacts = false;
         this.group_1_Active = index;
       }
     }

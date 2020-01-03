@@ -85,7 +85,7 @@ export default {
           val:''
         },
         leadsSource:{
-          defaultValue:['到店'],
+          // defaultValue:['到店'],
           fileTitle:'线索来源',
           mode:'single',
           valueField:'title',
@@ -111,7 +111,7 @@ export default {
           }]
         },
         followup:{
-          defaultValue:['未跟进'],
+          // defaultValue:['未跟进'],
           fileTitle:'线索状态',
           mode:'single',
           valueField:'title',
@@ -125,7 +125,7 @@ export default {
           }]
         },
         leadsType:{
-          defaultValue:[],
+          // defaultValue:[],
           fileTitle:'线索类型',
           mode:'single',
           valueField:'title',
@@ -193,7 +193,7 @@ export default {
           type: "5",
           state: "add"
         },
-        flag: this.supportBusinessType[3]
+        flag: this.supportBusinessType[0]
       }],
 
       this.myClueMenuList = [{
@@ -224,7 +224,6 @@ export default {
     },
     // 获取线索列表
     getClueList(params){
-      console.log(params)
       this.api.getClueList(params).then(res=>{
         if(res.msg !== 'success') this.$toast.warning('线索列表获取失败!');
         if(this.loadUpdate.loadingState === 'default' || this.loadUpdate.loadingState === 'refresh'){
