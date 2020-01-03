@@ -40,7 +40,7 @@
     <div class="basic-two">
       <div
         class="basic-details-item"
-        v-if="type !== 'commonWatersCustomer'"
+        v-if="$parent.judgeBtn()"
       >
         <div class="basic-details-item-left">
           <div class="title">新增联系人</div>

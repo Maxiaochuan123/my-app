@@ -2,8 +2,8 @@
  * @Description: In User Settings Edit
  * @Author: your name
  * @Date: 2019-09-04 12:35:37
- * @LastEditTime: 2019-12-17 15:43:23
- * @LastEditors: shenah
+ * @LastEditTime : 2020-01-03 10:07:38
+ * @LastEditors  : shenah
  -->
 <!--
  * @Description: 客户详情
@@ -20,7 +20,7 @@
       pageTitle="客户详情"
     ></AppBar>
     <div
-      :class="{'common-waters-customer-content':type ==='commonWatersCustomer'}"
+      :class="{'common-waters-customer-content':type === 'commonWatersCustomer'?true:isAble? false : true}"
       class="content"
     >
       <div class="content-wrap">
@@ -79,7 +79,7 @@
     <FootNav
       :list="bottomList"
       @footNavChange="footNavChange"
-      v-if="type !== 'commonWatersCustomer'"
+      v-if="judgeBtn()"
     ></FootNav>
   </div>
 </template>
@@ -106,6 +106,10 @@ export default {
     // commonWatersCustomer => 从公海客户中进来
     type() {
       return this.$route.params.type;
+    },
+    isAble() {
+      // 当前状态是启用还是禁用 0是启用 1是禁用
+      return this.details.isLock === 0;
     }
   },
   data() {
@@ -127,6 +131,14 @@ export default {
     this.queryContacts();
   },
   methods: {
+    judgeBtn() {
+      // 根据启用与禁用的状态判断哪些该隐藏
+      if (this.type === "commonWatersCustomer") {
+        return false;
+      } else {
+        return this.isAble;
+      }
+    },
     judgeActiveTab() {
       if (this.$route.path.indexOf("customerRecord") > -1) {
         this.active = "record";
@@ -211,19 +223,20 @@ export default {
         let able = ENORDISABLE.filter(
           item => item.value !== this.details.isLock
         )[0];
+        let isAble = able.value === 1;
         this.menuList = [
           {
             title: "分享",
             linkName: "selectShareUsers",
             isLink: false,
             type: "share",
-            flag: distribute
+            flag: distribute && isAble
           },
           {
             title: "放入公海",
             isLink: false,
             type: "putInWaters",
-            flag: putinpool
+            flag: putinpool && isAble
           },
           {
             title: "编辑",
@@ -231,7 +244,7 @@ export default {
             isLink: true,
             type: "edit",
             linkParams: { id: this.id },
-            flag: update
+            flag: update && isAble
           },
           {
             title: able.text,
@@ -282,13 +295,15 @@ export default {
         });
       } else if (type === "receive") {
         this.$confirm("是否领取此客户?", "提示").then(({ result, value }) => {
-          Api.queryReceivePublicPoolById({
-            ids: this.id,
-            labelType: "2"
-          }).then(res => {
-            this.$toast.success("领取成功");
-            this.goBack();
-          });
+          if (result) {
+            Api.queryReceivePublicPoolById({
+              ids: this.id,
+              labelType: "2"
+            }).then(res => {
+              this.$toast.success("领取成功");
+              this.goBack();
+            });
+          }
         });
       } else if (type === "able") {
         let able = ENORDISABLE.filter(
@@ -296,13 +311,15 @@ export default {
         )[0];
         let tip = able && able.text;
         this.$confirm(`是否${tip}此客户?`, "提示").then(({ result, value }) => {
-          Api.updateCustomerEnableOrDisable({
-            customerIds: this.id,
-            isLock: able.value
-          }).then(res => {
-            this.$toast.success(`${tip}成功`);
-            this.goBack();
-          });
+          if (result) {
+            Api.updateCustomerEnableOrDisable({
+              customerIds: this.id,
+              isLock: able.value
+            }).then(res => {
+              this.$toast.success(`${tip}成功`);
+              this.goBack();
+            });
+          }
         });
       }
     },

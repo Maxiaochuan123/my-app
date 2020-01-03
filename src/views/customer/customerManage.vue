@@ -43,7 +43,7 @@
         >
           <div class="index-customer-wrap">
             <div class="title">
-              <span>{{row.customerName}}</span>
+              <span :class="{'is-able':row.isLock === 1}">{{row.customerName}}</span>
               <span class="rank">{{row.customerLevel}}</span>
             </div>
             <div class="sub-title">{{row.detailAddress || '暂无详细地址'}}</div>
@@ -86,7 +86,7 @@ export default {
         // 列表请求的参数
         search: "",
         type: 2, // 1代表团队客户,2代表我的客户
-        teamType:1, // 0代表团队,1代表个人
+        teamType: 1 // 0代表团队,1代表个人
       }
     };
   },
@@ -148,6 +148,9 @@ export default {
       color: @primary-text;
       justify-content: space-between;
       align-items: center;
+      .is-able {
+        color: #ccc;
+      }
       .rank {
         font-size: @regular-size;
         color: #ec191f;
