@@ -19,7 +19,7 @@
       <div class="clueList">
         <mu-load-more :refreshing="loadUpdate.refreshing" @refresh="refresh" :loading="loadUpdate.loading" @load="load" :loaded-all="loadUpdate.loadedAll">
 
-          <mu-list textline="two-line">
+          <mu-list textline="two-line" v-if="list.length > 0">
             <div v-for="(item,index) in list" :key="index">
               <mu-list-item v-waves>
                 <mu-list-item-content @click="goPage('clueDetails',{id:item.leadsId,type:'线索'})">
@@ -53,8 +53,9 @@
               <mu-divider shallow-inset v-show="index + 1 !== list.length"></mu-divider>
             </div>
           </mu-list>
-        </mu-load-more>
 
+          <Nothing words="暂无线索" v-else></Nothing>
+        </mu-load-more>
       </div>
     </div>
   </div>
@@ -63,10 +64,11 @@
 <script>
 import AppBar from '../../components/AppBar'
 import Screen from '../../components/Screen'
+import Nothing from '../../components/Nothing'
 import { mapState } from 'vuex'
 export default {
   components:{
-    AppBar,Screen
+    AppBar,Screen,Nothing
   },
   data(){
     return{
@@ -85,7 +87,7 @@ export default {
           val:''
         },
         leadsSource:{
-          defaultValue:['到店'],
+          // defaultValue:['到店'],
           fileTitle:'线索来源',
           mode:'single',
           valueField:'title',
@@ -111,7 +113,7 @@ export default {
           }]
         },
         followup:{
-          defaultValue:['未跟进'],
+          // defaultValue:['未跟进'],
           fileTitle:'线索状态',
           mode:'single',
           valueField:'title',
@@ -125,7 +127,7 @@ export default {
           }]
         },
         leadsType:{
-          defaultValue:[],
+          // defaultValue:[],
           fileTitle:'线索类型',
           mode:'single',
           valueField:'title',
@@ -193,7 +195,7 @@ export default {
           type: "5",
           state: "add"
         },
-        flag: this.supportBusinessType[3]
+        flag: this.supportBusinessType[0]
       }],
 
       this.myClueMenuList = [{
@@ -224,7 +226,6 @@ export default {
     },
     // 获取线索列表
     getClueList(params){
-      console.log(params)
       this.api.getClueList(params).then(res=>{
         if(res.msg !== 'success') this.$toast.warning('线索列表获取失败!');
         if(this.loadUpdate.loadingState === 'default' || this.loadUpdate.loadingState === 'refresh'){
@@ -237,7 +238,7 @@ export default {
       })
     },
     getParams(){
-      let params = {type:1,teamType:0,leadsSource:'到店',followup:'未跟进',...this.paging}
+      let params = {type:1,teamType:0,leadsSource:'',followup:'',...this.paging}
       if(this.tabsActive === 0){
         params.teamType = 1;
       }

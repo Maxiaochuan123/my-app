@@ -36,6 +36,20 @@
           <div class="listTitle">{{deptTitleName}}</div>
           <!-- <div class="listTitle">部门抽屉</div> -->
         <!-- </mu-paper> -->
+        <mu-list textline="two-line">
+          <div v-for="(item ,index) in companyUserList" :key="index">
+            <mu-list-item button v-waves @click="drawerContacts = false;drawerDepartment = false; goPage('personalInfo',item)">
+              <mu-avatar>
+                <img :src="loadingImg('defaultImg.png')">
+              </mu-avatar>
+              <mu-list-item-content>
+                <mu-list-item-title>{{item.realname}}</mu-list-item-title>
+                <mu-list-item-sub-title>{{item.post}}</mu-list-item-sub-title>
+              </mu-list-item-content>
+            </mu-list-item>
+            <mu-divider shallow-inset v-show="index + 1 !== companyUserList.length"></mu-divider>
+          </div>
+        </mu-list>
         <mu-list v-if="deptList.length > 0">
           <div v-for="(item ,index) in deptList" :key="index">
             <mu-list-item button v-waves :class="index === groupActive ? 'active' : '' " @click="getCompanyItem(item,'group', index)">
@@ -159,6 +173,7 @@ export default {
       drawerGroup_1: false, //子组抽屉
       drawerContacts: false, //联系人抽屉
       userList:[],
+      companyUserList:[],
 
       companyList:[],
       deptList:[],
@@ -184,16 +199,22 @@ export default {
       this.userList = res.data.list;
       // this.$store.commit('setUserList',res.data)
     })
-    
+    // console.log(this.companyList)
+    // console.log(this.userList)
   },
   methods:{
     getCompanyItem(item,type,index){
+      console.log(item)
       if(type === 'dept'){
         this.deptActive = index;
         this.drawerDepartment = !this.drawerDepartment;
         if(!this.drawerDepartment) this.drawerGroup=false; this.drawerGroup_1=false; this.drawerContacts=false; this.groupActive=''; this.group_1_Active=''; this.contactsActive='';
         this.deptTitleName = item.name;
         this.deptList = item.children;
+        this.api.getDeptContacts({deptId:item.id,shearch:'',needGroup:0,pageType:0}).then(res => {
+          this.companyUserList = res.data;
+          console.log(this.companyUserList)
+        })
       }else if(type === 'group'){
         this.groupActive = index;
         this.drawerGroup = !this.drawerGroup;
@@ -204,11 +225,13 @@ export default {
           this.contactsList = res.data;
         })
       }else if(type === 'group_1'){
+        if(this.drawerContacts) this.drawerContacts = false;
         this.drawerGroup_1 = !this.drawerGroup_1;
         if(!this.drawerGroup_1) this.drawerContacts=false;  this.contactsActive='';
         this.groupTitleName_1 = item.name;
         this.groupList_1 = item.children;
       }else if(type === 'contacts'){
+        if(this.drawerGroup_1) this.drawerGroup_1 = false;
         this.contactsActive = index;
         this.drawerContacts = !this.drawerContacts;
         this.api.getDeptContacts({deptId:item.id,shearch:'',needGroup:0,pageType:0}).then(res => {
@@ -217,6 +240,7 @@ export default {
       }
 
       if(type === 'group_1' || type === 'contacts'){
+        if(item.drawerContacts) this.drawerContacts = false;
         this.group_1_Active = index;
       }
     }

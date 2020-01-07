@@ -390,6 +390,14 @@ export default {
     };
   },
   created() {
+    // 阻止浏览器返回
+    if (window.history && window.history.pushState) {
+      // 往历史记录里面添加一条新的当前页面的url
+      history.pushState(null, null, document.URL);
+      // 给 popstate 绑定一个方法 监听页面刷新
+      window.addEventListener('popstate', this.goBack, false);//false阻止默认事件
+    }
+
     // 判断是否有token来进行操作
     this.judgeUrlToken();
     this.getDataAnalysis(this.getParams());
@@ -401,7 +409,13 @@ export default {
       this.storage.localSet("theme", myTheme[0]);
     }
   },
+  destroyed() {
+    window.removeEventListener('popstate', this.goBack, false);//false阻止默认事件
+  },
   methods: {
+    goBack() {
+      history.pushState(null, null, document.URL);
+    },
     judgeUrlToken() {
       let { token } = this.$route.query;
       if (token) {
