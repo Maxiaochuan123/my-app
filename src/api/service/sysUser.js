@@ -25,5 +25,11 @@ export default {
     get({
       params,
       url: C.GET_InsideCompany_Contacts
+    }),
+  // 查询 自己的上级
+  querySuperUser: params =>
+    get({
+      params,
+      url: C.QUERY_SUPER_LIST
     })
 };

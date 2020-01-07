@@ -3,7 +3,7 @@
  * @Author: shenah
  * @Date: 2019-10-17 16:54:08
  * @LastEditors  : shenah
- * @LastEditTime : 2019-12-25 10:27:42
+ * @LastEditTime : 2020-01-07 18:11:11
  -->
 
 <template>
@@ -245,8 +245,18 @@ export default {
         this.pageTitle = "编辑拜访";
         this.queryDetails();
       } else {
+        this.querySuperList(); // 查询上级任务
         this.pageTitle = "新增拜访";
       }
+    },
+    querySuperList() {
+      Api.querySuperUser().then(res => {
+        let list = res.data;
+        let form = {};
+        form.sendUser = list;
+        form.sendUserId = list.map(item => item.id).join(",");
+        this.form = { ...this.form, ...form };
+      });
     },
     handlerDetails(details) {
       let form = { ...details };

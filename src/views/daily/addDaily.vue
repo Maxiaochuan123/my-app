@@ -1,6 +1,11 @@
 <template>
   <div class="addDaily">
-    <AppBar pageTitle="写日报" custom customTitle="保存" :customFnc="customFnc"></AppBar>
+    <AppBar
+      :customFnc="customFnc"
+      custom
+      customTitle="保存"
+      pageTitle="写日报"
+    ></AppBar>
     <div class="content">
       <div
         :class="['baseContent',bootomPadingStatus_1 || bootomPadingStatus_2 ? 'bootomPading' : '']"
@@ -9,11 +14,11 @@
           <div class="title">今日重点工作及完成情况</div>
           <div class="textarea">
             <mu-text-field
-              v-model="form.content"
-              multi-line
               :rows="0"
               full-width
+              multi-line
               placeholder="请输入内容"
+              v-model="form.content"
             ></mu-text-field>
           </div>
         </div>
@@ -23,11 +28,11 @@
           <div class="title">明日工作计划</div>
           <div class="textarea">
             <mu-text-field
-              v-model="form.tomorrow"
-              multi-line
               :rows="0"
               full-width
+              multi-line
               placeholder="请输入内容"
+              v-model="form.tomorrow"
             ></mu-text-field>
           </div>
         </div>
@@ -37,11 +42,11 @@
           <div class="title">工作感悟</div>
           <div class="textarea">
             <mu-text-field
-              v-model="form.sentiment"
-              multi-line
               :rows="0"
               full-width
+              multi-line
               placeholder="请输入内容"
+              v-model="form.sentiment"
             ></mu-text-field>
           </div>
         </div>
@@ -51,11 +56,11 @@
           <div class="title">工作所需支持</div>
           <div class="textarea">
             <mu-text-field
-              v-model="form.support"
-              multi-line
               :rows="0"
               full-width
+              multi-line
               placeholder="请输入内容"
+              v-model="form.support"
             ></mu-text-field>
           </div>
         </div>
@@ -68,28 +73,41 @@
           :ishasAfferent="false"
           @changecustomEnclosureList="changecustomEnclosureList"
           @changecustomImgList="changecustomImgList"
-          @getImgSuccessList="getImgSuccessList"
           @getEnclosureSuccessList="getEnclosureSuccessList"
+          @getImgSuccessList="getImgSuccessList"
         ></uploadList>
         <mu-divider shallow-inset></mu-divider>
 
         <!-- 关联业务 -->
         <RelateBusiness
+          :defaultHide="true"
           :relateData="relateData"
           :relatedBusinessList="relatedBusinessList"
           :relateMenu="relateMenu"
           @relateBusinessChange="relateBusinessChange"
-          :defaultHide="true"
         ></RelateBusiness>
       </div>
 
       <!-- 接收人 -->
-      <mu-form :model="form" class="mu-demo-form" label-position="left" label-width="100">
-        <mu-paper :z-depth="0" class="block">
-          <mu-form-item label="接收人" prop="contactName">
+      <mu-form
+        :model="form"
+        class="mu-demo-form"
+        label-position="left"
+        label-width="100"
+      >
+        <mu-paper
+          :z-depth="0"
+          class="block"
+        >
+          <mu-form-item
+            label="接收人"
+            prop="contactName"
+          >
             <PopSingleOrMultiple
-              vagueSearch="name"
               :defaultValue="form.contactName"
+              :extraParams="{
+              teamType:1
+            }"
               :isShowText="false"
               :selected="form.sendUser"
               @PopSingleOrMultipleChange="PopSingleOrMultipleChange"
@@ -100,11 +118,14 @@
               name="接收人"
               splitField="sendUser"
               textField="realname"
-              :extraParams="{
-              teamType:1
-            }"
+              vagueSearch="name"
             >
-              <mu-icon color="#FF0000" size="24" slot="rightIcon" value=":iconfont icon-tianjia"></mu-icon>
+              <mu-icon
+                color="#FF0000"
+                size="24"
+                slot="rightIcon"
+                value=":iconfont icon-tianjia"
+              ></mu-icon>
             </PopSingleOrMultiple>
           </mu-form-item>
 
@@ -125,7 +146,7 @@ import uploadList from "../../components/upLoad/uploadList";
 import RelateBusiness from "../../components/RelateBusiness/RelateBusiness";
 import PopSingleOrMultiple from "../../components/PopSingleOrMultiple";
 import MultipleShowList from "../../components/MultipleShowList";
-
+import Api from "@api";
 import { RELATION_BUSINESS } from "@constants/menuInfo.js";
 export default {
   components: {
@@ -158,7 +179,8 @@ export default {
       customImgList: [], // 手动传入图片
       customEnclosureList: [], // 手动传入文件
       relatedBusinessList: {}, //关联业务
-      relateData: {// 关联的相关数据
+      relateData: {
+        // 关联的相关数据
         clues: [],
         customers: [],
         contacts: [],
@@ -192,9 +214,20 @@ export default {
       this.api.getDailyParams({ logId: this.$route.params.id }).then(res => {
         this.form = { ...this.form, ...this.handlerDetails(res.data) };
       });
+    } else {
+      this.querySuperList();
     }
   },
   methods: {
+    querySuperList() {
+      Api.querySuperUser().then(res => {
+        let list = res.data;
+        let form = {};
+        form.sendUser = list;
+        form.sendUserId = list.map(item => item.id).join(",");
+        this.form = { ...this.form, ...form };
+      });
+    },
     customFnc() {
       let params = {
         content: this.form.content,
@@ -206,16 +239,16 @@ export default {
         ...this.relatedBusinessList
       };
       let tag = 0;
-      for(let item in params){
-        if(!params[item]){
-          tag ++;
+      for (let item in params) {
+        if (!params[item]) {
+          tag++;
         }
       }
-      if(tag > 5){
-        this.$toast.warning('您并未填写内容'); 
+      if (tag > 5) {
+        this.$toast.warning("您并未填写内容");
         return false;
       }
-      
+
       let id = this.$route.params.id;
       if (id) {
         params.logId = id;
