@@ -2,8 +2,8 @@
  * @Description: 任务列表
  * @Author: shenah
  * @Date: 2019-10-12 09:30:38
- * @LastEditors: shenah
- * @LastEditTime: 2019-11-27 09:21:56
+ * @LastEditors  : shenah
+ * @LastEditTime : 2020-01-07 10:47:47
  -->
 
 <template>
@@ -39,6 +39,7 @@
     <div class="content">
       <div class="content-wrap">
         <mu-load-more
+          :class="{'bg-class':listObj.list.length > 0}"
           :loading="loading"
           @load="load"
           class="list-wrap"
@@ -46,7 +47,12 @@
           <TaskItem
             :list="listObj.list"
             type="task"
+            v-if="listObj.list.length > 0"
           ></TaskItem>
+          <Nothing
+            :words="words"
+            v-else
+          ></Nothing>
         </mu-load-more>
       </div>
     </div>
@@ -56,6 +62,7 @@
 <script>
 import { mapState } from "vuex";
 import ArrSingleOrMultiple from "@components/ArrSingleOrMultiple.vue";
+import Nothing from "@components/Nothing.vue";
 import { TASK_STATUS } from "@constants/dictionaries";
 import AppBar from "@components/AppBar.vue";
 import TaskItem from "./components/TaskItem.vue";
@@ -64,7 +71,7 @@ import Api from "@api";
 import dayjs from "dayjs";
 export default {
   name: "taskList",
-  components: { AppBar, TaskItem, ArrSingleOrMultiple, Screen },
+  components: { AppBar, TaskItem, ArrSingleOrMultiple, Screen, Nothing },
   computed: {
     ...mapState({
       taskRights: state => state.authorities.work.task
@@ -75,7 +82,10 @@ export default {
       Api,
       TASK_STATUS,
       active: 0,
-      listObj: {}, // 列表对象
+      words: "暂无任务",
+      listObj: {
+        list: []
+      }, // 列表对象
       requestParams: {
         type: 0, // 任务类型 0 全部 ,1 我发出的 ,2 我收到的 ,3 下属的任务
         search: "", // 任务名称
@@ -189,8 +199,10 @@ export default {
       overflow: auto;
       .list-wrap {
         width: 100%;
-        background-color: #fff;
         padding: 0 15px;
+      }
+      .bg-class {
+        background-color: #fff;
       }
     }
   }

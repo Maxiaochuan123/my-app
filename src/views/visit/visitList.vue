@@ -2,8 +2,8 @@
  * @Description: 拜访记录
  * @Author: shenah
  * @Date: 2019-10-17 16:47:08
- * @LastEditors: shenah
- * @LastEditTime: 2019-10-22 17:26:48
+ * @LastEditors  : shenah
+ * @LastEditTime : 2020-01-07 10:41:44
  -->
 
 <template>
@@ -42,59 +42,66 @@
           @load="load"
           class="list-wrap"
         >
-          <div
-            :key="index"
-            :zDepth="0"
-            class="content-visit"
-            v-for="(item,index) in listObj.list"
-          >
-            <div>
-              <div class="info">
-                <img :src="item.userImg" />
-                <div>
-                  <span class="name">{{item.realname}}</span>
-                  <span class="level">{{item.post}}</span>
-                </div>
-              </div>
-            </div>
+          <div v-if="listObj.list.length > 0">
             <div
-              @click="goPage('visitDetails', {id:item.visitId})"
-              class="completionstate"
+              :key="index"
+              :zDepth="0"
+              class="content-visit"
+              v-for="(item,index) in listObj.list"
             >
-              <div class="describe">
-                <div>
-                  <p class="title">拜访时间：</p>
-                  <p class="result">{{item.visitTime | emptyText('暂无拜访时间')}}</p>
-                </div>
-                <div>
-                  <p class="title">拜访客户：</p>
-                  <p class="result">{{item.customerName}}</p>
-                </div>
-                <div>
-                  <p class="title">拜访内容：</p>
-                  <p class="result">{{item.content}}</p>
-                </div>
-                <div>
-                  <p class="result">
-                    <mu-icon
-                      color="#5B98D0"
-                      size="24"
-                      value=":iconfont icon-dingwei"
-                    ></mu-icon>
-                    <span class="address">{{item.address | emptyText('暂无地址')}}</span>
-                  </p>
+              <div>
+                <div class="info">
+                  <img :src="item.userImg" />
+                  <div>
+                    <span class="name">{{item.realname}}</span>
+                    <span class="level">{{item.post}}</span>
+                  </div>
                 </div>
               </div>
-              <mu-divider shallow-inset></mu-divider>
-              <div class="commentBox">
-                <div class="comment">
-                  <img :src="loadingImg('comment.png')" />
-                  <span>评论({{item.replyList.length}})</span>
+              <div
+                @click="goPage('visitDetails', {id:item.visitId})"
+                class="completionstate"
+              >
+                <div class="describe">
+                  <div>
+                    <p class="title">拜访时间：</p>
+                    <p class="result">{{item.visitTime | emptyText('暂无拜访时间')}}</p>
+                  </div>
+                  <div>
+                    <p class="title">拜访客户：</p>
+                    <p class="result">{{item.customerName}}</p>
+                  </div>
+                  <div>
+                    <p class="title">拜访内容：</p>
+                    <p class="result">{{item.content}}</p>
+                  </div>
+                  <div>
+                    <p class="result">
+                      <mu-icon
+                        color="#5B98D0"
+                        size="24"
+                        value=":iconfont icon-dingwei"
+                      ></mu-icon>
+                      <span class="address">{{item.address | emptyText('暂无地址')}}</span>
+                    </p>
+                  </div>
                 </div>
-                <div class="dateTime">{{item.createTime}}</div>
+                <mu-divider shallow-inset></mu-divider>
+                <div class="commentBox">
+                  <div class="comment">
+                    <img :src="loadingImg('comment.png')" />
+                    <span>评论({{item.replyList.length}})</span>
+                  </div>
+                  <div class="dateTime">{{item.createTime}}</div>
+                </div>
               </div>
             </div>
           </div>
+          <Nothing
+            :words="words"
+            type="no-visits"
+            v-else
+          ></Nothing>
         </mu-load-more>
       </div>
     </div>
@@ -105,13 +112,16 @@
 import AppBar from "@components/AppBar";
 import Screen from "@components/Screen.vue";
 import Api from "@api";
+import Nothing from "@components/Nothing.vue";
 export default {
   components: {
     AppBar,
-    Screen
+    Screen,
+    Nothing
   },
   data() {
     return {
+      words: "暂无拜访",
       active: 0,
       loading: false,
       requestParams: {
@@ -124,7 +134,9 @@ export default {
         pageSize: 15 // 默认每页条数
       },
       drawerList: {}, // 筛选显示的列表
-      listObj: {} // 拜访记录列表
+      listObj: {
+        list: []
+      } // 拜访记录列表
     };
   },
   mounted() {
