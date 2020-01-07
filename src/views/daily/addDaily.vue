@@ -224,7 +224,7 @@ export default {
         let list = res.data;
         let form = {};
         form.sendUser = list;
-        form.sendUserId = list.map(item => item.id).join(",");
+        form.sendUserIds = list.map(item => item.id).join(",");
         this.form = { ...this.form, ...form };
       });
     },

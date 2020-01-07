@@ -250,7 +250,7 @@ export default {
       })
     },
     getParams(){
-      let params = {type:1,teamType:0,leadsSource:'',followup:'',...this.paging}
+      let params = {type:1,teamType:0,leadsSource:'',followup:'未跟进',...this.paging}
       if(this.tabsActive === 0){
         params.teamType = 1;
       }
