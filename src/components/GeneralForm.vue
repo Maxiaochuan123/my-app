@@ -457,4 +457,10 @@ export default {
 .upload-file {
   width: 100%;
 }
+.mu-demo-form /deep/ .block .mu-form-item .mu-form-item-help{
+  bottom: 0;
+}
+.mu-form-item /deep/ .mu-input-help, .mu-form-item /deep/ .mu-input-line, .mu-form-item /deep/ .mu-input-focus-line{
+  display: none;
+}
 </style>

@@ -13,6 +13,10 @@ const UglifyJsPlugin = require('uglifyjs-webpack-plugin')
 
 const env = require('../config/prod.env')
 
+let date = new Date();
+date = date.toLocaleDateString();
+date = date.replace(/\//g, '');
+
 const webpackConfig = merge(baseWebpackConfig, {
   module: {
     rules: utils.styleLoaders({
@@ -22,10 +26,11 @@ const webpackConfig = merge(baseWebpackConfig, {
     })
   },
   devtool: config.build.productionSourceMap ? config.build.devtool : false,
+  
   output: {
     path: config.build.assetsRoot,
-    filename: utils.assetsPath('js/[name].[chunkhash].js'),
-    chunkFilename: utils.assetsPath('js/[id].[chunkhash].js')
+    filename: utils.assetsPath(`js/[name].[chunkhash]${date}.js`),
+    chunkFilename: utils.assetsPath(`js/[id].[chunkhash]${date}.js`)
   },
   plugins: [
     // http://vuejs.github.io/vue-loader/en/workflow/production.html

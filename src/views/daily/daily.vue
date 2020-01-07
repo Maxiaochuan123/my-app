@@ -11,7 +11,7 @@
         <mu-tab>我收到的</mu-tab>
       </mu-tabs>
       <div class="myDaily">
-        <mu-load-more :refreshing="loadUpdate.refreshing" @refresh="refresh" :loading="loadUpdate.loading" @load="load" :loaded-all="loadUpdate.loadedAll">
+        <mu-load-more :refreshing="loadUpdate.refreshing" @refresh="refresh" :loading="loadUpdate.loading" @load="load" :loaded-all="loadUpdate.loadedAll" v-if="dailyList.length > 0">
           <mu-expansion-panel :zDepth="0" expand v-for="(item,index) in dailyList" :key="index">
             <div slot="header">
               <div class="info">
@@ -52,6 +52,7 @@
             </div>
           </mu-expansion-panel>
         </mu-load-more>
+        <Nothing words="暂无日报" v-else></Nothing>
       </div>
     </div>
   </div>
@@ -60,9 +61,10 @@
 <script>
 import AppBar from '../../components/AppBar'
 import Screen from '../../components/Screen'
+import Nothing from '../../components/Nothing'
 export default {
   components:{
-    AppBar,Screen
+    AppBar,Screen,Nothing
   },
   data(){
     return{
@@ -126,8 +128,8 @@ export default {
       this.getDailyList({...this.getParams(), ...this.screenData});
     },
     getScreenParams(data){
-      this.screenData = data;
       this.getApiParamsHandle();
+      this.screenData = data;
       this.getDailyList({...this.getParams(),...data});
     },
     changeTabs(item){
