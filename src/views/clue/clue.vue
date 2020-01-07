@@ -113,16 +113,28 @@ export default {
           }]
         },
         followup:{
-          // defaultValue:['未跟进'],
+          defaultValue:['未跟进'],
           fileTitle:'线索状态',
           mode:'single',
           valueField:'title',
           labelField:'title',
           list:[{
+            title:'已转化为联系人',
+            state:false
+          },{
+            title:'已转化为客户',
+            state:false
+          },{
             title:'未跟进',
             state:false
           },{
             title:'已跟进',
+            state:false
+          },{
+            title:'关闭',
+            state:false
+          },{
+            title:'不限',
             state:false
           }]
         },
@@ -257,6 +269,7 @@ export default {
     getScreenParams(data){
       this.screenData = data;
       this.getApiParamsHandle();
+      if(data.followup === '不限') data.followup = '';
       this.getClueList({...this.getParams(),...data});
     },
     changeTabs(item){
@@ -270,11 +283,11 @@ export default {
           this.goPage('editBasicsInfo',{state:'edit',type:type,id:item.leadsId})
           break;
         case '写跟进':
-          if(item.followup === '未跟进' || item.followup === '已跟进'){
+          // if(item.followup === '未跟进' || item.followup === '已跟进'){
             this.goPage('writeFollowup',{type:'线索',id:item.leadsId})
-          }else{
-            this.$toast.warning({time:2000,message:'"未跟进" 或 "已跟进" 才可填写跟进记录 !'});
-          }
+          // }else{
+          //   this.$toast.warning({time:2000,message:'"未跟进" 或 "已跟进" 才可填写跟进记录 !'});
+          // }
           break;
         case '分享':
           this.$confirm('是否分享此线索 ?', '提示').then(res=>{

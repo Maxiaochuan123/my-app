@@ -313,9 +313,9 @@ export default {
       businessOverview: {
         teamType: "1", // 0:团队 1:个人
         select_1: {
-          text: "本月",
-          value: "",
-          pickerAnchor: [4] // 下拉选默认值
+          text: "今天",
+          value: "today",
+          pickerAnchor: [0] // 下拉选默认值
         },
         blockNumberList: [
           {
@@ -354,7 +354,7 @@ export default {
         teamType: "1", // 0:团队 1:个人
         select_1: {
           text: "本月",
-          value: "",
+          value: "month",
           pickerAnchor: [4] // 下拉选默认值
         },
         select_2: {
@@ -506,7 +506,7 @@ export default {
         this.pickerList = [
           {
             text: "今天",
-            value: ""
+            value: "today"
           },
           {
             text: "昨天",

@@ -261,7 +261,7 @@ export default {
     this.api.getClueDetails({leadsId:this.$route.params.id}).then(res=>{
       if(res.msg !== 'success') this.$toast.warning('线索详情获取失败!');
       this.info = res.data;
-      if(this.info.followup === '未跟进' || this.info.followup === '已跟进'){
+      // if(this.info.followup === '未跟进' || this.info.followup === '已跟进'){
         this.bottomList.push({
           img: '../../../static/images/buttom-write-follow.png',
           label: "写跟进",
@@ -278,16 +278,16 @@ export default {
           type: "call",
           flag: true
         })
-      }else{
-        this.bottomList = [{
-          img: '../../../static/images/buttom-call.png',
-          label: "打电话",
-          linkName: "myInfoChild",
-          isLink: false,
-          type: "call",
-          flag: true
-        }]
-      }
+      // }else{
+      //   this.bottomList = [{
+      //     img: '../../../static/images/buttom-call.png',
+      //     label: "打电话",
+      //     linkName: "myInfoChild",
+      //     isLink: false,
+      //     type: "call",
+      //     flag: true
+      //   }]
+      // }
     })
     this.api.getClueFollowUp({leadsId:this.$route.params.id}).then(res=>{
       if(res.msg !== 'success') this.$toast.warning('跟进记录获取失败!');
