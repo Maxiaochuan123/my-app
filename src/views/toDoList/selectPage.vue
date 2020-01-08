@@ -18,7 +18,26 @@
     <div class="content">
       <mu-load-more :refreshing="loadUpdate.refreshing" @refresh="refresh" :loading="loadUpdate.loading" @load="load" :loaded-all="loadUpdate.loadedAll">
 
-        <div class="myClue" v-if="pageTitle === '待跟进线索' || pageTitle === '分配给我的线索'">
+        <div class="myClue" v-if="pageTitle === '待跟进线索'">
+          <mu-list class="list" textline="two-line" v-if="list.length">
+            <div v-for="(item,index) in list" :key="index">
+              <mu-list-item v-waves>
+                <mu-list-item-content @click="goPage('clueDetails',{id:item.leadsId,type:'线索'})">
+                  <mu-list-item-title>{{item.ownerUserName}}
+                    <span :class="item.followup === '未跟进' ? 'nofollowUp' : ''">{{item.followup}}</span>
+                  </mu-list-item-title>
+                  <mu-list-item-sub-title>级别: {{item.leadsLevel}}</mu-list-item-sub-title>
+                  <mu-list-item-sub-title>创建人: {{item.createUserName}}</mu-list-item-sub-title>
+                  <mu-list-item-sub-title>{{item.createTime}}更新
+                  </mu-list-item-sub-title>
+                </mu-list-item-content>
+              </mu-list-item>
+              <mu-divider shallow-inset v-show="index + 1 !== list.length"></mu-divider>
+            </div>
+          </mu-list>
+        </div>
+
+        <div class="myClue" v-if="pageTitle === '分配给我的线索'">
           <mu-list class="list" textline="two-line" v-if="list.length">
             <div v-for="(item,index) in list" :key="index">
               <mu-list-item v-waves>

@@ -120,7 +120,7 @@ export default {
     // 下拉刷新
     refresh(){
       this.refreshHandle();
-      this.getDailyList(this.getParams());
+      this.getDailyList({...this.getParams(), ...this.screenData});
     },
     // 上拉加载
     load(){
