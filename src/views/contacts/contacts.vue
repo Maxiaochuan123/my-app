@@ -47,7 +47,7 @@
           <img :src="loadingImg('defaultImg.png')" />
           <div>
             <span>{{row.name}}</span>
-            <span>{{row.remark}}</span>
+            <span>{{row.contactsName}} {{row.post}}</span>
             <i class="iconfont icon-dianhua"></i>
           </div>
         </div>

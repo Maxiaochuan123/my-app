@@ -139,22 +139,12 @@ export default {
           }]
         },
         leadsType:{
-          // defaultValue:[],
+          defaultValue:[],
           fileTitle:'线索类型',
           mode:'single',
           valueField:'title',
           labelField:'title',
-          list:[{
-            title:'买车线索',
-            state:false
-          },{
-            title:'车险线索',
-            state:false
-          },
-          {
-            title:'车贷线索',
-            state:false
-          }]
+          list:[]
         },
       }
     }
@@ -162,6 +152,13 @@ export default {
   created(){
     this.setMenuList();
     this.getClueList(this.getParams());
+
+    // 添加线索类型
+    let leadsType = this.drawerList.leadsType;
+    this.supportBusinessType.includes('car') ? leadsType.list.push({title:'买车线索',state:false}) : '';
+    this.supportBusinessType.includes('insurance') ? leadsType.list.push({title:'车险线索',state:false}) : '';
+    this.supportBusinessType.includes('loan') ? leadsType.list.push({title:'车贷线索',state:false}) : '';
+    leadsType.list.length > 1 ? '' : leadsType.defaultValue.push(leadsType.list[0].title)
   },
   computed: {
     ...mapState({
@@ -189,7 +186,7 @@ export default {
           type: "6",
           state: "add"
         },
-        flag: this.supportBusinessType[2]
+        flag: this.supportBusinessType.includes('car')
       },{
         title: "新建车贷线索",
         linkName: "editBasicsInfo",
@@ -198,7 +195,7 @@ export default {
           type: "7",
           state: "add"
         },
-        flag: this.supportBusinessType[1]
+        flag: this.supportBusinessType.includes('loan')
       },{
         title: "新建车险线索",
         linkName: "editBasicsInfo",
@@ -207,7 +204,7 @@ export default {
           type: "5",
           state: "add"
         },
-        flag: this.supportBusinessType[0]
+        flag: this.supportBusinessType.includes('insurance')
       }],
 
       this.myClueMenuList = [{
@@ -259,7 +256,7 @@ export default {
     // 下拉刷新
     refresh(){
       this.refreshHandle();
-      this.getClueList(this.getParams());
+      this.getClueList({...this.getParams(), ...this.screenData});
     },
     // 上拉加载
     load(){
@@ -311,7 +308,7 @@ export default {
           })
           break;
         case '转换为客户':
-          this.$confirm('是否将此线索转换为客户 ?', '提示').then(res=>{
+          this.$confirm(`请修改为完成客户名`,`是否将此线索转换为客户 ?`, '提示').then(res=>{
             if(res.result){
               this.api.clueToCustomer({leadsIds:item.leadsId}).then(res=>{
                 if(res.msg === 'success'){

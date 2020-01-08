@@ -32,7 +32,7 @@
         <mu-list>
           <mu-list-item>
             <mu-list-item-title>创建人</mu-list-item-title>
-            <mu-list-item-action>{{info.name}}</mu-list-item-action>
+            <mu-list-item-action>{{info.createUserName}}</mu-list-item-action>
           </mu-list-item>
           <mu-list-item>
             <mu-list-item-title>客户级别</mu-list-item-title>
