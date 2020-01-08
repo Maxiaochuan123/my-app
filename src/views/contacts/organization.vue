@@ -58,7 +58,7 @@
             <mu-divider shallow-inset v-show="index + 1 !== deptList.length"></mu-divider>
           </div>
         </mu-list>
-        <Nothing  words="暂无子部门" v-else></Nothing>
+        <Nothing  words="暂无数据" v-else-if="deptUserList.length == 0"></Nothing>
       </mu-drawer>
 
       <!-- 组抽屉 1 -->
@@ -90,7 +90,7 @@
             <mu-divider shallow-inset v-show="index + 1 !== groupList.length"></mu-divider>
           </div>
         </mu-list>
-        <Nothing  words="暂无子部门" v-else></Nothing>
+        <Nothing  words="暂无数据" v-else-if="groupUserList.length == 0"></Nothing>
       </mu-drawer>
 
       <!-- 子组抽屉  1 -->
@@ -122,7 +122,7 @@
             <mu-divider shallow-inset v-show="index + 1 !== groupList_1.length"></mu-divider>
           </div>
         </mu-list>
-        <Nothing  words="暂无子部门" v-else></Nothing>
+        <Nothing  words="暂无数据" v-else-if="group_1_UserList.length == 0"></Nothing>
       </mu-drawer>
 
       <!-- 子组抽屉  1-1 -->
@@ -154,7 +154,7 @@
             <mu-divider shallow-inset v-show="index + 1 !== groupList_1_1.length"></mu-divider>
           </div>
         </mu-list>
-        <Nothing  words="暂无子部门" v-else></Nothing>
+        <Nothing  words="暂无数据"  v-else-if="group_1_1_UserList.length == 0"></Nothing>
       </mu-drawer>
 
       <!-- 联系人抽屉 -->
