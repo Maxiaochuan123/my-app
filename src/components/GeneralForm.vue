@@ -170,6 +170,7 @@ import Picker from "dm-vue-picker-h5";
 import SelectAddress from "@components/SelectAddress.vue";
 import PopSingleOrMultiple from "@components/PopSingleOrMultiple.vue";
 import UploadList from "@components/upLoad/uploadList.vue";
+import Api from "@api";
 export default {
   name: "GeneralForm",
   components: {
@@ -266,7 +267,7 @@ export default {
     createRule(row) {
       let self = this;
       // 生成相应的规则
-      let { fieldName, name, isNull, regular } = row;
+      let { fieldName, name, isNull, regular, isUnique } = row;
       const { placeholderText } = this.typeJudge(row);
       let rule = [];
       if (isNull) {
@@ -275,10 +276,10 @@ export default {
           message: `必须${placeholderText}`
         });
       }
-      if (regular && regular.length > 0) {
+      if ((regular && regular.length > 0) || isUnique === 1) {
         rule.push({
           validate: function(...reset) {
-            return self.currencyValidate(...reset, row, this);
+            return self.currencyValidate(...reset, row, this, rule);
           },
           message: ""
         });
@@ -293,27 +294,54 @@ export default {
      * @param {*} nowObj rule对象
      * @returns Boolean => 通过为true,不通过为false
      */
-    currencyValidate(value, form, row, nowObj) {
-      const { isNull, regular } = row;
+    currencyValidate(value, form, row, nowObj, rule) {
+      const { isNull, regular, isUnique, fieldName, name } = row;
       if (!isNull) {
         if (value === "" || value === null || value === undefined) {
           return true;
         }
       }
       let error = ""; // 错误信息
-      for (let i = 0; i < regular.length; i += 1) {
-        const { rule: ruleStr, message } = regular[i];
-        const reg = new RegExp(ruleStr);
-        if (!reg.test(value)) {
-          error = message;
-          break;
+      if (regular) {
+        for (let i = 0; i < regular.length; i += 1) {
+          const { rule: ruleStr, message } = regular[i];
+          const reg = new RegExp(ruleStr);
+          if (!reg.test(value)) {
+            error = message;
+            break;
+          }
         }
       }
       if (error !== "") {
         nowObj.message = error;
         return false;
       }
-      return true;
+      if (isUnique === 1) {
+        const config = {
+          customerName: {
+            type: 2,
+            id: "customerId"
+          },
+          mobile: {
+            type: 1,
+            id: "contactsId"
+          }
+        };
+        let oneConfig = config[fieldName];
+        if (!oneConfig) {
+          return;
+        }
+        Api.verifyingFields({
+          fieldName,
+          name,
+          val: value,
+          types: oneConfig.type,
+          id: form[oneConfig.id]
+        });
+        return true;
+      } else {
+        return true;
+      }
     },
     placeholder(row) {
       // 提示
@@ -444,6 +472,9 @@ export default {
 }
 </style>
 <style lang='less' scoped>
+.nouse {
+  visibility: hidden;
+}
 .pad0 {
   padding: 0 !important;
 }
@@ -457,10 +488,12 @@ export default {
 .upload-file {
   width: 100%;
 }
-.mu-demo-form /deep/ .block .mu-form-item .mu-form-item-help{
+.mu-demo-form /deep/ .block .mu-form-item .mu-form-item-help {
   bottom: 0;
 }
-.mu-form-item /deep/ .mu-input-help, .mu-form-item /deep/ .mu-input-line, .mu-form-item /deep/ .mu-input-focus-line{
+.mu-form-item /deep/ .mu-input-help,
+.mu-form-item /deep/ .mu-input-line,
+.mu-form-item /deep/ .mu-input-focus-line {
   display: none;
 }
 </style>

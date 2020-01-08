@@ -26,6 +26,12 @@ export default {
       params,
       url: C.QUERY_FIELD_LIST
     }),
+  // 查询客户的字段
+  verifyingFields: params =>
+    post({
+      params,
+      url: C.VERIFYING_FIELDS
+    }),
   // 上传文件
   uploadFilesOrImgs: (params, extraFileParams) =>
     post({
