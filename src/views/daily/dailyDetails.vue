@@ -1,6 +1,6 @@
 <template>
   <div class="dailyDetails">
-    <AppBar pageTitle="日报详情" rightIcon="icon-gengduo1" isMenu :menuList="menuList" @menuChange="menuChange"></AppBar>
+    <AppBar pageTitle="日报详情" :rightIcon="menuStatus ? 'icon-gengduo1' : ''" isMenu :menuList="menuList" @menuChange="menuChange"></AppBar>
     <div class="content">
       <div class="details">
         <div class="info">
@@ -88,7 +88,8 @@ export default {
       info:{},
       menuList: [],
       customImgList:[],
-      customEnclosureList:[]
+      customEnclosureList:[],
+      menuStatus:''
     }
   },
   created(){
@@ -101,6 +102,7 @@ export default {
         title: "删除",
         flag: res.data.permission.delete
       }]
+      this.menuStatus = !res.data.permission.update && !res.data.permission.delete ? false : true
       this.customImgList = res.data.img.map(item => ({
         ...item,
         src: item.filePath,
