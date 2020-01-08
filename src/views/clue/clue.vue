@@ -146,14 +146,17 @@ export default {
           labelField:'title',
           list:[{
             title:'买车线索',
-            state:false
+            state:false,
+            // flag: this.supportBusinessType.includes('car')
           },{
             title:'车险线索',
-            state:false
+            state:false,
+            // flag: this.supportBusinessType.includes('insurance')
           },
           {
             title:'车贷线索',
-            state:false
+            state:false,
+            // flag: this.supportBusinessType.includes('loan')
           }]
         },
       }
@@ -189,7 +192,7 @@ export default {
           type: "6",
           state: "add"
         },
-        flag: this.supportBusinessType[2]
+        flag: this.supportBusinessType.includes('car')
       },{
         title: "新建车贷线索",
         linkName: "editBasicsInfo",
@@ -198,7 +201,7 @@ export default {
           type: "7",
           state: "add"
         },
-        flag: this.supportBusinessType[1]
+        flag: this.supportBusinessType.includes('loan')
       },{
         title: "新建车险线索",
         linkName: "editBasicsInfo",
@@ -207,7 +210,7 @@ export default {
           type: "5",
           state: "add"
         },
-        flag: this.supportBusinessType[0]
+        flag: this.supportBusinessType.includes('insurance')
       }],
 
       this.myClueMenuList = [{
@@ -311,7 +314,7 @@ export default {
           })
           break;
         case '转换为客户':
-          this.$confirm('是否将此线索转换为客户 ?', '提示').then(res=>{
+          this.$confirm(`请修改为完成客户名`,`是否将此线索转换为客户 ?`, '提示').then(res=>{
             if(res.result){
               this.api.clueToCustomer({leadsIds:item.leadsId}).then(res=>{
                 if(res.msg === 'success'){

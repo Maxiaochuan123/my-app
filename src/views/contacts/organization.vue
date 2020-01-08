@@ -10,35 +10,32 @@
     <AppBar pageTitle="公司部门"/>
 
     <div class="content">
-      <SearchBar :list="userList" placeholderText="搜索联系人" :isGoPage="true" pageLinkName="personalInfo"></SearchBar>
+      <SearchBar :list="serchUserList" placeholderText="搜索联系人" :isGoPage="true" pageLinkName="personalInfo"></SearchBar>
       <!-- 公司列表 -->
       <!-- <mu-paper :z-depth="0">
         <div class="listTitle">成都众汇车服集团有限公司</div>
       </mu-paper> -->
       <mu-paper :z-depth="0">
         <mu-list>
-          <div v-for="(item ,index) in companyList" :key="index">
-            <mu-list-item button v-waves :class="index === deptActive ? 'active' : '' " @click="getCompanyItem(item,'dept',index)">
+          <div v-for="(item ,index) in companyTree" :key="index">
+            <mu-list-item button v-waves :class="index === companyActive ? 'active' : '' " @click="getCompanyItem(item,'company',index)">
               <mu-list-item-title>{{item.name}}</mu-list-item-title>
               <mu-list-item-action>
                 <mu-icon value=":iconfont icon-rightArrow"></mu-icon>
               </mu-list-item-action>
             </mu-list-item>
-            <mu-divider shallow-inset v-show="index + 1 !== companyList.length"></mu-divider>
+            <mu-divider shallow-inset v-show="index + 1 !== companyTree.length"></mu-divider>
           </div>
         </mu-list>
       </mu-paper>
-    
 
       <!-- 部门抽屉 -->
       <mu-drawer class="department" right :open.sync="drawerDepartment">
-        <!-- <mu-paper :z-depth="0"> -->
-          <div class="listTitle">{{deptTitleName}}</div>
-          <!-- <div class="listTitle">部门抽屉</div> -->
-        <!-- </mu-paper> -->
+        <div class="listTitle">{{deptTitleName}}</div>
+        <!-- <div class="listTitle">部门抽屉</div> -->
         <mu-list textline="two-line">
-          <div v-for="(item ,index) in companyUserList" :key="index">
-            <mu-list-item button v-waves @click="drawerContacts = false;drawerDepartment = false; goPage('personalInfo',item)">
+          <div v-for="(item ,index) in deptUserList" :key="index">
+            <mu-list-item button v-waves @click="goPage('personalInfo',item)">
               <mu-avatar>
                 <img :src="loadingImg('defaultImg.png')">
               </mu-avatar>
@@ -47,12 +44,12 @@
                 <mu-list-item-sub-title>{{item.post}}</mu-list-item-sub-title>
               </mu-list-item-content>
             </mu-list-item>
-            <mu-divider shallow-inset v-show="index + 1 !== companyUserList.length"></mu-divider>
+            <mu-divider shallow-inset v-show="index + 1 !== deptUserList.length"></mu-divider>
           </div>
         </mu-list>
         <mu-list v-if="deptList.length > 0">
           <div v-for="(item ,index) in deptList" :key="index">
-            <mu-list-item button v-waves :class="index === groupActive ? 'active' : '' " @click="getCompanyItem(item,'group', index)">
+            <mu-list-item button v-waves :class="index === deptActive ? 'active' : '' " @click="getCompanyItem(item,'dept', index)">
               <mu-list-item-title>{{item.name}}</mu-list-item-title>
               <mu-list-item-action>
                 <mu-icon value=":iconfont icon-rightArrow"></mu-icon>
@@ -66,13 +63,25 @@
 
       <!-- 组抽屉 1 -->
       <mu-drawer class="group" right :open.sync="drawerGroup">
-        <!-- <mu-paper :z-depth="0"> -->
-          <div class="listTitle">{{groupTitleName}}</div>
-          <!-- <div class="listTitle">组抽屉 1</div> -->
-        <!-- </mu-paper> -->
+        <div class="listTitle">{{groupTitleName}}</div>
+        <!-- <div class="listTitle">group</div> -->
+        <mu-list textline="two-line">
+          <div v-for="(item ,index) in groupUserList" :key="index">
+            <mu-list-item button v-waves @click="goPage('personalInfo',item)">
+              <mu-avatar>
+                <img :src="loadingImg('defaultImg.png')">
+              </mu-avatar>
+              <mu-list-item-content>
+                <mu-list-item-title>{{item.realname}}</mu-list-item-title>
+                <mu-list-item-sub-title>{{item.post}}</mu-list-item-sub-title>
+              </mu-list-item-content>
+            </mu-list-item>
+            <mu-divider shallow-inset v-show="index + 1 !== groupUserList.length"></mu-divider>
+          </div>
+        </mu-list>
         <mu-list v-if="groupList.length > 0">
           <div v-for="(item ,index) in groupList" :key="index">
-            <mu-list-item button v-waves :class="index === group_1_Active ? 'active' : '' " @click="getCompanyItem(item, item.children.length > 0 ? 'group_1' : 'contacts', index)">
+            <mu-list-item button v-waves :class="index === groupActive ? 'active' : '' " @click="getCompanyItem(item, 'group', index)">
               <mu-list-item-title>{{item.name}}</mu-list-item-title>
               <mu-list-item-action>
                 <mu-icon value=":iconfont icon-rightArrow"></mu-icon>
@@ -81,9 +90,16 @@
             <mu-divider shallow-inset v-show="index + 1 !== groupList.length"></mu-divider>
           </div>
         </mu-list>
-        <mu-list textline="two-line"  v-else>
-          <div v-for="(item ,index) in contactsList" :key="index">
-            <mu-list-item button v-waves @click="drawerContacts = false;drawerDepartment = false; goPage('personalInfo',item)">
+        <Nothing  words="暂无子部门" v-else></Nothing>
+      </mu-drawer>
+
+      <!-- 子组抽屉  1 -->
+      <mu-drawer class="group_1" right :open.sync="drawerGroup_1">
+        <div class="listTitle">{{groupTitleName_1}}</div>
+        <!-- <div class="listTitle">group_1</div> -->
+        <mu-list textline="two-line">
+          <div v-for="(item ,index) in group_1_UserList" :key="index">
+            <mu-list-item button v-waves @click="goPage('personalInfo',item)">
               <mu-avatar>
                 <img :src="loadingImg('defaultImg.png')">
               </mu-avatar>
@@ -92,20 +108,12 @@
                 <mu-list-item-sub-title>{{item.post}}</mu-list-item-sub-title>
               </mu-list-item-content>
             </mu-list-item>
-            <mu-divider shallow-inset v-show="index + 1 !== contactsList.length"></mu-divider>
+            <mu-divider shallow-inset v-show="index + 1 !== group_1_UserList.length"></mu-divider>
           </div>
         </mu-list>
-      </mu-drawer>
-
-      <!-- 子组抽屉  1-1 -->
-      <mu-drawer class="group_1" right :open.sync="drawerGroup_1">
-        <!-- <mu-paper :z-depth="0"> -->
-          <div class="listTitle">{{groupTitleName_1}}</div>
-          <!-- <div class="listTitle">组抽屉 1-1</div> -->
-        <!-- </mu-paper> -->
         <mu-list v-if="groupList_1.length > 0">
           <div v-for="(item ,index) in groupList_1" :key="index">
-            <mu-list-item button v-waves :class="index === contactsActive ? 'active' : '' " @click="getCompanyItem(item ,'contacts',index)">
+            <mu-list-item button v-waves :class="index === group_1_Active ? 'active' : '' " @click="getCompanyItem(item, 'group_1', index)">
               <mu-list-item-title >{{item.name}}</mu-list-item-title>
               <mu-list-item-action>
                 <mu-icon value=":iconfont icon-rightArrow"></mu-icon>
@@ -114,10 +122,16 @@
             <mu-divider shallow-inset v-show="index + 1 !== groupList_1.length"></mu-divider>
           </div>
         </mu-list>
-        <!-- <Nothing  words="暂无子部门" v-else></Nothing> -->
-        <mu-list textline="two-line"  v-else>
-          <div v-for="(item ,index) in contactsList" :key="index">
-            <mu-list-item button v-waves @click="drawerContacts = false;drawerDepartment = false; goPage('personalInfo',item)">
+        <Nothing  words="暂无子部门" v-else></Nothing>
+      </mu-drawer>
+
+      <!-- 子组抽屉  1-1 -->
+      <mu-drawer class="group_1" :style="`width:60vw`" right :open.sync="drawerGroup_1_1">
+        <div class="listTitle">{{groupTitleName_1_1}}</div>
+        <!-- <div class="listTitle">group 1-1</div> -->
+        <mu-list textline="two-line">
+          <div v-for="(item ,index) in group_1_1_UserList" :key="index">
+            <mu-list-item button v-waves @click="goPage('personalInfo',item)">
               <mu-avatar>
                 <img :src="loadingImg('defaultImg.png')">
               </mu-avatar>
@@ -126,14 +140,25 @@
                 <mu-list-item-sub-title>{{item.post}}</mu-list-item-sub-title>
               </mu-list-item-content>
             </mu-list-item>
-            <mu-divider shallow-inset v-show="index + 1 !== contactsList.length"></mu-divider>
+            <mu-divider shallow-inset v-show="index + 1 !== group_1_1_UserList.length"></mu-divider>
           </div>
         </mu-list>
-        <!-- <Nothing  words="暂无联系人" v-else></Nothing> -->
+        <mu-list v-if="groupList_1_1.length > 0">
+          <div v-for="(item ,index) in groupList_1_1" :key="index">
+            <mu-list-item button v-waves :class="index === group_1_1_Active ? 'active' : '' " @click="getCompanyItem(item ,'group_1_1',index)">
+              <mu-list-item-title >{{item.name}}</mu-list-item-title>
+              <mu-list-item-action>
+                <mu-icon value=":iconfont icon-rightArrow"></mu-icon>
+              </mu-list-item-action>
+            </mu-list-item>
+            <mu-divider shallow-inset v-show="index + 1 !== groupList_1_1.length"></mu-divider>
+          </div>
+        </mu-list>
+        <Nothing  words="暂无子部门" v-else></Nothing>
       </mu-drawer>
 
       <!-- 联系人抽屉 -->
-      <mu-drawer class="contacts" :style="`width:${drawerGroup_1 ? '60vw' : drawerGroup ? '70vw' : '80vw'}`" right :open.sync="drawerContacts">
+      <mu-drawer class="contacts" :style="`width:${drawerGroup_1_1 ? '50vw' : drawerGroup ? '60vw' : '70vw'}`" right :open.sync="drawerContacts">
         <div class="listTitle">联系人</div>
         <mu-list textline="two-line" v-if="contactsList.length > 0">
           <div v-for="(item ,index) in contactsList" :key="index">
@@ -168,80 +193,113 @@ export default {
   components:{ AppBar,SearchBar,Nothing },
   data(){
     return{
+      companyTree:[], //组织架构 tree
+      serchUserList:[], //搜索联系人列表
+
       drawerDepartment: false, //部门抽屉
       drawerGroup: false, //组抽屉
       drawerGroup_1: false, //子组抽屉
+      drawerGroup_1_1: false, //子组抽屉
       drawerContacts: false, //联系人抽屉
-      userList:[],
-      companyUserList:[],
+      
+      deptUserList:[],
+      groupUserList:[],
+      group_1_UserList:[],
+      group_1_1_UserList:[],
 
-      companyList:[],
       deptList:[],
       groupList:[],
       groupList_1:[],
+      groupList_1_1:[],
       contactsList:[],
 
+      // companyTitleName:'',
       deptTitleName:'',
       groupTitleName:'',
       groupTitleName_1:'',
+      groupTitleName_1_1:'',
 
+      companyActive:'',
       deptActive:'',
       groupActive:'',
       group_1_Active:'',
-      contactsActive:''
+      group_1_1_Active:'',
+      // contactsActive:''
     }
   },
   created(){
     this.api.getDeptTree({type:'tree'}).then(res => {
-      this.companyList = res.data;
+      this.companyTree = res.data;
     })
     this.api.getDeptContacts({deptId:'',shearch:'',needGroup:0}).then(res => {
-      this.userList = res.data.list;
-      // this.$store.commit('setUserList',res.data)
+      this.serchUserList = res.data.list;
     })
-    // console.log(this.companyList)
-    // console.log(this.userList)
   },
   methods:{
     getCompanyItem(item,type,index){
-      console.log(item)
-      if(type === 'dept'){
-        this.deptActive = index;
+      if(type === 'company'){
+        this.companyActive = index;
         this.drawerDepartment = !this.drawerDepartment;
-        if(!this.drawerDepartment) this.drawerGroup=false; this.drawerGroup_1=false; this.drawerContacts=false; this.groupActive=''; this.group_1_Active=''; this.contactsActive='';
+
         this.deptTitleName = item.name;
         this.deptList = item.children;
         this.api.getDeptContacts({deptId:item.id,shearch:'',needGroup:0,pageType:0}).then(res => {
-          this.companyUserList = res.data;
-          console.log(this.companyUserList)
+          this.deptUserList = res.data;
         })
-      }else if(type === 'group'){
-        this.groupActive = index;
+
+        if(!this.drawerDepartment) {
+          this.drawerGroup = false; this.drawerGroup_1 = false; this.drawerGroup_1_1 = false; this.drawerContacts = false;
+          this.deptActive = ''; this.groupActive = ''; this.group_1_Active = ''; this.group_1_1_Active = '';
+        }
+      }else if(type === 'dept'){
+        this.deptActive = index;
         this.drawerGroup = !this.drawerGroup;
-        if(!this.drawerGroup) this.drawerGroup_1=false;this.drawerContacts=false; this.group_1_Active=''; this.contactsActive='';
+        
         this.groupTitleName = item.name;
         this.groupList = item.children;
         this.api.getDeptContacts({deptId:item.id,shearch:'',needGroup:0,pageType:0}).then(res => {
-          this.contactsList = res.data;
+          this.groupUserList = res.data;
         })
-      }else if(type === 'group_1'){
-        if(this.drawerContacts) this.drawerContacts = false;
+
+        if(!this.drawerGroup) {
+          this.drawerGroup_1 = false; this.drawerGroup_1_1 = false; this.drawerContacts = false;
+          this.groupActive = ''; this.group_1_Active = ''; this.group_1_1_Active = '';
+        }
+      }else if(type === 'group'){
+        this.groupActive = index;
         this.drawerGroup_1 = !this.drawerGroup_1;
-        if(!this.drawerGroup_1) this.drawerContacts=false;  this.contactsActive='';
+
         this.groupTitleName_1 = item.name;
         this.groupList_1 = item.children;
-      }else if(type === 'contacts'){
-        if(this.drawerGroup_1) this.drawerGroup_1 = false;
-        this.contactsActive = index;
+        this.api.getDeptContacts({deptId:item.id,shearch:'',needGroup:0,pageType:0}).then(res => {
+          this.group_1_UserList = res.data;
+        })
+
+        if(!this.drawerGroup_1) {
+          this.drawerGroup_1_1 = false; this.drawerContacts = false;
+          this.group_1_Active = ''; this.group_1_1_Active = '';
+        }
+      }else if(type === 'group_1'){
+        this.group_1_Active = index;
+        this.drawerGroup_1_1 = !this.drawerGroup_1_1;
+
+        this.groupTitleName_1_1 = item.name;
+        this.groupList_1_1 = item.children;
+        this.api.getDeptContacts({deptId:item.id,shearch:'',needGroup:0,pageType:0}).then(res => {
+          this.group_1_1_UserList = res.data;
+        })
+
+        if(!this.drawerGroup_1_1) {
+          this.drawerContacts = false; 
+          this.group_1_1_Active = '';
+        }
+
+      }else if(type === 'group_1_1'){
+        this.group_1_1_Active = index;
         this.drawerContacts = !this.drawerContacts;
         this.api.getDeptContacts({deptId:item.id,shearch:'',needGroup:0,pageType:0}).then(res => {
           this.contactsList = res.data;
         })
-      }
-
-      if(type === 'group_1' || type === 'contacts'){
-        if(item.drawerContacts) this.drawerContacts = false;
-        this.group_1_Active = index;
       }
     }
   },
