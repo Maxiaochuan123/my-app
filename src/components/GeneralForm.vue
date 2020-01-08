@@ -166,11 +166,14 @@
 </template>
 
 <script>
+import Qs from "qs";
 import Picker from "dm-vue-picker-h5";
 import SelectAddress from "@components/SelectAddress.vue";
 import PopSingleOrMultiple from "@components/PopSingleOrMultiple.vue";
 import UploadList from "@components/upLoad/uploadList.vue";
 import Api from "@api";
+import tool from "@static/js/tool";
+import Toast from "muse-ui-toast";
 export default {
   name: "GeneralForm",
   components: {
@@ -331,14 +334,20 @@ export default {
         if (!oneConfig) {
           return;
         }
-        Api.verifyingFields({
-          fieldName,
-          name,
-          val: value,
-          types: oneConfig.type,
-          id: form[oneConfig.id]
-        });
-        return true;
+        let emptyObj = {};
+        this.orderAjax(
+          {
+            fieldName,
+            name,
+            val: value,
+            types: oneConfig.type,
+            id: form[oneConfig.id]
+          },
+          emptyObj
+        );
+        let { flag, msg } = emptyObj;
+        nowObj.message = msg;
+        return flag;
       } else {
         return true;
       }
@@ -457,6 +466,48 @@ export default {
       const { fieldName } = row;
       const { list, guid } = res;
       this.form[fieldName] = guid;
+    },
+    // 同步的ajax
+    orderAjax(params, emptyObj) {
+      let obj = {};
+      let login = JSON.parse(localStorage.getItem("login"));
+      let ajax = new XMLHttpRequest();
+      ajax.open("POST", `${window.config.service}/fields/verifying`, false); //false表示同步请求
+      ajax.setRequestHeader(
+        "Content-type",
+        "application/x-www-form-urlencoded"
+      );
+      ajax.setRequestHeader("accessToken", login.accessToken);
+      ajax.onreadystatechange = function() {
+        let { code, msg } = JSON.parse(ajax.responseText);
+        if (ajax.readyState == 4 && ajax.status == 200) {
+          if (code === 0) {
+            emptyObj.flag = true;
+            emptyObj.msg = "";
+          } else {
+            emptyObj.flag = false;
+            emptyObj.msg = msg;
+          }
+        } else if (ajax.readyState == 4 && ajax.status == 302) {
+          Toast.error({
+            message: "token过期,或者没有登录"
+          });
+          localStorage.clear();
+          window.location.href = `${window.location.protocol}//${window.location.host}/#/login`;
+        } else if (ajax.readyState == 4 && ajax.status == 403) {
+          Toast.warning({
+            message: "您无权访问该页面"
+          });
+          window.history.go(-1);
+        } else if (ajax.readyState == 4 && ajax.status == 500) {
+          Toast.error({
+            message: "服务器错误请联系管理员"
+          });
+          emptyObj.flag = false;
+          emptyObj.msg = "服务器错误请联系管理员";
+        }
+      };
+      ajax.send(Qs.stringify(params));
     }
   }
 };
