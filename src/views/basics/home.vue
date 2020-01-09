@@ -278,7 +278,7 @@ export default {
       leftLinkName: "contacts",
       leftIcon: "icon-lianxiren",
       iconSize: "24",
-      pageTitle: "众汇CRM",
+      pageTitle: "万网CRM",
       rightIcon: "icon-tianjia",
       rightLinkName: "homeChild",
       isDrawer: false,

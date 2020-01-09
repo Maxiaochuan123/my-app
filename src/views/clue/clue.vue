@@ -308,7 +308,7 @@ export default {
           })
           break;
         case '转换为客户':
-          this.$confirm(`请修改为完成客户名`,`是否将此线索转换为客户 ?`, '提示').then(res=>{
+          this.$confirm(`转换完成后请修改为完整客户名`,`是否将此线索转换为客户 ?`, '提示').then(res=>{
             if(res.result){
               this.api.clueToCustomer({leadsIds:item.leadsId}).then(res=>{
                 if(res.msg === 'success'){
