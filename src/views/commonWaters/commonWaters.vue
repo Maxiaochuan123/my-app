@@ -16,26 +16,19 @@
     ></SearchInputBar>
     <mu-tabs
       :value.sync="active"
-      @change="tabChange"
+      @change="tabsChange"
       center
       class="tabs"
       color="primary"
       indicator-color="primary"
       inverse
     >
-      <mu-tab
-        replace
-        to="commonWatersClue"
-        value="clue"
-      >公海线索</mu-tab>
-      <mu-tab
-        replace
-        to="commonWatersPeople"
-        value="customer"
-      >公海客户</mu-tab>
+      <mu-tab value="clue">公海线索</mu-tab>
+      <mu-tab value="customer">公海客户</mu-tab>
     </mu-tabs>
     <div class="content">
-      <router-view></router-view>
+      <CommonWatersClue v-if="active === 'clue'"></CommonWatersClue>
+      <CommonWatersPeople v-else></CommonWatersPeople>
     </div>
   </div>
 </template>
@@ -44,10 +37,12 @@
 import { mapState } from "vuex";
 import AppBar from "@components/AppBar.vue";
 import SearchInputBar from "@components/SearchInputBar.vue";
+import CommonWatersClue from "./commonWatersClue";
+import CommonWatersPeople from "./commonWatersPeople";
 import Api from "@api";
 export default {
   name: "commonWaters",
-  components: { AppBar, SearchInputBar },
+  components: { AppBar, SearchInputBar, CommonWatersClue, CommonWatersPeople },
   data() {
     return {
       requestParams: {
@@ -61,7 +56,7 @@ export default {
   },
   computed: {
     ...mapState({
-       poolRights: state => state.authorities.crm.pool
+      poolRights: state => state.authorities.crm.pool
     })
   },
   props: {},
@@ -101,16 +96,11 @@ export default {
     },
     judgeActiveTab() {
       this.requestParams.search = "";
-      if (this.$route.path.indexOf("commonWatersPeople") > -1) {
-        this.active = "customer";
-        this.requestParams.type = "8";
-        this.queryPublicPoolCustomer();
-      } else {
-        this.active = "clue";
-        this.queryPublicPoolClue();
-      }
+      this.active = "clue";
+      this.queryPublicPoolClue();
     },
-    tabChange(val) {
+    tabsChange(val) {
+      this.active = val;
       this.requestParams.search = "";
       this.$refs.searchInputBar.inputValue = "";
       if (val === "clue") {

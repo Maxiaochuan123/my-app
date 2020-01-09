@@ -115,7 +115,7 @@ export default {
       }
     },
     toDetails(row) {
-      this.goPage("customerBasic", { id: row.customerId });
+      this.goPage("customerDetails", { id: row.customerId });
     }
   }
 };

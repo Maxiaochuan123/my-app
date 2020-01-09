@@ -144,7 +144,7 @@ export default {
         });
       } else {
         // 进入详情
-        this.goPage("taskBasic", { id: row.taskId });
+        this.goPage("taskDetails", { id: row.taskId });
       }
     }
   }

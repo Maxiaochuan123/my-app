@@ -47,7 +47,7 @@
                   <img :src="loadingImg('customer.png')" />
                   <span>客户</span>
                 </div>
-                <div @click="goPage('commonWatersClue')">
+                <div @click="goPage('commonWaters')">
                   <img :src="loadingImg('pubSea.png')" />
                   <span>公海</span>
                 </div>
@@ -115,7 +115,7 @@
                 </div>
               </div>
             </div>
-          </mu-carousel-item> -->
+          </mu-carousel-item>-->
         </mu-carousel>
       </mu-paper>
 
@@ -177,7 +177,7 @@
               <span>100{{item.title}}</span>
             </div>
           </div>
-        </div> -->
+        </div>-->
         <div class="blockNumber">
           <div
             :key="index"
@@ -246,7 +246,7 @@
             <span class="btn">查看完整排行榜</span>
           </div>
         </div>
-      </mu-paper> -->
+      </mu-paper>-->
       <!-- 弹出选择器 -->
       <Picker
         :anchor="pickerAnchor"
@@ -395,7 +395,7 @@ export default {
       // 往历史记录里面添加一条新的当前页面的url
       history.pushState(null, null, document.URL);
       // 给 popstate 绑定一个方法 监听页面刷新
-      window.addEventListener('popstate', this.goBack, false);//false阻止默认事件
+      window.addEventListener("popstate", this.goBack, false); //false阻止默认事件
     }
 
     // 判断是否有token来进行操作
@@ -410,7 +410,7 @@ export default {
     }
   },
   destroyed() {
-    window.removeEventListener('popstate', this.goBack, false);//false阻止默认事件
+    window.removeEventListener("popstate", this.goBack, false); //false阻止默认事件
   },
   methods: {
     goBack() {
@@ -851,8 +851,8 @@ export default {
   /deep/ .app-bar {
     box-shadow: 0px 2px 6px 0px #ededed;
   }
-  .order{
-    img{
+  .order {
+    img {
       filter: grayscale(1);
     }
   }

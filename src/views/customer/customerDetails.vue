@@ -1,13 +1,9 @@
 <!--
- * @Description: In User Settings Edit
- * @Author: your name
- * @Date: 2019-09-04 12:35:37
- * @LastEditTime : 2020-01-03 10:07:38
- * @LastEditors  : shenah
- -->
-<!--
- * @Description: 客户详情
+ * @Description: 修改成组件类型不用路由,因为在安卓或者ios上有bug
  * @Author: shenah
+ * @Date: 2019-09-04 12:35:37
+ * @LastEditTime : 2020-01-09 10:44:20
+ * @LastEditors  : shenah
  -->
 <template>
   <div class="customerDetails">
@@ -54,25 +50,20 @@
         </div>
         <mu-tabs
           :value="active"
+          @change="tabsChange"
           center
           class="tabs"
           color="primary"
           indicator-color="primary"
           inverse
         >
-          <mu-tab
-            replace
-            to="customerRecord"
-            value="record"
-          >跟进记录</mu-tab>
-          <mu-tab
-            replace
-            to="customerBasic"
-            value="basic"
-          >基本信息</mu-tab>
+          <mu-tab value="record">跟进记录</mu-tab>
+          <mu-tab value="basic">基本信息</mu-tab>
         </mu-tabs>
         <div class="user-info">
-          <router-view></router-view>
+          <CustomerBasic v-if="active === 'basic'"></CustomerBasic>
+          <CustomerRecord v-else></CustomerRecord>
+          <!-- <router-view></router-view> -->
         </div>
       </div>
     </div>
@@ -87,12 +78,14 @@
 <script>
 import { mapState } from "vuex";
 import { ENORDISABLE } from "@constants/dictionaries.js";
+import CustomerBasic from "./customerBasic";
+import CustomerRecord from "./customerRecord";
 import AppBar from "@components/AppBar.vue";
 import FootNav from "@components/FootNav.vue";
 import Api from "@api";
 export default {
   name: "customerDetails",
-  components: { AppBar, FootNav },
+  components: { AppBar, FootNav, CustomerBasic, CustomerRecord },
   computed: {
     ...mapState({
       customerRights: state => state.authorities.crm.customer,
@@ -125,25 +118,20 @@ export default {
   },
   props: {},
   mounted() {
-    this.judgeActiveTab();
     // 查询客户详情
     this.queryCustomerDetails();
     this.queryContacts();
   },
   methods: {
+    tabsChange(val) {
+      this.active = val;
+    },
     judgeBtn() {
       // 根据启用与禁用的状态判断哪些该隐藏
       if (this.type === "commonWatersCustomer") {
         return false;
       } else {
         return this.isAble;
-      }
-    },
-    judgeActiveTab() {
-      if (this.$route.path.indexOf("customerRecord") > -1) {
-        this.active = "record";
-      } else {
-        this.active = "basic";
       }
     },
     queryContacts() {

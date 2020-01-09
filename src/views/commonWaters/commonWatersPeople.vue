@@ -59,7 +59,7 @@ export default {
   methods: {
     toDetails(row) {
       // 去客户公海详情
-      this.goPage("customerBasic", {
+      this.goPage("customerDetails", {
         id: row.customerId,
         type: "commonWatersCustomer"
       });

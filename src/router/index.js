@@ -2,7 +2,7 @@
  * @Description: In User Settings Edit
  * @Author: your name
  * @Date: 2019-08-25 15:40:36
- * @LastEditors: shenah
+ * @LastEditors  : shenah
  */
 import Vue from "vue";
 import Router from "vue-router";
@@ -178,23 +178,7 @@ const router = new Router({
           path: "/customerDetails/:id/:type?",
           name: "customerDetails",
           meta: { zIndex: 1 },
-          component: () => import("../views/customer/customerDetails.vue"),
-          children: [
-            // 客户详情记录
-            {
-              path: "customerRecord",
-              name: "customerRecord",
-              meta: { zIndex: 1 },
-              component: () => import("../views/customer/customerRecord.vue")
-            },
-            // 客户详情基本信息
-            {
-              path: "customerBasic",
-              name: "customerBasic",
-              meta: { zIndex: 1 },
-              component: () => import("../views/customer/customerBasic.vue")
-            }
-          ]
+          component: () => import("../views/customer/customerDetails.vue")
         },
         // 公海模块
         // 公海
@@ -202,25 +186,7 @@ const router = new Router({
           path: "/commonWaters",
           name: "commonWaters",
           meta: { zIndex: 1 },
-          component: () => import("../views/commonWaters/commonWaters.vue"),
-          children: [
-            // 公海线索
-            {
-              path: "commonWatersClue",
-              name: "commonWatersClue",
-              meta: { zIndex: 1 },
-              component: () =>
-                import("../views/commonWaters/commonWatersClue.vue")
-            },
-            // 公海客户
-            {
-              path: "commonWatersPeople",
-              name: "commonWatersPeople",
-              meta: { zIndex: 1 },
-              component: () =>
-                import("../views/commonWaters/commonWatersPeople.vue")
-            }
-          ]
+          component: () => import("../views/commonWaters/commonWaters.vue")
         },
         // 任务模块
         // 新增或者编辑任务
@@ -242,23 +208,7 @@ const router = new Router({
           path: "/taskDetails/:id",
           name: "taskDetails",
           meta: { zIndex: 1 },
-          component: () => import("../views/task/taskDetails.vue"),
-          children: [
-            // 客户详情记录
-            {
-              path: "taskRecord",
-              name: "taskRecord",
-              meta: { zIndex: 1 },
-              component: () => import("../views/task/taskRecord.vue")
-            },
-            // 客户详情基本信息
-            {
-              path: "taskBasic",
-              name: "taskBasic",
-              meta: { zIndex: 1 },
-              component: () => import("../views/task/taskBasic.vue")
-            }
-          ]
+          component: () => import("../views/task/taskDetails.vue")
         },
         // 拜访模块
         // 拜访列表
@@ -275,8 +225,8 @@ const router = new Router({
           meta: { zIndex: 1 },
           component: () => import("../views/visit/addOrEditVisit.vue")
         },
-         // 拜访详情页
-         {
+        // 拜访详情页
+        {
           path: "/visitDetails/:id",
           name: "visitDetails",
           meta: { zIndex: 1 },

@@ -3,7 +3,7 @@
  * @Author: shenah
  * @Date: 2019-10-21 13:50:16
  * @LastEditors  : shenah
- * @LastEditTime : 2019-12-25 09:36:52
+ * @LastEditTime : 2020-01-09 10:50:41
  -->
 
 <template>
@@ -56,7 +56,10 @@
           v-show="!Array.isArray(firstList)"
         ></SearchInputBar>
         <div class="content">
-          <div class="content-users">
+          <div
+            class="content-users"
+            v-if="showList.length"
+          >
             <mu-load-more
               :loading="loading"
               @load="load"
@@ -95,6 +98,7 @@
               </div>
             </mu-load-more>
           </div>
+          <Nothing v-else></Nothing>
         </div>
       </div>
     </mu-dialog>
@@ -103,10 +107,11 @@
 
 <script>
 import SearchInputBar from "@components/SearchInputBar.vue";
+import Nothing from "./Nothing";
 import Api from "@api";
 export default {
   name: "PopSingleOrMultiple",
-  components: { SearchInputBar },
+  components: { SearchInputBar, Nothing },
   data() {
     return {
       requestParams: {

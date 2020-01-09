@@ -3,7 +3,7 @@
  * @Author: shenah
  * @Date: 2019-09-25 15:57:26
  * @LastEditors  : shenah
- * @LastEditTime : 2019-12-19 17:44:56
+ * @LastEditTime : 2020-01-09 10:53:51
  -->
 <template>
   <div class="select-share-users">
@@ -16,7 +16,10 @@
       placeholderText="搜索用户"
     ></SearchInputBar>
     <div class="content">
-      <div class="content-users">
+      <div
+        class="content-users"
+        v-if="userList.length"
+      >
         <mu-load-more
           :loading="loading"
           @load="load"
@@ -55,6 +58,7 @@
           </div>
         </mu-load-more>
       </div>
+      <Nothing v-else></Nothing>
     </div>
     <!-- 已经选择 -->
     <div class="now-select">
@@ -97,10 +101,11 @@
 <script>
 import AppBar from "@components/AppBar.vue";
 import SearchInputBar from "@components/SearchInputBar.vue";
+import Nothing from "@/components/Nothing";
 import Api from "@api";
 export default {
   name: "selectShareUsers",
-  components: { AppBar, SearchInputBar },
+  components: { AppBar, SearchInputBar, Nothing },
   computed: {
     // 当前客户的id
     id() {

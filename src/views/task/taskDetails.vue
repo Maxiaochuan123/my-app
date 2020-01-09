@@ -2,8 +2,8 @@
  * @Description: 任务详情
  * @Author: shenah
  * @Date: 2019-10-12 14:29:46
- * @LastEditors: shenah
- * @LastEditTime: 2019-12-17 16:10:50
+ * @LastEditors  : shenah
+ * @LastEditTime : 2020-01-09 10:44:09
  -->
 <template>
   <div class="task-details">
@@ -70,26 +70,19 @@
         </div>
         <mu-tabs
           :value="active"
-          @change="tabChange"
+          @change="tabsChange"
           center
           class="tabs"
           color="primary"
           indicator-color="primary"
           inverse
         >
-          <mu-tab
-            replace
-            to="taskRecord"
-            value="record"
-          >相关记录</mu-tab>
-          <mu-tab
-            replace
-            to="taskBasic"
-            value="basic"
-          >基本信息</mu-tab>
+          <mu-tab value="record">相关记录</mu-tab>
+          <mu-tab value="basic">基本信息</mu-tab>
         </mu-tabs>
         <div class="user-info">
-          <router-view></router-view>
+          <TaskBasic v-if="active==='basic'"></TaskBasic>
+          <TaskRecord v-else></TaskRecord>
         </div>
       </div>
     </div>
@@ -103,12 +96,14 @@
 <script>
 import { mapState } from "vuex";
 import { TASK_STATUS, PRIORITY } from "@constants/dictionaries";
+import TaskBasic from "./taskBasic";
+import TaskRecord from "./taskRecord";
 import AppBar from "@components/AppBar.vue";
 import FootNav from "@components/FootNav.vue";
 import Api from "@api";
 export default {
   name: "taskDetails",
-  components: { AppBar, FootNav },
+  components: { AppBar, FootNav, TaskBasic, TaskRecord },
   computed: {
     ...mapState({
       taskRights: state => state.authorities.work.task
@@ -135,18 +130,10 @@ export default {
   props: {},
   mounted() {
     this.addBtnList();
-    this.judgeActiveTab();
+    this.queryDetails();
   },
   methods: {
-    judgeActiveTab() {
-      this.queryDetails();
-      if (this.$route.path.indexOf("taskRecord") > -1) {
-        this.active = "record";
-      } else {
-        this.active = "basic";
-      }
-    },
-    tabChange(val) {
+    tabsChange(val) {
       this.active = val;
       this.queryDetails();
     },
