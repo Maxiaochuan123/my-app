@@ -87,12 +87,6 @@ export default {
     },
     onChange(){
       const files = this.$refs.fileInput.files;
-      // application/vnd.openxmlformats-officedocument.spreadsheetml.sheet,application/vnd.openxmlformats-officedocument.wordprocessingml.document
-      // console.log(files[0])
-      // if(/^image/.test(files[0].type)){
-      //   this.$toast.warning('图片请在图片区域上传')
-      //   return false;
-      // }
       let typeWhiteList = ['application/vnd.openxmlformats-officedocument.spreadsheetml.sheet', 'application/vnd.openxmlformats-officedocument.wordprocessingml.document', 'text/plain']
       if(!typeWhiteList.includes(files[0].type)){
         this.$toast.warning('只允许上传文档')

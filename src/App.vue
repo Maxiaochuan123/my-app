@@ -24,7 +24,6 @@ import myTheme from "../static/json/myTheme.json";
 import VConsole from "vConsole";
 import tool from "../static/js/tool.js";
 import Api from "@api";
-import { mapMutations } from 'vuex'
 export default {
   components: {
     BottomNav
@@ -65,7 +64,6 @@ export default {
     }
   },
   methods: {
-    ...mapMutations(['setBottomNav']),
     queryLoginRight() {
       return Api.getAuthorByToken().then(res => {
         this.$store.commit("setAuthor", res.data);

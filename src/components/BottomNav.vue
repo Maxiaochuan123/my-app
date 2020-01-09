@@ -15,16 +15,22 @@
 </template>
 
 <script>
-import { mapState } from 'vuex'
 export default {
   name: "bottom-nav",
   data() {
     return {
-      // activeNav: this.$store.state.bottomNav
+
     };
   },
   computed:{
-    ...mapState(['bottomNav'])
+    bottomNav:{
+      get(){
+        return this.$store.state.bottomNav
+      },
+      set(data){
+        this.$store.commit('setBottomNav',data);
+      }
+    }
   },
   methods:{
     navChange(val){
