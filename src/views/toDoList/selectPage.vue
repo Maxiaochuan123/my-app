@@ -23,7 +23,7 @@
             <div v-for="(item,index) in list" :key="index">
               <mu-list-item v-waves>
                 <mu-list-item-content @click="goPage('clueDetails',{id:item.leadsId,type:'线索'})">
-                  <mu-list-item-title>{{item.ownerUserName}}
+                  <mu-list-item-title>{{item.leadsName}}
                     <span :class="item.followup === '未跟进' ? 'nofollowUp' : ''">{{item.followup}}</span>
                   </mu-list-item-title>
                   <mu-list-item-sub-title>级别: {{item.leadsLevel}}</mu-list-item-sub-title>
@@ -42,7 +42,7 @@
             <div v-for="(item,index) in list" :key="index">
               <mu-list-item v-waves>
                 <mu-list-item-content @click="goPage('clueDetails',{id:item.leadsId,type:'线索'})">
-                  <mu-list-item-title>{{item.ownerUserName}}
+                  <mu-list-item-title>{{item.leadsName}}
                     <span :class="item.followup === '未跟进' ? 'nofollowUp' : ''">{{item.followup}}</span>
                   </mu-list-item-title>
                   <mu-list-item-sub-title>级别: {{item.leadsLevel}}</mu-list-item-sub-title>
@@ -374,6 +374,7 @@ export default {
         position: relative;
         height: 106px;
         .mu-item-title{
+          margin-top: 10px;
           span{
             float: right;
             font-size: 14px;

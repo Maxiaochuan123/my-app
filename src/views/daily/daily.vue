@@ -4,55 +4,57 @@
       <!-- 抽 屉 -->
       <Screen ref="screen" slot="drawerContent" :drawerList="drawerList" @getScreenParams="getScreenParams"></Screen>
     </AppBar>
-    <div class="content">
-      <mu-tabs :value.sync="tabsActive" @change="changeTabs" inverse color="primary" indicator-color="primary" center>
-        <mu-tab>全部</mu-tab>
-        <mu-tab>我发出的</mu-tab>
-        <mu-tab>我收到的</mu-tab>
-      </mu-tabs>
-      <div class="myDaily">
-        <mu-load-more :refreshing="loadUpdate.refreshing" @refresh="refresh" :loading="loadUpdate.loading" @load="load" :loaded-all="loadUpdate.loadedAll" v-if="dailyList.length > 0">
-          <mu-expansion-panel :zDepth="0" expand v-for="(item,index) in dailyList" :key="index">
-            <div slot="header">
-              <div class="info">
-                <img :src="item.userImg">
-                <div>
-                  <span class="name">{{item.realname}}</span>
-                  <span class="level">{{item.post}}</span>
+    <div class="contentBox">
+      <div class="content">
+        <mu-tabs :value.sync="tabsActive" @change="changeTabs" inverse color="primary" indicator-color="primary" center>
+          <mu-tab>全部</mu-tab>
+          <mu-tab>我发出的</mu-tab>
+          <mu-tab>我收到的</mu-tab>
+        </mu-tabs>
+        <div class="myDaily">
+          <mu-load-more :refreshing="loadUpdate.refreshing" @refresh="refresh" :loading="loadUpdate.loading" @load="load" :loaded-all="loadUpdate.loadedAll" v-if="dailyList.length > 0">
+            <mu-expansion-panel :zDepth="0" expand v-for="(item,index) in dailyList" :key="index">
+              <div slot="header">
+                <div class="info">
+                  <img :src="item.userImg">
+                  <div>
+                    <span class="name">{{item.realname}}</span>
+                    <span class="level">{{item.post}}</span>
+                  </div>
                 </div>
               </div>
-            </div>
-            <div class="completionstate" @click="goPage('dailyDetails', {id:item.logId})">
-              <div class="describe">
-                <div>
-                  <p class="title">今日重点工作及完成情况：</p>
-                  <div class="result">{{item.content}}</div>
+              <div class="completionstate" @click="goPage('dailyDetails', {id:item.logId})">
+                <div class="describe">
+                  <div>
+                    <p class="title">今日重点工作及完成情况：</p>
+                    <div class="result">{{item.content}}</div>
+                  </div>
+                  <div>
+                    <p class="title">明日工作计划：</p>
+                    <p class="result">{{item.tomorrow}}</p>
+                  </div>
+                  <div>
+                    <p class="title">工作感悟：</p>
+                    <p class="result">{{item.sentiment}}</p>
+                  </div>
+                  <div>
+                    <p class="title">工作所需支持：</p>
+                    <p class="result">{{item.support}}</p>
+                  </div>
                 </div>
-                <div>
-                  <p class="title">明日工作计划：</p>
-                  <p class="result">{{item.tomorrow}}</p>
-                </div>
-                <div>
-                  <p class="title">工作感悟：</p>
-                  <p class="result">{{item.sentiment}}</p>
-                </div>
-                <div>
-                  <p class="title">工作所需支持：</p>
-                  <p class="result">{{item.support}}</p>
+                <mu-divider shallow-inset></mu-divider>
+                <div class="commentBox">
+                  <div class="comment">
+                    <img src="../../../static/images/comment.png">
+                    <span>评论({{item.replyList[0] ? item.replyList[0].childCommentList.length : 0}})</span>
+                  </div>
+                  <div class="dateTime">{{item.replyList[0] ? item.replyList[0].updateTime : ''}}</div>
                 </div>
               </div>
-              <mu-divider shallow-inset></mu-divider>
-              <div class="commentBox">
-                <div class="comment">
-                  <img src="../../../static/images/comment.png">
-                  <span>评论({{item.replyList[0] ? item.replyList[0].childCommentList.length : 0}})</span>
-                </div>
-                <div class="dateTime">{{item.replyList[0] ? item.replyList[0].updateTime : ''}}</div>
-              </div>
-            </div>
-          </mu-expansion-panel>
-        </mu-load-more>
-        <Nothing words="暂无日报" v-else></Nothing>
+            </mu-expansion-panel>
+          </mu-load-more>
+          <Nothing words="暂无日报" v-else></Nothing>
+        </div>
       </div>
     </div>
   </div>
@@ -142,8 +144,16 @@ export default {
 
 <style lang="less" scoped >
   .daily{
+    .contentBox{
+      height: 100vh;
+      overflow: hidden;
+    }
     .content{
-      padding: 94px 0 20px;
+      height: calc(100vh - 44px);
+      overflow-y: scroll;
+      margin-top: 94px;
+      padding-bottom: 20px;
+      
       /deep/ .mu-expansion-panel{
         margin-top: 12px;
         .mu-expansion-panel-header{

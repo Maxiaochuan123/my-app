@@ -11,51 +11,53 @@
       <!-- 抽屉 -->
       <Screen ref="screen" slot="drawerContent" :drawerList="drawerList" @getScreenParams="getScreenParams"></Screen>
     </AppBar>
-    <div class="content">
-      <mu-tabs :value.sync="tabsActive" @change="changeTabs" inverse color="primary" indicator-color="primary" center>
-        <mu-tab>我的线索</mu-tab>
-        <mu-tab>团队线索</mu-tab>
-      </mu-tabs>
-      <div class="clueList">
-        <mu-load-more :refreshing="loadUpdate.refreshing" @refresh="refresh" :loading="loadUpdate.loading" @load="load" :loaded-all="loadUpdate.loadedAll">
+    <div class="contentBox">
+      <div class="content">
+        <mu-tabs :value.sync="tabsActive" @change="changeTabs" inverse color="primary" indicator-color="primary" center>
+          <mu-tab>我的线索</mu-tab>
+          <mu-tab>团队线索</mu-tab>
+        </mu-tabs>
+        <div class="clueList">
+          <mu-load-more :refreshing="loadUpdate.refreshing" @refresh="refresh" :loading="loadUpdate.loading" @load="load" :loaded-all="loadUpdate.loadedAll">
 
-          <mu-list textline="two-line" v-if="list.length > 0">
-            <div v-for="(item,index) in list" :key="index">
-              <mu-list-item v-waves>
-                <mu-list-item-content @click="goPage('clueDetails',{id:item.leadsId,type:'线索'})">
-                  <mu-list-item-title>
-                    <div class="clue-title">
-                      <div class="clue-image">
-                        <img :src="changeCarType(item)" width="24" height="24" />
+            <mu-list textline="two-line" v-if="list.length > 0">
+              <div v-for="(item,index) in list" :key="index">
+                <mu-list-item v-waves>
+                  <mu-list-item-content @click="goPage('clueDetails',{id:item.leadsId,type:'线索'})">
+                    <mu-list-item-title>
+                      <div class="clue-title">
+                        <div class="clue-image">
+                          <img :src="changeCarType(item)" width="24" height="24" />
+                        </div>
+                        <span class="clue-title-image"> {{item.leadsName}}</span>
                       </div>
-                      <span class="clue-title-image"> {{item.leadsName}}</span>
-                    </div>
-                    <span :class="item.followup === '未跟进' ? 'nofollowUp' : ''"  class="clue-status">{{item.followup}}</span>
-                  </mu-list-item-title>
-                  <mu-list-item-sub-title>级别: {{item.leadsLevel}}</mu-list-item-sub-title>
-                  <mu-list-item-sub-title>创建人: {{item.createUserName}}</mu-list-item-sub-title>
-                  <mu-list-item-sub-title>{{item.createTime}}更新
-                  </mu-list-item-sub-title>
-                </mu-list-item-content>
-                <mu-menu placement="left-start" :open.sync="item.openMenu">
-                  <mu-button icon>
-                    <mu-icon value=":iconfont icon-gengduovertical"></mu-icon>
-                  </mu-button>
-                  <mu-list slot="content">
-                    <span v-for="(menuItem,index) in myClueMenuList" :key="index" >
-                      <mu-list-item button @click="operation(item, menuItem)" v-show="menuItem.flag">
-                        <mu-list-item-title>{{menuItem.title}}</mu-list-item-title>
-                      </mu-list-item>
-                    </span>
-                  </mu-list>
-                </mu-menu>
-              </mu-list-item>
-              <mu-divider shallow-inset v-show="index + 1 !== list.length"></mu-divider>
-            </div>
-          </mu-list>
+                      <span :class="item.followup === '未跟进' ? 'nofollowUp' : ''"  class="clue-status">{{item.followup}}</span>
+                    </mu-list-item-title>
+                    <mu-list-item-sub-title>级别: {{item.leadsLevel}}</mu-list-item-sub-title>
+                    <mu-list-item-sub-title>创建人: {{item.createUserName}}</mu-list-item-sub-title>
+                    <mu-list-item-sub-title>{{item.createTime}}更新
+                    </mu-list-item-sub-title>
+                  </mu-list-item-content>
+                  <mu-menu placement="left-start" :open.sync="item.openMenu">
+                    <mu-button icon>
+                      <mu-icon value=":iconfont icon-gengduovertical"></mu-icon>
+                    </mu-button>
+                    <mu-list slot="content">
+                      <span v-for="(menuItem,index) in myClueMenuList" :key="index" >
+                        <mu-list-item button @click="operation(item, menuItem)" v-show="menuItem.flag">
+                          <mu-list-item-title>{{menuItem.title}}</mu-list-item-title>
+                        </mu-list-item>
+                      </span>
+                    </mu-list>
+                  </mu-menu>
+                </mu-list-item>
+                <mu-divider shallow-inset v-show="index + 1 !== list.length"></mu-divider>
+              </div>
+            </mu-list>
 
-          <Nothing words="暂无线索" v-else></Nothing>
-        </mu-load-more>
+            <Nothing words="暂无线索" v-else></Nothing>
+          </mu-load-more>
+        </div>
       </div>
     </div>
   </div>
@@ -384,8 +386,15 @@ export default {
 
 <style scoped lang="less">
   .clue{
+    .contentBox{
+      height: 100vh;
+      overflow: hidden;
+    }
     .content{
-      padding: 94px 0 20px;
+      height: calc(100vh - 44px);
+      overflow-y: scroll;
+      margin-top: 94px;
+      padding-bottom: 20px;
 
       .clueList{
         margin-top: 12px;

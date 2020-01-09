@@ -1,75 +1,76 @@
 <template>
   <div class="dailyDetails">
     <AppBar pageTitle="日报详情" :rightIcon="menuStatus ? 'icon-gengduo1' : ''" isMenu :menuList="menuList" @menuChange="menuChange"></AppBar>
-    <div class="content">
-      <div class="details">
-        <div class="info">
-          <img :src="info.userImg">
-          <div>
-            <span class="name">{{info.realname}}</span>
-            <span class="level">{{info.post}}</span>
+    <div class="contentBox">
+      <div class="content">
+        <div class="details">
+          <div class="info">
+            <img :src="info.userImg">
+            <div>
+              <span class="name">{{info.realname}}</span>
+              <span class="level">{{info.post}}</span>
+            </div>
           </div>
-        </div>
-        <div class="completionStatus">
-          <div class="describe">
-            <div>
-              <p class="title">今日重点工作及完成情况：</p>
-              <div class="result">{{info.content}}</div>
-            </div>
-            <div>
-              <p class="title">今日重点工作及完成情况：</p>
-              <p class="result">{{info.tomorrow}}</p>
-            </div>
-            <div>
-              <p class="title">明日工作计划：</p>
-              <p class="result">{{info.sentiment}}</p>
-            </div>
-            <div>
-              <p class="title">工作感悟：</p>
-              <p class="result">{{info.sentiment}}</p>
-            </div>
-            <div>
-              <p class="title">工作所需支持：</p>
-              <p class="result">{{info.support}}</p>
-            </div>
-            <!-- 图片 / 附件 -->
-            <UploadList
-              :batchId="info.batchId"
-              :customEnclosureList="customEnclosureList"
-              :customImgList="customImgList"
-              :isEdit="false"
-              :ishasAfferent="false"
-              :isUploadFile="false"
-              :isUploadImg="false"
-              class="upload-file">
-            </UploadList>
-            <div class="relationBox">
-              <div class="relation">
-                <p class="title">关联业务：</p>
-                <div class="clue">
-                  <div v-for="(contacts,index) in contactsList" :key="index + contacts.name">联系人 - {{contacts.name}}</div>
-                  <div v-for="(customer,index) in customerList" :key="index + customer.customerName">客户 - {{customer.customerName}}</div>
-                  <div v-for="(clue,index) in clueList" :key="index + clue.leadsName">线索 - {{clue.leadsName}}</div>
-                  <div v-for="(task,index) in taskList" :key="index + task.name">任务 - {{task.name}}</div>
-                  <div v-for="(visit,index) in visitList" :key="index + visit.customerName">拜访 - {{visit.customerName}}</div>
+          <div class="completionStatus">
+            <div class="describe">
+              <div>
+                <p class="title">今日重点工作及完成情况：</p>
+                <div class="result">{{info.content}}</div>
+              </div>
+              <div>
+                <p class="title">今日重点工作及完成情况：</p>
+                <p class="result">{{info.tomorrow}}</p>
+              </div>
+              <div>
+                <p class="title">明日工作计划：</p>
+                <p class="result">{{info.sentiment}}</p>
+              </div>
+              <div>
+                <p class="title">工作感悟：</p>
+                <p class="result">{{info.sentiment}}</p>
+              </div>
+              <div>
+                <p class="title">工作所需支持：</p>
+                <p class="result">{{info.support}}</p>
+              </div>
+              <!-- 图片 / 附件 -->
+              <UploadList
+                :batchId="info.batchId"
+                :customEnclosureList="customEnclosureList"
+                :customImgList="customImgList"
+                :isEdit="false"
+                :ishasAfferent="false"
+                :isUploadFile="false"
+                :isUploadImg="false"
+                class="upload-file">
+              </UploadList>
+              <div class="relationBox">
+                <div class="relation">
+                  <p class="title">关联业务：</p>
+                  <div class="clue">
+                    <div v-for="(contacts,index) in contactsList" :key="index + contacts.name">联系人 - {{contacts.name}}</div>
+                    <div v-for="(customer,index) in customerList" :key="index + customer.customerName">客户 - {{customer.customerName}}</div>
+                    <div v-for="(clue,index) in clueList" :key="index + clue.leadsName">线索 - {{clue.leadsName}}</div>
+                    <div v-for="(task,index) in taskList" :key="index + task.name">任务 - {{task.name}}</div>
+                    <div v-for="(visit,index) in visitList" :key="index + visit.customerName">拜访 - {{visit.customerName}}</div>
+                  </div>
+                </div>
+              </div>
+              <div class="receiver">
+                <p class="title">接收人：</p>
+                <div class="imgListBox">
+                  <div class="imgItem" v-for="(item, index) in info.sendUserList" :key="index">
+                    <img :src="item.img ? item.img : '../../../static/images/default-header.png'">
+                    <span class="name">{{item.realname}}</span>
+                  </div>
                 </div>
               </div>
             </div>
-            <div class="receiver">
-              <p class="title">接收人：</p>
-              <div class="imgListBox">
-                <div class="imgItem" v-for="(item, index) in info.sendUserList" :key="index">
-                  <img :src="item.img ? item.img : '../../../static/images/default-header.png'">
-                  <span class="name">{{item.realname}}</span>
-                </div>
-              </div>
-            </div>
           </div>
         </div>
+        <!-- 评论 -->
+        <Comment :realname="info.realname"></Comment>
       </div>
-      <!-- 评论 -->
-      <Comment :realname="info.realname"></Comment>
-
     </div>
   </div>
 </template>
@@ -161,8 +162,16 @@ export default {
 
 <style lang="less" scoped>
   .dailyDetails{
+    .contentBox{
+      height: 100vh;
+      overflow: hidden;
+    }
     .content{
-      padding: 44px 0 70px;
+      height: calc(100vh - 44px);
+      overflow-y: scroll;
+      margin-top: 44px;
+      padding-bottom: 70px;
+
       .details{
         background-color: #fff;
         margin-top: 12px;

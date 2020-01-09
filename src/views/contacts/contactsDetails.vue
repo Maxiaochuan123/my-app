@@ -14,104 +14,107 @@
       :menuList="menuList"
       @menuChange="menuChange"
     ></AppBar>
-    <div class="content">
-      <mu-paper :z-depth="0" class="infoCard">
-        <div class="topInfo">
-          <div class="headImg">
-            <img :src="loadingImg('defaultImg.png')" />
-          </div>
-          <div class="info">
-            <div class="name">
-              <span>{{info.name}}</span>
-              <img :src="loadingImg(info.sex === '男' ? 'male.png' : 'female.png')" />
+    <div class="contentBox">
+      <div class="content">
+        <!-- <h1 v-for="(item , index) in 20" :key="index">{{index}}</h1> -->
+        <mu-paper :z-depth="0" class="infoCard">
+          <div class="topInfo">
+            <div class="headImg">
+              <img :src="loadingImg('defaultImg.png')" />
             </div>
-            <div class="clueDate">{{info.createTime}}</div>
+            <div class="info">
+              <div class="name">
+                <span>{{info.name}}</span>
+                <img :src="loadingImg(info.sex === '男' ? 'male.png' : 'female.png')" />
+              </div>
+              <div class="clueDate">{{info.createTime}}</div>
+            </div>
           </div>
-        </div>
-        <mu-divider shallow-inset></mu-divider>
-        <mu-list>
-          <mu-list-item>
-            <mu-list-item-title>创建人</mu-list-item-title>
-            <mu-list-item-action>{{info.createUserName}}</mu-list-item-action>
-          </mu-list-item>
-          <mu-list-item>
-            <mu-list-item-title>客户级别</mu-list-item-title>
-            <mu-list-item-action>{{info.customerLevel}}</mu-list-item-action>
-          </mu-list-item>
-          <mu-list-item>
-            <mu-list-item-title>电话号码</mu-list-item-title>
-            <mu-list-item-action>{{info.mobile}}</mu-list-item-action>
-          </mu-list-item>
-        </mu-list>
-      </mu-paper>
-      <mu-tabs :value.sync="active" inverse color="primary" indicator-color="primary" center>
-        <mu-tab>跟进记录</mu-tab>
-        <mu-tab>基本信息</mu-tab>
-      </mu-tabs>
-      <div class="followUprecord" v-if="active === 0">
-        <Record :record="record"></Record>
-      </div>
-      <div class="basicsInfo" v-if="active === 1">
-        <mu-list>
-          <mu-list-item>
-            <mu-list-item-content>
-              <mu-list-item-title>手机号码</mu-list-item-title>
-              <mu-list-item-sub-title>{{info.mobile}}</mu-list-item-sub-title>
-            </mu-list-item-content>
-          </mu-list-item>
           <mu-divider shallow-inset></mu-divider>
-          <mu-list-item>
-            <mu-list-item-content>
-              <mu-list-item-title>微信/QQ</mu-list-item-title>
-              <mu-list-item-sub-title>{{info.wechatOrQq}}</mu-list-item-sub-title>
-            </mu-list-item-content>
-          </mu-list-item>
-          <mu-divider shallow-inset></mu-divider>
-          <mu-list-item>
-            <mu-list-item-content>
-              <mu-list-item-title>电子邮箱</mu-list-item-title>
-              <mu-list-item-sub-title>{{info.email}}</mu-list-item-sub-title>
-            </mu-list-item-content>
-          </mu-list-item>
-          <mu-divider shallow-inset></mu-divider>
-          <mu-list-item>
-            <mu-list-item-content>
-              <mu-list-item-title>关联客户</mu-list-item-title>
-              <mu-list-item-sub-title>{{info.customerName}}</mu-list-item-sub-title>
-            </mu-list-item-content>
-          </mu-list-item>
-          <mu-divider shallow-inset></mu-divider>
-          <mu-list-item>
-            <mu-list-item-content>
+          <mu-list>
+            <mu-list-item>
+              <mu-list-item-title>创建人</mu-list-item-title>
+              <mu-list-item-action>{{info.createUserName}}</mu-list-item-action>
+            </mu-list-item>
+            <mu-list-item>
               <mu-list-item-title>客户级别</mu-list-item-title>
-              <mu-list-item-sub-title>{{info.customerLevel}}</mu-list-item-sub-title>
-            </mu-list-item-content>
-          </mu-list-item>
-          <mu-divider shallow-inset></mu-divider>
-          <mu-list-item>
-            <mu-list-item-content>
-              <mu-list-item-title>职务</mu-list-item-title>
-              <mu-list-item-sub-title>{{info.post}}</mu-list-item-sub-title>
-            </mu-list-item-content>
-          </mu-list-item>
-          <mu-divider shallow-inset></mu-divider>
-          <mu-list-item>
-            <mu-list-item-content>
-              <mu-list-item-title>地址</mu-list-item-title>
-              <mu-list-item-sub-title>{{info.address}}</mu-list-item-sub-title>
-            </mu-list-item-content>
-          </mu-list-item>
-          <mu-divider shallow-inset></mu-divider>
-          <mu-list-item>
-            <mu-list-item-content>
-              <mu-list-item-title>备注</mu-list-item-title>
-              <mu-list-item-sub-title>{{info.remark}}</mu-list-item-sub-title>
-            </mu-list-item-content>
-          </mu-list-item>
-        </mu-list>
+              <mu-list-item-action>{{info.customerLevel}}</mu-list-item-action>
+            </mu-list-item>
+            <mu-list-item>
+              <mu-list-item-title>电话号码</mu-list-item-title>
+              <mu-list-item-action>{{info.mobile}}</mu-list-item-action>
+            </mu-list-item>
+          </mu-list>
+        </mu-paper>
+        <mu-tabs :value.sync="active" inverse color="primary" indicator-color="primary" center>
+          <mu-tab>跟进记录</mu-tab>
+          <mu-tab>基本信息</mu-tab>
+        </mu-tabs>
+        <div class="followUprecord" v-if="active === 0">
+          <Record :record="record"></Record>
+        </div>
+        <div class="basicsInfo" v-if="active === 1">
+          <mu-list>
+            <mu-list-item>
+              <mu-list-item-content>
+                <mu-list-item-title>手机号码</mu-list-item-title>
+                <mu-list-item-sub-title>{{info.mobile}}</mu-list-item-sub-title>
+              </mu-list-item-content>
+            </mu-list-item>
+            <mu-divider shallow-inset></mu-divider>
+            <mu-list-item>
+              <mu-list-item-content>
+                <mu-list-item-title>微信/QQ</mu-list-item-title>
+                <mu-list-item-sub-title>{{info.wechatOrQq}}</mu-list-item-sub-title>
+              </mu-list-item-content>
+            </mu-list-item>
+            <mu-divider shallow-inset></mu-divider>
+            <mu-list-item>
+              <mu-list-item-content>
+                <mu-list-item-title>电子邮箱</mu-list-item-title>
+                <mu-list-item-sub-title>{{info.email}}</mu-list-item-sub-title>
+              </mu-list-item-content>
+            </mu-list-item>
+            <mu-divider shallow-inset></mu-divider>
+            <mu-list-item>
+              <mu-list-item-content>
+                <mu-list-item-title>关联客户</mu-list-item-title>
+                <mu-list-item-sub-title>{{info.customerName}}</mu-list-item-sub-title>
+              </mu-list-item-content>
+            </mu-list-item>
+            <mu-divider shallow-inset></mu-divider>
+            <mu-list-item>
+              <mu-list-item-content>
+                <mu-list-item-title>客户级别</mu-list-item-title>
+                <mu-list-item-sub-title>{{info.customerLevel}}</mu-list-item-sub-title>
+              </mu-list-item-content>
+            </mu-list-item>
+            <mu-divider shallow-inset></mu-divider>
+            <mu-list-item>
+              <mu-list-item-content>
+                <mu-list-item-title>职务</mu-list-item-title>
+                <mu-list-item-sub-title>{{info.post}}</mu-list-item-sub-title>
+              </mu-list-item-content>
+            </mu-list-item>
+            <mu-divider shallow-inset></mu-divider>
+            <mu-list-item>
+              <mu-list-item-content>
+                <mu-list-item-title>地址</mu-list-item-title>
+                <mu-list-item-sub-title>{{info.address}}</mu-list-item-sub-title>
+              </mu-list-item-content>
+            </mu-list-item>
+            <mu-divider shallow-inset></mu-divider>
+            <mu-list-item>
+              <mu-list-item-content>
+                <mu-list-item-title>备注</mu-list-item-title>
+                <mu-list-item-sub-title>{{info.remark}}</mu-list-item-sub-title>
+              </mu-list-item-content>
+            </mu-list-item>
+          </mu-list>
+        </div>
+        
+        <FootNav :list="bottomList" @footNavChange="dial(info.mobile)"></FootNav>
       </div>
-      
-      <FootNav :list="bottomList" @footNavChange="dial(info.mobile)"></FootNav>
     </div>
   </div>
 </template>
@@ -232,8 +235,15 @@ export default {
 
 <style scoped lang="less">
 .clueDetails {
+  .contentBox{
+    height: 100vh;
+    overflow: hidden;
+  }
   .content {
-    padding: 44px 0 96px;
+    height: calc(100vh - 44px);
+    overflow-y: scroll;
+    margin-top: 44px;
+    padding-bottom: 96px;
     
     // 跟进记录
     .infoCard{
