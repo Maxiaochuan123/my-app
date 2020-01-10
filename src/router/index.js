@@ -10,7 +10,6 @@ import storage from "../../static/js/storage";
 Vue.use(Router);
 
 const router = new Router({
-  mode: 'history',
   routes: [
     {
       path: "/",
