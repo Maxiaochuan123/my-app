@@ -3,7 +3,7 @@
  * @Author: shenah
  * @Date: 2019-10-12 09:30:38
  * @LastEditors  : shenah
- * @LastEditTime : 2020-01-07 10:47:47
+ * @LastEditTime : 2020-01-10 10:26:37
  -->
 
 <template>
@@ -32,9 +32,9 @@
       indicator-color="primary"
       inverse
     >
-      <mu-tab :value="0">全部任务</mu-tab>
-      <mu-tab :value="2">我收到的</mu-tab>
+      <mu-tab :value="0">全部</mu-tab>
       <mu-tab :value="1">我发出的</mu-tab>
+      <mu-tab :value="2">我收到的</mu-tab>
     </mu-tabs>
     <div class="content">
       <div class="content-wrap">

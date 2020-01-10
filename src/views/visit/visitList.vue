@@ -3,7 +3,7 @@
  * @Author: shenah
  * @Date: 2019-10-17 16:47:08
  * @LastEditors  : shenah
- * @LastEditTime : 2020-01-07 10:41:44
+ * @LastEditTime : 2020-01-10 10:25:59
  -->
 
 <template>
@@ -32,7 +32,7 @@
       inverse
     >
       <mu-tab :value="0">全部</mu-tab>
-      <mu-tab :value="1">我发出的拜访</mu-tab>
+      <mu-tab :value="1">我发出的</mu-tab>
       <mu-tab :value="2">我收到的</mu-tab>
     </mu-tabs>
     <div class="content">
