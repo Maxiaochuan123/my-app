@@ -48,7 +48,8 @@
                     <img src="../../../static/images/comment.png">
                     <span>评论({{item.replyList ? item.replyList.length : 0}})</span>
                   </div>
-                  <div class="dateTime">{{item.replyList[0] ? item.replyList[item.replyList.length - 1].createTime : ''}}</div>
+                  <div class="dateTime">{{item.createTime}}</div>
+                  <!-- <div class="dateTime">{{item.replyList[0] ? item.replyList[item.replyList.length - 1].createTime : ''}}</div> -->
                 </div>
               </div>
             </mu-expansion-panel>
