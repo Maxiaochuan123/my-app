@@ -46,9 +46,9 @@
                 <div class="commentBox">
                   <div class="comment">
                     <img src="../../../static/images/comment.png">
-                    <span>评论({{item.replyList[0] ? item.replyList[0].childCommentList.length : 0}})</span>
+                    <span>评论({{item.replyList ? item.replyList.length : 0}})</span>
                   </div>
-                  <div class="dateTime">{{item.replyList[0] ? item.replyList[0].updateTime : ''}}</div>
+                  <div class="dateTime">{{item.replyList[0] ? item.replyList[item.replyList.length - 1].createTime : ''}}</div>
                 </div>
               </div>
             </mu-expansion-panel>
@@ -91,11 +91,6 @@ export default {
   },
   created(){
     this.getDailyList(this.getParams());
-    // this.api.getInsideCompanyContacts().then(res => {
-    //   for(let item of res.data){
-    //     this.drawerList.createUserId.searchList.push({name:item.realname,val:item.id})
-    //   }
-    // })
   },
   methods:{
     // 获取日报列表
