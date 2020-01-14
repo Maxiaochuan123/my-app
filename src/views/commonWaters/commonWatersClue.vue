@@ -15,10 +15,17 @@
             @click="toDetails(item)"
             class="clue-left"
           >
-            <span
-              class="primary-words"
-            >{{item.leadsName}}({{item.leadsLevel.charAt(0)}})({{item.leadsType.substring(0,item.leadsType.length-2)}})</span>
-            <div class="sub-title regular-words">{{item.createUserName}}</div>
+            <span class="primary-words">
+              <img
+                :src="changeCarType(item)"
+                height="24"
+                width="24"
+              />
+              {{item.leadsName}}
+            </span>
+            <div class="sub-title regular-words">级别: {{item.leadsLevel}}</div>
+            <div class="sub-title regular-words">创建人: {{item.createUserName}}</div>
+            <div class="sub-title regular-words">{{item.createTime}}更新</div>
           </div>
           <div class="clue-right">
             <mu-button
@@ -56,6 +63,16 @@ export default {
   props: {},
   mounted() {},
   methods: {
+    changeCarType(row) {
+      const { leadsType } = row;
+      if (leadsType.indexOf("买车") > -1) {
+        return this.loadingImg("car-buy.png");
+      } else if (leadsType.indexOf("车贷") > -1) {
+        return this.loadingImg("car-loan.png");
+      } else {
+        return this.loadingImg("car-county.png");
+      }
+    },
     toDetails(row) {
       // 进入线索的详情
       this.goPage("clueDetails", { id: row.leadsId, type: "commonWatersClue" });
