@@ -2,8 +2,8 @@
  * @Description: 任务详情记录
  * @Author: shenah
  * @Date: 2019-10-12 15:45:34
- * @LastEditors: shenah
- * @LastEditTime: 2019-10-14 19:22:16
+ * @LastEditors  : shenah
+ * @LastEditTime : 2020-01-14 16:43:04
  -->
 <template>
   <div class="task-record progress-column">
@@ -21,7 +21,7 @@
           <div class="time">{{item.createTime}}</div>
           <div class="node">
             <mu-avatar
-              class="none-left"
+              class="node-left"
               size="36"
             >
               <img :src="item.img" />

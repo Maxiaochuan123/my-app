@@ -18,7 +18,7 @@
           <div class="time">{{item.createTime}}</div>
           <div class="node">
             <mu-avatar
-              class="none-left"
+              class="node-left"
               size="36"
             >
               <img :src="item.userImg" />

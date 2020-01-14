@@ -476,8 +476,14 @@ export default {
           height: 40px;
         }
         .describe {
+          width: 100%;
+          overflow: hidden;
+          flex: 1;
           margin-left: 10px;
           .title {
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
             color: @primary-text;
           }
           .size {
