@@ -304,11 +304,11 @@ export default {
         });
       } else {
         // 进入详情
-        this.goPage("taskBasic", { id: row.taskId });
+        this.goPage("taskDetails", { id: row.taskId });
       }
     },
     toDetails(item) {
-      this.goPage("customerBasic", { id: item.customerId });
+      this.goPage("customerDetails", { id: item.customerId });
     },
     goBack(){
       this.$router.go(-1);
