@@ -47,8 +47,8 @@
         </div>
         <div class="basic-details-item-right">
           <img
-            @click="goPage('addContacts',{id:$parent.id,type:'addCustomer'})"
             :src="loadingImg('add.png')"
+            @click="goPage('addContacts',{id:$parent.id,type:'addCustomer',name:$parent.details.customerName})"
           />
         </div>
       </div>
@@ -66,8 +66,8 @@
           </div>
           <div class="basic-details-item-right">
             <img
-              @click="dial(item.mobile)"
               :src="loadingImg('call.png')"
+              @click="dial(item.mobile)"
             />
           </div>
         </div>
@@ -100,8 +100,7 @@ export default {
   },
   components: {},
   data() {
-    return {
-    };
+    return {};
   },
   props: {},
   mounted() {},

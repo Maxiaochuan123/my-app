@@ -32,6 +32,9 @@ export default {
     id() {
       return this.$route.params.id;
     },
+    name() {
+      return this.$route.params.name;
+    },
     // type判断是否哪里进来的
     // addCustomer 表示从客户里面进来的新增
     // editCustomer 表示从客户里面进来的编辑
@@ -63,14 +66,15 @@ export default {
       return newArr;
     },
     judgePageTitle() {
-      let model = this.type.indexOf("addCustomer") > -1 ? "customer" : "personal";
+      let model =
+        this.type.indexOf("addCustomer") > -1 ? "customer" : "personal";
       if (this.type === "addCustomer" || this.type === "addPersonal") {
         return {
           title: "新增联系人",
           type: "add",
           model
         };
-      }else if(this.type === "editPersonal" || this.type === "editCustomer"){
+      } else if (this.type === "editPersonal" || this.type === "editCustomer") {
         return {
           title: "编辑联系人",
           type: "edit",
@@ -85,10 +89,10 @@ export default {
     },
     queryField() {
       Api.queryFieldList({
-        label: '3',
+        label: "3",
         id: this.typeObj.type === "add" ? undefined : this.id
       }).then(res => {
-      if(this.typeObj.model === "personal"){
+        if (this.typeObj.model === "personal") {
           // 查询我的联系人
           Api.queryCustomerList({
             search: "",
@@ -104,13 +108,13 @@ export default {
                   .map(item => `${item.customerId}^_^${item.customerName}`)
                   .join(","),
                 type: 15,
-                value: '',
+                value: "",
                 relation: "customerId,customerName"
               }
             ];
             this.fieldList = [...arr, ...res.data];
           });
-        }else {
+        } else {
           this.fieldList = res.data;
         }
       });
@@ -120,11 +124,15 @@ export default {
       generalFormVue.$refs.form.validate().then(result => {
         if (result) {
           let params = {
-            entity: { ...generalFormVue.form, customerId: this.id }
+            entity: {
+              ...generalFormVue.form,
+              customerId: this.id,
+              customerName: this.name
+            }
           };
           if (this.typeObj.model === "personal") {
             params = {
-              entity: { ...generalFormVue.form}
+              entity: { ...generalFormVue.form }
             };
           }
           Api.addOrEditContacts(params).then(res => {
