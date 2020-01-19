@@ -6,7 +6,7 @@ export default {
 
   // ************************* 联系人 *************************
   // 获取个人联系人列表
-  getContacts: params => post({ params, url: '/crmContacts/queryContactsListHtml' }),
+  getContacts: params => post({ params, url: '/crmContacts/queryContactsListPage' }),
   // 获取团队联系人列表
   getTeamContacts: params => post({ params, url: '/crmContacts/getContactsMembers' }),
   // 获取部门列表

@@ -27,8 +27,16 @@
       <mu-tab value="customer">公海客户</mu-tab>
     </mu-tabs>
     <div class="content">
-      <CommonWatersClue v-if="active === 'clue'"></CommonWatersClue>
-      <CommonWatersPeople v-else></CommonWatersPeople>
+      <CommonWatersClue
+        @commonWatersClueChange="commonWatersClueChange"
+        ref="commonWatersClue"
+        v-if="active === 'clue'"
+      ></CommonWatersClue>
+      <CommonWatersPeople
+        @commonWatersPeopleChange="commonWatersPeopleChange"
+        ref="commonWatersPeople"
+        v-else
+      ></CommonWatersPeople>
     </div>
   </div>
 </template>
@@ -47,11 +55,17 @@ export default {
     return {
       requestParams: {
         search: "",
-        type: "8"
+        type: "8",
+        pageIndex: 1, // 页码数量
+        pageSize: 15 // 1页显示的个数
       },
       active: "clue", // 当前激活
-      customerList: [], // 客户列表
-      clueList: [] // 线索列表
+      customerList: {
+        list: []
+      }, // 客户列表
+      clueList: {
+        list: []
+      } // 线索列表
     };
   },
   computed: {
@@ -65,8 +79,29 @@ export default {
     this.judgeActiveTab();
   },
   methods: {
+    commonWatersClueChange({ type }) {
+      if (type === "load") {
+        // 滚动加载
+        this.$refs.commonWatersClue.loading = true;
+        this.requestParams.pageIndex += 1;
+        this.queryPublicPoolClue(true).then(() => {
+          this.$refs.commonWatersClue.loading = false;
+        });
+      }
+    },
+    commonWatersPeopleChange({ type }) {
+      if (type === "load") {
+        // 滚动加载
+        this.$refs.commonWatersPeople.loading = true;
+        this.requestParams.pageIndex += 1;
+        this.queryPublicPoolCustomer(true).then(() => {
+          this.$refs.commonWatersPeople.loading = false;
+        });
+      }
+    },
     searchInputBarChange(obj) {
       const { type, value } = obj;
+      this.requestParams.pageIndex = 1;
       this.requestParams.search = value;
       if (type === "clue") {
         this.queryPublicPoolClue();
@@ -74,24 +109,34 @@ export default {
         this.queryPublicPoolCustomer();
       }
     },
-    queryPublicPoolClue() {
+    queryPublicPoolClue(flag) {
       // 查询公海线索
-      Api.queryCommonWaterClueList(this.requestParams).then(res => {
-        let list = [];
-        Object.keys(res.data).forEach(item => {
-          list.push(...res.data[item]);
-        });
-        this.clueList = list;
+      return Api.queryCommonWaterClueList(this.requestParams).then(res => {
+        let data = res.data;
+        let list = data.list;
+        if (list.length === 0 && flag) {
+          this.requestParams.pageIndex -= 1;
+        }
+        if (flag) {
+          this.clueList.list.push(...list);
+        } else {
+          this.clueList = res.data;
+        }
       });
     },
-    queryPublicPoolCustomer() {
+    queryPublicPoolCustomer(flag) {
       // 查询公海客户
-      Api.queryPublicPoolCustomer(this.requestParams).then(res => {
-        let list = [];
-        Object.keys(res.data).forEach(item => {
-          list.push(...res.data[item]);
-        });
-        this.customerList = list;
+      return Api.queryPublicPoolCustomer(this.requestParams).then(res => {
+        let data = res.data;
+        let list = data.list;
+        if (list.length === 0 && flag) {
+          this.requestParams.pageIndex -= 1;
+        }
+        if (flag) {
+          this.customerList.list.push(...list);
+        } else {
+          this.customerList = res.data;
+        }
       });
     },
     judgeActiveTab() {
@@ -102,6 +147,7 @@ export default {
     tabsChange(val) {
       this.active = val;
       this.requestParams.search = "";
+      this.requestParams.pageIndex = 1;
       this.$refs.searchInputBar.inputValue = "";
       if (val === "clue") {
         // 线索
@@ -126,7 +172,7 @@ export default {
   }
   .content {
     height: 100%;
-    padding-top: 172px;
+    padding-top: 164px;
     overflow: hidden;
   }
 }

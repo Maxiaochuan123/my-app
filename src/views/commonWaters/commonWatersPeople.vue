@@ -4,41 +4,48 @@
  -->
 <template>
   <div class="commonWatersPeople">
-    <div v-if="$parent.customerList.length > 0">
-      <div
-        :key="index"
-        class="clue-item"
-        v-for="(item,index) in $parent.customerList"
-      >
-        <div class="clue-item-wrap">
-          <div
-            @click="toDetails(item)"
-            class="clue-left"
-          >
-            <span class="primary-words">{{item.customerName}}</span>
-            <div class="sub-title regular-words">{{item.detailAddress}}</div>
-          </div>
-          <div class="clue-right">
-            <mu-button
-              @click="btnChange(item,'distribute')"
-              class="btn"
-              color="primary"
-              v-if="$parent.poolRights.distribute"
-            >分配</mu-button>
-            <mu-button
-              @click="btnChange(item,'receive')"
-              class="btn"
-              color="info"
-              v-if="$parent.poolRights.receive"
-            >领取</mu-button>
+    <mu-load-more
+      :class="{'bg-class':$parent.customerList.list.length > 0}"
+      :loading="loading"
+      @load="load"
+      class="list-wrap"
+    >
+      <div v-if="$parent.customerList.list.length > 0">
+        <div
+          :key="index"
+          class="clue-item"
+          v-for="(item,index) in $parent.customerList.list"
+        >
+          <div class="clue-item-wrap">
+            <div
+              @click="toDetails(item)"
+              class="clue-left"
+            >
+              <span class="primary-words">{{item.customerName}}</span>
+              <div class="sub-title regular-words">{{item.detailAddress}}</div>
+            </div>
+            <div class="clue-right">
+              <mu-button
+                @click="btnChange(item,'distribute')"
+                class="btn"
+                color="primary"
+                v-if="$parent.poolRights.distribute"
+              >分配</mu-button>
+              <mu-button
+                @click="btnChange(item,'receive')"
+                class="btn"
+                color="info"
+                v-if="$parent.poolRights.receive"
+              >领取</mu-button>
+            </div>
           </div>
         </div>
       </div>
-    </div>
-    <Nothing
-      v-else
-      words="暂无公海客户"
-    ></Nothing>
+      <Nothing
+        v-else
+        words="暂无公海客户"
+      ></Nothing>
+    </mu-load-more>
   </div>
 </template>
 
@@ -50,13 +57,17 @@ export default {
   components: { Nothing },
   data() {
     return {
-      clueList: [],
-      listObj: {} // 公海客户列表对象
+      loading: false
     };
   },
   props: {},
   mounted() {},
   methods: {
+    load() {
+      this.$emit("commonWatersPeopleChange", {
+        type: "load"
+      });
+    },
     toDetails(row) {
       // 去客户公海详情
       this.goPage("customerDetails", {
@@ -104,7 +115,10 @@ export default {
   width: 100%;
   height: 100%;
   overflow: auto;
-  background-color: #fff;
+  .list-wrap {
+    width: 100%;
+    background-color: #fff;
+  }
   .clue-item {
     width: 100%;
     padding: 0 0 0 15px;
