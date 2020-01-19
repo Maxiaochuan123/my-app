@@ -2,8 +2,8 @@
  * @Description: In User Settings Edit
  * @Author: your name
  * @Date: 2019-08-27 12:13:47
- * @LastEditTime: 2019-09-09 18:33:37
- * @LastEditors: Please set LastEditors
+ * @LastEditTime : 2020-01-19 10:50:50
+ * @LastEditors  : shenah
  -->
 
 <template>
@@ -47,7 +47,7 @@
           <img :src="loadingImg('defaultImg.png')" />
           <div>
             <span>{{row.name}}</span>
-            <span>{{row.contactsName}} {{row.post}}</span>
+            <span>{{row.customerName}}  {{row.post}}</span>
             <i class="iconfont icon-dianhua"></i>
           </div>
         </div>
