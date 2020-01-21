@@ -93,27 +93,56 @@ export default {
         id: this.typeObj.type === "add" ? undefined : this.id
       }).then(res => {
         if (this.typeObj.model === "personal") {
-          // 查询我的联系人
-          Api.queryCustomerList({
-            search: "",
-            type: 2
-          }).then(res2 => {
-            let arr = [
+          let customerName = "";
+          let customerId = "";
+          let filterArr = res.data.filter(item => {
+            if (item.fieldName === "customerName") {
+              customerName = item.value;
+            }
+            if (item.fieldName === "customerId") {
+              customerId = item.value;
+            }
+            return item.fieldName !== "customerName";
+          });
+          let arr = [
+            {
+              fieldName: "customerName",
+              formType: "checkbox",
+              isUnique: 0,
+              isNull: 1,
+              name: "客户姓名",
+              options: "",
+              type: 9,
+              value: customerName,
+              apiName: "queryCustomerListPC",
+              splitField: "customer",
+              idField: "customerId",
+              mode: "single",
+              textField: "customerName",
+              htmlHidden: 0
+            }
+          ];
+          let obj = {
+            fieldName: "customer",
+            name: "客户姓名拼接",
+            options: "",
+            type: 1,
+            htmlHidden: 1,
+            value: []
+          };
+          if (this.id) {
+            // 证明是个人联系人编辑联系人
+            // 处理客户姓名反显的问题
+            obj.value = [
               {
-                fieldName: "enterprise",
-                formType: "customer",
-                isNull: 1,
-                name: "客户姓名",
-                options: this.handleCustomerData(res2.data)
-                  .map(item => `${item.customerId}^_^${item.customerName}`)
-                  .join(","),
-                type: 15,
-                value: "",
-                relation: "customerId,customerName"
+                customerId,
+                customerName
               }
             ];
-            this.fieldList = [...arr, ...res.data];
-          });
+          }
+          arr.push(obj);
+          filterArr.unshift(...arr);
+          this.fieldList = filterArr;
         } else {
           this.fieldList = res.data;
         }
