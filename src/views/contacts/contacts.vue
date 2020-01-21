@@ -114,7 +114,7 @@ export default {
         margin-left: 72px;
       }
       .mu-divider{
-        width: 75%;
+        // width: 75%;
       }
     }
 
