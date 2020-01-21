@@ -36,7 +36,7 @@
                       action-icon=":iconfont icon-cuo"
                       placeholder="请输入用户名"
                       prop="username"
-                      v-model="form.username"
+                      v-model.trim="form.username"
                     ></mu-text-field>
                   </div>
                 </mu-form-item>
@@ -57,7 +57,7 @@
                       placeholder="请输入密码"
                       prop="password"
                       type="password"
-                      v-model="form.password"
+                      v-model.trim="form.password"
                     ></mu-text-field>
                   </div>
                 </mu-form-item>
@@ -85,7 +85,7 @@
                 @click="handlePassword('forget')"
                 class="right"
               >忘记密码?</div>
-            </div> -->
+            </div>-->
             <div class="login-btn-wrap">
               <mu-button
                 @click="login"

@@ -4,50 +4,57 @@
  -->
 <template>
   <div class="common-waters-clue">
-    <div v-if="$parent.clueList.length>0">
-      <div
-        :key="index"
-        class="clue-item"
-        v-for="(item,index) in $parent.clueList"
-      >
-        <div class="clue-item-wrap">
-          <div
-            @click="toDetails(item)"
-            class="clue-left"
-          >
-            <span class="primary-words">
-              <img
-                :src="changeCarType(item)"
-                height="24"
-                width="24"
-              />
-              {{item.leadsName}}
-            </span>
-            <div class="sub-title regular-words">级别: {{item.leadsLevel}}</div>
-            <div class="sub-title regular-words">创建人: {{item.createUserName}}</div>
-            <div class="sub-title regular-words">{{item.createTime}}更新</div>
-          </div>
-          <div class="clue-right">
-            <mu-button
-              @click="btnChange(item,'distribute')"
-              class="btn"
-              color="primary"
-              v-if="$parent.poolRights.distribute"
-            >分配</mu-button>
-            <mu-button
-              @click="btnChange(item,'receive')"
-              class="btn"
-              color="info"
-              v-if="$parent.poolRights.receive"
-            >领取</mu-button>
+    <mu-load-more
+      :class="{'bg-class':$parent.clueList.list.length > 0}"
+      :loading="loading"
+      @load="load"
+      class="list-wrap"
+    >
+      <div v-if="$parent.clueList.list.length>0">
+        <div
+          :key="index"
+          class="clue-item"
+          v-for="(item,index) in $parent.clueList.list"
+        >
+          <div class="clue-item-wrap">
+            <div
+              @click="toDetails(item)"
+              class="clue-left"
+            >
+              <span class="primary-words">
+                <img
+                  :src="changeCarType(item)"
+                  height="24"
+                  width="24"
+                />
+                {{item.leadsName}}
+              </span>
+              <div class="sub-title regular-words">级别: {{item.leadsLevel}}</div>
+              <div class="sub-title regular-words">创建人: {{item.createUserName}}</div>
+              <div class="sub-title regular-words">{{item.createTime}}更新</div>
+            </div>
+            <div class="clue-right">
+              <mu-button
+                @click="btnChange(item,'distribute')"
+                class="btn"
+                color="primary"
+                v-if="$parent.poolRights.distribute"
+              >分配</mu-button>
+              <mu-button
+                @click="btnChange(item,'receive')"
+                class="btn"
+                color="info"
+                v-if="$parent.poolRights.receive"
+              >领取</mu-button>
+            </div>
           </div>
         </div>
       </div>
-    </div>
-    <Nothing
-      v-else
-      words="暂无公海线索"
-    ></Nothing>
+      <Nothing
+        v-else
+        words="暂无公海线索"
+      ></Nothing>
+    </mu-load-more>
   </div>
 </template>
 
@@ -58,11 +65,18 @@ export default {
   name: "commonWatersClue",
   components: { Nothing },
   data() {
-    return {};
+    return {
+      loading: false
+    };
   },
   props: {},
   mounted() {},
   methods: {
+    load() {
+      this.$emit("commonWatersClueChange", {
+        type: "load"
+      });
+    },
     changeCarType(row) {
       const { leadsType } = row;
       if (leadsType.indexOf("买车") > -1) {
@@ -117,7 +131,10 @@ export default {
   width: 100%;
   height: 100%;
   overflow: auto;
-  background-color: #fff;
+  .list-wrap {
+    width: 100%;
+    background-color: #fff;
+  }
   .clue-item {
     width: 100%;
     padding: 0 0 0 15px;

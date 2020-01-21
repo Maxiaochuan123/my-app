@@ -27,7 +27,7 @@ export const CUSTOMER_SHARE_TO_USERS = getApi("/addClientToMembers");
 // 把客户放入公海
 export const CUSTOMER_TO_PUBLIC_POOL = getApi("/updateClientToPublicPool");
 // 公海客户查询
-export const QUERY_CUSTOMER_PUBLIC_POOL = getApi("/queryHtmlPublicPoolList");
+export const QUERY_CUSTOMER_PUBLIC_POOL = getApi("/queryPublicPoolListPage");
 // 线索公海或者客户公海领取
 export const QUERY_RECEIVE_PUBLIC_POOL_BY_IDS = getApi("/receiveClewAndClientByIds");
 // 线索公海或客户公海分配

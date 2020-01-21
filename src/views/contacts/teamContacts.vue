@@ -2,58 +2,101 @@
  * @Description: In User Settings Edit
  * @Author: your name
  * @Date: 2019-08-27 12:13:47
- * @LastEditTime: 2019-09-09 18:34:41
- * @LastEditors: Please set LastEditors
+ * @LastEditTime : 2020-01-21 10:37:07
+ * @LastEditors  : shenah
  -->
 <template>
   <div class="teamContacts">
     <AppBar pageTitle="联系人"></AppBar>
-    
+    <SearchInputBar
+      @searchInputBarChange="searchInputBarChange"
+      placeholderText="团队联系人"
+    ></SearchInputBar>
     <div class="content">
-      <SearchBar :list="sheachList" placeholderText="搜索联系人"></SearchBar>
-        <IndexsList :list="userList" v-if="Object.keys(userList).length > 0">
-          <div slot="row" slot-scope="{row}" class="user-index" @click="goPage('contactsDetails',{id: row.contactsId,type:'联系人'})">
-          <img :src="loadingImg('defaultImg.png')" />
-          <div>
-            <span>{{row.name}}</span>
-            <span>{{row.remark}}</span>
-            <i class="iconfont icon-dianhua"></i>
+      <div class="content-wrap">
+        <mu-load-more
+          :class="{'bg-class':listObj.list.length > 0}"
+          :loading="loading"
+          @load="load"
+          class="list-wrap"
+        >
+          <div v-if="listObj.list.length">
+            <div
+              :key="index"
+              @click="goPage('contactsDetails',{id: row.contactsId,type:'联系人'})"
+              class="user-index"
+              v-for="(row,index) in listObj.list"
+            >
+              <img :src="loadingImg('defaultImg.png')" />
+              <div class="flex-right">
+                <div class="right-text">
+                  <span>{{row.name}}</span>
+                  <span>{{row.remark}}</span>
+                </div>
+                <i class="iconfont icon-dianhua"></i>
+              </div>
+            </div>
           </div>
-        </div>
-      </IndexsList>
-      <Nothing words="暂无联系人" v-else></Nothing>
+          <Nothing
+            v-else
+            words="暂无联系人"
+          ></Nothing>
+        </mu-load-more>
+      </div>
     </div>
   </div>
 </template>
 
 <script>
 import AppBar from "../../components/AppBar";
-import IndexsList from "../../components/IndexsList";
-import SearchBar from "../../components/SearchBar";
-import Nothing from '../../components/Nothing'
+import SearchInputBar from "@components/SearchInputBar.vue";
+import Nothing from "../../components/Nothing";
 export default {
   components: {
     AppBar,
-    IndexsList,
-    SearchBar,
+    SearchInputBar,
     Nothing
   },
   data() {
     return {
-      userList:{},
-      sheachList:[],
+      loading: false,
+      listObj: { list: [] },
+      requestParams: { type: 1, teamType: 0, pageIndex: 1, pageSize: 15 }
     };
   },
-  created(){
-    this.api.getContacts({type:1,teamType:0}).then(res=>{
-      if(res.msg !== 'success') this.$toast.warning('联系人列表获取失败!');
-      this.userList = res.data
-      this.sheachList.push(res.data)
-    })
+  created() {
+    this.queryList();
+  },
+  methods: {
+    load() {
+      // 滚动加载
+      this.loading = true;
+      this.requestParams.pageIndex += 1;
+      this.queryList(true).then(() => {
+        this.loading = false;
+      });
+    },
+    queryList(flag) {
+      return this.api.getContacts(this.requestParams).then(res => {
+        let data = res.data;
+        let list = data.list;
+        if (list.length === 0 && flag) {
+          this.requestParams.pageIndex -= 1;
+        }
+        if (flag) {
+          this.listObj.list.push(...list);
+        } else {
+          this.listObj = res.data;
+        }
+      });
+    },
+    searchInputBarChange(obj) {
+      const { type, value } = obj;
+      this.requestParams.search = value;
+      this.requestParams.pageIndex = 1;
+      this.queryList();
+    }
   }
-  // computed:{
-  //   ...mapState(['userList'])
-  // }
 };
 </script>
 
@@ -62,57 +105,70 @@ export default {
   .content {
     width: 100vw;
     height: 100vh;
-    padding-top: 44px;
+    padding-top: 120px;
     position: fixed;
     bottom: 0;
-    
-    .user-index{
-      // display: flex;
-      // justify-content: flex-start;
-      // align-items: center;
+    .content-wrap {
+      width: 100%;
+      height: 100%;
+      overflow: auto;
+      .list-wrap {
+        width: 100%;
+      }
+      .bg-class {
+        background-color: #fff;
+      }
+    }
+    .user-index {
+      display: flex;
+      justify-content: flex-start;
+      align-items: center;
       color: @regular-text;
       height: 66px;
       padding: 0 20px;
       padding-top: 12px;
       position: relative;
       // background-color: dodgerblue;
-      
+      width: 100%;
       img {
         border-radius: 50%;
         width: 40px;
         height: 40px;
       }
-      div {
-        position: absolute;
-        top: 0;
-        left: 60px;
-        width: 78%;
+      .flex-right {
+        flex: 1;
+        width: 100%;
         margin-left: 20px;
         padding: 12px 0;
-        
         display: flex;
-        flex-direction: column;
         border-bottom: 1px solid @primary-border;
-        
-        span:nth-child(1){
-          font-size: @primary-size;
-          font-weight: 400;
-          color: @primary-text;
-        }
-        span:nth-child(2){
-          width: 80%;
+        justify-content: space-between;
+        overflow: hidden;
+        .right-text {
+          display: flex;
+          flex: 1;
+          width: 100%;
+          flex-direction: column;
+          justify-content: center;
+          margin-right: 10px;
           overflow: hidden;
-          text-overflow: ellipsis;
-          white-space: nowrap;
+          span:nth-child(1) {
+            font-size: @primary-size;
+            font-weight: 400;
+            color: @primary-text;
+          }
+          span:nth-child(2) {
+            width: 80%;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+          }
         }
-        i{
+
+        i {
           font-size: 22px;
           color: @primary;
-          position: absolute;
-          top: 18px;
-          right: 34px;
         }
-        
       }
     }
   }
