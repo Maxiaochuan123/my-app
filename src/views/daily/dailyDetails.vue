@@ -48,11 +48,11 @@
                 <div class="relation">
                   <p class="title">关联业务：</p>
                   <div class="clue">
-                    <div v-for="(contacts,index) in contactsList" :key="index + contacts.name">联系人 - {{contacts.name}}</div>
-                    <div v-for="(customer,index) in customerList" :key="index + customer.customerName">客户 - {{customer.customerName}}</div>
-                    <div v-for="(clue,index) in clueList" :key="index + clue.leadsName">线索 - {{clue.leadsName}}</div>
-                    <div v-for="(task,index) in taskList" :key="index + task.name">任务 - {{task.name}}</div>
-                    <div v-for="(visit,index) in visitList" :key="index + visit.customerName">拜访 - {{visit.customerName}}</div>
+                    <div v-for="(contacts,index) in contactsList" :key="index + contacts.name" @click="goDetails('联系人',contacts)">联系人 - {{contacts.name}}</div>
+                    <div v-for="(customer,index) in customerList" :key="index + customer.customerName" @click="goDetails('客户',customer)">客户 - {{customer.customerName}}</div>
+                    <div v-for="(clue,index) in clueList" :key="index + clue.leadsName" @click="goDetails('线索',clue)">线索 - {{clue.leadsName}}</div>
+                    <div v-for="(task,index) in taskList" :key="index + task.name" @click="goDetails('任务',task)">任务 - {{task.name}}</div>
+                    <div v-for="(visit,index) in visitList" :key="index + visit.customerName" @click="goDetails('拜访',visit)">拜访 - {{visit.customerName}}</div>
                   </div>
                 </div>
               </div>
@@ -117,6 +117,28 @@ export default {
     })
   },
   methods:{
+    goDetails(type,params){
+      switch (type) {
+        case '联系人':
+            this.goPage('contactsDetails',{id: params.contactsId,type:'联系人'})
+          break;
+        case '客户':
+            this.goPage("customerDetails", { id: params.customerId })
+          break;
+        case '线索':
+            this.goPage('clueDetails',{id: params.leadsId,type:'线索'})
+          break;
+        case '任务':
+            this.goPage('taskDetails', { id: params.taskId })
+          break;
+        case '拜访':
+            this.goPage('visitDetails', {id: params.visitId})
+          break;
+      
+        default:
+          break;
+      } 
+    },
     menuChange(data){
       let {title} = {...data}
       switch (title) {

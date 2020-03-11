@@ -311,8 +311,8 @@ export default {
     height: 100vh;
     
     .content{
-      padding: 104px 0;
-
+      // padding: 104px 0;
+      background-color: transparent;
       .active{
         background-color: #d3d3d3;
       }

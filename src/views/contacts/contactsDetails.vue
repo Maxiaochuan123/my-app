@@ -132,7 +132,7 @@ export default {
   },
   data() {
     return {
-      active: 0,
+      active: 1,
       infoType: '车贷',
       info: {},
       record:[],

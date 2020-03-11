@@ -247,7 +247,7 @@ export default {
   },
   data() {
     return {
-      active: 0,
+      active: 1,
       infoType: '买车',
       clueDate: Date.now(),
       info:{},

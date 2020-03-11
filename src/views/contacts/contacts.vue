@@ -174,9 +174,9 @@ export default {
   .shallow-inset {
     margin-left: 72px;
   }
-  .mu-divider {
-    width: 75%;
-  }
+  // .mu-divider {
+  //   width: 75%;
+  // }
 }
 .contacts {
   .content {
@@ -193,9 +193,9 @@ export default {
       .list-wrap {
         width: 100%;
       }
-      .mu-divider{
+      // .mu-divider{
         // width: 75%;
-      }
+      // }
     }
     .user-index {
       // display: flex;
@@ -206,7 +206,7 @@ export default {
       padding: 0 20px;
       padding-top: 12px;
       position: relative;
-      // background-color: dodgerblue;
+      background-color: #fff;
 
       img {
         border-radius: 50%;
@@ -223,7 +223,7 @@ export default {
 
         display: flex;
         flex-direction: column;
-        border-bottom: 1px solid @primary-border;
+        // border-bottom: 1px solid @primary-border;
 
         span:nth-child(1) {
           font-size: @primary-size;
