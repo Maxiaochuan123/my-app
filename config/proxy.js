@@ -2,13 +2,13 @@
  * @Description: 分离出来反向代理
  * @Author: shenah
  * @Date: 2019-10-09
- * @LastEditors  : shenah
- * @LastEditTime : 2020-02-12 16:48:10
+ * @LastEditors: shenah
+ * @LastEditTime: 2020-03-13 10:03:42
  */
 module.exports = {
   "/api": {
-    target: "http://101.207.135.55:6080", // 外网地址
-    // target: "http://192.168.0.92:6080",
+    // target: "http://101.207.135.55:6080", // 外网地址
+    target: "http://192.168.0.92:6080",
     changeOrigin: true,
     pathRewrite: {
       "^/api": ""

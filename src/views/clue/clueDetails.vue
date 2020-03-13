@@ -2,8 +2,8 @@
  * @Description: In User Settings Edit
  * @Author: your name
  * @Date: 2019-09-04 10:13:29
- * @LastEditTime : 2019-12-26 10:04:07
- * @LastEditors  : shenah
+ * @LastEditTime: 2020-03-13 10:40:28
+ * @LastEditors: shenah
  -->
 <template>
   <div class="clueDetails">
@@ -577,7 +577,8 @@ export default {
       background-color: #fff;
       .mu-list {
         /deep/ .mu-item {
-          height: 70px;
+          height: auto;
+          min-height: 70px;
         }
         .mu-item-title{
           font-size: @regular-size;
