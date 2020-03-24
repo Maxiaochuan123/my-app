@@ -1,17 +1,17 @@
 <template>
   <div class="home">
-    <AppBar
+    <!-- <AppBar v-if="crmToGroup"
       :iconSize="iconSize"
       :isMenu="isMenu"
-      :leftIcon="leftIcon"
-      :leftLinkName="leftLinkName"
       :menuList="menuList"
       :pageTitle="pageTitle"
       :rightIcon="rightIcon"
       :rightLinkName="rightLinkName"
-    >
+      :customDrawer="crmToGroup"
+    > -->
+
       <!-- 抽屉 -->
-      <div slot="drawerContent">
+      <!-- <div slot="drawerContent">
         <mu-button
           @click="changeTheme('theme_one')"
           color="primary"
@@ -24,8 +24,31 @@
           @click="changeTheme('theme_three')"
           color="red"
         >Btheme_three</mu-button>
-      </div>
-    </AppBar>
+      </div> -->
+    <!-- </AppBar> -->
+
+      <AppBar v-if="crmToGroup"
+        :iconSize="iconSize"
+        :isMenu="isMenu"
+        :menuList="menuList"
+        :pageTitle="pageTitle"
+        :rightIcon="rightIcon"
+        :rightLinkName="rightLinkName"
+        :customDrawer="crmToGroup"
+      >
+      </AppBar>
+      
+      <AppBar v-else
+        :iconSize="iconSize"
+        :leftIcon="leftIcon"
+        :leftLinkName="leftLinkName"
+        :isMenu="isMenu"
+        :menuList="menuList"
+        :pageTitle="pageTitle"
+        :rightIcon="rightIcon"
+        :rightLinkName="rightLinkName"
+      >
+      </AppBar>
 
     <div class="content">
       <mu-paper
@@ -268,6 +291,7 @@ import Theme from "muse-ui/lib/theme";
 import myTheme from "../../../static/json/myTheme.json";
 import Api from "@api";
 import tool from "@static/js/tool.js";
+import { mapState } from 'vuex'
 export default {
   components: {
     AppBar,
@@ -412,6 +436,9 @@ export default {
   },
   destroyed() {
     window.removeEventListener("popstate", this.goBack, false); //false阻止默认事件
+  },
+  computed:{
+    ...mapState(["crmToGroup"])
   },
   methods: {
     goBack() {

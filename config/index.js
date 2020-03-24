@@ -11,6 +11,7 @@
 
 const path = require("path");
 const proxy = require("./proxy");
+
 module.exports = {
   dev: {
     // Paths

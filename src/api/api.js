@@ -10,6 +10,7 @@ import Qs from "qs";
 import tool from "@static/js/tool";
 import axios from "axios";
 import Toast from "muse-ui-toast";
+import store from '../vuex/store'
 const CODE_SUCCESS = 0;
 const CODE_FAIL_LOGIN = 302; // 登录失效或者token过期
 const NO_VIEW_RECORD_PERMISSION = 403;
@@ -23,9 +24,16 @@ const instance = axios.create({
   withCredentials: true,
   timeout: 5000
 });
+
+
+
 /*----------------------请求拦截----------------------*/
 instance.interceptors.request.use(
   config => {
+    const crmToGroup = store.state.crmToGroup;
+    const token_GJ = store.state.token_GJ;
+    // console.log("token_GJ:",accessToken_GJ);
+
     tool.openLoading();
     // 参数序列化
     if (
@@ -41,13 +49,24 @@ instance.interceptors.request.use(
         config.data = Qs.stringify(config.data);
       }
     }
-    // 携带 token
-    let loginObj = tool.decUserInfo("login");
-    let accessToken = loginObj.accessToken;
+    if(!crmToGroup){
+      // 携带 token
+      let loginObj = tool.decUserInfo("login");
+      let accessToken = loginObj.accessToken;
 
-    if (accessToken && config.url !== "/login") {
-      config.headers.accessToken = accessToken;
+      if (accessToken && config.url !== "/login") {
+        config.headers.accessToken = accessToken;
+      }
+      
+    }else{
+      let url = `/${config.url.substring(config.url.lastIndexOf("/")+1)}`;
+      if (url !== "/authorization") {
+        // config.headers.accessToken = "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJsaWNlbnNlIjoidXNlcmNlbnRyZV8iLCJ1c2VyX25hbWUiOiI3MDEiLCJzY29wZSI6WyJzZXJ2ZXIiXSwiZXhwIjoxNTg4NTQyNTE5LCJ1c2VySWQiOjcwMSwiYXV0aG9yaXRpZXMiOlsiVVNFUkNFTlRSRUFQUExJQ0FUSU9OVFlQRTpTIiwiUk9MRV9VU0VSIl0sImp0aSI6Ijg4NDRkZDBhLWU2MDEtNDZhNS05MjkzLWU0ZGMxYjU5ZDY2YyIsImNsaWVudF9pZCI6Indzb3JkZXIiLCJ1c2VybmFtZSI6IjcwMSJ9.5bvJIO2tJ-7ogB4mTS1Ohh1C0cq3KiefaGhe2nw86s8";
+        config.headers.accessToken = token_GJ;
+      }
+      
     }
+    
     return config;
   },
   error => {
@@ -70,7 +89,7 @@ instance.interceptors.response.use(
       switch (error.response.status) {
         case CODE_FAIL_LOGIN:
           localStorage.clear();
-          window.location.href = `${window.location.protocol}//${window.location.host}/#/login`;
+          if(!crmToGroup) window.location.href = `${window.location.protocol}//${window.location.host}/#/login`;
           break;
         case NO_VIEW_RECORD_PERMISSION:
           Toast.warning({
@@ -94,32 +113,39 @@ const request = ({
 }) => {
   let httpUrl = window.config[server] + url;
   function checkCode(res) {
-    return new Promise((resolve, reject) => {
-      if (res.code === CODE_SUCCESS) {
-        resolve(res);
-      } else {
-        if (res.code === CODE_FAIL_LOGIN) {
-          Toast.error({
-            message: "token过期,或者没有登录"
-          });
-          tool.signOut();
-        } else if (res.code === NO_VIEW_RECORD_PERMISSION) {
-          Toast.error({
-            message: "您没有权限访问"
-          });
-          window.history.go(-1);
-        } else if (res.msg) {
-          Toast.error({
-            message: res.msg
-          });
+    // if(!crmToGroup){
+      return new Promise((resolve, reject) => {
+        if (res.code === CODE_SUCCESS) {
+          resolve(res);
         } else {
-          Toast.error({
-            message: `code:${res.code}`
-          });
+          if (res.code === CODE_FAIL_LOGIN) {
+            Toast.error({
+              message: "token过期,或者没有登录"
+            });
+            // tool.signOut();
+            localStorage.removeItem("login");
+            if(!crmToGroup){
+              const ipHost = `${window.location.protocol}//${window.location.host}`;
+              window.location.href = `${ipHost}#/login`;
+            }
+          } else if (res.code === NO_VIEW_RECORD_PERMISSION) {
+            Toast.error({
+              message: "您没有权限访问"
+            });
+            window.history.go(-1);
+          } else if (res.msg) {
+            Toast.error({
+              message: res.msg
+            });
+          } else {
+            Toast.error({
+              message: `code:${res.code}`
+            });
+          }
+          reject(res);
         }
-        reject(res);
-      }
-    });
+      });
+    // }
   }
   if (method === METHODS.GET) {
     return instance

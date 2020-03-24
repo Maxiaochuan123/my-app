@@ -235,8 +235,7 @@ export default {
         sentiment: this.form.sentiment,
         support: this.form.support,
         sendUserIds: this.form.sendUserIds,
-        batchId: this.form.batchId,
-        ...this.relatedBusinessList
+        batchId: this.form.batchId
       };
       let tag = 0;
       for (let item in params) {
@@ -254,7 +253,7 @@ export default {
         params.logId = id;
       }
 
-      this.api.addDaily(params).then(res => {
+      this.api.addDaily({params, ...this.relatedBusinessList}).then(res => {
         if (res.msg === "success")
           this.$toast.success(`${id ? "编辑" : "新增"}成功!`);
         this.goBack();

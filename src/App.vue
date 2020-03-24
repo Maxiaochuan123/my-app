@@ -13,7 +13,7 @@
 
     <!-- <router-view v-if="!$route.meta.keepAlive"/> -->
 
-    <BottomNav v-if="showBotNav" />
+    <BottomNav v-if="showBotNav && !crmToGroup" />
   </div>
 </template>
 
@@ -24,6 +24,8 @@ import myTheme from "../static/json/myTheme.json";
 import VConsole from "vConsole";
 import tool from "../static/js/tool.js";
 import Api from "@api";
+import Cookies from "js-cookie";
+import { mapState, mapMutations } from 'vuex'
 export default {
   components: {
     BottomNav
@@ -35,6 +37,21 @@ export default {
   },
   created() {
     // new VConsole();
+    // 接受原生传递的 参数 区分 是否 第三方 APP 跳转
+    let otherApp = Cookies.get("otherApp");
+    if(otherApp){
+      this.$store.commit("setCrmToGroup",true);
+    }else{
+      this.$store.commit("setCrmToGroup",false);
+    }
+    if(this.crmToGroup){
+      let systemt = tool.getSystem();
+      // let token_GJ = "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJsaWNlbnNlIjoidXNlcmNlbnRyZV8iLCJ1c2VyX25hbWUiOiI3MDEiLCJzY29wZSI6WyJzZXJ2ZXIiXSwiZXhwIjoxNTg4NTUyMTA5LCJ1c2VySWQiOjcwMSwiYXV0aG9yaXRpZXMiOlsiVVNFUkNFTlRSRUFQUExJQ0FUSU9OVFlQRTpTIiwiUk9MRV9VU0VSIl0sImp0aSI6IjkwMGYyOWVkLTk2ZWMtNGJhZS1hNTI2LTExMzNkZmExNDE3ZCIsImNsaWVudF9pZCI6Indzb3JkZXIiLCJ1c2VybmFtZSI6IjcwMSJ9.SIzCXj9tbzaO8cCJHOijU2_fRH7v9AkA92hGRTtAACQ";
+      let token_GJ = Cookies.get("token");
+      this.$store.commit("setToken_GJ",token_GJ);
+      this.api.onlyLogin({accessToken: token_GJ,source: systemt}).then(res =>{});
+    }
+
     let activTheme = this.storage.localGet("theme");
     if (activTheme) {
       Theme.add("theme_one", activTheme, "light");
@@ -63,7 +80,12 @@ export default {
       }
     }
   },
+  computed:{
+    ...mapState(["crmToGroup","setCrmToGroup"])
+  },
   methods: {
+    ...mapMutations(["setToken_GJ"]),
+
     queryLoginRight() {
       return Api.getAuthorByToken().then(res => {
         this.$store.commit("setAuthor", res.data);
