@@ -29,6 +29,19 @@
           :value="`:iconfont ${drawerIcon}`"
         ></mu-icon>
       </mu-button>
+
+      <!-- 自定义筛选按钮 用于crm 嵌入 集团APP -->
+      <mu-button
+        @click="goPage('contacts')"
+        icon
+        v-if="customDrawer"
+      >
+        <mu-icon
+          :size="iconSize"
+          value=":iconfont icon-lianxiren"
+        ></mu-icon>
+      </mu-button>
+
       <!-- 右侧按钮 -->
       <mu-menu
         :open.sync="menuFlag"
@@ -83,6 +96,8 @@
 </template>
 
 <script>
+import { mapState } from 'vuex'
+import bridge from '../../static/js/JSbridge'
 export default {
   name: "app-bar",
   props: {
@@ -128,6 +143,11 @@ export default {
     drawerIcon: {
       type: String
     },
+    customDrawer: {
+      type: Boolean,
+      default: false
+    },
+    
 
     //为 true 时 menuList 是必须的
     isMenu: {
@@ -156,12 +176,20 @@ export default {
       menuFlag: false
     };
   },
+  computed:{
+    ...mapState(["crmToGroup"])
+  },
   methods: {
     leftClick() {
       if (this.leftLinkName) {
         this.goPage(this.leftLinkName);
       } else {
-        this.$router.go(-1);
+        if(!this.crmToGroup){
+          this.$router.go(-1);
+        }else{
+          // 调用原生关闭 webView
+          bridge.callHandler("returnBack", "", res => {});
+        }
       }
     },
     rightBtn() {

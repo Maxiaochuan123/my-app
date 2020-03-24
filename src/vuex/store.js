@@ -11,6 +11,9 @@ Vue.use(Vuex);
 
 export default new Vuex.Store({
   state: {
+    crmToGroup: false, // 是否嵌入 集团 APP
+    token_GJ:"", //管家跳转crm所需 token
+
     accessToken: "", // token
     authorities: {
       crm: {
@@ -27,6 +30,16 @@ export default new Vuex.Store({
     bottomNav: "home" // 当前点击的底部页签
   },
   mutations: {
+    // 改变 是否第三方APP 跳转 状态
+    setCrmToGroup: (state, data) => {
+      state.crmToGroup = data;
+    },
+
+    // 跳转管家的token
+    setToken_GJ: (state, data) => {
+      state.token_GJ = data;
+    },
+
     // 基础方法
     setBottomNav: (state, data) => (state.bottomNav = data),
     // 登录的token

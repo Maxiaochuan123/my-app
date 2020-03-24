@@ -6,7 +6,8 @@
  */
 import Vue from "vue";
 import Router from "vue-router";
-import storage from "../../static/js/storage";
+import store from '../vuex/store'
+import storage from '../../static/js/storage'
 Vue.use(Router);
 
 const router = new Router({
@@ -236,16 +237,19 @@ const router = new Router({
     }
   ]
 });
-router.beforeEach((to, from, next) => {
-  if (localStorage.getItem("login")) {
-    next();
-  } else {
-    if (to.path == "/login") {
+const crmToGroup = store.state.crmToGroup;
+if(!crmToGroup){
+  router.beforeEach((to, from, next) => {
+    if (localStorage.getItem("login")) {
       next();
     } else {
-      storage.localRemove("login");
-      next("/login");
+      if (to.path == "/login") {
+        next();
+      } else {
+        storage.localRemove("login");
+        next("/login");
+      }
     }
-  }
-});
+  });
+}
 export default router;

@@ -1,5 +1,9 @@
 import post, { get } from "../api";
 export default {
+  // *************************登陆 *************************
+  //单点登陆
+  onlyLogin: params => post({ params, url: '/authorization' }),
+
   // ************************* 首页-数据分析 *************************
   // 获取数据分析
   getDataAnalysis: params => post({ params, url: '/crmDataStatistics/queryData' }),
