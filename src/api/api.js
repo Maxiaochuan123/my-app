@@ -10,7 +10,9 @@ import Qs from "qs";
 import tool from "@static/js/tool";
 import axios from "axios";
 import Toast from "muse-ui-toast";
+import bridge from '../../static/js/JSbridge'
 import store from '../vuex/store'
+import storage from "@static/js/storage";
 const CODE_SUCCESS = 0;
 const CODE_FAIL_LOGIN = 302; // 登录失效或者token过期
 const NO_VIEW_RECORD_PERMISSION = 403;
@@ -25,13 +27,11 @@ const instance = axios.create({
   timeout: 5000
 });
 
-
+let token_GJ = store.state.token_GJ;
 
 /*----------------------请求拦截----------------------*/
 instance.interceptors.request.use(
   config => {
-    const crmToGroup = store.state.crmToGroup;
-    const token_GJ = store.state.token_GJ;
     // console.log("token_GJ:",accessToken_GJ);
 
     tool.openLoading();
@@ -49,20 +49,26 @@ instance.interceptors.request.use(
         config.data = Qs.stringify(config.data);
       }
     }
-    if(!crmToGroup){
+    console.log('app-JS')
+    if(!store.state.crmToGroup){
+      // console.log('app-JS-crmToGroup: ',store.state.crmToGroup)
       // 携带 token
       let loginObj = tool.decUserInfo("login");
       let accessToken = loginObj.accessToken;
 
       if (accessToken && config.url !== "/login") {
         config.headers.accessToken = accessToken;
+        // console.log('app-JS-accessToken: ',accessToken)
       }
+      // console.log('headers-Token-1:',config.headers.accessToken)
       
     }else{
       let url = `/${config.url.substring(config.url.lastIndexOf("/")+1)}`;
-      if (url !== "/authorization") {
+      console.log('token_GJ - 1:',store.state.token_GJ)
+      if (store.state.token_GJ && url !== "/authorization") {
         // config.headers.accessToken = "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJsaWNlbnNlIjoidXNlcmNlbnRyZV8iLCJ1c2VyX25hbWUiOiI3MDEiLCJzY29wZSI6WyJzZXJ2ZXIiXSwiZXhwIjoxNTg4NTQyNTE5LCJ1c2VySWQiOjcwMSwiYXV0aG9yaXRpZXMiOlsiVVNFUkNFTlRSRUFQUExJQ0FUSU9OVFlQRTpTIiwiUk9MRV9VU0VSIl0sImp0aSI6Ijg4NDRkZDBhLWU2MDEtNDZhNS05MjkzLWU0ZGMxYjU5ZDY2YyIsImNsaWVudF9pZCI6Indzb3JkZXIiLCJ1c2VybmFtZSI6IjcwMSJ9.5bvJIO2tJ-7ogB4mTS1Ohh1C0cq3KiefaGhe2nw86s8";
-        config.headers.accessToken = token_GJ;
+        config.headers.accessToken = store.state.token_GJ;
+        console.log('headers-Token-2:',config.headers.accessToken)
       }
       
     }
@@ -89,7 +95,8 @@ instance.interceptors.response.use(
       switch (error.response.status) {
         case CODE_FAIL_LOGIN:
           localStorage.clear();
-          if(!crmToGroup) window.location.href = `${window.location.protocol}//${window.location.host}/#/login`;
+          // console.log('响应-1 :',store.state.crmToGroup);
+          if(!store.state.crmToGroup) window.location.href = `${window.location.protocol}//${window.location.host}/#/login`;
           break;
         case NO_VIEW_RECORD_PERMISSION:
           Toast.warning({
@@ -113,7 +120,6 @@ const request = ({
 }) => {
   let httpUrl = window.config[server] + url;
   function checkCode(res) {
-    // if(!crmToGroup){
       return new Promise((resolve, reject) => {
         if (res.code === CODE_SUCCESS) {
           resolve(res);
@@ -122,9 +128,18 @@ const request = ({
             Toast.error({
               message: "token过期,或者没有登录"
             });
-            // tool.signOut();
-            localStorage.removeItem("login");
-            if(!crmToGroup){
+            
+            // console.log('响应-2 :',store.state.crmToGroup);
+            if(!store.state.crmToGroup){
+              tool.signOut();
+            }else{
+              localStorage.removeItem("login");
+              setTimeout(()=>{
+                bridge.callHandler("loginOut", null, null); // 调用原生回到登陆页面
+              },1000);
+            }
+            
+            if(!store.state.crmToGroup){
               const ipHost = `${window.location.protocol}//${window.location.host}`;
               window.location.href = `${ipHost}#/login`;
             }
@@ -145,7 +160,6 @@ const request = ({
           reject(res);
         }
       });
-    // }
   }
   if (method === METHODS.GET) {
     return instance

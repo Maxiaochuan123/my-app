@@ -9,6 +9,7 @@
 <template>
   <div class="visit-list">
     <AppBar
+      :topLevelPage="true"
       drawerIcon="icon-guolv"
       isDrawer
       pageTitle="拜访记录"

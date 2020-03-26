@@ -1,6 +1,6 @@
 <template>
   <div class="daily">
-    <AppBar pageTitle="日报" isDrawer drawerIcon="icon-guolv" rightIcon="icon-tianjia" rightLinkName="addDaily">
+    <AppBar :topLevelPage="true" pageTitle="日报" isDrawer drawerIcon="icon-guolv" rightIcon="icon-tianjia" rightLinkName="addDaily">
       <!-- 抽 屉 -->
       <Screen ref="screen" slot="drawerContent" :drawerList="drawerList" @getScreenParams="getScreenParams"></Screen>
     </AppBar>
@@ -148,7 +148,7 @@ export default {
       height: calc(100vh - 44px);
       overflow-y: scroll;
       margin-top: 94px;
-      padding-bottom: 20px;
+      padding-bottom: 80px;
       
       /deep/ .mu-expansion-panel{
         margin-top: 12px;

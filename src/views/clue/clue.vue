@@ -7,7 +7,7 @@
  -->
 <template>
   <div class="clue">
-    <AppBar pageTitle="线索" isDrawer drawerIcon="icon-guolv" rightIcon="icon-tianjia" :rightIconFlag="leads.save" isMenu :menuList="menuList">
+    <AppBar :topLevelPage="true" pageTitle="线索" isDrawer drawerIcon="icon-guolv" rightIcon="icon-tianjia" :rightIconFlag="leads.save" isMenu :menuList="menuList">
       <!-- 抽屉 -->
       <Screen ref="screen" slot="drawerContent" :drawerList="drawerList" @getScreenParams="getScreenParams"></Screen>
     </AppBar>
@@ -152,15 +152,16 @@ export default {
     }
   },
   created(){
-    this.setMenuList();
     this.getClueList(this.getParams());
+    this.setMenuList();
 
     // 添加线索类型
     let leadsType = this.drawerList.leadsType;
+    // console.log('leadsType:',leadsType)
     this.supportBusinessType.includes('car') ? leadsType.list.push({title:'买车线索',state:false}) : '';
     this.supportBusinessType.includes('insurance') ? leadsType.list.push({title:'车险线索',state:false}) : '';
     this.supportBusinessType.includes('loan') ? leadsType.list.push({title:'车贷线索',state:false}) : '';
-    leadsType.list.length > 1 ? '' : leadsType.defaultValue.push(leadsType.list[0].title)
+    leadsType.list.length > 0 ? leadsType.defaultValue.push(leadsType.list[0].title) : '';
   },
   computed: {
     ...mapState({
@@ -188,7 +189,7 @@ export default {
           type: "6",
           state: "add"
         },
-        flag: this.supportBusinessType.includes('car')
+        flag: this.supportBusinessType.includes('car') || false
       },{
         title: "新建车贷线索",
         linkName: "editBasicsInfo",
@@ -197,7 +198,7 @@ export default {
           type: "7",
           state: "add"
         },
-        flag: this.supportBusinessType.includes('loan')
+        flag: this.supportBusinessType.includes('loan') || false
       },{
         title: "新建车险线索",
         linkName: "editBasicsInfo",
@@ -206,7 +207,7 @@ export default {
           type: "5",
           state: "add"
         },
-        flag: this.supportBusinessType.includes('insurance')
+        flag: this.supportBusinessType.includes('insurance') || false
       }],
 
       this.myClueMenuList = [{
@@ -394,7 +395,7 @@ export default {
       height: calc(100vh - 44px);
       overflow-y: scroll;
       margin-top: 94px;
-      padding-bottom: 20px;
+      padding-bottom: 80px;
 
       .clueList{
         margin-top: 12px;

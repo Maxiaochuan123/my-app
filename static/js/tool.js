@@ -55,6 +55,11 @@ export default {
     }
   },
 
+  // 获取地址栏参数
+  getUrlKey(key) {
+    return decodeURIComponent((new RegExp('[?|&]' + key + '=' + '([^&;]+?)(&|#|;|$)').exec(location.href) || [, ""])[1].replace(/\+/g, '%20')) || null
+  },
+
   /**
    * @aes192加密模块
    * @param str string 要加密的字符串

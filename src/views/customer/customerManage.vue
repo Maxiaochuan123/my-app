@@ -5,6 +5,7 @@
 <template>
   <div class="customer-manage">
     <AppBar
+      :topLevelPage="true"
       :rightIcon="rightIcon"
       :rightIconFlag="customerRights.save"
       :rightLinkName="rightLinkName"

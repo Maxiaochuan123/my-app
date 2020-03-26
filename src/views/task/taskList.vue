@@ -9,6 +9,7 @@
 <template>
   <div class="task-list">
     <AppBar
+      :topLevelPage="true"
       :rightIconFlag="taskRights.save"
       drawerIcon="icon-guolv"
       isDrawer

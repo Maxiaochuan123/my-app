@@ -5,6 +5,7 @@
 <template>
   <div class="common-waters">
     <AppBar
+      :topLevelPage="true"
       :isShowRightBtn="false"
       pageTitle="公海"
     ></AppBar>

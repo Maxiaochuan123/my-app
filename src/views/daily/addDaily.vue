@@ -252,8 +252,7 @@ export default {
       if (id) {
         params.logId = id;
       }
-
-      this.api.addDaily({params, ...this.relatedBusinessList}).then(res => {
+      this.api.addDaily({...params, ...this.relatedBusinessList}).then(res => {
         if (res.msg === "success")
           this.$toast.success(`${id ? "编辑" : "新增"}成功!`);
         this.goBack();

@@ -9,6 +9,7 @@
 <template>
   <div class="contacts">
     <AppBar
+      :topLevelPage="true"
       :rightIconFlag="save"
       :rightLinkParams="{type:'addPersonal'}"
       pageTitle="个人联系人"

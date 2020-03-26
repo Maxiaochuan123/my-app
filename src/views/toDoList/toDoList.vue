@@ -1,6 +1,6 @@
 <template>
   <div class="toDoList">
-    <AppBar pageTitle="待办事项"></AppBar>
+    <AppBar :topLevelPage="true" pageTitle="待办事项"></AppBar>
     <div class="content">
       <mu-list>
         <div v-for="(item,index) in list" :key="index">

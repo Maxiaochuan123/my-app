@@ -101,6 +101,10 @@ import bridge from '../../static/js/JSbridge'
 export default {
   name: "app-bar",
   props: {
+    topLevelPage: { //用于第三方嵌入 第三方 app 判断 是否顶级页面返回
+      type: Boolean,
+      default: false
+    },
     leftLinkName: {
       type: String
     },
@@ -177,18 +181,18 @@ export default {
     };
   },
   computed:{
-    ...mapState(["crmToGroup"])
+    ...mapState(["crmToGroup","otherApp"])
   },
   methods: {
     leftClick() {
       if (this.leftLinkName) {
         this.goPage(this.leftLinkName);
       } else {
-        if(!this.crmToGroup){
-          this.$router.go(-1);
-        }else{
+        if(this.topLevelPage && this.otherApp){
           // 调用原生关闭 webView
-          bridge.callHandler("returnBack", "", res => {});
+          bridge.callHandler("returnBack", null, null);
+        }else{
+          this.$router.go(-1);
         }
       }
     },
