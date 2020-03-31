@@ -36,7 +36,7 @@ export default {
     };
   },
   created() {
-    new VConsole();
+    // new VConsole();
 
     let otherApp = tool.getUrlKey("otherApp");
     const userObj = tool.decUserInfo();
@@ -104,6 +104,7 @@ export default {
     },
     queryUser() {
       return Api.getCurrentUserByToken().then(res => {
+        console.log('res:',res.data.supportBusinessType)
         this.$store.commit("setUser", res.data);
       });
     }

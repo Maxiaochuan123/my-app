@@ -171,6 +171,7 @@ import Picker from "dm-vue-picker-h5";
 import SelectAddress from "@components/SelectAddress.vue";
 import PopSingleOrMultiple from "@components/PopSingleOrMultiple.vue";
 import UploadList from "@components/upLoad/uploadList.vue";
+import { mapState } from 'vuex'
 import Api from "@api";
 import tool from "@static/js/tool";
 import Toast from "muse-ui-toast";
@@ -220,6 +221,9 @@ export default {
     fieldList(val) {
       this.initForm(val);
     }
+  },
+  computed:{
+    ...mapState(["crmToGroup","token_GJ"])
   },
   methods: {
     labelPosition(row) {
@@ -471,13 +475,21 @@ export default {
     orderAjax(params, emptyObj) {
       let obj = {};
       let login = JSON.parse(localStorage.getItem("login"));
+      let token = "";
+
+      if(!this.crmToGroup){
+        token = login.accessToken;
+      }else{
+        token = this.token_GJ;
+      }
+      console.log('验证:',token)
       let ajax = new XMLHttpRequest();
       ajax.open("POST", `${window.config.service}/fields/verifying`, false); //false表示同步请求
       ajax.setRequestHeader(
         "Content-type",
         "application/x-www-form-urlencoded"
       );
-      ajax.setRequestHeader("accessToken", login.accessToken);
+      ajax.setRequestHeader("accessToken", token);
       ajax.onreadystatechange = function() {
         let { code, msg } = JSON.parse(ajax.responseText);
         if (ajax.readyState == 4 && ajax.status == 200) {

@@ -10,6 +10,9 @@ import tool from "./tool";
 // 工具函数
 import storage from "./storage";
 
+import bridge from "./JSbridge"
+import store from '../../src/vuex/store'
+
 export default {
   directives: {
     waves
@@ -126,7 +129,11 @@ export default {
     },
     // 打电话
     dial(phoneNumber) {
-      window.location.href = `tel:${phoneNumber}`;
+      if(!store.state.crmToGroup){
+        window.location.href = `tel:${phoneNumber}`;
+      }else{
+        bridge.callHandler('callPhone', {phone:phoneNumber});
+      }
     },
 
     // 非必填 验证函数

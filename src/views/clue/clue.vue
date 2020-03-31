@@ -153,15 +153,19 @@ export default {
   },
   created(){
     this.getClueList(this.getParams());
-    this.setMenuList();
-
+    
     // 添加线索类型
     let leadsType = this.drawerList.leadsType;
-    // console.log('leadsType:',leadsType)
-    this.supportBusinessType.includes('car') ? leadsType.list.push({title:'买车线索',state:false}) : '';
-    this.supportBusinessType.includes('insurance') ? leadsType.list.push({title:'车险线索',state:false}) : '';
-    this.supportBusinessType.includes('loan') ? leadsType.list.push({title:'车贷线索',state:false}) : '';
     leadsType.list.length > 0 ? leadsType.defaultValue.push(leadsType.list[0].title) : '';
+
+    // 设置菜单
+    setTimeout(()=>{
+      this.setMenuList();
+      this.supportBusinessType.includes('car') ? leadsType.list.push({title:'买车线索',state:false}) : '';
+      this.supportBusinessType.includes('insurance') ? leadsType.list.push({title:'车险线索',state:false}) : '';
+      this.supportBusinessType.includes('loan') ? leadsType.list.push({title:'车贷线索',state:false}) : '';
+    })
+    
   },
   computed: {
     ...mapState({

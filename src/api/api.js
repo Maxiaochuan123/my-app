@@ -49,7 +49,7 @@ instance.interceptors.request.use(
         config.data = Qs.stringify(config.data);
       }
     }
-    console.log('app-JS')
+    // console.log('app-JS')
     if(!store.state.crmToGroup){
       // console.log('app-JS-crmToGroup: ',store.state.crmToGroup)
       // 携带 token
@@ -64,11 +64,11 @@ instance.interceptors.request.use(
       
     }else{
       let url = `/${config.url.substring(config.url.lastIndexOf("/")+1)}`;
-      console.log('token_GJ - 1:',store.state.token_GJ)
+      // console.log('token_GJ - 1:',store.state.token_GJ)
       if (store.state.token_GJ && url !== "/authorization") {
         // config.headers.accessToken = "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJsaWNlbnNlIjoidXNlcmNlbnRyZV8iLCJ1c2VyX25hbWUiOiI3MDEiLCJzY29wZSI6WyJzZXJ2ZXIiXSwiZXhwIjoxNTg4NTQyNTE5LCJ1c2VySWQiOjcwMSwiYXV0aG9yaXRpZXMiOlsiVVNFUkNFTlRSRUFQUExJQ0FUSU9OVFlQRTpTIiwiUk9MRV9VU0VSIl0sImp0aSI6Ijg4NDRkZDBhLWU2MDEtNDZhNS05MjkzLWU0ZGMxYjU5ZDY2YyIsImNsaWVudF9pZCI6Indzb3JkZXIiLCJ1c2VybmFtZSI6IjcwMSJ9.5bvJIO2tJ-7ogB4mTS1Ohh1C0cq3KiefaGhe2nw86s8";
         config.headers.accessToken = store.state.token_GJ;
-        console.log('headers-Token-2:',config.headers.accessToken)
+        // console.log('headers-Token-2:',config.headers.accessToken)
       }
       
     }
@@ -102,7 +102,14 @@ instance.interceptors.response.use(
           Toast.warning({
             message: "您无权访问该页面"
           });
-          window.history.go(-1);
+          setTimeout(()=>{
+            if(!store.state.crmToGroup){
+              window.history.go(-1);
+            }else{
+              bridge.callHandler("returnBack", null, null);
+            }
+          },500)
+          
           break;
         default:
       }
@@ -147,7 +154,13 @@ const request = ({
             Toast.error({
               message: "您没有权限访问"
             });
-            window.history.go(-1);
+            setTimeout(()=>{
+              if(!store.state.crmToGroup){
+                window.history.go(-1);
+              }else{
+                bridge.callHandler("returnBack", null, null);
+              }
+            },500)
           } else if (res.msg) {
             Toast.error({
               message: res.msg

@@ -192,6 +192,7 @@ export default {
           // 调用原生关闭 webView
           bridge.callHandler("returnBack", null, null);
         }else{
+          console.log('go -1 :')
           this.$router.go(-1);
         }
       }
