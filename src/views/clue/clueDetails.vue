@@ -537,6 +537,10 @@ export default {
     margin-top: 44px;
     padding-bottom: 96px;
 
+    .mu-item-action{
+      min-width: 250px;
+    }
+
     // 跟进记录
     .infoCard {
       .topInfo {

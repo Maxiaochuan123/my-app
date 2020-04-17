@@ -225,17 +225,16 @@ export default {
         display: flex;
         flex-direction: column;
         // border-bottom: 1px solid @primary-border;
-
-        span:nth-child(1) {
-          font-size: @primary-size;
-          font-weight: 400;
-          color: @primary-text;
-        }
-        span:nth-child(2) {
+        span{
           width: 80%;
           overflow: hidden;
           text-overflow: ellipsis;
           white-space: nowrap;
+        }
+        span:nth-child(1) {
+          font-size: @primary-size;
+          font-weight: 400;
+          color: @primary-text;
         }
         i {
           font-size: 22px;

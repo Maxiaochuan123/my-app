@@ -61,13 +61,18 @@ export default {
           // console.log("otherApp:",otherApp);
           
           // console.log("crmToGroup:",this.crmToGroup);
-          if (userObj.accessToken || otherApp) {
-            this.$store.commit("setToken", userObj);
-            this.queryLoginRight();
-            this.queryUser();
-          }
+          // if (userObj.accessToken || otherApp) {
+          //   this.$store.commit("setToken", userObj);
+          //   this.queryLoginRight();
+          //   this.queryUser();
+          // }
       });
       // console.log("token_GJ:",token_GJ);
+    }
+    if (userObj.accessToken || otherApp) {
+      this.$store.commit("setToken", userObj);
+      this.queryLoginRight();
+      this.queryUser();
     }
 
 
